@@ -1,0 +1,21 @@
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+
+# Editor / IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Local dev
+node_modules/
+.env
+.env.local
+
+# Claude / Netlify / Vercel local state
+.claude/
+.netlify/
+.vercel/

@@ -1,0 +1,927 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dashboard — Wakanow for Business</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+<style>
+/* ==================== RESET & BASE ==================== */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%;scroll-behavior:smooth}
+body{font-family:'DM Sans',sans-serif;font-size:15px;color:#1E3138;line-height:1.6;background:#F7F8FA;min-height:100vh;overflow-x:hidden}
+h1,h2,h3,h4,h5,h6{font-family:'Syne',sans-serif;font-weight:700;line-height:1.25}
+img,svg{display:block;max-width:100%}
+button{cursor:pointer;font-family:inherit;border:none;background:none}
+input,select,textarea{font-family:inherit;outline:none}
+a{text-decoration:none;color:inherit}
+
+/* ==================== DESIGN TOKENS ==================== */
+:root{
+  --primary:#08A5E3;
+  --primary-dark:#0789BF;
+  --primary-light:#E8F6FD;
+  --navy:#1E3138;
+  --navy-mid:#263238;
+  --navy-light:#2C3E47;
+  --green:#27AE60;
+  --green-light:#E8F8EF;
+  --orange:#F58220;
+  --orange-light:#FFF3E0;
+  --red:#E74C3C;
+  --red-light:#FEF2F2;
+  --gold:#F5A623;
+  --gray-100:#F2F3F5;
+  --gray-200:#E5E7EB;
+  --gray-300:#D1D5DB;
+  --gray-400:#9CA3AF;
+  --gray-600:#6B7280;
+  --gray-800:#1F2937;
+  --off-white:#F7F8FA;
+  --white:#FFFFFF;
+  --radius:12px;
+  --radius-lg:20px;
+  --radius-pill:100px;
+  --shadow-sm:0 1px 4px rgba(0,0,0,.06);
+  --shadow-md:0 4px 20px rgba(0,0,0,.08);
+  --shadow-lg:0 12px 40px rgba(0,0,0,.12);
+  --ease:.22s cubic-bezier(.4,0,.2,1);
+  --focus-ring:0 0 0 3px rgba(8,165,227,.12);
+  --sidebar-w:260px;
+}
+
+/* ==================== LAYOUT ==================== */
+.app{display:flex;min-height:100vh}
+
+/* ==================== SIDEBAR ==================== */
+.sidebar{width:var(--sidebar-w);background:var(--navy);position:fixed;top:0;left:0;bottom:0;display:flex;flex-direction:column;z-index:100;transition:transform .3s ease}
+.sidebar-logo{padding:28px 24px 20px;border-bottom:1px solid rgba(255,255,255,.08)}
+.sidebar-logo img{width:150px}
+.sidebar-user{padding:20px 24px;border-bottom:1px solid rgba(255,255,255,.08);display:flex;align-items:center;gap:12px}
+.user-avatar{width:40px;height:40px;border-radius:50%;background:var(--primary);display:flex;align-items:center;justify-content:center;font-family:'Syne',sans-serif;font-weight:700;font-size:16px;color:#fff;flex-shrink:0}
+.user-info{overflow:hidden}
+.user-name{font-size:14px;font-weight:600;color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.user-id{font-size:11px;color:rgba(255,255,255,.5);white-space:nowrap}
+
+.sidebar-nav{flex:1;padding:16px 0;overflow-y:auto}
+.nav-section{padding:0 16px;margin-bottom:8px}
+.nav-section-label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:rgba(255,255,255,.35);padding:8px 8px 6px;font-family:'Syne',sans-serif}
+.nav-item{display:flex;align-items:center;gap:12px;padding:11px 16px;border-radius:var(--radius);color:rgba(255,255,255,.65);font-size:14px;font-weight:500;cursor:pointer;transition:var(--ease);margin-bottom:2px}
+.nav-item:hover{background:rgba(255,255,255,.06);color:rgba(255,255,255,.9)}
+.nav-item.active{background:rgba(8,165,227,.15);color:var(--primary);font-weight:600}
+.nav-item svg,.nav-item i{width:20px;height:20px;flex-shrink:0}
+.nav-badge{margin-left:auto;background:var(--primary);color:#fff;font-size:10px;font-weight:700;padding:2px 8px;border-radius:var(--radius-pill);font-family:'Syne',sans-serif}
+
+.sidebar-footer{padding:16px 24px;border-top:1px solid rgba(255,255,255,.08)}
+.nav-item.logout{color:rgba(255,255,255,.45)}
+.nav-item.logout:hover{color:var(--red);background:rgba(231,76,60,.08)}
+
+/* ==================== MAIN CONTENT ==================== */
+.main{flex:1;margin-left:var(--sidebar-w);display:flex;flex-direction:column;min-height:100vh}
+
+/* Top bar */
+.topbar{background:var(--white);border-bottom:1px solid var(--gray-200);padding:0 32px;height:64px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:50}
+.topbar-left{display:flex;align-items:center;gap:12px}
+.menu-toggle{display:none;width:40px;height:40px;border-radius:var(--radius);align-items:center;justify-content:center;color:var(--navy);transition:var(--ease)}
+.menu-toggle:hover{background:var(--gray-100)}
+.breadcrumb{font-size:13px;color:var(--gray-400)}
+.breadcrumb span{color:var(--navy);font-weight:600}
+.topbar-right{display:flex;align-items:center;gap:16px}
+.topbar-icon{width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center;color:var(--gray-600);transition:var(--ease);position:relative;cursor:pointer}
+.topbar-icon:hover{background:var(--gray-100);color:var(--navy)}
+.notif-dot{position:absolute;top:8px;right:8px;width:8px;height:8px;border-radius:50%;background:var(--red);border:2px solid var(--white)}
+.topbar-avatar{width:36px;height:36px;border-radius:50%;background:var(--primary);display:flex;align-items:center;justify-content:center;font-family:'Syne',sans-serif;font-weight:700;font-size:14px;color:#fff;cursor:pointer}
+
+/* Content area */
+.content{flex:1;padding:28px 32px 40px}
+
+/* ==================== WELCOME BANNER ==================== */
+.welcome-banner{background:linear-gradient(135deg,var(--navy) 0%,var(--navy-light) 50%,var(--primary-dark) 100%);border-radius:var(--radius-lg);padding:36px 40px;color:#fff;margin-bottom:28px;position:relative;overflow:hidden}
+.welcome-banner::before{content:'';position:absolute;top:-60px;right:-60px;width:220px;height:220px;border-radius:50%;background:rgba(8,165,227,.15);pointer-events:none}
+.welcome-banner::after{content:'';position:absolute;bottom:-40px;right:80px;width:140px;height:140px;border-radius:50%;background:rgba(8,165,227,.08);pointer-events:none}
+.welcome-banner h1{font-size:28px;margin-bottom:6px;position:relative;z-index:1}
+.welcome-banner p{font-size:15px;color:rgba(255,255,255,.75);position:relative;z-index:1;max-width:500px}
+.welcome-banner .partner-badge{display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.15);border-radius:var(--radius-pill);padding:6px 14px;font-size:12px;font-weight:600;margin-top:14px;position:relative;z-index:1}
+.welcome-banner .partner-badge svg{width:14px;height:14px;color:var(--green)}
+
+/* ==================== SEARCH WIDGET — Booking.com style ==================== */
+.search-widget{background:var(--white);border-radius:var(--radius-lg);box-shadow:var(--shadow-md);border:1px solid var(--gray-200);margin-bottom:28px;overflow:hidden}
+.search-tabs{display:flex;border-bottom:2px solid var(--gray-200);padding:0 28px}
+.search-tab{padding:16px 24px;display:flex;align-items:center;gap:10px;font-size:14px;font-weight:600;color:var(--gray-600);cursor:pointer;transition:var(--ease);border-bottom:3px solid transparent;margin-bottom:-2px;font-family:'Syne',sans-serif}
+.search-tab:hover{color:var(--navy)}
+.search-tab.active{color:var(--primary);border-bottom-color:var(--primary)}
+.search-tab svg,.search-tab i{width:20px;height:20px}
+
+.search-panel{display:none;padding:24px 28px}
+.search-panel.active{display:block}
+.trip-type{display:flex;gap:8px;margin-bottom:16px}
+.trip-type-btn{padding:7px 16px;border-radius:var(--radius-pill);border:1.5px solid var(--gray-200);font-size:13px;font-weight:600;color:var(--gray-600);cursor:pointer;transition:var(--ease);background:var(--white)}
+.trip-type-btn:hover{border-color:var(--primary);color:var(--primary)}
+.trip-type-btn.active{background:var(--primary);border-color:var(--primary);color:#fff}
+
+/* Inline search bar row */
+.search-bar{display:flex;align-items:stretch;border:2px solid var(--gray-200);border-radius:var(--radius);overflow:hidden;background:var(--white);transition:var(--ease)}
+.search-bar:focus-within{border-color:var(--primary);box-shadow:var(--focus-ring)}
+.sb-cell{flex:1;display:flex;flex-direction:column;justify-content:center;padding:10px 16px;border-right:1px solid var(--gray-200);min-width:0;position:relative;cursor:pointer}
+.sb-cell:last-child{border-right:none}
+.sb-cell:hover{background:var(--gray-100)}
+.sb-label{font-size:11px;font-weight:700;color:var(--gray-600);text-transform:uppercase;letter-spacing:.04em;margin-bottom:2px;white-space:nowrap}
+.sb-cell input,.sb-cell select{border:none;background:transparent;font-size:14px;font-weight:600;color:var(--navy);padding:0;width:100%;cursor:pointer}
+.sb-cell input:focus,.sb-cell select:focus{outline:none}
+.sb-cell input::placeholder{color:var(--gray-400);font-weight:500}
+.sb-cell select{appearance:none;-webkit-appearance:none}
+.sb-cell .sb-value{font-size:14px;font-weight:600;color:var(--navy);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.sb-swap{flex:0 0 44px;display:flex;align-items:center;justify-content:center;border-right:1px solid var(--gray-200);cursor:pointer;color:var(--gray-400);transition:var(--ease)}
+.sb-swap:hover{background:var(--primary-light);color:var(--primary)}
+.sb-search{flex:0 0 auto;display:flex;align-items:center;padding:0 4px 0 0}
+.search-btn{height:100%;padding:12px 28px;border-radius:var(--radius);background:var(--primary);color:#fff;font-family:'Syne',sans-serif;font-size:15px;font-weight:700;border:none;cursor:pointer;transition:var(--ease);display:flex;align-items:center;gap:8px;white-space:nowrap;margin:4px}
+.search-btn:hover{background:var(--primary-dark)}
+
+.search-extras-row{display:flex;gap:16px;margin-top:12px;align-items:center}
+.search-extras-row label{display:flex;align-items:center;gap:6px;font-size:13px;color:var(--gray-600);cursor:pointer}
+.search-extras-row input[type="checkbox"]{width:16px;height:16px;accent-color:var(--primary);cursor:pointer}
+
+/* Pax dropdown trigger */
+.pax-trigger{display:flex;align-items:center;gap:6px}
+.pax-trigger i{width:18px;height:18px;color:var(--gray-400)}
+
+/* ==================== ADS CAROUSEL ==================== */
+.carousel-wrap{position:relative;margin-bottom:28px;border-radius:var(--radius-lg);overflow:hidden}
+.carousel-track{display:flex;transition:transform .5s cubic-bezier(.4,0,.2,1);width:100%}
+.ads-banner{flex:0 0 100%;min-width:100%;position:relative;padding:40px 44px;display:flex;align-items:center;justify-content:space-between;color:#fff;cursor:pointer}
+.ads-banner::before{content:'';position:absolute;top:0;right:0;width:45%;height:100%;background:linear-gradient(90deg,transparent,rgba(8,165,227,.15));pointer-events:none}
+.ads-banner-content{position:relative;z-index:1;max-width:65%}
+.ads-banner-content .ads-tag{display:inline-block;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;background:rgba(255,255,255,.15);padding:4px 12px;border-radius:var(--radius-pill);margin-bottom:12px}
+.ads-banner-content h2{font-size:24px;margin-bottom:8px;line-height:1.3}
+.ads-banner-content p{font-size:14px;color:rgba(255,255,255,.75);margin-bottom:16px;line-height:1.5}
+.ads-banner-btn{display:inline-flex;align-items:center;gap:8px;background:#fff;color:var(--navy);font-family:'Syne',sans-serif;font-size:14px;font-weight:700;padding:12px 24px;border-radius:var(--radius-pill);transition:var(--ease)}
+.ads-banner-btn:hover{background:var(--primary-light);color:var(--primary)}
+.carousel-dots{position:absolute;bottom:16px;left:50%;transform:translateX(-50%);display:flex;gap:8px;z-index:2}
+.carousel-dot{width:10px;height:10px;border-radius:50%;background:rgba(255,255,255,.35);cursor:pointer;transition:var(--ease)}
+.carousel-dot.active{background:#fff;width:28px;border-radius:5px}
+.carousel-arrow{position:absolute;top:50%;transform:translateY(-50%);width:40px;height:40px;border-radius:50%;background:rgba(255,255,255,.15);border:none;color:#fff;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:var(--ease);z-index:2}
+.carousel-arrow:hover{background:rgba(255,255,255,.3)}
+.carousel-prev{left:14px}
+.carousel-next{right:14px}
+
+/* ==================== PARTNERS LOGO TICKER ==================== */
+.partners-section{margin-bottom:28px}
+.partners-section h3{font-size:18px;color:var(--navy);margin-bottom:6px}
+.partners-section>p{font-size:14px;color:var(--gray-600);margin-bottom:20px}
+.logo-ticker-wrap{overflow:hidden;position:relative;background:var(--white);border-radius:var(--radius);border:1px solid var(--gray-200);padding:24px 0;box-shadow:var(--shadow-sm)}
+.logo-ticker-wrap::before,.logo-ticker-wrap::after{content:'';position:absolute;top:0;bottom:0;width:60px;z-index:2;pointer-events:none}
+.logo-ticker-wrap::before{left:0;background:linear-gradient(90deg,var(--white),transparent)}
+.logo-ticker-wrap::after{right:0;background:linear-gradient(270deg,var(--white),transparent)}
+.logo-ticker{display:flex;animation:tickerScroll 30s linear infinite;width:max-content}
+.logo-ticker:hover{animation-play-state:paused}
+.ticker-logo{flex-shrink:0;display:flex;align-items:center;justify-content:center;padding:0 36px;height:48px;white-space:nowrap}
+.logo-item{flex-shrink:0;display:flex;align-items:center;justify-content:center;padding:0 32px;height:48px;opacity:.55;transition:opacity .3s ease;filter:grayscale(100%)}
+.logo-item:hover{opacity:1;filter:grayscale(0%)}
+.logo-item svg{height:32px;width:auto}
+.logo-item span{font-family:'Syne',sans-serif;font-weight:800;font-size:20px;color:var(--navy);letter-spacing:-.02em;white-space:nowrap}
+@keyframes tickerScroll{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+
+/* ==================== TESTIMONIALS ==================== */
+.testimonials-section{margin-bottom:28px}
+.testimonials-section h3{font-size:18px;color:var(--navy);margin-bottom:6px}
+.testimonials-section>p{font-size:14px;color:var(--gray-600);margin-bottom:20px}
+.testimonial-carousel-wrap{position:relative;overflow:hidden}
+.testimonial-track{display:flex;transition:transform .5s cubic-bezier(.4,0,.2,1)}
+.testimonial-card{flex:0 0 100%;min-width:100%;padding:0 4px}
+.testimonial-inner{background:var(--white);border-radius:var(--radius);border:1px solid var(--gray-200);padding:32px;box-shadow:var(--shadow-sm);display:flex;gap:24px;align-items:flex-start}
+.testimonial-avatar{width:56px;height:56px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Syne',sans-serif;font-weight:700;font-size:20px;color:#fff;flex-shrink:0}
+.testimonial-content{flex:1;min-width:0}
+.testimonial-stars{display:flex;gap:3px;margin-bottom:10px;color:var(--gold)}
+.testimonial-quote{font-size:15px;color:var(--gray-800);line-height:1.7;margin-bottom:14px;font-style:italic}
+.testimonial-author{font-size:14px;font-weight:700;color:var(--navy);font-family:'Syne',sans-serif}
+.testimonial-role{font-size:12px;color:var(--gray-400);margin-top:2px}
+.testimonial-nav{display:flex;align-items:center;justify-content:center;gap:12px;margin-top:16px}
+.testimonial-dot{width:10px;height:10px;border-radius:50%;background:var(--gray-200);cursor:pointer;transition:var(--ease)}
+.testimonial-dot.active{background:var(--primary);width:28px;border-radius:5px}
+.testimonial-arrow{width:36px;height:36px;border-radius:50%;border:1.5px solid var(--gray-200);background:var(--white);display:flex;align-items:center;justify-content:center;color:var(--gray-400);cursor:pointer;transition:var(--ease)}
+.testimonial-arrow:hover{border-color:var(--primary);color:var(--primary);background:var(--primary-light)}
+
+/* ==================== APP DOWNLOAD ==================== */
+.app-download{background:var(--white);border-radius:var(--radius-lg);border:1px solid var(--gray-200);box-shadow:var(--shadow-sm);padding:32px 36px;margin-bottom:28px;display:flex;align-items:center;justify-content:space-between;gap:32px}
+.app-download-text h3{font-size:20px;color:var(--navy);margin-bottom:6px}
+.app-download-text p{font-size:14px;color:var(--gray-600);max-width:420px}
+.app-download-buttons{display:flex;gap:12px;flex-shrink:0}
+.store-btn{display:flex;align-items:center;gap:10px;background:var(--navy);color:#fff;padding:12px 20px;border-radius:var(--radius);cursor:pointer;transition:var(--ease);border:1.5px solid var(--navy)}
+.store-btn:hover{background:var(--navy-mid);border-color:var(--navy-mid)}
+.store-btn .store-icon{width:28px;height:28px;flex-shrink:0}
+.store-btn .store-label{text-align:left}
+.store-btn .store-label small{display:block;font-size:10px;color:rgba(255,255,255,.6);line-height:1}
+.store-btn .store-label strong{display:block;font-size:14px;font-weight:700;line-height:1.3}
+
+/* ==================== PRODUCT UPSELL CARDS ==================== */
+.products-section{margin-bottom:28px}
+.products-section h3{font-size:18px;color:var(--navy);margin-bottom:6px}
+.products-section>p{font-size:14px;color:var(--gray-600);margin-bottom:20px}
+.product-upsell-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.product-upsell{background:var(--white);border-radius:var(--radius);border:1.5px solid var(--gray-200);padding:28px 24px;transition:var(--ease);position:relative;overflow:hidden;cursor:pointer;box-shadow:var(--shadow-sm)}
+.product-upsell:hover{border-color:var(--primary);box-shadow:var(--shadow-md);transform:translateY(-3px)}
+.product-upsell .upsell-icon{width:52px;height:52px;border-radius:var(--radius);display:flex;align-items:center;justify-content:center;margin-bottom:16px}
+.product-upsell .upsell-icon.blue{background:var(--primary-light);color:var(--primary)}
+.product-upsell .upsell-icon.green{background:var(--green-light);color:var(--green)}
+.product-upsell .upsell-icon.orange{background:var(--orange-light);color:var(--orange)}
+.product-upsell h4{font-size:16px;color:var(--navy);margin-bottom:6px}
+.product-upsell p{font-size:13px;color:var(--gray-600);line-height:1.5;margin-bottom:16px}
+.product-upsell .upsell-features{list-style:none;margin-bottom:20px}
+.product-upsell .upsell-features li{font-size:13px;color:var(--gray-600);padding:4px 0;display:flex;align-items:center;gap:8px}
+.product-upsell .upsell-features li svg{width:16px;height:16px;color:var(--green);flex-shrink:0}
+.upsell-btn{display:inline-flex;align-items:center;gap:6px;font-size:14px;font-weight:700;color:var(--primary);font-family:'Syne',sans-serif;transition:var(--ease)}
+.upsell-btn:hover{color:var(--primary-dark)}
+.product-upsell .upsell-badge{position:absolute;top:16px;right:16px;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;padding:4px 10px;border-radius:var(--radius-pill);font-family:'Syne',sans-serif}
+.upsell-badge.new{background:var(--green-light);color:var(--green)}
+.upsell-badge.popular{background:var(--orange-light);color:var(--orange)}
+
+/* ==================== TWO COLUMN GRID ==================== */
+.two-col-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-bottom:28px}
+
+/* ==================== RECENT BOOKINGS ==================== */
+.card{background:var(--white);border-radius:var(--radius);box-shadow:var(--shadow-sm);border:1px solid var(--gray-200);overflow:hidden}
+.card-header{padding:20px 24px;border-bottom:1px solid var(--gray-200);display:flex;align-items:center;justify-content:space-between}
+.card-header h3{font-size:16px;color:var(--navy)}
+.card-header-action{font-size:13px;font-weight:600;color:var(--primary);cursor:pointer;display:flex;align-items:center;gap:4px;transition:var(--ease)}
+.card-header-action:hover{color:var(--primary-dark)}
+.card-body{padding:0}
+
+.booking-row{display:flex;align-items:center;padding:16px 24px;border-bottom:1px solid var(--gray-100);transition:var(--ease)}
+.booking-row:last-child{border-bottom:none}
+.booking-row:hover{background:var(--gray-100)}
+.booking-icon{width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-right:14px}
+.booking-icon.flight{background:var(--primary-light);color:var(--primary)}
+.booking-icon.hotel{background:var(--orange-light);color:var(--orange)}
+.booking-icon.package{background:var(--green-light);color:var(--green)}
+.booking-details{flex:1;min-width:0}
+.booking-route{font-size:14px;font-weight:600;color:var(--navy);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.booking-meta{font-size:12px;color:var(--gray-400);margin-top:2px}
+.booking-amount{text-align:right;margin-left:16px}
+.booking-price{font-size:14px;font-weight:700;color:var(--navy);font-family:'Syne',sans-serif}
+.booking-status{font-size:11px;font-weight:600;padding:3px 10px;border-radius:var(--radius-pill);margin-top:4px;display:inline-block}
+.booking-status.confirmed{background:var(--green-light);color:var(--green)}
+.booking-status.pending{background:var(--orange-light);color:var(--orange)}
+.booking-status.cancelled{background:var(--red-light);color:var(--red)}
+
+/* ==================== WALLET CARD ==================== */
+.wallet-balance{padding:24px;text-align:center;border-bottom:1px solid var(--gray-200)}
+.wallet-label{font-size:12px;font-weight:600;color:var(--gray-400);text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px}
+.wallet-amount{font-size:36px;font-weight:800;color:var(--navy);font-family:'Syne',sans-serif}
+.wallet-amount .currency{font-size:18px;font-weight:600;color:var(--gray-400);margin-right:2px}
+.wallet-actions{display:flex;gap:12px;padding:20px 24px}
+.wallet-btn{flex:1;height:44px;border-radius:var(--radius);font-size:13px;font-weight:600;display:flex;align-items:center;justify-content:center;gap:6px;cursor:pointer;transition:var(--ease)}
+.wallet-btn.primary{background:var(--primary);color:#fff;border:none}
+.wallet-btn.primary:hover{background:var(--primary-dark)}
+.wallet-btn.outline{background:var(--white);color:var(--navy);border:1.5px solid var(--gray-200)}
+.wallet-btn.outline:hover{border-color:var(--primary);color:var(--primary)}
+
+.wallet-txn{padding:14px 24px;border-bottom:1px solid var(--gray-100);display:flex;align-items:center;gap:12px}
+.wallet-txn:last-child{border-bottom:none}
+.txn-icon{width:34px;height:34px;border-radius:var(--radius);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.txn-icon.credit{background:var(--green-light);color:var(--green)}
+.txn-icon.debit{background:var(--red-light);color:var(--red)}
+.txn-details{flex:1;min-width:0}
+.txn-title{font-size:13px;font-weight:600;color:var(--navy)}
+.txn-date{font-size:11px;color:var(--gray-400)}
+.txn-amount{font-size:14px;font-weight:700;font-family:'Syne',sans-serif}
+.txn-amount.credit{color:var(--green)}
+.txn-amount.debit{color:var(--red)}
+
+/* ==================== MOBILE ==================== */
+.sidebar-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:99}
+
+@media(max-width:1024px){
+  .two-col-grid{grid-template-columns:1fr}
+  .product-upsell-grid{grid-template-columns:1fr 1fr}
+  .app-download{flex-direction:column;text-align:center}
+  .app-download-text p{max-width:100%}
+  .app-download-buttons{justify-content:center}
+  .ads-banner{padding:32px 28px}
+  .ads-banner-content{max-width:100%}
+}
+@media(max-width:768px){
+  .sidebar{transform:translateX(-100%)}
+  .sidebar.open{transform:translateX(0)}
+  .sidebar-overlay.open{display:block}
+  .main{margin-left:0}
+  .menu-toggle{display:flex}
+  .topbar{padding:0 16px}
+  .content{padding:20px 16px 32px}
+  .search-bar{flex-direction:column}
+  .sb-cell{border-right:none;border-bottom:1px solid var(--gray-200)}
+  .sb-swap{flex:0 0 auto;border-right:none;border-bottom:1px solid var(--gray-200);padding:8px}
+  .sb-search{padding:0}
+  .search-btn{width:100%;justify-content:center;margin:8px}
+  .welcome-banner{padding:24px 20px}
+  .welcome-banner h1{font-size:22px}
+  .product-upsell-grid{grid-template-columns:1fr}
+  .app-download-buttons{flex-direction:column}
+}
+
+/* ==================== BANK ACCOUNT MODAL ==================== */
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:200;display:flex;align-items:center;justify-content:center;padding:20px;opacity:0;pointer-events:none;transition:opacity .3s ease}
+.modal-overlay.open{opacity:1;pointer-events:all}
+.modal{background:var(--white);border-radius:var(--radius-lg);max-width:520px;width:100%;box-shadow:var(--shadow-lg);transform:translateY(20px);transition:transform .3s ease;overflow:hidden}
+.modal-overlay.open .modal{transform:translateY(0)}
+.modal-header{padding:28px 32px 0;display:flex;align-items:flex-start;justify-content:space-between}
+.modal-header-text h2{font-size:22px;color:var(--navy);margin-bottom:4px}
+.modal-header-text p{font-size:14px;color:var(--gray-600)}
+.modal-close{width:36px;height:36px;border-radius:var(--radius);display:flex;align-items:center;justify-content:center;color:var(--gray-400);cursor:pointer;transition:var(--ease);flex-shrink:0;margin-left:12px}
+.modal-close:hover{background:var(--gray-100);color:var(--navy)}
+.modal-body{padding:24px 32px}
+.modal-info{background:var(--primary-light);border:1.5px solid rgba(8,165,227,.2);border-radius:var(--radius);padding:16px 18px;margin-bottom:24px;display:flex;align-items:flex-start;gap:12px}
+.modal-info-icon{flex-shrink:0;color:var(--primary);margin-top:1px}
+.modal-info p{font-size:13px;color:var(--navy);line-height:1.6}
+.modal-info strong{color:var(--primary-dark)}
+.modal-field{margin-bottom:18px}
+.modal-field label{display:block;font-size:13px;font-weight:600;color:var(--navy);margin-bottom:6px}
+.modal-field .req{color:var(--red)}
+.modal-input{width:100%;height:50px;border-radius:var(--radius);border:1.5px solid var(--gray-200);background:var(--white);padding:12px 16px;font-size:14px;color:var(--navy);transition:var(--ease)}
+.modal-input:focus{border-color:var(--primary);box-shadow:var(--focus-ring)}
+.modal-input::placeholder{color:var(--gray-400)}
+select.modal-input{appearance:none;-webkit-appearance:none;background-image:url("data:image/svg+xml,%3Csvg width='12' height='8' viewBox='0 0 12 8' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1.5L6 6.5L11 1.5' stroke='%239CA3AF' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 14px center;padding-right:36px;cursor:pointer}
+.modal-field-row{display:flex;gap:14px}
+.modal-field-row .modal-field{flex:1}
+.modal-acct-name{width:100%;min-height:50px;border-radius:var(--radius);border:1.5px solid var(--gray-200);background:var(--gray-100);padding:14px 16px;font-size:14px;color:var(--gray-400);display:flex;align-items:center}
+.modal-acct-name.verified{color:var(--navy);font-weight:600;border-color:var(--green);background:var(--green-light)}
+.modal-acct-name .v-badge{display:inline-flex;align-items:center;gap:4px;font-size:12px;font-weight:600;color:var(--green);margin-left:auto}
+.modal-footer{padding:0 32px 28px;display:flex;gap:12px}
+.modal-btn{flex:1;height:50px;border-radius:var(--radius);font-family:'Syne',sans-serif;font-size:15px;font-weight:700;display:flex;align-items:center;justify-content:center;gap:8px;cursor:pointer;transition:var(--ease)}
+.modal-btn.primary{background:var(--primary);color:#fff;border:none}
+.modal-btn.primary:hover{background:var(--primary-dark)}
+.modal-btn.primary:disabled{opacity:.45;cursor:not-allowed}
+.modal-btn.secondary{background:var(--white);color:var(--gray-600);border:1.5px solid var(--gray-200)}
+.modal-btn.secondary:hover{border-color:var(--primary);color:var(--primary)}
+</style>
+</head>
+<body>
+
+<!-- ==================== SIDEBAR ==================== -->
+<div class="sidebar-overlay" id="sidebarOverlay" onclick="toggleSidebar()"></div>
+<aside class="sidebar" id="sidebar">
+  <div class="sidebar-logo">
+    <img src="wakanow-logo-white.svg" alt="Wakanow for Business">
+  </div>
+  <div class="sidebar-user">
+    <div class="user-avatar" id="userAvatar">A</div>
+    <div class="user-info">
+      <div class="user-name" id="sidebarUserName">Partner</div>
+      <div class="user-id" id="sidebarPartnerId">WKB-000000</div>
+    </div>
+  </div>
+  <nav class="sidebar-nav">
+    <div class="nav-section">
+      <div class="nav-section-label">Main</div>
+      <div class="nav-item active" onclick="switchPage('dashboard')">
+        <i data-lucide="layout-dashboard"></i> Dashboard
+      </div>
+      <div class="nav-item" onclick="switchPage('bookings')">
+        <i data-lucide="calendar-check"></i> Bookings
+        <span class="nav-badge">3</span>
+      </div>
+      <div class="nav-item" onclick="switchPage('manage-booking')">
+        <i data-lucide="clipboard-list"></i> Manage My Booking
+      </div>
+      <div class="nav-item" onclick="switchPage('products')">
+        <i data-lucide="package"></i> My Products
+      </div>
+      <div class="nav-item" onclick="switchPage('wallet')">
+        <i data-lucide="wallet"></i> Wallet
+      </div>
+    </div>
+    <div class="nav-section">
+      <div class="nav-section-label">Tools</div>
+      <div class="nav-item" onclick="switchPage('reports')">
+        <i data-lucide="bar-chart-3"></i> Reports
+      </div>
+    </div>
+    <div class="nav-section">
+      <div class="nav-section-label">Account</div>
+      <div class="nav-item" onclick="switchPage('profile')">
+        <i data-lucide="user-circle"></i> Profile
+      </div>
+      <div class="nav-item" onclick="switchPage('settings')">
+        <i data-lucide="settings"></i> Settings
+      </div>
+      <div class="nav-item" onclick="switchPage('support')">
+        <i data-lucide="headphones"></i> Support
+      </div>
+    </div>
+  </nav>
+  <div class="sidebar-footer">
+    <div class="nav-item logout" onclick="handleLogout()">
+      <i data-lucide="log-out"></i> Log Out
+    </div>
+  </div>
+</aside>
+
+<!-- ==================== MAIN ==================== -->
+<div class="main">
+  <!-- Top Bar -->
+  <header class="topbar">
+    <div class="topbar-left">
+      <button class="menu-toggle" onclick="toggleSidebar()"><i data-lucide="menu" style="width:24px;height:24px"></i></button>
+      <div class="breadcrumb">Wakanow for Business / <span>Dashboard</span></div>
+    </div>
+    <div class="topbar-right">
+      <div class="topbar-icon"><i data-lucide="search" style="width:20px;height:20px"></i></div>
+      <div class="topbar-icon">
+        <i data-lucide="bell" style="width:20px;height:20px"></i>
+        <div class="notif-dot"></div>
+      </div>
+      <div class="topbar-avatar" id="topbarAvatar">A</div>
+    </div>
+  </header>
+
+  <!-- Content -->
+  <div class="content">
+
+    <!-- Welcome Banner -->
+    <div class="welcome-banner" id="welcomeBanner">
+      <h1 id="welcomeHeading">Welcome back, Partner!</h1>
+      <p>Your affiliate dashboard is ready. Search and book travel products, track your earnings, and manage your account all in one place.</p>
+      <div class="partner-badge">
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="7" fill="#27AE60"/><path d="M4 7L6 9L10 5" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <span>Active Partner</span>
+        <span style="color:rgba(255,255,255,.5);margin:0 4px">|</span>
+        <span id="bannerPartnerId">WKB-000000</span>
+      </div>
+    </div>
+
+    <!-- Search Widget — Booking.com style -->
+    <div class="search-widget">
+      <div class="search-tabs">
+        <div class="search-tab active" onclick="switchSearchTab('flights',this)">
+          <i data-lucide="plane"></i> Flights
+        </div>
+        <div class="search-tab" onclick="switchSearchTab('hotels',this)">
+          <i data-lucide="building-2"></i> Hotels
+        </div>
+        <div class="search-tab" onclick="switchSearchTab('extras',this)">
+          <i data-lucide="compass"></i> Travel Extras
+        </div>
+      </div>
+
+      <!-- Flights Panel -->
+      <div class="search-panel active" id="panel-flights">
+        <div class="trip-type">
+          <button class="trip-type-btn active" onclick="setTripType(this)">Return</button>
+          <button class="trip-type-btn" onclick="setTripType(this)">One-way</button>
+          <button class="trip-type-btn" onclick="setTripType(this)">Multi-city</button>
+        </div>
+        <div class="search-bar">
+          <div class="sb-cell" style="flex:1.3">
+            <div class="sb-label">Leaving from</div>
+            <input type="text" placeholder="City or airport" id="flightFrom" value="Lagos (LOS-Murtala Muhammed)">
+          </div>
+          <div class="sb-swap" onclick="swapFlightCities()">
+            <i data-lucide="arrow-left-right" style="width:18px;height:18px"></i>
+          </div>
+          <div class="sb-cell" style="flex:1.3">
+            <div class="sb-label">Going to</div>
+            <input type="text" placeholder="City or airport" id="flightTo">
+          </div>
+          <div class="sb-cell">
+            <div class="sb-label">Dates</div>
+            <input type="text" id="flightDates" readonly placeholder="Select dates">
+          </div>
+          <div class="sb-cell">
+            <div class="sb-label">Travellers, Cabin class</div>
+            <div class="sb-value" id="paxSummary">1 traveller, Economy</div>
+            <input type="hidden" id="flightDepart">
+            <input type="hidden" id="flightReturn">
+          </div>
+          <div class="sb-search">
+            <button class="search-btn" onclick="searchFlights()">Search</button>
+          </div>
+        </div>
+        <div class="search-extras-row">
+          <label><input type="checkbox"> Add a place to stay</label>
+          <label><input type="checkbox"> Add a car</label>
+        </div>
+      </div>
+
+      <!-- Hotels Panel -->
+      <div class="search-panel" id="panel-hotels">
+        <div class="search-bar">
+          <div class="sb-cell" style="flex:2">
+            <div class="sb-label">Destination</div>
+            <input type="text" placeholder="City, hotel, or landmark" id="hotelDest">
+          </div>
+          <div class="sb-cell">
+            <div class="sb-label">Check-in</div>
+            <input type="date" id="hotelCheckin">
+          </div>
+          <div class="sb-cell">
+            <div class="sb-label">Check-out</div>
+            <input type="date" id="hotelCheckout">
+          </div>
+          <div class="sb-cell">
+            <div class="sb-label">Guests & Rooms</div>
+            <div class="sb-value">2 adults, 1 room</div>
+          </div>
+          <div class="sb-search">
+            <button class="search-btn" onclick="searchHotels()">Search</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Travel Extras Panel -->
+      <div class="search-panel" id="panel-extras">
+        <div class="search-bar">
+          <div class="sb-cell">
+            <div class="sb-label">Service Type</div>
+            <select id="extraType" style="font-weight:600;color:var(--navy)">
+              <option value="">Select a service</option>
+              <option>Visa Assistance</option>
+              <option>Travel Insurance</option>
+              <option>Airport Transfer</option>
+              <option>Car Rental</option>
+              <option>Tour Packages</option>
+              <option>Cruise</option>
+            </select>
+          </div>
+          <div class="sb-cell" style="flex:2">
+            <div class="sb-label">Destination</div>
+            <input type="text" placeholder="Where are you going?" id="extraDest">
+          </div>
+          <div class="sb-cell">
+            <div class="sb-label">Travel Date</div>
+            <input type="date" id="extraDate">
+          </div>
+          <div class="sb-cell">
+            <div class="sb-label">Travellers</div>
+            <div class="sb-value">1 traveller</div>
+          </div>
+          <div class="sb-search">
+            <button class="search-btn" onclick="searchExtras()">Search</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Ads Carousel -->
+    <div class="carousel-wrap" id="adsCarousel">
+      <div class="carousel-track" id="carouselTrack">
+        <div class="ads-banner" style="background:linear-gradient(135deg,#002B5C 0%,#003F7F 40%,#0064CC 100%)">
+          <div class="ads-banner-content">
+            <div class="ads-tag">Limited Time Offer</div>
+            <h2>Earn double commission on all hotel bookings this April</h2>
+            <p>Book hotels for your clients through the partner portal and earn up to 30% commission on every confirmed stay. Offer valid until April 30th.</p>
+            <div class="ads-banner-btn"><span>Learn More</span> <i data-lucide="arrow-right" style="width:16px;height:16px"></i></div>
+          </div>
+        </div>
+        <div class="ads-banner" style="background:linear-gradient(135deg,#1E3138 0%,#2C3E47 50%,#08A5E3 100%)">
+          <div class="ads-banner-content">
+            <div class="ads-tag">New Feature</div>
+            <h2>Visa assistance now available — help your clients travel stress-free</h2>
+            <p>Offer visa processing as an add-on to flight bookings. Earn extra commission on every visa application processed through your dashboard.</p>
+            <div class="ads-banner-btn"><span>Start Selling</span> <i data-lucide="arrow-right" style="width:16px;height:16px"></i></div>
+          </div>
+        </div>
+        <div class="ads-banner" style="background:linear-gradient(135deg,#1A4731 0%,#27AE60 60%,#2ECC71 100%)">
+          <div class="ads-banner-content">
+            <div class="ads-tag">Partner Reward</div>
+            <h2>Reach 50 bookings this month and unlock Gold tier benefits</h2>
+            <p>Gold tier partners enjoy up to 15% commission, priority support, and exclusive deals. Track your progress in the dashboard.</p>
+            <div class="ads-banner-btn"><span>View Progress</span> <i data-lucide="arrow-right" style="width:16px;height:16px"></i></div>
+          </div>
+        </div>
+      </div>
+      <div class="carousel-dots" id="carouselDots">
+        <div class="carousel-dot active" onclick="goToSlide(0)"></div>
+        <div class="carousel-dot" onclick="goToSlide(1)"></div>
+        <div class="carousel-dot" onclick="goToSlide(2)"></div>
+      </div>
+      <button class="carousel-arrow carousel-prev" onclick="prevSlide()"><i data-lucide="chevron-left" style="width:20px;height:20px"></i></button>
+      <button class="carousel-arrow carousel-next" onclick="nextSlide()"><i data-lucide="chevron-right" style="width:20px;height:20px"></i></button>
+    </div>
+
+    <!-- App Download -->
+    <div class="app-download">
+      <div class="app-download-text">
+        <h3>Manage bookings on the go</h3>
+        <p>Download the Wakanow for Business app to search, book, and track commissions from your phone. Available on iOS and Android.</p>
+      </div>
+      <div class="app-download-buttons">
+        <div class="store-btn" onclick="alert('Opening App Store...')">
+          <div class="store-icon">
+            <svg viewBox="0 0 28 28" fill="none"><path d="M20.3 14.7c0-3.1 2.5-4.6 2.6-4.7-1.4-2.1-3.6-2.4-4.4-2.4-1.8-.2-3.6 1.1-4.5 1.1-.9 0-2.4-1.1-3.9-1-2 0-3.9 1.2-4.9 3-2.1 3.6-.5 9 1.5 12 1 1.5 2.2 3.1 3.8 3 1.5-.1 2.1-1 3.9-1s2.4 1 3.9 1c1.6 0 2.7-1.5 3.7-3 1.2-1.7 1.6-3.3 1.7-3.4 0 0-3.4-1.5-3.4-5.6z" fill="white"/><path d="M17.2 5.8c.8-1 1.4-2.4 1.2-3.8-1.2.1-2.7.8-3.5 1.8-.8.9-1.5 2.3-1.3 3.7 1.3.1 2.8-.7 3.6-1.7z" fill="white"/></svg>
+          </div>
+          <div class="store-label">
+            <small>Download on the</small>
+            <strong>App Store</strong>
+          </div>
+        </div>
+        <div class="store-btn" onclick="alert('Opening Play Store...')">
+          <div class="store-icon">
+            <svg viewBox="0 0 28 28" fill="none"><path d="M4.2 3.6L15 14 4.2 24.4c-.3-.3-.5-.7-.5-1.2V4.8c0-.5.2-.9.5-1.2z" fill="#4285F4"/><path d="M19.4 10l-4.4 4 4.4 4 5-2.8c.6-.3.6-1 0-1.4l-5-3.8z" fill="#FBBC04"/><path d="M4.2 3.6L15 14l4.4-4L7.2 2.4c-.5-.3-1-.3-1.5-.1L4.2 3.6z" fill="#34A853"/><path d="M4.2 24.4L19.4 18 15 14 4.2 24.4z" fill="#EA4335"/></svg>
+          </div>
+          <div class="store-label">
+            <small>Get it on</small>
+            <strong>Google Play</strong>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Extend Your Account — Other Products -->
+    <div class="products-section">
+      <h3>Extend your partner account</h3>
+      <p>Explore additional Wakanow partner programmes to maximize your earnings.</p>
+      <div class="product-upsell-grid">
+        <div class="product-upsell" onclick="alert('Activating Referral Programme...')">
+          <div class="upsell-badge popular">Popular</div>
+          <div class="upsell-icon green"><i data-lucide="share-2" style="width:26px;height:26px"></i></div>
+          <h4>Referral Programme</h4>
+          <p>Share your unique link and earn commission on every booking your referrals make.</p>
+          <ul class="upsell-features">
+            <li><svg viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="8" fill="#27AE60"/><path d="M4.5 8L7 10.5L11.5 6" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg> Unique trackable referral link</li>
+            <li><svg viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="8" fill="#27AE60"/><path d="M4.5 8L7 10.5L11.5 6" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg> Earn 5-10% on referral bookings</li>
+            <li><svg viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="8" fill="#27AE60"/><path d="M4.5 8L7 10.5L11.5 6" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg> No setup fee required</li>
+          </ul>
+          <div class="upsell-btn">Activate Now <i data-lucide="arrow-right" style="width:16px;height:16px"></i></div>
+        </div>
+        <div class="product-upsell" onclick="alert('Setting up Build Your Website...')">
+          <div class="upsell-badge new">New</div>
+          <div class="upsell-icon blue"><i data-lucide="globe" style="width:26px;height:26px"></i></div>
+          <h4>Build Your Own Website</h4>
+          <p>Launch a white-label travel booking site on your own domain, powered by Wakanow inventory.</p>
+          <ul class="upsell-features">
+            <li><svg viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="8" fill="#27AE60"/><path d="M4.5 8L7 10.5L11.5 6" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg> Custom branding & domain</li>
+            <li><svg viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="8" fill="#27AE60"/><path d="M4.5 8L7 10.5L11.5 6" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg> Full booking engine included</li>
+            <li><svg viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="8" fill="#27AE60"/><path d="M4.5 8L7 10.5L11.5 6" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg> Set your own markup & pricing</li>
+          </ul>
+          <div class="upsell-btn">Get Started <i data-lucide="arrow-right" style="width:16px;height:16px"></i></div>
+        </div>
+        <div class="product-upsell" onclick="alert('Setting up API Partner...')">
+          <div class="upsell-icon orange"><i data-lucide="code-2" style="width:26px;height:26px"></i></div>
+          <h4>API Partner</h4>
+          <p>Direct API access for developers to integrate Wakanow flight, hotel, and travel inventory.</p>
+          <ul class="upsell-features">
+            <li><svg viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="8" fill="#27AE60"/><path d="M4.5 8L7 10.5L11.5 6" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg> RESTful API documentation</li>
+            <li><svg viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="8" fill="#27AE60"/><path d="M4.5 8L7 10.5L11.5 6" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg> Sandbox testing environment</li>
+            <li><svg viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="8" fill="#27AE60"/><path d="M4.5 8L7 10.5L11.5 6" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg> Dedicated developer support</li>
+          </ul>
+          <div class="upsell-btn">Learn More <i data-lucide="arrow-right" style="width:16px;height:16px"></i></div>
+        </div>
+      </div>
+    </div>
+
+
+
+  </div>
+</div>
+
+<!-- ==================== BANK ACCOUNT MODAL ==================== -->
+<div class="modal-overlay" id="bankModal">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-header-text">
+        <h2>Set up your bank account</h2>
+        <p>Add your bank details so we can pay your commissions.</p>
+      </div>
+      <div class="modal-close" onclick="closeBankModal()"><i data-lucide="x" style="width:20px;height:20px"></i></div>
+    </div>
+    <div class="modal-body">
+      <div class="modal-info">
+        <div class="modal-info-icon"><i data-lucide="info" style="width:20px;height:20px"></i></div>
+        <p>All commissions earned from bookings will be <strong>paid directly into this bank account</strong>. You can update your bank details anytime from Wallet &gt; My Bank Account.</p>
+      </div>
+      <div class="modal-field">
+        <label>Bank Name <span class="req">*</span></label>
+        <select class="modal-input" id="modalBankName" onchange="checkModalForm()">
+          <option value="">Select your bank</option>
+          <option>Access Bank</option><option>Citibank Nigeria</option><option>Ecobank Nigeria</option>
+          <option>Fidelity Bank</option><option>First Bank of Nigeria</option><option>First City Monument Bank</option>
+          <option>Globus Bank</option><option>Guaranty Trust Bank</option><option>Heritage Bank</option>
+          <option>Jaiz Bank</option><option>Keystone Bank</option><option>Kuda Bank</option>
+          <option>Lotus Bank</option><option>Moniepoint MFB</option><option>Opay</option>
+          <option>Palmpay</option><option>Polaris Bank</option><option>Providus Bank</option>
+          <option>Stanbic IBTC Bank</option><option>Standard Chartered Bank</option>
+          <option>Sterling Bank</option><option>SunTrust Bank</option><option>Titan Trust Bank</option>
+          <option>Union Bank of Nigeria</option><option>United Bank for Africa</option>
+          <option>Unity Bank</option><option>VFD Microfinance Bank</option><option>Wema Bank</option>
+          <option>Zenith Bank</option>
+        </select>
+      </div>
+      <div class="modal-field-row">
+        <div class="modal-field">
+          <label>Account Number <span class="req">*</span></label>
+          <input type="text" class="modal-input" id="modalAcctNum" placeholder="10-digit account number" maxlength="10" oninput="handleModalAcctInput()">
+        </div>
+      </div>
+      <div class="modal-field">
+        <label>Account Name</label>
+        <div class="modal-acct-name" id="modalAcctName">Enter account number above</div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="modal-btn secondary" onclick="closeBankModal()">Skip for now</button>
+      <button class="modal-btn primary" id="modalSaveBtn" disabled onclick="saveBankDetails()">
+        Save & Continue <i data-lucide="arrow-right" style="width:18px;height:18px"></i>
+      </button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ==================== STATE ====================
+var state = JSON.parse(localStorage.getItem('wk_onboarding') || '{}');
+var firstName = state.firstName || 'Partner';
+var lastName = state.lastName || '';
+var partnerId = state.partnerId || 'WKB-000000';
+var initials = (firstName[0] || 'P').toUpperCase() + (lastName[0] || '').toUpperCase();
+var isFirstVisit = !localStorage.getItem('wk_dashboard_visited');
+
+// ==================== INIT ====================
+document.addEventListener('DOMContentLoaded', function(){
+  lucide.createIcons();
+
+  // Populate user info
+  document.getElementById('sidebarUserName').textContent = firstName + ' ' + lastName;
+  document.getElementById('sidebarPartnerId').textContent = partnerId;
+  document.getElementById('userAvatar').textContent = initials;
+  document.getElementById('topbarAvatar').textContent = initials;
+  document.getElementById('bannerPartnerId').textContent = partnerId;
+
+  // Welcome message
+  if(isFirstVisit){
+    document.getElementById('welcomeHeading').textContent = 'Welcome, ' + firstName + '!';
+    localStorage.setItem('wk_dashboard_visited', 'true');
+    // Show bank account modal on first visit
+    if(!state.bankSaved){
+      setTimeout(function(){ showBankModal(); }, 800);
+    }
+  } else {
+    document.getElementById('welcomeHeading').textContent = 'Welcome back, ' + firstName + '!';
+  }
+
+  // Set default dates
+  var today = new Date();
+  var tomorrow = new Date(today);
+  tomorrow.setDate(tomorrow.getDate() + 1);
+  var weekLater = new Date(today);
+  weekLater.setDate(weekLater.getDate() + 7);
+
+  var dOpts = {weekday:'short',day:'numeric',month:'short'};
+  document.getElementById('flightDates').value = tomorrow.toLocaleDateString('en-GB',dOpts) + ' - ' + weekLater.toLocaleDateString('en-GB',dOpts);
+  document.getElementById('flightDepart').value = formatDate(tomorrow);
+  document.getElementById('flightReturn').value = formatDate(weekLater);
+  document.getElementById('hotelCheckin').value = formatDate(tomorrow);
+  document.getElementById('hotelCheckout').value = formatDate(weekLater);
+  document.getElementById('extraDate').value = formatDate(tomorrow);
+});
+
+function formatDate(d){
+  return d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0') + '-' + String(d.getDate()).padStart(2,'0');
+}
+
+// ==================== SIDEBAR ====================
+function toggleSidebar(){
+  document.getElementById('sidebar').classList.toggle('open');
+  document.getElementById('sidebarOverlay').classList.toggle('open');
+}
+
+function switchPage(page){
+  document.querySelectorAll('.nav-item').forEach(function(n){ n.classList.remove('active'); });
+  event.currentTarget.classList.add('active');
+  if(window.innerWidth <= 768) toggleSidebar();
+  alert('Navigating to ' + page + ' — coming soon!');
+}
+
+function handleLogout(){
+  if(confirm('Are you sure you want to log out?')){
+    localStorage.removeItem('wk_onboarding');
+    localStorage.removeItem('wk_dashboard_visited');
+    window.location.href = 'wakanow-b2b.html';
+  }
+}
+
+// ==================== SEARCH WIDGET ====================
+function switchSearchTab(tab, el){
+  document.querySelectorAll('.search-tab').forEach(function(t){ t.classList.remove('active'); });
+  document.querySelectorAll('.search-panel').forEach(function(p){ p.classList.remove('active'); });
+  el.classList.add('active');
+  document.getElementById('panel-' + tab).classList.add('active');
+  lucide.createIcons();
+}
+
+function setTripType(btn){
+  document.querySelectorAll('.trip-type-btn').forEach(function(b){ b.classList.remove('active'); });
+  btn.classList.add('active');
+}
+
+function swapFlightCities(){
+  var from = document.getElementById('flightFrom');
+  var to = document.getElementById('flightTo');
+  var temp = from.value;
+  from.value = to.value;
+  to.value = temp;
+}
+
+function searchFlights(){
+  var from = document.getElementById('flightFrom').value;
+  var to = document.getElementById('flightTo').value;
+  if(!to){ alert('Please enter a destination'); return; }
+  alert('Searching flights from ' + from + ' to ' + to + '...\n\nThis feature will connect to the Wakanow booking engine.');
+}
+
+function searchHotels(){
+  var dest = document.getElementById('hotelDest').value;
+  if(!dest){ alert('Please enter a destination'); return; }
+  alert('Searching hotels in ' + dest + '...\n\nThis feature will connect to the Wakanow booking engine.');
+}
+
+function searchExtras(){
+  var type = document.getElementById('extraType').value;
+  if(!type){ alert('Please select a service type'); return; }
+  alert('Searching ' + type + '...\n\nThis feature will connect to the Wakanow booking engine.');
+}
+
+// ==================== BANK ACCOUNT MODAL ====================
+function showBankModal(){
+  document.getElementById('bankModal').classList.add('open');
+  lucide.createIcons();
+}
+
+function closeBankModal(){
+  document.getElementById('bankModal').classList.remove('open');
+}
+
+function handleModalAcctInput(){
+  var val = document.getElementById('modalAcctNum').value.replace(/\D/g,'');
+  document.getElementById('modalAcctNum').value = val;
+  var display = document.getElementById('modalAcctName');
+
+  if(val.length === 10){
+    display.innerHTML = '<span style="color:var(--gray-400)">Verifying...</span>';
+    setTimeout(function(){
+      var name = (firstName + ' ' + lastName).toUpperCase();
+      display.innerHTML = name + '<span class="v-badge"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="7" fill="#27AE60"/><path d="M4 7L6 9L10 5" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg> Verified</span>';
+      display.classList.add('verified');
+      checkModalForm();
+    }, 800);
+  } else {
+    display.innerHTML = 'Enter account number above';
+    display.classList.remove('verified');
+  }
+  checkModalForm();
+}
+
+function checkModalForm(){
+  var bank = document.getElementById('modalBankName').value;
+  var acct = document.getElementById('modalAcctNum').value;
+  var verified = document.getElementById('modalAcctName').classList.contains('verified');
+  document.getElementById('modalSaveBtn').disabled = !(bank && acct.length === 10 && verified);
+}
+
+function saveBankDetails(){
+  state.bankName = document.getElementById('modalBankName').value;
+  state.accountNumber = document.getElementById('modalAcctNum').value;
+  state.bankSaved = true;
+  localStorage.setItem('wk_onboarding', JSON.stringify(state));
+  closeBankModal();
+}
+
+// ==================== ADS CAROUSEL ====================
+var currentSlide = 0;
+var totalSlides = 3;
+var carouselInterval = null;
+
+function goToSlide(idx){
+  currentSlide = idx;
+  document.getElementById('carouselTrack').style.transform = 'translateX(-' + (idx * 100) + '%)';
+  document.querySelectorAll('.carousel-dot').forEach(function(d,i){
+    d.classList.toggle('active', i === idx);
+  });
+}
+
+function nextSlide(){
+  goToSlide((currentSlide + 1) % totalSlides);
+  resetAutoSlide();
+}
+
+function prevSlide(){
+  goToSlide((currentSlide - 1 + totalSlides) % totalSlides);
+  resetAutoSlide();
+}
+
+function startAutoSlide(){
+  carouselInterval = setInterval(function(){ goToSlide((currentSlide + 1) % totalSlides); }, 5000);
+}
+
+function resetAutoSlide(){
+  clearInterval(carouselInterval);
+  startAutoSlide();
+}
+
+startAutoSlide();
+
+</script>
+
+</body>
+</html>

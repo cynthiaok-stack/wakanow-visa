@@ -1,0 +1,37 @@
+# WakaTribe — Netlify config
+# Handles pretty URLs + sensible defaults.
+
+[build]
+  publish = "."
+
+# Redirect / to the WakaTribe login
+[[redirects]]
+  from = "/"
+  to = "/wakatribe-login.html"
+  status = 302
+
+# Friendly URLs (optional — /hub → /wakatribe-hub.html etc.)
+[[redirects]]
+  from = "/hub"
+  to = "/wakatribe-hub.html"
+  status = 302
+[[redirects]]
+  from = "/login"
+  to = "/wakatribe-login.html"
+  status = 302
+[[redirects]]
+  from = "/super"
+  to = "/wakatribe-super-admin.html"
+  status = 302
+[[redirects]]
+  from = "/scanner"
+  to = "/wakaeats-scanner.html"
+  status = 302
+
+# Headers — basic security
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Frame-Options = "SAMEORIGIN"
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"

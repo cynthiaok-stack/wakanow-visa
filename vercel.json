@@ -1,0 +1,21 @@
+{
+  "cleanUrls": true,
+  "trailingSlash": false,
+  "redirects": [
+    { "source": "/", "destination": "/wakatribe-login.html", "permanent": false },
+    { "source": "/hub", "destination": "/wakatribe-hub.html", "permanent": false },
+    { "source": "/login", "destination": "/wakatribe-login.html", "permanent": false },
+    { "source": "/super", "destination": "/wakatribe-super-admin.html", "permanent": false },
+    { "source": "/scanner", "destination": "/wakaeats-scanner.html", "permanent": false }
+  ],
+  "headers": [
+    {
+      "source": "/(.*)",
+      "headers": [
+        { "key": "X-Frame-Options", "value": "SAMEORIGIN" },
+        { "key": "X-Content-Type-Options", "value": "nosniff" },
+        { "key": "Referrer-Policy", "value": "strict-origin-when-cross-origin" }
+      ]
+    }
+  ]
+}

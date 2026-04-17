@@ -1,0 +1,1191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Settings — Wakanow for Business</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+<style>
+/* ==================== RESET & BASE ==================== */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%;scroll-behavior:smooth}
+body{font-family:'DM Sans',sans-serif;font-size:15px;color:#1E3138;line-height:1.6;background:#F7F8FA;min-height:100vh;overflow-x:hidden}
+h1,h2,h3,h4,h5,h6{font-family:'Syne',sans-serif;font-weight:700;line-height:1.25}
+img,svg{display:block;max-width:100%}
+button{cursor:pointer;font-family:inherit;border:none;background:none}
+input,select,textarea{font-family:inherit;outline:none}
+a{text-decoration:none;color:inherit}
+
+/* ==================== DESIGN TOKENS ==================== */
+:root{
+  --primary:#08A5E3;
+  --primary-dark:#0789BF;
+  --primary-light:#E8F6FD;
+  --navy:#1E3138;
+  --navy-mid:#263238;
+  --navy-light:#2C3E47;
+  --green:#27AE60;
+  --green-light:#E8F8EF;
+  --orange:#F58220;
+  --orange-light:#FEF3E8;
+  --red:#E74C3C;
+  --red-light:#FEF2F2;
+  --gold:#F5A623;
+  --purple:#8E44AD;
+  --purple-light:#F3E8FA;
+  --teal:#0D9488;
+  --teal-light:#E6F7F6;
+  --gray-100:#F2F3F5;
+  --gray-200:#E5E7EB;
+  --gray-300:#D1D5DB;
+  --gray-400:#9CA3AF;
+  --gray-600:#6B7280;
+  --gray-800:#1F2937;
+  --off-white:#F7F8FA;
+  --white:#FFFFFF;
+  --radius:12px;
+  --radius-lg:20px;
+  --radius-pill:100px;
+  --shadow-sm:0 1px 4px rgba(0,0,0,.07);
+  --shadow-md:0 4px 20px rgba(0,0,0,.10);
+  --shadow-lg:0 12px 40px rgba(0,0,0,.14);
+  --ease:.22s cubic-bezier(.4,0,.2,1);
+  --focus-ring:0 0 0 3px rgba(8,165,227,.12);
+  --sidebar-w:260px;
+}
+
+/* ==================== LAYOUT ==================== */
+.app{display:flex;min-height:100vh}
+
+/* ==================== SIDEBAR ==================== */
+.sidebar{width:var(--sidebar-w);background:var(--navy);position:fixed;top:0;left:0;bottom:0;display:flex;flex-direction:column;z-index:100;transition:transform .3s ease}
+.sidebar-logo{padding:28px 24px 20px;border-bottom:1px solid rgba(255,255,255,.08)}
+.sidebar-logo img{width:150px}
+.sidebar-user{padding:20px 24px;border-bottom:1px solid rgba(255,255,255,.08);display:flex;align-items:center;gap:12px}
+.user-avatar{width:40px;height:40px;border-radius:50%;background:var(--primary);display:flex;align-items:center;justify-content:center;font-family:'Syne',sans-serif;font-weight:700;font-size:16px;color:#fff;flex-shrink:0}
+.user-info{overflow:hidden}
+.user-name{font-size:14px;font-weight:600;color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.user-id{font-size:11px;color:rgba(255,255,255,.5);white-space:nowrap}
+
+.sidebar-nav{flex:1;padding:16px 0;overflow-y:auto}
+.nav-section{padding:0 16px;margin-bottom:8px}
+.nav-section-label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:rgba(255,255,255,.35);padding:8px 8px 6px;font-family:'Syne',sans-serif}
+.nav-item{display:flex;align-items:center;gap:12px;padding:11px 16px;border-radius:var(--radius);color:rgba(255,255,255,.65);font-size:14px;font-weight:500;cursor:pointer;transition:var(--ease);margin-bottom:2px}
+.nav-item:hover{background:rgba(255,255,255,.06);color:rgba(255,255,255,.9)}
+.nav-item.active{background:rgba(8,165,227,.15);color:var(--primary);font-weight:600}
+.nav-item svg,.nav-item i{width:20px;height:20px;flex-shrink:0}
+.nav-badge{margin-left:auto;background:var(--primary);color:#fff;font-size:10px;font-weight:700;padding:2px 8px;border-radius:var(--radius-pill);font-family:'Syne',sans-serif}
+
+.sidebar-footer{padding:16px 24px;border-top:1px solid rgba(255,255,255,.08)}
+.nav-item.logout{color:rgba(255,255,255,.45)}
+.nav-item.logout:hover{color:var(--red);background:rgba(231,76,60,.08)}
+
+/* ==================== MAIN CONTENT ==================== */
+.main{flex:1;margin-left:var(--sidebar-w);display:flex;flex-direction:column;min-height:100vh}
+
+/* Top bar */
+.topbar{background:var(--white);border-bottom:1px solid var(--gray-200);padding:0 32px;height:64px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:50}
+.topbar-left{display:flex;align-items:center;gap:12px}
+.menu-toggle{display:none;width:40px;height:40px;border-radius:var(--radius);align-items:center;justify-content:center;color:var(--navy);transition:var(--ease)}
+.menu-toggle:hover{background:var(--gray-100)}
+.breadcrumb{font-size:13px;color:var(--gray-400)}
+.breadcrumb span{color:var(--navy);font-weight:600}
+.topbar-right{display:flex;align-items:center;gap:16px}
+.topbar-icon{width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center;color:var(--gray-600);transition:var(--ease);position:relative;cursor:pointer}
+.topbar-icon:hover{background:var(--gray-100);color:var(--navy)}
+.notif-dot{position:absolute;top:8px;right:8px;width:8px;height:8px;border-radius:50%;background:var(--red);border:2px solid var(--white)}
+.topbar-avatar{width:36px;height:36px;border-radius:50%;background:var(--primary);display:flex;align-items:center;justify-content:center;font-family:'Syne',sans-serif;font-weight:700;font-size:14px;color:#fff;cursor:pointer}
+
+/* Content area */
+.content{flex:1;padding:28px 32px 40px;max-width:1200px}
+
+/* ==================== SIDEBAR OVERLAY ==================== */
+.sidebar-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:99}
+
+/* ==================== TABS ==================== */
+.settings-tabs{display:flex;gap:4px;background:var(--white);border-radius:var(--radius);padding:6px;margin-bottom:28px;box-shadow:var(--shadow-sm);border:1px solid var(--gray-200)}
+.settings-tab{display:flex;align-items:center;gap:8px;padding:12px 24px;border-radius:10px;font-size:14px;font-weight:500;color:var(--gray-600);cursor:pointer;transition:var(--ease);position:relative;border:none;background:none;white-space:nowrap}
+.settings-tab i,.settings-tab svg{width:18px;height:18px}
+.settings-tab:hover{color:var(--navy);background:var(--gray-100)}
+.settings-tab.active{color:var(--primary);font-weight:700;background:var(--primary-light)}
+.settings-tab.active::after{content:'';position:absolute;bottom:0;left:16px;right:16px;height:3px;background:var(--primary);border-radius:3px}
+
+.tab-content{display:none}
+.tab-content.active{display:block}
+
+/* ==================== SETTINGS CARDS ==================== */
+.settings-card{background:var(--white);border-radius:var(--radius);box-shadow:var(--shadow-sm);border:1px solid var(--gray-200);margin-bottom:24px;overflow:hidden}
+.settings-card-header{padding:24px 28px;border-bottom:1px solid var(--gray-200);display:flex;align-items:center;justify-content:space-between}
+.settings-card-header h3{font-size:18px;color:var(--navy);display:flex;align-items:center;gap:10px}
+.settings-card-header h3 i{width:20px;height:20px;color:var(--primary)}
+.edit-btn{width:38px;height:38px;border-radius:10px;display:flex;align-items:center;justify-content:center;color:var(--gray-400);transition:var(--ease);cursor:pointer;border:1.5px solid var(--gray-200)}
+.edit-btn:hover{color:var(--primary);border-color:var(--primary);background:var(--primary-light)}
+.edit-btn i{width:16px;height:16px}
+.settings-card-body{padding:28px}
+
+/* ==================== FORM FIELDS ==================== */
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.form-group{margin-bottom:0}
+.form-group.full-width{grid-column:1/-1}
+.form-label{display:block;font-size:13px;font-weight:600;color:var(--navy);margin-bottom:6px}
+.form-label .req{color:var(--red)}
+.form-input{width:100%;height:48px;border-radius:var(--radius);border:1.5px solid var(--gray-200);background:var(--gray-100);padding:12px 16px;font-size:14px;color:var(--navy);transition:var(--ease)}
+.form-input:focus{border-color:var(--primary);box-shadow:var(--focus-ring)}
+.form-input::placeholder{color:var(--gray-400)}
+.form-input[readonly]{background:var(--gray-100);color:var(--gray-600);cursor:default}
+.form-input.editable{background:var(--white);cursor:text}
+select.form-input{appearance:none;-webkit-appearance:none;background-image:url("data:image/svg+xml,%3Csvg width='12' height='8' viewBox='0 0 12 8' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1.5L6 6.5L11 1.5' stroke='%239CA3AF' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 14px center;padding-right:36px;cursor:pointer}
+select.form-input[readonly]{pointer-events:none;opacity:.7}
+
+.partner-id-badge{display:inline-flex;align-items:center;gap:8px;background:var(--primary-light);border:1.5px solid rgba(8,165,227,.2);border-radius:var(--radius);padding:10px 16px;font-size:14px;font-weight:600;color:var(--primary);font-family:'Syne',sans-serif}
+.partner-id-badge i{width:16px;height:16px}
+
+.form-actions{display:flex;align-items:center;gap:16px;margin-top:24px;padding-top:20px;border-top:1px solid var(--gray-200)}
+.btn-primary{height:44px;padding:0 28px;border-radius:var(--radius);background:var(--primary);color:#fff;font-family:'Syne',sans-serif;font-size:14px;font-weight:700;border:none;cursor:pointer;transition:var(--ease);display:inline-flex;align-items:center;gap:8px}
+.btn-primary:hover{background:var(--primary-dark)}
+.btn-outline{height:44px;padding:0 28px;border-radius:var(--radius);background:var(--white);color:var(--navy);font-family:'Syne',sans-serif;font-size:14px;font-weight:600;border:1.5px solid var(--gray-200);cursor:pointer;transition:var(--ease);display:inline-flex;align-items:center;gap:8px}
+.btn-outline:hover{border-color:var(--primary);color:var(--primary)}
+.btn-cancel{font-size:14px;font-weight:600;color:var(--gray-600);cursor:pointer;transition:var(--ease);padding:8px 4px;background:none;border:none}
+.btn-cancel:hover{color:var(--navy)}
+.btn-danger{height:44px;padding:0 28px;border-radius:var(--radius);background:var(--red);color:#fff;font-family:'Syne',sans-serif;font-size:14px;font-weight:700;border:none;cursor:pointer;transition:var(--ease);display:inline-flex;align-items:center;gap:8px}
+.btn-danger:hover{background:#C0392B}
+
+/* ==================== TAB 2: PRODUCTS ==================== */
+.section-heading{margin-bottom:24px}
+.section-heading h2{font-size:22px;color:var(--navy);margin-bottom:4px}
+.section-heading p{font-size:14px;color:var(--gray-600)}
+
+.products-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.product-card{background:var(--white);border-radius:var(--radius);border:1.5px solid var(--gray-200);box-shadow:var(--shadow-sm);padding:24px;transition:var(--ease);position:relative}
+.product-card:hover{box-shadow:var(--shadow-md)}
+.product-card.active-product{border-left:4px solid var(--green)}
+.product-card.inactive-product .product-icon{opacity:.45}
+
+.product-card-top{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:16px}
+.product-icon{width:48px;height:48px;border-radius:var(--radius);display:flex;align-items:center;justify-content:center;color:#fff;flex-shrink:0}
+.product-icon.blue{background:var(--primary)}
+.product-icon.green{background:var(--green)}
+.product-icon.orange{background:var(--orange)}
+.product-icon.purple{background:var(--purple)}
+.product-icon.navy{background:var(--navy)}
+.product-icon.teal{background:var(--teal)}
+.product-icon i{width:22px;height:22px}
+
+.product-status{font-size:11px;font-weight:700;padding:4px 12px;border-radius:var(--radius-pill);font-family:'Syne',sans-serif;text-transform:uppercase;letter-spacing:.04em}
+.product-status.active{background:var(--green-light);color:var(--green)}
+.product-status.inactive{background:var(--gray-100);color:var(--gray-400)}
+
+.product-card h4{font-size:16px;color:var(--navy);margin-bottom:6px}
+.product-card .product-desc{font-size:13px;color:var(--gray-600);line-height:1.6;margin-bottom:14px}
+.product-commission{display:flex;align-items:center;gap:6px;font-size:13px;font-weight:600;color:var(--green);margin-bottom:16px}
+.product-commission i{width:14px;height:14px}
+
+.product-card-footer{display:flex;align-items:center;justify-content:space-between;padding-top:14px;border-top:1px solid var(--gray-100)}
+.product-link{font-size:13px;font-weight:600;color:var(--primary);display:flex;align-items:center;gap:4px;cursor:pointer;transition:var(--ease)}
+.product-link:hover{color:var(--primary-dark)}
+.product-link i{width:14px;height:14px}
+
+/* Toggle Switch */
+.toggle-wrap{display:flex;align-items:center;gap:8px}
+.toggle{position:relative;width:44px;height:24px;cursor:pointer}
+.toggle input{opacity:0;width:0;height:0;position:absolute}
+.toggle-track{position:absolute;inset:0;background:var(--gray-300);border-radius:var(--radius-pill);transition:var(--ease)}
+.toggle-thumb{position:absolute;top:3px;left:3px;width:18px;height:18px;background:#fff;border-radius:50%;box-shadow:0 1px 3px rgba(0,0,0,.15);transition:var(--ease)}
+.toggle input:checked~.toggle-track{background:var(--green)}
+.toggle input:checked~.toggle-thumb{left:23px}
+
+/* ==================== TAB 3: MARKUP ==================== */
+.info-banner{background:var(--orange-light);border-left:4px solid var(--orange);border-radius:0 var(--radius) var(--radius) 0;padding:20px 24px;margin-bottom:28px;display:flex;gap:14px;align-items:flex-start}
+.info-banner-icon{flex-shrink:0;color:var(--orange);margin-top:2px}
+.info-banner-icon i{width:20px;height:20px}
+.info-banner-text{flex:1}
+.info-banner-text p{font-size:13px;color:var(--navy);line-height:1.7}
+.info-banner-text .important-note{color:var(--red);font-weight:700;font-size:13px;margin-top:8px;display:block}
+
+.markup-section-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px}
+.markup-section-header h3{font-size:18px;color:var(--navy)}
+.markup-section-header p{font-size:13px;color:var(--gray-600);margin-top:2px}
+
+.btn-add-markup{height:42px;padding:0 20px;border-radius:var(--radius);background:var(--white);color:var(--primary);font-family:'Syne',sans-serif;font-size:13px;font-weight:700;border:1.5px solid var(--primary);cursor:pointer;transition:var(--ease);display:inline-flex;align-items:center;gap:8px;flex-shrink:0}
+.btn-add-markup:hover{background:var(--primary-light)}
+.btn-add-markup i{width:16px;height:16px}
+
+.markup-rules-list{display:flex;flex-direction:column;gap:12px}
+
+.markup-rule-card{background:var(--white);border-radius:var(--radius);border:1.5px solid var(--gray-200);box-shadow:var(--shadow-sm);padding:20px 24px;display:flex;align-items:center;gap:20px;transition:var(--ease)}
+.markup-rule-card:hover{box-shadow:var(--shadow-md)}
+
+.markup-rule-product{display:flex;align-items:center;gap:12px;min-width:200px}
+.markup-rule-icon{width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.markup-rule-icon.flight{background:var(--primary-light);color:var(--primary)}
+.markup-rule-icon.hotel{background:var(--green-light);color:var(--green)}
+.markup-rule-icon.extra{background:var(--orange-light);color:var(--orange)}
+.markup-rule-icon i{width:18px;height:18px}
+.markup-rule-name{font-size:14px;font-weight:600;color:var(--navy)}
+.markup-rule-route{font-size:12px;color:var(--gray-400);margin-top:2px}
+
+.markup-rule-value{flex:1;display:flex;align-items:center;gap:12px;justify-content:center}
+.markup-type-badge{font-size:11px;font-weight:700;padding:4px 12px;border-radius:var(--radius-pill);text-transform:uppercase;letter-spacing:.04em;font-family:'Syne',sans-serif}
+.markup-type-badge.fixed{background:var(--navy);color:#fff}
+.markup-type-badge.percentage{background:var(--primary-light);color:var(--primary)}
+.markup-amount{font-size:18px;font-weight:800;color:var(--navy);font-family:'Syne',sans-serif}
+.markup-per{font-size:12px;color:var(--gray-400)}
+
+.markup-rule-actions{display:flex;align-items:center;gap:8px;flex-shrink:0}
+.markup-action-btn{width:36px;height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:var(--ease);border:1.5px solid var(--gray-200)}
+.markup-action-btn i{width:16px;height:16px}
+.markup-action-btn.edit-markup{color:var(--gray-400)}
+.markup-action-btn.edit-markup:hover{color:var(--primary);border-color:var(--primary);background:var(--primary-light)}
+.markup-action-btn.delete-markup{color:var(--gray-400)}
+.markup-action-btn.delete-markup:hover{color:var(--red);border-color:var(--red);background:var(--red-light)}
+
+.empty-markup{text-align:center;padding:48px 24px;color:var(--gray-400)}
+.empty-markup i{width:48px;height:48px;margin:0 auto 16px;color:var(--gray-300)}
+.empty-markup p{font-size:14px}
+
+/* ==================== MODAL ==================== */
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:200;display:flex;align-items:center;justify-content:center;padding:20px;opacity:0;pointer-events:none;transition:opacity .3s ease}
+.modal-overlay.open{opacity:1;pointer-events:all}
+.modal{background:var(--white);border-radius:var(--radius-lg);max-width:560px;width:100%;box-shadow:var(--shadow-lg);transform:translateY(20px);transition:transform .3s ease;overflow:hidden;max-height:90vh;overflow-y:auto}
+.modal-overlay.open .modal{transform:translateY(0)}
+.modal-header{padding:28px 28px 0;display:flex;align-items:flex-start;justify-content:space-between}
+.modal-header h2{font-size:20px;color:var(--navy)}
+.modal-close{width:36px;height:36px;border-radius:var(--radius);display:flex;align-items:center;justify-content:center;color:var(--gray-400);cursor:pointer;transition:var(--ease);flex-shrink:0}
+.modal-close:hover{background:var(--gray-100);color:var(--navy)}
+.modal-close i{width:20px;height:20px}
+.modal-body{padding:24px 28px}
+.modal-footer{padding:0 28px 28px;display:flex;align-items:center;justify-content:flex-end;gap:12px}
+
+/* Markup type toggle */
+.markup-type-toggle{display:flex;border-radius:var(--radius);overflow:hidden;border:1.5px solid var(--gray-200)}
+.markup-type-option{flex:1;padding:10px 20px;font-size:13px;font-weight:600;text-align:center;cursor:pointer;transition:var(--ease);color:var(--gray-600);background:var(--white);border:none}
+.markup-type-option.active{background:var(--navy);color:#fff}
+
+.markup-example{background:var(--gray-100);border-radius:var(--radius);padding:14px 18px;margin-top:8px;font-size:13px;color:var(--gray-600);line-height:1.7}
+.markup-example strong{color:var(--navy);font-weight:700}
+
+.modal-field{margin-bottom:18px}
+.modal-field label{display:block;font-size:13px;font-weight:600;color:var(--navy);margin-bottom:6px}
+.modal-field .req{color:var(--red)}
+.modal-input{width:100%;height:48px;border-radius:var(--radius);border:1.5px solid var(--gray-200);background:var(--white);padding:12px 16px;font-size:14px;color:var(--navy);transition:var(--ease)}
+.modal-input:focus{border-color:var(--primary);box-shadow:var(--focus-ring)}
+.modal-input::placeholder{color:var(--gray-400)}
+select.modal-input{appearance:none;-webkit-appearance:none;background-image:url("data:image/svg+xml,%3Csvg width='12' height='8' viewBox='0 0 12 8' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1.5L6 6.5L11 1.5' stroke='%239CA3AF' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 14px center;padding-right:36px;cursor:pointer}
+
+.modal-field-row{display:flex;gap:14px}
+.modal-field-row .modal-field{flex:1}
+
+.value-input-wrap{position:relative}
+.value-input-wrap .value-suffix{position:absolute;right:16px;top:50%;transform:translateY(-50%);font-size:14px;font-weight:600;color:var(--gray-400);pointer-events:none}
+
+/* ==================== CONFIRM DIALOG ==================== */
+.confirm-overlay{position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:250;display:flex;align-items:center;justify-content:center;padding:20px;opacity:0;pointer-events:none;transition:opacity .3s ease}
+.confirm-overlay.open{opacity:1;pointer-events:all}
+.confirm-dialog{background:var(--white);border-radius:var(--radius-lg);max-width:420px;width:100%;box-shadow:var(--shadow-lg);transform:translateY(20px);transition:transform .3s ease;padding:32px;text-align:center}
+.confirm-overlay.open .confirm-dialog{transform:translateY(0)}
+.confirm-icon{width:56px;height:56px;border-radius:50%;background:var(--red-light);color:var(--red);display:flex;align-items:center;justify-content:center;margin:0 auto 20px}
+.confirm-icon i{width:28px;height:28px}
+.confirm-dialog h3{font-size:18px;color:var(--navy);margin-bottom:8px}
+.confirm-dialog p{font-size:14px;color:var(--gray-600);margin-bottom:24px;line-height:1.6}
+.confirm-actions{display:flex;gap:12px;justify-content:center}
+
+/* ==================== TOAST ==================== */
+.toast{position:fixed;bottom:32px;right:32px;background:var(--navy);color:#fff;padding:14px 24px;border-radius:var(--radius);font-size:14px;font-weight:600;display:flex;align-items:center;gap:10px;box-shadow:var(--shadow-lg);z-index:300;transform:translateY(100px);opacity:0;transition:all .35s cubic-bezier(.4,0,.2,1)}
+.toast.show{transform:translateY(0);opacity:1}
+.toast.success{border-left:4px solid var(--green)}
+.toast.error{border-left:4px solid var(--red)}
+.toast i{width:18px;height:18px;flex-shrink:0}
+
+/* ==================== RESPONSIVE ==================== */
+@media(max-width:1024px){
+  .products-grid{grid-template-columns:1fr}
+  .form-grid{grid-template-columns:1fr}
+  .form-group.full-width{grid-column:auto}
+  .markup-rule-card{flex-wrap:wrap;gap:14px}
+  .markup-rule-product{min-width:auto;flex:1}
+  .markup-rule-value{justify-content:flex-start}
+}
+@media(max-width:768px){
+  .sidebar{transform:translateX(-100%)}
+  .sidebar.open{transform:translateX(0)}
+  .sidebar-overlay.open{display:block}
+  .main{margin-left:0}
+  .menu-toggle{display:flex}
+  .topbar{padding:0 16px}
+  .content{padding:20px 16px 32px}
+  .settings-tabs{overflow-x:auto;-webkit-overflow-scrolling:touch;gap:2px;padding:4px}
+  .settings-tab{padding:10px 16px;font-size:13px}
+  .settings-tab span.tab-label-full{display:none}
+  .settings-tab span.tab-label-short{display:inline}
+  .products-grid{grid-template-columns:1fr}
+  .form-grid{grid-template-columns:1fr}
+  .markup-rule-card{flex-direction:column;align-items:flex-start}
+  .markup-rule-value{width:100%}
+  .markup-rule-actions{width:100%;justify-content:flex-end}
+  .markup-section-header{flex-direction:column;gap:12px;align-items:flex-start}
+  .modal{max-width:100%;margin:10px}
+  .modal-field-row{flex-direction:column;gap:0}
+}
+@media(min-width:769px){
+  .settings-tab span.tab-label-short{display:none}
+}
+</style>
+</head>
+<body>
+<div class="app">
+
+<!-- ==================== SIDEBAR ==================== -->
+<aside class="sidebar" id="sidebar">
+  <div class="sidebar-logo"><img src="wakanow-logo-white.svg" alt="Wakanow"></div>
+  <div class="sidebar-user">
+    <div class="user-avatar" id="userAvatar">A</div>
+    <div class="user-info">
+      <div class="user-name" id="sidebarUserName">Partner</div>
+      <div class="user-id" id="sidebarPartnerId">WKB-000000</div>
+    </div>
+  </div>
+  <nav class="sidebar-nav">
+    <div class="nav-section">
+      <div class="nav-section-label">Main</div>
+      <div class="nav-item" onclick="window.location.href='dashboard.html'">
+        <i data-lucide="layout-dashboard"></i> Dashboard
+      </div>
+      <div class="nav-item" onclick="window.location.href='bookings.html'">
+        <i data-lucide="calendar-check"></i> Bookings
+        <span class="nav-badge">3</span>
+      </div>
+      <div class="nav-item" onclick="switchPage('manage-booking')">
+        <i data-lucide="clipboard-list"></i> Manage My Booking
+      </div>
+      <div class="nav-item" onclick="switchPage('products')">
+        <i data-lucide="package"></i> My Products
+      </div>
+      <div class="nav-item" onclick="switchPage('wallet')">
+        <i data-lucide="wallet"></i> Wallet
+      </div>
+    </div>
+    <div class="nav-section">
+      <div class="nav-section-label">Tools</div>
+      <div class="nav-item" onclick="switchPage('reports')">
+        <i data-lucide="bar-chart-3"></i> Reports
+      </div>
+    </div>
+    <div class="nav-section">
+      <div class="nav-section-label">Account</div>
+      <div class="nav-item" onclick="switchPage('profile')">
+        <i data-lucide="user-circle"></i> Profile
+      </div>
+      <div class="nav-item active" onclick="switchPage('settings')">
+        <i data-lucide="settings"></i> Settings
+      </div>
+      <div class="nav-item" onclick="switchPage('support')">
+        <i data-lucide="headphones"></i> Support
+      </div>
+    </div>
+  </nav>
+  <div class="sidebar-footer">
+    <div class="nav-item logout" onclick="handleLogout()">
+      <i data-lucide="log-out"></i> Log Out
+    </div>
+  </div>
+</aside>
+<div class="sidebar-overlay" id="sidebarOverlay" onclick="toggleSidebar()"></div>
+
+<!-- ==================== MAIN ==================== -->
+<div class="main">
+
+  <!-- Top bar -->
+  <header class="topbar">
+    <div class="topbar-left">
+      <button class="menu-toggle" onclick="toggleSidebar()"><i data-lucide="menu"></i></button>
+      <div class="breadcrumb">Wakanow for Business / <span>Settings</span></div>
+    </div>
+    <div class="topbar-right">
+      <div class="topbar-icon"><i data-lucide="search"></i></div>
+      <div class="topbar-icon">
+        <i data-lucide="bell"></i>
+        <div class="notif-dot"></div>
+      </div>
+      <div class="topbar-avatar" id="topbarAvatar">A</div>
+    </div>
+  </header>
+
+  <!-- Content -->
+  <div class="content">
+
+    <!-- Tab Navigation -->
+    <div class="settings-tabs">
+      <button class="settings-tab active" data-tab="personal" onclick="switchTab('personal')">
+        <i data-lucide="user"></i>
+        <span class="tab-label-full">Personal &amp; Agency</span>
+        <span class="tab-label-short">Personal</span>
+      </button>
+      <button class="settings-tab" data-tab="products" onclick="switchTab('products')">
+        <i data-lucide="package"></i>
+        <span class="tab-label-full">Products &amp; Solutions</span>
+        <span class="tab-label-short">Products</span>
+      </button>
+      <button class="settings-tab" data-tab="markup" onclick="switchTab('markup')">
+        <i data-lucide="calculator"></i>
+        <span class="tab-label-full">Markup Settings</span>
+        <span class="tab-label-short">Markup</span>
+      </button>
+    </div>
+
+    <!-- ==================== TAB 1: PERSONAL & AGENCY ==================== -->
+    <div class="tab-content active" id="tab-personal">
+
+      <!-- Personal Details Card -->
+      <div class="settings-card" id="personalCard">
+        <div class="settings-card-header">
+          <h3><i data-lucide="user-circle"></i> Personal Information</h3>
+          <button class="edit-btn" onclick="toggleEdit('personal')" title="Edit personal info"><i data-lucide="pencil"></i></button>
+        </div>
+        <div class="settings-card-body">
+          <div class="form-grid">
+            <div class="form-group">
+              <label class="form-label">First Name</label>
+              <input type="text" class="form-input personal-field" id="firstName" value="Adebayo" readonly>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Last Name</label>
+              <input type="text" class="form-input personal-field" id="lastName" value="Olamide" readonly>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Email Address</label>
+              <input type="email" class="form-input personal-field" id="email" value="adebayo@travelwise.ng" readonly>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Phone Number</label>
+              <input type="tel" class="form-input personal-field" id="phone" value="+234 801 234 5678" readonly>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Gender</label>
+              <select class="form-input personal-field" id="gender" readonly>
+                <option value="Male" selected>Male</option>
+                <option value="Female">Female</option>
+                <option value="Other">Other</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Date of Birth</label>
+              <input type="text" class="form-input personal-field" id="dob" value="15/03/1985" readonly>
+            </div>
+          </div>
+          <div class="form-actions" id="personalActions" style="display:none">
+            <button class="btn-primary" onclick="savePersonal()"><i data-lucide="check"></i> Save Changes</button>
+            <button class="btn-cancel" onclick="cancelEdit('personal')">Cancel</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Agency Details Card -->
+      <div class="settings-card" id="agencyCard">
+        <div class="settings-card-header">
+          <h3><i data-lucide="building-2"></i> Business Information</h3>
+          <button class="edit-btn" onclick="toggleEdit('agency')" title="Edit business info"><i data-lucide="pencil"></i></button>
+        </div>
+        <div class="settings-card-body">
+          <div style="margin-bottom:20px">
+            <label class="form-label" style="margin-bottom:8px">Partner ID</label>
+            <div class="partner-id-badge"><i data-lucide="badge-check"></i> <span id="partnerIdDisplay">WKB-000000</span></div>
+          </div>
+          <div class="form-grid">
+            <div class="form-group">
+              <label class="form-label">Business Name</label>
+              <input type="text" class="form-input agency-field" id="bizName" value="TravelWise Agency" readonly>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Business Type</label>
+              <select class="form-input agency-field" id="bizType" readonly>
+                <option value="Travel Agency" selected>Travel Agency</option>
+                <option value="Tour Operator">Tour Operator</option>
+                <option value="Corporate Travel">Corporate Travel</option>
+                <option value="Freelance Agent">Freelance Agent</option>
+                <option value="Other">Other</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label">RC/BN Number</label>
+              <input type="text" class="form-input agency-field" id="rcNumber" value="RC-2847291" readonly>
+            </div>
+            <div class="form-group full-width">
+              <label class="form-label">Business Address</label>
+              <input type="text" class="form-input agency-field" id="bizAddress" value="14 Admiralty Way, Lekki Phase 1, Lagos" readonly>
+            </div>
+            <div class="form-group">
+              <label class="form-label">State</label>
+              <input type="text" class="form-input agency-field" id="bizState" value="Lagos" readonly>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Country</label>
+              <input type="text" class="form-input agency-field" id="bizCountry" value="Nigeria" readonly>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Estimated Monthly Booking Volume</label>
+              <select class="form-input agency-field" id="bookingVolume" readonly>
+                <option value="1-10">1-10 bookings</option>
+                <option value="10-50">10-50 bookings</option>
+                <option value="50-100" selected>50-100 bookings</option>
+                <option value="100-500">100-500 bookings</option>
+                <option value="500+">500+ bookings</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label">How did you hear about us?</label>
+              <select class="form-input agency-field" id="hearAbout" readonly>
+                <option value="Online Search" selected>Online Search</option>
+                <option value="Social Media">Social Media</option>
+                <option value="Referral">Referral</option>
+                <option value="Event">Event / Conference</option>
+                <option value="Other">Other</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-actions" id="agencyActions" style="display:none">
+            <button class="btn-primary" onclick="saveAgency()"><i data-lucide="check"></i> Save Changes</button>
+            <button class="btn-cancel" onclick="cancelEdit('agency')">Cancel</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==================== TAB 2: PRODUCTS & SOLUTIONS ==================== -->
+    <div class="tab-content" id="tab-products">
+      <div class="section-heading">
+        <h2>Your B2B Solutions</h2>
+        <p>Manage the products and solutions available on your partner account.</p>
+      </div>
+
+      <div class="products-grid">
+        <!-- Flight Booking -->
+        <div class="product-card active-product">
+          <div class="product-card-top">
+            <div class="product-icon blue"><i data-lucide="plane"></i></div>
+            <span class="product-status active">Active</span>
+          </div>
+          <h4>Flight Booking</h4>
+          <p class="product-desc">Search and book domestic &amp; international flights with competitive commissions.</p>
+          <div class="product-commission"><i data-lucide="trending-up"></i> 4.5% per booking</div>
+          <div class="product-card-footer">
+            <span class="product-link">View Details <i data-lucide="arrow-right"></i></span>
+            <label class="toggle">
+              <input type="checkbox" checked data-product="flight" onchange="handleProductToggle(this)">
+              <span class="toggle-track"></span>
+              <span class="toggle-thumb"></span>
+            </label>
+          </div>
+        </div>
+
+        <!-- Hotel Booking -->
+        <div class="product-card active-product">
+          <div class="product-card-top">
+            <div class="product-icon green"><i data-lucide="building"></i></div>
+            <span class="product-status active">Active</span>
+          </div>
+          <h4>Hotel Booking</h4>
+          <p class="product-desc">Book hotels worldwide with access to 180,000+ properties.</p>
+          <div class="product-commission"><i data-lucide="trending-up"></i> 8% per booking</div>
+          <div class="product-card-footer">
+            <span class="product-link">View Details <i data-lucide="arrow-right"></i></span>
+            <label class="toggle">
+              <input type="checkbox" checked data-product="hotel" onchange="handleProductToggle(this)">
+              <span class="toggle-track"></span>
+              <span class="toggle-thumb"></span>
+            </label>
+          </div>
+        </div>
+
+        <!-- Travel Extras -->
+        <div class="product-card active-product">
+          <div class="product-card-top">
+            <div class="product-icon orange"><i data-lucide="compass"></i></div>
+            <span class="product-status active">Active</span>
+          </div>
+          <h4>Travel Extras</h4>
+          <p class="product-desc">Airport transfers, travel insurance, visa assistance and more.</p>
+          <div class="product-commission"><i data-lucide="trending-up"></i> 10% per transaction</div>
+          <div class="product-card-footer">
+            <span class="product-link">View Details <i data-lucide="arrow-right"></i></span>
+            <label class="toggle">
+              <input type="checkbox" checked data-product="extras" onchange="handleProductToggle(this)">
+              <span class="toggle-track"></span>
+              <span class="toggle-thumb"></span>
+            </label>
+          </div>
+        </div>
+
+        <!-- Referral Programme -->
+        <div class="product-card active-product">
+          <div class="product-card-top">
+            <div class="product-icon purple"><i data-lucide="share-2"></i></div>
+            <span class="product-status active">Active</span>
+          </div>
+          <h4>Referral Programme</h4>
+          <p class="product-desc">Earn commission on every booking your referrals make.</p>
+          <div class="product-commission"><i data-lucide="trending-up"></i> 5-10% on referral bookings</div>
+          <div class="product-card-footer">
+            <span class="product-link">View Details <i data-lucide="arrow-right"></i></span>
+            <label class="toggle">
+              <input type="checkbox" checked data-product="referral" onchange="handleProductToggle(this)">
+              <span class="toggle-track"></span>
+              <span class="toggle-thumb"></span>
+            </label>
+          </div>
+        </div>
+
+        <!-- White Label Website -->
+        <div class="product-card inactive-product">
+          <div class="product-card-top">
+            <div class="product-icon navy"><i data-lucide="globe"></i></div>
+            <span class="product-status inactive">Inactive</span>
+          </div>
+          <h4>White Label Website</h4>
+          <p class="product-desc">Launch your own branded travel booking website powered by Wakanow.</p>
+          <div class="product-commission"><i data-lucide="trending-up"></i> Custom markup</div>
+          <div class="product-card-footer">
+            <button class="btn-primary" style="height:36px;padding:0 18px;font-size:12px">Activate</button>
+            <label class="toggle">
+              <input type="checkbox" data-product="whitelabel" onchange="handleProductToggle(this)">
+              <span class="toggle-track"></span>
+              <span class="toggle-thumb"></span>
+            </label>
+          </div>
+        </div>
+
+        <!-- API Partner -->
+        <div class="product-card inactive-product">
+          <div class="product-card-top">
+            <div class="product-icon teal"><i data-lucide="code"></i></div>
+            <span class="product-status inactive">Inactive</span>
+          </div>
+          <h4>API Partner</h4>
+          <p class="product-desc">Direct API access for developers to integrate Wakanow inventory.</p>
+          <div class="product-commission"><i data-lucide="trending-up"></i> Custom</div>
+          <div class="product-card-footer">
+            <button class="btn-outline" style="height:36px;padding:0 18px;font-size:12px">Apply</button>
+            <label class="toggle">
+              <input type="checkbox" data-product="api" onchange="handleProductToggle(this)">
+              <span class="toggle-track"></span>
+              <span class="toggle-thumb"></span>
+            </label>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==================== TAB 3: MARKUP SETTINGS ==================== -->
+    <div class="tab-content" id="tab-markup">
+
+      <!-- Info Banner -->
+      <div class="info-banner">
+        <div class="info-banner-icon"><i data-lucide="info"></i></div>
+        <div class="info-banner-text">
+          <p>Transaction margins are credited to your bank account T+1 (the day after payment). A &#8358;2,000 transaction fee per booking is charged by the payment processor &mdash; factor this into your markup.</p>
+          <span class="important-note">Important: Markup settings only apply to white label customers who have set up their websites.</span>
+        </div>
+      </div>
+
+      <!-- Markup Section -->
+      <div class="markup-section-header">
+        <div>
+          <h3>Default Markup Rules</h3>
+          <p>Add markup to your products. Choose between a fixed amount or percentage for each product and route.</p>
+        </div>
+        <button class="btn-add-markup" onclick="openMarkupModal()"><i data-lucide="plus"></i> Add Markup Rule</button>
+      </div>
+
+      <div class="markup-rules-list" id="markupRulesList">
+        <!-- Rules are rendered by JS -->
+      </div>
+
+    </div>
+
+  </div><!-- /content -->
+</div><!-- /main -->
+</div><!-- /app -->
+
+<!-- ==================== MARKUP MODAL ==================== -->
+<div class="modal-overlay" id="markupModal">
+  <div class="modal">
+    <div class="modal-header">
+      <h2 id="markupModalTitle">Add Markup Rule</h2>
+      <button class="modal-close" onclick="closeMarkupModal()"><i data-lucide="x"></i></button>
+    </div>
+    <div class="modal-body">
+      <div class="modal-field">
+        <label>Product <span class="req">*</span></label>
+        <select class="modal-input" id="markupProduct" onchange="onMarkupProductChange()">
+          <option value="">Select product</option>
+          <option value="Flight">Flight</option>
+          <option value="Hotel">Hotel</option>
+          <option value="Travel Extra">Travel Extra</option>
+          <option value="All Products">All Products</option>
+        </select>
+      </div>
+      <div class="modal-field" id="routeField">
+        <label>Location / Route <span class="req">*</span></label>
+        <select class="modal-input" id="markupRoute">
+          <option value="">Select route</option>
+        </select>
+      </div>
+      <div class="modal-field" id="classField" style="display:none">
+        <label>Class</label>
+        <select class="modal-input" id="markupClass">
+          <option value="All Classes">All Classes</option>
+          <option value="Economy">Economy</option>
+          <option value="Premium Economy">Premium Economy</option>
+          <option value="Business">Business</option>
+          <option value="First Class">First Class</option>
+        </select>
+      </div>
+      <div class="modal-field">
+        <label>Markup Type <span class="req">*</span></label>
+        <div class="markup-type-toggle">
+          <button class="markup-type-option active" data-type="fixed" onclick="setMarkupType('fixed')">Fixed Value</button>
+          <button class="markup-type-option" data-type="percentage" onclick="setMarkupType('percentage')">Percentage %</button>
+        </div>
+      </div>
+      <div class="modal-field-row">
+        <div class="modal-field" id="currencyField">
+          <label>Currency</label>
+          <select class="modal-input" id="markupCurrency">
+            <option value="NGN">NGN</option>
+            <option value="USD">USD</option>
+            <option value="GBP">GBP</option>
+            <option value="EUR">EUR</option>
+          </select>
+        </div>
+        <div class="modal-field">
+          <label>Markup Value <span class="req">*</span></label>
+          <div class="value-input-wrap">
+            <input type="number" class="modal-input" id="markupValue" placeholder="0" min="0" oninput="updateExample()">
+            <span class="value-suffix" id="valueSuffix"></span>
+          </div>
+        </div>
+      </div>
+      <div class="markup-example" id="markupExample">
+        Example: If actual price = &#8358;10,000, and fixed markup = &#8358;0 &rarr; Total price = <strong>&#8358;10,000</strong>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-cancel" onclick="closeMarkupModal()">Cancel</button>
+      <button class="btn-primary" id="markupSaveBtn" onclick="saveMarkupRule()">Save</button>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== CONFIRM DIALOG ==================== -->
+<div class="confirm-overlay" id="confirmDialog">
+  <div class="confirm-dialog">
+    <div class="confirm-icon"><i data-lucide="trash-2"></i></div>
+    <h3>Delete Markup Rule</h3>
+    <p>Are you sure you want to delete this markup rule? This action cannot be undone.</p>
+    <div class="confirm-actions">
+      <button class="btn-outline" onclick="closeConfirmDialog()">Cancel</button>
+      <button class="btn-danger" id="confirmDeleteBtn" onclick="confirmDelete()"><i data-lucide="trash-2"></i> Delete</button>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== TOAST ==================== -->
+<div class="toast" id="toast">
+  <i data-lucide="check-circle"></i>
+  <span id="toastMessage">Changes saved successfully</span>
+</div>
+
+<script>
+/* ==================== STATE ==================== */
+let currentMarkupType = 'fixed';
+let editingRuleIndex = null;
+let deleteRuleIndex = null;
+
+let markupRules = [
+  { product: 'Flight', route: 'Domestic', cls: 'All Classes', type: 'fixed', currency: 'NGN', value: 5000 },
+  { product: 'Flight', route: 'International', cls: 'All Classes', type: 'percentage', currency: 'NGN', value: 3 },
+  { product: 'Hotel', route: 'All', cls: '', type: 'percentage', currency: 'NGN', value: 5 }
+];
+
+/* ==================== INIT ==================== */
+document.addEventListener('DOMContentLoaded', function() {
+  loadPartnerData();
+  renderMarkupRules();
+  lucide.createIcons();
+});
+
+/* ==================== PARTNER DATA ==================== */
+function loadPartnerData() {
+  try {
+    const raw = localStorage.getItem('wk_onboarding');
+    if (raw) {
+      const data = JSON.parse(raw);
+      if (data.firstName) {
+        document.getElementById('firstName').value = data.firstName;
+        document.getElementById('userAvatar').textContent = data.firstName.charAt(0).toUpperCase();
+        document.getElementById('topbarAvatar').textContent = data.firstName.charAt(0).toUpperCase();
+      }
+      if (data.lastName) document.getElementById('lastName').value = data.lastName;
+      if (data.email) document.getElementById('email').value = data.email;
+      if (data.phone) document.getElementById('phone').value = data.phone;
+      if (data.gender) document.getElementById('gender').value = data.gender;
+      if (data.dob) document.getElementById('dob').value = data.dob;
+      if (data.businessName) document.getElementById('bizName').value = data.businessName;
+      if (data.businessType) document.getElementById('bizType').value = data.businessType;
+      if (data.rcNumber) document.getElementById('rcNumber').value = data.rcNumber;
+      if (data.businessAddress) document.getElementById('bizAddress').value = data.businessAddress;
+      if (data.state) document.getElementById('bizState').value = data.state;
+      if (data.country) document.getElementById('bizCountry').value = data.country;
+      if (data.bookingVolume) document.getElementById('bookingVolume').value = data.bookingVolume;
+      if (data.hearAbout) document.getElementById('hearAbout').value = data.hearAbout;
+      const partnerId = data.partnerId || 'WKB-000000';
+      document.getElementById('partnerIdDisplay').textContent = partnerId;
+      document.getElementById('sidebarPartnerId').textContent = partnerId;
+      const name = (data.firstName || 'Partner') + (data.lastName ? ' ' + data.lastName : '');
+      document.getElementById('sidebarUserName').textContent = name;
+    }
+  } catch(e) { /* silently continue with defaults */ }
+}
+
+/* ==================== SIDEBAR ==================== */
+function toggleSidebar() {
+  document.getElementById('sidebar').classList.toggle('open');
+  document.getElementById('sidebarOverlay').classList.toggle('open');
+}
+function switchPage(page) { /* placeholder navigation */ }
+function handleLogout() {
+  if (confirm('Are you sure you want to log out?')) {
+    window.location.href = 'wakanow-b2b.html';
+  }
+}
+
+/* ==================== TABS ==================== */
+function switchTab(tabId) {
+  document.querySelectorAll('.settings-tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+  document.querySelector('[data-tab="' + tabId + '"]').classList.add('active');
+  document.getElementById('tab-' + tabId).classList.add('active');
+  lucide.createIcons();
+}
+
+/* ==================== EDIT MODE ==================== */
+function toggleEdit(section) {
+  const fields = document.querySelectorAll('.' + section + '-field');
+  const actions = document.getElementById(section + 'Actions');
+  const isEditing = !fields[0].readOnly;
+
+  if (isEditing) {
+    cancelEdit(section);
+    return;
+  }
+
+  fields.forEach(f => {
+    f.removeAttribute('readonly');
+    f.classList.add('editable');
+    if (f.tagName === 'SELECT') {
+      f.style.pointerEvents = 'auto';
+      f.style.opacity = '1';
+    }
+  });
+  actions.style.display = 'flex';
+}
+
+function cancelEdit(section) {
+  const fields = document.querySelectorAll('.' + section + '-field');
+  const actions = document.getElementById(section + 'Actions');
+  fields.forEach(f => {
+    f.setAttribute('readonly', true);
+    f.classList.remove('editable');
+    if (f.tagName === 'SELECT') {
+      f.style.pointerEvents = 'none';
+      f.style.opacity = '.7';
+    }
+  });
+  actions.style.display = 'none';
+  loadPartnerData();
+}
+
+function savePersonal() {
+  const data = getStoredData();
+  data.firstName = document.getElementById('firstName').value;
+  data.lastName = document.getElementById('lastName').value;
+  data.email = document.getElementById('email').value;
+  data.phone = document.getElementById('phone').value;
+  data.gender = document.getElementById('gender').value;
+  data.dob = document.getElementById('dob').value;
+  localStorage.setItem('wk_onboarding', JSON.stringify(data));
+  cancelEdit('personal');
+  loadPartnerData();
+  showToast('Personal information saved successfully', 'success');
+}
+
+function saveAgency() {
+  const data = getStoredData();
+  data.businessName = document.getElementById('bizName').value;
+  data.businessType = document.getElementById('bizType').value;
+  data.rcNumber = document.getElementById('rcNumber').value;
+  data.businessAddress = document.getElementById('bizAddress').value;
+  data.state = document.getElementById('bizState').value;
+  data.country = document.getElementById('bizCountry').value;
+  data.bookingVolume = document.getElementById('bookingVolume').value;
+  data.hearAbout = document.getElementById('hearAbout').value;
+  localStorage.setItem('wk_onboarding', JSON.stringify(data));
+  cancelEdit('agency');
+  loadPartnerData();
+  showToast('Business information saved successfully', 'success');
+}
+
+function getStoredData() {
+  try {
+    const raw = localStorage.getItem('wk_onboarding');
+    return raw ? JSON.parse(raw) : {};
+  } catch(e) { return {}; }
+}
+
+/* ==================== PRODUCT TOGGLES ==================== */
+function handleProductToggle(el) {
+  const product = el.dataset.product;
+  const isOn = el.checked;
+  const action = isOn ? 'activate' : 'deactivate';
+  if (!confirm('Are you sure you want to ' + action + ' this product?')) {
+    el.checked = !isOn;
+    return;
+  }
+  showToast('Product ' + action + 'd successfully', 'success');
+}
+
+/* ==================== MARKUP RULES ==================== */
+function renderMarkupRules() {
+  const list = document.getElementById('markupRulesList');
+  if (markupRules.length === 0) {
+    list.innerHTML = '<div class="empty-markup"><i data-lucide="layers"></i><p>No markup rules configured yet. Click "Add Markup Rule" to get started.</p></div>';
+    lucide.createIcons();
+    return;
+  }
+
+  list.innerHTML = markupRules.map(function(rule, i) {
+    const iconClass = rule.product === 'Flight' ? 'flight' : rule.product === 'Hotel' ? 'hotel' : 'extra';
+    const iconName = rule.product === 'Flight' ? 'plane' : rule.product === 'Hotel' ? 'building' : 'compass';
+    const typeBadge = rule.type === 'fixed' ? 'fixed' : 'percentage';
+    const symbol = getCurrencySymbol(rule.currency);
+    const displayValue = rule.type === 'fixed' ? symbol + formatNumber(rule.value) : rule.value + '%';
+
+    return '<div class="markup-rule-card">' +
+      '<div class="markup-rule-product">' +
+        '<div class="markup-rule-icon ' + iconClass + '"><i data-lucide="' + iconName + '"></i></div>' +
+        '<div><div class="markup-rule-name">' + rule.product + '</div>' +
+        '<div class="markup-rule-route">' + rule.route + (rule.cls && rule.cls !== 'All Classes' ? ' &middot; ' + rule.cls : '') + '</div></div>' +
+      '</div>' +
+      '<div class="markup-rule-value">' +
+        '<span class="markup-type-badge ' + typeBadge + '">' + (rule.type === 'fixed' ? 'Fixed' : '%') + '</span>' +
+        '<span class="markup-amount">' + displayValue + '</span>' +
+        '<span class="markup-per">per booking</span>' +
+      '</div>' +
+      '<div class="markup-rule-actions">' +
+        '<button class="markup-action-btn edit-markup" onclick="editMarkupRule(' + i + ')" title="Edit"><i data-lucide="pencil"></i></button>' +
+        '<button class="markup-action-btn delete-markup" onclick="deleteMarkupRule(' + i + ')" title="Delete"><i data-lucide="trash-2"></i></button>' +
+      '</div>' +
+    '</div>';
+  }).join('');
+
+  lucide.createIcons();
+}
+
+function getCurrencySymbol(c) {
+  const map = { NGN: '\u20A6', USD: '$', GBP: '\u00A3', EUR: '\u20AC' };
+  return map[c] || c;
+}
+function formatNumber(n) {
+  return Number(n).toLocaleString();
+}
+
+/* ==================== MARKUP MODAL ==================== */
+function openMarkupModal(index) {
+  editingRuleIndex = typeof index === 'number' ? index : null;
+  const modal = document.getElementById('markupModal');
+  const title = document.getElementById('markupModalTitle');
+  const saveBtn = document.getElementById('markupSaveBtn');
+
+  // Reset form
+  document.getElementById('markupProduct').value = '';
+  document.getElementById('markupRoute').innerHTML = '<option value="">Select route</option>';
+  document.getElementById('markupClass').value = 'All Classes';
+  document.getElementById('markupCurrency').value = 'NGN';
+  document.getElementById('markupValue').value = '';
+  document.getElementById('classField').style.display = 'none';
+  setMarkupType('fixed');
+
+  if (editingRuleIndex !== null) {
+    title.textContent = 'Edit Markup Rule';
+    saveBtn.textContent = 'Update';
+    const rule = markupRules[editingRuleIndex];
+    document.getElementById('markupProduct').value = rule.product;
+    onMarkupProductChange();
+    document.getElementById('markupRoute').value = rule.route;
+    if (rule.cls) document.getElementById('markupClass').value = rule.cls;
+    setMarkupType(rule.type);
+    document.getElementById('markupCurrency').value = rule.currency;
+    document.getElementById('markupValue').value = rule.value;
+    updateExample();
+  } else {
+    title.textContent = 'Add Markup Rule';
+    saveBtn.textContent = 'Save';
+  }
+
+  modal.classList.add('open');
+  lucide.createIcons();
+}
+
+function closeMarkupModal() {
+  document.getElementById('markupModal').classList.remove('open');
+  editingRuleIndex = null;
+}
+
+function onMarkupProductChange() {
+  const product = document.getElementById('markupProduct').value;
+  const routeSelect = document.getElementById('markupRoute');
+  const classField = document.getElementById('classField');
+
+  let routes = [];
+  if (product === 'Flight') {
+    routes = ['Domestic', 'International', 'All'];
+    classField.style.display = 'block';
+  } else if (product === 'Hotel') {
+    routes = ['Lagos', 'Abuja', 'All Locations'];
+    classField.style.display = 'none';
+  } else if (product === 'Travel Extra') {
+    routes = ['All'];
+    classField.style.display = 'none';
+  } else if (product === 'All Products') {
+    routes = ['All'];
+    classField.style.display = 'none';
+  } else {
+    routes = [];
+    classField.style.display = 'none';
+  }
+
+  routeSelect.innerHTML = '<option value="">Select route</option>' +
+    routes.map(function(r) { return '<option value="' + r + '">' + r + '</option>'; }).join('');
+}
+
+function setMarkupType(type) {
+  currentMarkupType = type;
+  document.querySelectorAll('.markup-type-option').forEach(function(b) {
+    b.classList.toggle('active', b.dataset.type === type);
+  });
+  const currencyField = document.getElementById('currencyField');
+  const suffix = document.getElementById('valueSuffix');
+  if (type === 'fixed') {
+    currencyField.style.display = 'block';
+    suffix.textContent = '';
+  } else {
+    currencyField.style.display = 'none';
+    suffix.textContent = '%';
+  }
+  updateExample();
+}
+
+function updateExample() {
+  const val = parseFloat(document.getElementById('markupValue').value) || 0;
+  const currency = document.getElementById('markupCurrency').value;
+  const symbol = getCurrencySymbol(currency);
+  const exampleEl = document.getElementById('markupExample');
+  const base = 10000;
+
+  if (currentMarkupType === 'fixed') {
+    const total = base + val;
+    exampleEl.innerHTML = 'Example: If actual price = ' + symbol + formatNumber(base) +
+      ', and fixed markup = ' + symbol + formatNumber(val) +
+      ' &rarr; Total price = <strong>' + symbol + formatNumber(total) + '</strong>';
+  } else {
+    const markup = base * (val / 100);
+    const total = base + markup;
+    exampleEl.innerHTML = 'Example: If actual price = ' + symbol + formatNumber(base) +
+      ', and ' + val + '% markup &rarr; Total price = <strong>' + symbol + formatNumber(total) + '</strong>';
+  }
+}
+
+function saveMarkupRule() {
+  const product = document.getElementById('markupProduct').value;
+  const route = document.getElementById('markupRoute').value;
+  const cls = document.getElementById('markupClass').value;
+  const currency = document.getElementById('markupCurrency').value;
+  const value = parseFloat(document.getElementById('markupValue').value);
+
+  if (!product) { alert('Please select a product.'); return; }
+  if (!route) { alert('Please select a route.'); return; }
+  if (!value || value <= 0) { alert('Please enter a valid markup value.'); return; }
+
+  const rule = {
+    product: product,
+    route: route,
+    cls: product === 'Flight' ? cls : '',
+    type: currentMarkupType,
+    currency: currency,
+    value: value
+  };
+
+  if (editingRuleIndex !== null) {
+    markupRules[editingRuleIndex] = rule;
+    showToast('Markup rule updated successfully', 'success');
+  } else {
+    markupRules.push(rule);
+    showToast('Markup rule added successfully', 'success');
+  }
+
+  closeMarkupModal();
+  renderMarkupRules();
+}
+
+function editMarkupRule(index) {
+  openMarkupModal(index);
+}
+
+function deleteMarkupRule(index) {
+  deleteRuleIndex = index;
+  document.getElementById('confirmDialog').classList.add('open');
+  lucide.createIcons();
+}
+
+function closeConfirmDialog() {
+  document.getElementById('confirmDialog').classList.remove('open');
+  deleteRuleIndex = null;
+}
+
+function confirmDelete() {
+  if (deleteRuleIndex !== null) {
+    markupRules.splice(deleteRuleIndex, 1);
+    renderMarkupRules();
+    showToast('Markup rule deleted', 'success');
+  }
+  closeConfirmDialog();
+}
+
+/* ==================== TOAST ==================== */
+function showToast(message, type) {
+  const toast = document.getElementById('toast');
+  const msg = document.getElementById('toastMessage');
+  msg.textContent = message;
+  toast.className = 'toast ' + (type || 'success');
+  toast.classList.add('show');
+  setTimeout(function() { toast.classList.remove('show'); }, 3000);
+}
+
+/* ==================== KEYBOARD / MODAL CLOSE ==================== */
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape') {
+    closeMarkupModal();
+    closeConfirmDialog();
+  }
+});
+document.getElementById('markupModal').addEventListener('click', function(e) {
+  if (e.target === this) closeMarkupModal();
+});
+document.getElementById('confirmDialog').addEventListener('click', function(e) {
+  if (e.target === this) closeConfirmDialog();
+});
+</script>
+</body>
+</html>

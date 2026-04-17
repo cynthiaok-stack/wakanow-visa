@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#08A5E3">
+<title>Hub — WakaTribe</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+<script src="wakatribe-tenants.js"></script>
+<script src="wakatribe-lang.js" defer></script>
+<script src="wakaeats-role.js" defer></script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Inter',system-ui,sans-serif;font-size:15px;color:#111827;line-height:1.55;background:#FAFAF5;min-height:100vh;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+h1,h2,h3{font-family:'Inter',sans-serif;font-weight:800;letter-spacing:-.02em;color:#0F172A;line-height:1.15}
+button{cursor:pointer;font-family:inherit;border:none;background:none;color:inherit}
+a{text-decoration:none;color:inherit}
+img,svg{display:block;max-width:100%}
+
+:root{
+  --g-700:#08A5E3;--g-800:#0789BF;--g-100:#E8F6FD;
+  --cream-50:#FAFAF5;--cream-100:#F5F3EE;--cream-200:#E9E6DD;
+  --text:#111827;--muted:#6B7280;--muted-2:#9CA3AF;
+  --border:#E5E4DF;--border-2:#EDEBE4;
+  --ok-700:#27AE60;--ok-100:#E8F8EF;
+}
+
+/* Header */
+.header{background:#fff;border-bottom:1px solid var(--cream-200);padding:calc(env(safe-area-inset-top,0) + 14px) 32px 14px;display:flex;align-items:center;justify-content:space-between;gap:12px;position:sticky;top:0;z-index:10}
+.header-brand{display:flex;align-items:center;gap:10px;cursor:pointer}
+.header-mark{width:38px;height:38px;border-radius:10px;background:linear-gradient(135deg,#39B7E8,#055F89);display:flex;align-items:center;justify-content:center}
+.header-mark i{color:#fff;width:18px;height:18px}
+.header-name{font-size:18px;font-weight:800;color:var(--text);letter-spacing:-.02em}
+.header-sub{font-size:10px;color:var(--muted);letter-spacing:.14em;text-transform:uppercase;font-weight:700;margin-top:1px}
+.header-right{display:flex;align-items:center;gap:10px}
+.tenant-chip{display:flex;align-items:center;gap:8px;padding:6px 12px 6px 6px;background:var(--cream-100);border:1px solid var(--border);border-radius:999px;font-size:13px;font-weight:600;color:var(--text)}
+.tenant-chip .t-logo{width:22px;height:22px;border-radius:6px;font-weight:800;color:#fff;display:flex;align-items:center;justify-content:center;font-size:11px}
+.role-chip{display:flex;align-items:center;gap:8px;padding:8px 14px;background:#fff;border:1px solid var(--border);border-radius:999px;font-size:13px;font-weight:600;color:var(--text);cursor:pointer;transition:.2s}
+.role-chip:hover{border-color:var(--g-700)}
+.role-chip i{width:14px;height:14px;color:var(--muted)}
+.back-link{display:flex;align-items:center;gap:8px;color:var(--muted);font-size:13px;font-weight:500}
+.back-link:hover{color:var(--g-700)}
+.back-link i{width:16px;height:16px}
+
+.wrap{max-width:1200px;margin:0 auto;padding:32px 32px 60px}
+
+.greeting{margin-bottom:36px}
+.greeting .eyebrow{display:inline-flex;align-items:center;gap:6px;color:var(--muted);font-size:13px;font-weight:500;margin-bottom:10px}
+.greeting .eyebrow i{width:14px;height:14px}
+.greeting h1{font-size:40px;font-weight:800;color:var(--text);margin-bottom:6px;letter-spacing:-.03em}
+.greeting p{color:var(--muted);font-size:15px;max-width:540px}
+
+.section-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;gap:14px;flex-wrap:wrap}
+.section-head h2{font-size:18px;font-weight:700}
+.section-head .count{font-size:13px;color:var(--muted)}
+
+/* App grid */
+.apps-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:16px;margin-bottom:40px}
+.app-card{background:#fff;border:1px solid var(--border-2);border-radius:20px;padding:24px;transition:.22s cubic-bezier(.4,0,.2,1);cursor:pointer;position:relative;overflow:hidden}
+.app-card:hover{transform:translateY(-3px);box-shadow:0 16px 36px rgba(15,23,42,.08);border-color:var(--border)}
+.app-card-icon{width:52px;height:52px;border-radius:14px;display:flex;align-items:center;justify-content:center;margin-bottom:14px;position:relative;overflow:hidden}
+.app-card-icon::before{content:'';position:absolute;inset:0;background:radial-gradient(circle at 30% 30%, rgba(255,255,255,.3), transparent 65%)}
+.app-card-icon i{color:#fff;width:24px;height:24px;position:relative;z-index:1}
+.app-card h3{font-size:17px;font-weight:700;margin-bottom:4px}
+.app-card p{color:var(--muted);font-size:13px;margin-bottom:14px;line-height:1.5}
+.app-card-footer{display:flex;align-items:center;justify-content:space-between}
+.app-status{display:inline-flex;align-items:center;gap:6px;padding:3px 10px;border-radius:999px;font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase}
+.app-status.live{background:var(--ok-100);color:#1B7E45}
+.app-status.beta{background:#FEF3C7;color:#78350F}
+.app-status.soon{background:var(--cream-100);color:var(--muted)}
+.app-status i{width:10px;height:10px}
+.app-card-cta{display:inline-flex;align-items:center;gap:4px;font-size:13px;font-weight:600;color:var(--g-700);transition:.2s}
+.app-card:hover .app-card-cta{gap:8px}
+.app-card-cta i{width:14px;height:14px}
+
+/* Locked / no-access */
+.app-card.locked{background:var(--cream-50);cursor:not-allowed;opacity:.65}
+.app-card.locked:hover{transform:none;box-shadow:none}
+.app-card.locked .app-card-icon{filter:grayscale(.4)}
+
+/* Admin dashboard section */
+.admin-section{background:linear-gradient(135deg,#0789BF 0%,#055F89 100%);border-radius:24px;padding:32px;color:#fff;margin-bottom:40px;position:relative;overflow:hidden}
+.admin-section::before{content:'';position:absolute;top:-60px;right:-60px;width:220px;height:220px;border-radius:50%;background:rgba(255,255,255,.08)}
+.admin-section::after{content:'';position:absolute;bottom:-40px;left:40%;width:160px;height:160px;border-radius:50%;background:rgba(255,255,255,.05)}
+.admin-head{display:flex;align-items:flex-start;justify-content:space-between;gap:20px;position:relative;z-index:1;flex-wrap:wrap;margin-bottom:20px}
+.admin-head h2{color:#fff;font-size:22px;margin-bottom:6px}
+.admin-head p{color:rgba(255,255,255,.8);font-size:14px;max-width:420px}
+.admin-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;position:relative;z-index:1;margin-bottom:20px}
+.admin-stat{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.14);border-radius:14px;padding:16px 18px}
+.admin-stat-num{font-family:'Inter',sans-serif;font-weight:800;font-size:26px;color:#fff;line-height:1;letter-spacing:-.02em}
+.admin-stat-lbl{font-size:11px;color:rgba(255,255,255,.7);margin-top:4px;text-transform:uppercase;letter-spacing:.1em;font-weight:700}
+.admin-actions{display:flex;gap:10px;flex-wrap:wrap;position:relative;z-index:1}
+.admin-btn{padding:10px 18px;background:rgba(255,255,255,.15);color:#fff;border:1px solid rgba(255,255,255,.22);border-radius:12px;font-weight:600;font-size:13px;display:inline-flex;align-items:center;gap:8px;transition:.2s}
+.admin-btn:hover{background:rgba(255,255,255,.25)}
+.admin-btn.primary{background:#fff;color:#055F89;border-color:#fff}
+.admin-btn.primary:hover{background:rgba(255,255,255,.92)}
+.admin-btn i{width:14px;height:14px}
+
+/* Recent activity */
+.activity{background:#fff;border:1px solid var(--border-2);border-radius:20px;padding:22px 24px;margin-bottom:40px}
+.activity h3{font-size:16px;font-weight:700;margin-bottom:14px}
+.activity-row{display:flex;align-items:center;gap:14px;padding:12px 0;border-bottom:1px solid var(--cream-100);font-size:13px}
+.activity-row:last-child{border-bottom:none}
+.activity-row .a-icon{width:32px;height:32px;border-radius:9px;background:var(--g-100);color:var(--g-700);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.activity-row .a-icon i{width:14px;height:14px}
+.activity-row .a-text{flex:1;color:var(--text);line-height:1.5}
+.activity-row .a-text strong{font-weight:600}
+.activity-row .a-time{color:var(--muted);font-size:12px;font-weight:500;white-space:nowrap}
+
+@media(max-width:720px){
+  .header{padding-left:20px;padding-right:20px}
+  .wrap{padding:24px 20px 60px}
+  .greeting h1{font-size:30px}
+  .admin-section{padding:24px}
+  .admin-stats{grid-template-columns:1fr 1fr}
+  .admin-head h2{font-size:20px}
+}
+@media(max-width:440px){
+  .header-right .back-link span{display:none}
+  .tenant-chip{padding:5px 10px 5px 5px;font-size:12px}
+  .tenant-chip .t-logo{width:20px;height:20px;font-size:10px}
+}
+</style>
+</head>
+<body>
+
+<header class="header">
+  <a href="wakatribe-hub.html" class="header-brand">
+    <div class="header-mark"><i data-lucide="building-2"></i></div>
+    <div>
+      <div class="header-name">WakaTribe</div>
+      <div class="header-sub">By Wakanow</div>
+    </div>
+  </a>
+  <div class="header-right">
+    <span class="tenant-chip" id="tenantChip">
+      <span class="t-logo">W</span>
+      <span id="tenantName">Wakanow</span>
+    </span>
+    <button class="role-chip" data-role-menu type="button" id="roleChip"><i data-lucide="user"></i> <span id="roleLabel">Staff</span> <i data-lucide="chevron-down"></i></button>
+    <a href="wakatribe-login.html" class="back-link"><i data-lucide="log-out"></i> <span>Sign out</span></a>
+  </div>
+</header>
+
+<div class="wrap">
+
+  <!-- Greeting -->
+  <div class="greeting">
+    <div class="eyebrow"><i data-lucide="calendar"></i> <span id="dateStr">FRIDAY 17 APRIL</span></div>
+    <h1 id="greetLine">Hi, Cynthia 👋</h1>
+    <p id="greetSub">Your apps and tools, all in one place.</p>
+  </div>
+
+  <!-- Admin section (conditional) -->
+  <div class="admin-section" id="adminSection" style="display:none">
+    <div class="admin-head">
+      <div>
+        <h2>Admin overview</h2>
+        <p id="adminSub">Manage staff, subscriptions and dashboards for your business.</p>
+      </div>
+    </div>
+    <div class="admin-stats">
+      <div class="admin-stat"><div class="admin-stat-num" id="statStaff">605</div><div class="admin-stat-lbl">Total staff</div></div>
+      <div class="admin-stat"><div class="admin-stat-num" id="statApps">3</div><div class="admin-stat-lbl">Active apps</div></div>
+      <div class="admin-stat"><div class="admin-stat-num">387</div><div class="admin-stat-lbl">Meals today</div></div>
+      <div class="admin-stat"><div class="admin-stat-num">8</div><div class="admin-stat-lbl">New feedback</div></div>
+    </div>
+    <div class="admin-actions">
+      <a href="wakaeats-dashboard.html" class="admin-btn primary"><i data-lucide="layout-dashboard"></i> WakaEats dashboard</a>
+      <a href="wakaeats-employees.html" class="admin-btn"><i data-lucide="user-plus"></i> Add staff</a>
+      <a href="wakaeats-settings.html" class="admin-btn"><i data-lucide="settings"></i> Settings</a>
+    </div>
+  </div>
+
+  <!-- Your apps -->
+  <div class="section-head">
+    <h2>Your apps</h2>
+    <span class="count" id="appCount">—</span>
+  </div>
+  <div class="apps-grid" id="appsGrid"></div>
+
+  <!-- Recent activity (staff) -->
+  <div class="activity" id="recentActivity" style="display:none">
+    <h3>Recent activity</h3>
+    <div class="activity-row">
+      <div class="a-icon" style="background:#E8F6FD;color:#0789BF"><i data-lucide="utensils"></i></div>
+      <div class="a-text"><strong>Meal scanned</strong> at the cafeteria</div>
+      <span class="a-time">Yesterday 12:41</span>
+    </div>
+    <div class="activity-row">
+      <div class="a-icon" style="background:#E8F8EF;color:#1B7E45"><i data-lucide="message-square"></i></div>
+      <div class="a-text">You left <strong>3-star feedback</strong> on Wednesday's meal</div>
+      <span class="a-time">Wed · 2:10 PM</span>
+    </div>
+    <div class="activity-row">
+      <div class="a-icon" style="background:#FEF3C7;color:#78350F"><i data-lucide="bus"></i></div>
+      <div class="a-text">WakaBus route <strong>Lekki → Office</strong> confirmed for tomorrow</div>
+      <span class="a-time">Wed · 5:30 PM</span>
+    </div>
+  </div>
+
+</div>
+
+<script>
+  lucide.createIcons();
+
+  // Load session
+  const { email, role, tenantId } = WakaTribe.getCurrentUser();
+  const tenant = WakaTribe.getTenantById(tenantId) || WakaTribe.TENANTS[0];
+  const name = (localStorage.getItem('wakatribe.name') || email.split('@')[0].replace(/[^a-z]/gi,' ')).split(' ')[0];
+  const displayName = name.charAt(0).toUpperCase() + name.slice(1);
+
+  // Greet
+  document.getElementById('greetLine').textContent = `Hi, ${displayName} 👋`;
+  document.getElementById('greetSub').textContent = role === 'admin'
+    ? `You're signed in as admin for ${tenant.name}.`
+    : role === 'super-admin'
+      ? 'You have super admin access across all businesses.'
+      : 'Your apps and tools, all in one place.';
+
+  // Tenant chip
+  document.querySelector('#tenantChip .t-logo').textContent = tenant.logo;
+  document.querySelector('#tenantChip .t-logo').style.background = tenant.color;
+  document.getElementById('tenantName').textContent = tenant.name;
+
+  // Role label
+  document.getElementById('roleLabel').textContent =
+    role === 'super-admin' ? 'Super admin' :
+    role === 'admin' ? 'Admin' : 'Staff';
+
+  // Admin section
+  if(role === 'admin' || role === 'super-admin'){
+    document.getElementById('adminSection').style.display = 'block';
+    document.getElementById('statStaff').textContent = tenant.staffCount;
+    document.getElementById('statApps').textContent = tenant.subscriptions.length;
+  } else {
+    document.getElementById('recentActivity').style.display = 'block';
+  }
+
+  // Apps grid — show the apps subscribed by this tenant
+  const grid = document.getElementById('appsGrid');
+  const apps = tenant.subscriptions.map(id => WakaTribe.getAppById(id)).filter(Boolean);
+  const targetUrl = (app) => role === 'admin' || role === 'super-admin' ? app.adminUrl : app.url;
+
+  apps.forEach(app => {
+    const a = document.createElement('a');
+    a.href = app.status === 'coming-soon' ? 'javascript:void(0)' : targetUrl(app);
+    a.className = 'app-card' + (app.status === 'coming-soon' ? ' locked' : '');
+    a.innerHTML = `
+      <div class="app-card-icon" style="background:linear-gradient(135deg,${app.color},${shade(app.color,-20)})">
+        <i data-lucide="${app.icon}"></i>
+      </div>
+      <h3>${app.name}</h3>
+      <p>${app.tagline}</p>
+      <div class="app-card-footer">
+        <span class="app-status ${app.status.replace('-','')}">${app.status === 'live' ? '<i data-lucide="circle-dot"></i> Live' : app.status === 'beta' ? 'Beta' : 'Coming soon'}</span>
+        <span class="app-card-cta">${app.status === 'coming-soon' ? 'Locked' : 'Open'} <i data-lucide="arrow-right"></i></span>
+      </div>
+    `;
+    grid.appendChild(a);
+  });
+
+  // Also show WakaWellness as "locked" if not subscribed
+  const notSubscribed = WakaTribe.APPS.filter(a => !tenant.subscriptions.includes(a.id));
+  notSubscribed.forEach(app => {
+    const div = document.createElement('div');
+    div.className = 'app-card locked';
+    div.innerHTML = `
+      <div class="app-card-icon" style="background:linear-gradient(135deg,${app.color},${shade(app.color,-20)})">
+        <i data-lucide="${app.icon}"></i>
+      </div>
+      <h3>${app.name}</h3>
+      <p>${app.tagline}</p>
+      <div class="app-card-footer">
+        <span class="app-status soon"><i data-lucide="lock"></i> Not subscribed</span>
+        <span class="app-card-cta" style="color:var(--muted)">Contact admin</span>
+      </div>
+    `;
+    grid.appendChild(div);
+  });
+
+  document.getElementById('appCount').textContent = `${apps.length} active · ${notSubscribed.length} locked`;
+
+  function shade(hex, pct){
+    const n = parseInt(hex.slice(1),16), r=(n>>16)&255, g=(n>>8)&255, b=n&255;
+    const t = pct<0?0:255, p = Math.abs(pct)/100;
+    return '#' + [r,g,b].map(c => Math.round((t-c)*p+c).toString(16).padStart(2,'0')).join('');
+  }
+
+  // Date
+  const d = new Date();
+  const days = ['SUNDAY','MONDAY','TUESDAY','WEDNESDAY','THURSDAY','FRIDAY','SATURDAY'];
+  const months = ['JANUARY','FEBRUARY','MARCH','APRIL','MAY','JUNE','JULY','AUGUST','SEPTEMBER','OCTOBER','NOVEMBER','DECEMBER'];
+  document.getElementById('dateStr').textContent = `${days[d.getDay()]} ${d.getDate()} ${months[d.getMonth()]}`;
+
+  lucide.createIcons();
+</script>
+</body>
+</html>

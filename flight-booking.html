@@ -1,0 +1,1114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Book Flight — Wakanow for Business</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+<style>
+:root {
+  --primary: #08A5E3;
+  --primary-hover: #0789BF;
+  --primary-light: #E8F6FD;
+  --navy: #1E3138;
+  --navy-mid: #263238;
+  --green: #27AE60;
+  --green-light: #E8F8EF;
+  --orange: #F58220;
+  --orange-light: #FEF3E8;
+  --red: #E74C3C;
+  --red-light: #FEF2F2;
+  --gray-100: #F2F3F5;
+  --gray-200: #E5E7EB;
+  --gray-400: #9CA3AF;
+  --gray-600: #6B7280;
+  --gray-800: #1F2937;
+  --off-white: #F7F8FA;
+  --white: #FFFFFF;
+  --radius: 12px;
+  --radius-lg: 20px;
+  --radius-pill: 100px;
+  --shadow-sm: 0 1px 4px rgba(0,0,0,.07);
+  --shadow-md: 0 4px 20px rgba(0,0,0,.10);
+  --shadow-lg: 0 12px 40px rgba(0,0,0,.14);
+  --transition: 0.22s cubic-bezier(0.4, 0, 0.2, 1);
+  --font-heading: 'Syne', sans-serif;
+  --font-body: 'DM Sans', sans-serif;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: var(--font-body);
+  background: var(--off-white);
+  color: var(--gray-800);
+  font-size: 15px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ── Top Bar ── */
+.top-bar {
+  position: sticky; top: 0; z-index: 100;
+  background: var(--white);
+  box-shadow: var(--shadow-sm);
+  padding: 0 24px;
+}
+.top-bar-inner {
+  max-width: 1200px; margin: 0 auto;
+  display: flex; align-items: center; justify-content: space-between;
+  height: 64px;
+}
+.top-bar-left { display: flex; align-items: center; gap: 12px; }
+.top-bar-left img { height: 32px; }
+.business-badge {
+  font-family: var(--font-heading); font-weight: 700; font-size: 10px;
+  letter-spacing: 1.2px; text-transform: uppercase;
+  background: var(--navy); color: var(--white);
+  padding: 3px 10px; border-radius: var(--radius-pill);
+}
+.back-link {
+  display: flex; align-items: center; gap: 6px;
+  font-size: 14px; font-weight: 500; color: var(--primary);
+  text-decoration: none; transition: var(--transition);
+}
+.back-link:hover { color: var(--primary-hover); }
+
+/* ── Progress Stepper ── */
+.stepper-wrap {
+  background: var(--white);
+  border-bottom: 1px solid var(--gray-200);
+  padding: 0 24px;
+}
+.stepper {
+  max-width: 600px; margin: 0 auto;
+  display: flex; align-items: center; justify-content: center;
+  padding: 20px 0;
+}
+.step-item { display: flex; align-items: center; gap: 10px; white-space: nowrap; }
+.step-circle {
+  width: 36px; height: 36px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--font-heading); font-weight: 700; font-size: 14px;
+  transition: var(--transition);
+  flex-shrink: 0;
+}
+.step-item.future .step-circle {
+  background: var(--gray-100); color: var(--gray-400); border: 2px solid var(--gray-200);
+}
+.step-item.active .step-circle {
+  background: var(--primary); color: var(--white); border: 2px solid var(--primary);
+  box-shadow: 0 0 0 4px rgba(8,165,227,.18);
+}
+.step-item.completed .step-circle {
+  background: var(--green); color: var(--white); border: 2px solid var(--green);
+}
+.step-label { font-size: 14px; font-weight: 400; color: var(--gray-400); transition: var(--transition); }
+.step-item.active .step-label { font-weight: 600; color: var(--navy); }
+.step-item.completed .step-label { font-weight: 500; color: var(--green); }
+.step-line {
+  width: 60px; height: 3px; border-radius: 2px;
+  background: var(--gray-200); margin: 0 12px;
+  transition: var(--transition); flex-shrink: 0;
+}
+.step-line.done { background: var(--green); }
+
+/* ── Layout ── */
+.container { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+.main-layout {
+  display: flex; gap: 28px;
+  padding-top: 28px; padding-bottom: 60px;
+  align-items: flex-start;
+}
+.main-content { flex: 1; min-width: 0; }
+.sidebar { width: 360px; flex-shrink: 0; position: sticky; top: 100px; }
+
+/* ── Cards ── */
+.card {
+  background: var(--white); border-radius: var(--radius);
+  box-shadow: var(--shadow-md); padding: 28px; margin-bottom: 24px;
+}
+.card-title {
+  font-family: var(--font-heading); font-weight: 700; font-size: 18px;
+  color: var(--navy); margin-bottom: 20px;
+}
+
+/* ── Flight Card ── */
+.flight-card-header {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 20px;
+}
+.airline-info { display: flex; align-items: center; gap: 12px; }
+.airline-logo {
+  width: 44px; height: 44px; background: var(--green-light);
+  border-radius: 10px; display: flex; align-items: center; justify-content: center;
+  font-weight: 700; font-size: 14px; color: var(--green);
+}
+.airline-name { font-weight: 600; color: var(--navy); font-size: 15px; }
+.airline-code { font-size: 13px; color: var(--gray-600); }
+.flight-badge {
+  font-size: 12px; font-weight: 600; padding: 5px 14px;
+  border-radius: var(--radius-pill); background: var(--green-light); color: var(--green);
+}
+.flight-route {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 20px 0; gap: 16px;
+}
+.route-point { text-align: center; }
+.route-time { font-family: var(--font-heading); font-weight: 800; font-size: 28px; color: var(--navy); }
+.route-city { font-size: 13px; color: var(--gray-600); margin-top: 2px; }
+.route-code { font-weight: 600; font-size: 15px; color: var(--navy); }
+.route-middle { flex: 1; text-align: center; position: relative; }
+.route-duration { font-size: 13px; color: var(--gray-600); margin-bottom: 6px; }
+.route-line-wrap { position: relative; height: 2px; background: var(--gray-200); margin: 0 20px; border-radius: 2px; }
+.route-line-wrap::after {
+  content: ''; position: absolute; right: -4px; top: -4px;
+  width: 10px; height: 10px; border-radius: 50%; background: var(--primary);
+}
+.route-line-wrap::before {
+  content: ''; position: absolute; left: -4px; top: -4px;
+  width: 10px; height: 10px; border-radius: 50%; background: var(--primary);
+  opacity: .4;
+}
+.route-type { font-size: 12px; color: var(--primary); font-weight: 600; margin-top: 6px; }
+.flight-meta {
+  display: flex; gap: 24px; padding-top: 16px;
+  border-top: 1px solid var(--gray-100); flex-wrap: wrap;
+}
+.meta-item { display: flex; align-items: center; gap: 6px; font-size: 13px; color: var(--gray-600); }
+
+/* ── Form ── */
+.form-grid {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 16px;
+}
+.form-group { display: flex; flex-direction: column; }
+.form-group.full { grid-column: 1 / -1; }
+.form-label {
+  font-size: 13px; font-weight: 500; color: var(--navy);
+  margin-bottom: 6px;
+}
+.form-label .required { color: var(--red); }
+.form-input, .form-select {
+  height: 52px; border: 1.5px solid var(--gray-200);
+  border-radius: var(--radius); padding: 0 16px;
+  font-family: var(--font-body); font-size: 15px; color: var(--gray-800);
+  background: var(--white); transition: var(--transition);
+  width: 100%; outline: none;
+}
+.form-input:focus, .form-select:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(8,165,227,.12);
+}
+.form-input.error, .form-select.error {
+  border-color: var(--red);
+  box-shadow: 0 0 0 3px rgba(231,76,60,.1);
+}
+.form-error { font-size: 12px; color: var(--red); margin-top: 4px; display: none; }
+.form-group.has-error .form-error { display: block; }
+.form-select { appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='%239CA3AF' viewBox='0 0 16 16'%3E%3Cpath d='M4 6l4 4 4-4'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 14px center; padding-right: 40px; }
+
+/* ── Buttons ── */
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+  font-family: var(--font-body); font-weight: 600; font-size: 15px;
+  padding: 14px 32px; border-radius: var(--radius); border: none;
+  cursor: pointer; transition: var(--transition); text-decoration: none;
+}
+.btn-primary {
+  background: var(--primary); color: var(--white);
+}
+.btn-primary:hover { background: var(--primary-hover); transform: translateY(-1px); box-shadow: var(--shadow-md); }
+.btn-outline {
+  background: transparent; color: var(--primary); border: 1.5px solid var(--primary);
+}
+.btn-outline:hover { background: var(--primary-light); }
+.btn-full { width: 100%; }
+.btn-lg { height: 56px; font-size: 16px; font-weight: 700; }
+.btn:disabled { opacity: .5; cursor: not-allowed; transform: none !important; }
+.step-actions {
+  display: flex; align-items: center; gap: 16px; margin-top: 8px;
+}
+.back-btn {
+  font-size: 14px; font-weight: 500; color: var(--gray-600);
+  text-decoration: none; cursor: pointer; display: flex; align-items: center; gap: 4px;
+  background: none; border: none; font-family: var(--font-body); transition: var(--transition);
+}
+.back-btn:hover { color: var(--primary); }
+
+/* ── Addon Cards ── */
+.addon-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 14px; margin-bottom: 24px; }
+.addon-card {
+  border: 1.5px solid var(--gray-200); border-radius: var(--radius);
+  padding: 18px; cursor: pointer; transition: var(--transition);
+  position: relative; text-align: center;
+}
+.addon-card:hover { border-color: var(--primary); }
+.addon-card.selected { border-color: var(--primary); background: var(--primary-light); }
+.addon-card .addon-icon { margin-bottom: 8px; color: var(--gray-600); }
+.addon-card.selected .addon-icon { color: var(--primary); }
+.addon-card .addon-name { font-weight: 600; font-size: 14px; color: var(--navy); margin-bottom: 4px; }
+.addon-card .addon-desc { font-size: 12px; color: var(--gray-600); margin-bottom: 8px; }
+.addon-card .addon-price { font-family: var(--font-heading); font-weight: 700; font-size: 16px; color: var(--navy); }
+.addon-card .addon-price.free { color: var(--green); }
+.addon-card .check-mark {
+  position: absolute; top: 10px; right: 10px;
+  width: 22px; height: 22px; border-radius: 50%;
+  background: var(--primary); color: var(--white);
+  display: none; align-items: center; justify-content: center;
+}
+.addon-card.selected .check-mark { display: flex; }
+
+/* ── Insurance Cards ── */
+.insurance-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-bottom: 24px; }
+.insurance-card {
+  border: 1.5px solid var(--gray-200); border-radius: var(--radius);
+  padding: 20px; cursor: pointer; transition: var(--transition);
+  position: relative;
+}
+.insurance-card:hover { border-color: var(--primary); }
+.insurance-card.selected { border-color: var(--primary); background: var(--primary-light); }
+.insurance-card .ins-tag {
+  font-size: 11px; font-weight: 600; text-transform: uppercase;
+  letter-spacing: .8px; padding: 3px 10px; border-radius: var(--radius-pill);
+  display: inline-block; margin-bottom: 10px;
+}
+.insurance-card:nth-child(1) .ins-tag { background: var(--gray-100); color: var(--gray-600); }
+.insurance-card:nth-child(2) .ins-tag { background: var(--primary-light); color: var(--primary); }
+.insurance-card:nth-child(3) .ins-tag { background: var(--orange-light); color: var(--orange); }
+.insurance-card .ins-name { font-weight: 600; font-size: 15px; color: var(--navy); margin-bottom: 4px; }
+.insurance-card .ins-desc { font-size: 12px; color: var(--gray-600); margin-bottom: 12px; line-height: 1.5; }
+.insurance-card .ins-price { font-family: var(--font-heading); font-weight: 700; font-size: 18px; color: var(--navy); }
+.insurance-card .ins-price.free { color: var(--green); }
+
+/* ── Meal Dropdown ── */
+.meal-section .form-group { max-width: 400px; }
+
+/* ── Payment ── */
+.payment-tabs {
+  display: flex; gap: 0; border-bottom: 2px solid var(--gray-200); margin-bottom: 24px;
+}
+.pay-tab {
+  flex: 1; text-align: center; padding: 14px 0; font-weight: 600; font-size: 14px;
+  color: var(--gray-400); cursor: pointer; border-bottom: 3px solid transparent;
+  margin-bottom: -2px; transition: var(--transition); background: none; border-top: none; border-left: none; border-right: none;
+  font-family: var(--font-body);
+}
+.pay-tab.active { color: var(--primary); border-bottom-color: var(--primary); }
+.pay-tab-content { display: none; }
+.pay-tab-content.active { display: block; }
+.card-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.checkbox-row {
+  display: flex; align-items: flex-start; gap: 10px; margin-top: 16px; margin-bottom: 4px;
+}
+.checkbox-row input[type="checkbox"] {
+  width: 20px; height: 20px; accent-color: var(--primary);
+  margin-top: 2px; flex-shrink: 0;
+}
+.checkbox-row label { font-size: 14px; color: var(--gray-600); cursor: pointer; line-height: 1.5; }
+.security-badges {
+  display: flex; align-items: center; gap: 16px; justify-content: center;
+  margin-top: 16px; flex-wrap: wrap;
+}
+.sec-badge {
+  display: flex; align-items: center; gap: 6px;
+  font-size: 13px; color: var(--gray-600);
+}
+.bank-detail-box {
+  background: var(--gray-100); border-radius: var(--radius);
+  padding: 20px; margin-bottom: 20px;
+}
+.bank-detail-row {
+  display: flex; justify-content: space-between; padding: 8px 0;
+  font-size: 14px;
+}
+.bank-detail-row:not(:last-child) { border-bottom: 1px solid var(--gray-200); }
+.bank-detail-row .bd-label { color: var(--gray-600); }
+.bank-detail-row .bd-value { font-weight: 600; color: var(--navy); }
+.upload-btn {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 12px 24px; border: 1.5px dashed var(--gray-400);
+  border-radius: var(--radius); background: var(--gray-100);
+  font-size: 14px; color: var(--gray-600); cursor: pointer;
+  transition: var(--transition); font-family: var(--font-body);
+}
+.upload-btn:hover { border-color: var(--primary); color: var(--primary); background: var(--primary-light); }
+.terms-box { margin-top: 24px; margin-bottom: 24px; }
+.trust-text {
+  text-align: center; font-size: 13px; color: var(--gray-400);
+  display: flex; align-items: center; justify-content: center; gap: 6px; margin-top: 14px;
+}
+
+/* ── Sidebar ── */
+.sidebar-card {
+  background: var(--white); border-radius: var(--radius);
+  box-shadow: var(--shadow-md); padding: 24px;
+}
+.sidebar-card .sidebar-title {
+  font-family: var(--font-heading); font-weight: 700; font-size: 17px;
+  color: var(--navy); margin-bottom: 18px;
+}
+.trip-flight { display: flex; align-items: center; gap: 10px; margin-bottom: 14px; }
+.trip-airline-icon {
+  width: 36px; height: 36px; border-radius: 8px;
+  background: var(--green-light); display: flex; align-items: center; justify-content: center;
+  font-weight: 700; font-size: 12px; color: var(--green);
+}
+.trip-flight-info .trip-fl-name { font-weight: 600; font-size: 14px; color: var(--navy); }
+.trip-flight-info .trip-fl-code { font-size: 12px; color: var(--gray-600); }
+.trip-route-row {
+  display: flex; align-items: center; gap: 8px;
+  font-size: 14px; color: var(--navy); font-weight: 500; margin-bottom: 6px;
+}
+.trip-route-row .arrow { color: var(--gray-400); }
+.trip-meta-row { font-size: 13px; color: var(--gray-600); margin-bottom: 4px; }
+.sidebar-divider { height: 1px; background: var(--gray-200); margin: 18px 0; }
+.price-row {
+  display: flex; justify-content: space-between; align-items: center;
+  font-size: 14px; color: var(--gray-600); padding: 5px 0;
+}
+.price-row .price-val { font-weight: 500; color: var(--gray-800); }
+.price-total {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 6px 0;
+}
+.price-total .total-label { font-family: var(--font-heading); font-weight: 700; font-size: 16px; color: var(--navy); }
+.price-total .total-val { font-family: var(--font-heading); font-weight: 800; font-size: 22px; color: var(--navy); }
+.commission-row {
+  display: flex; align-items: center; gap: 6px;
+  font-size: 13px; color: var(--green); font-weight: 600;
+  background: var(--green-light); padding: 8px 14px; border-radius: var(--radius-pill);
+  margin-top: 14px;
+}
+.help-link {
+  display: block; text-align: center; margin-top: 18px;
+  font-size: 13px; color: var(--primary); text-decoration: none; font-weight: 500;
+}
+.help-link:hover { text-decoration: underline; }
+.sidebar-addons { margin-top: 4px; }
+.sidebar-addons .price-row { font-size: 13px; }
+
+/* ── Confirmation ── */
+.confirmation-wrap {
+  max-width: 640px; margin: 0 auto; text-align: center; padding: 40px 0 60px;
+}
+.success-circle {
+  width: 100px; height: 100px; border-radius: 50%;
+  background: var(--green-light); margin: 0 auto 24px;
+  display: flex; align-items: center; justify-content: center;
+  animation: popIn .5s var(--transition);
+}
+@keyframes popIn {
+  0% { transform: scale(0); opacity: 0; }
+  70% { transform: scale(1.15); }
+  100% { transform: scale(1); opacity: 1; }
+}
+.success-circle i { color: var(--green); }
+.confirm-heading {
+  font-family: var(--font-heading); font-weight: 800; font-size: 30px;
+  color: var(--navy); margin-bottom: 8px;
+}
+.confirm-ref {
+  font-size: 15px; color: var(--gray-600); margin-bottom: 28px;
+}
+.confirm-ref strong { color: var(--navy); }
+.confirm-flight-card {
+  background: var(--gray-100); border-radius: var(--radius);
+  padding: 24px; text-align: left; margin-bottom: 20px;
+}
+.confirm-flight-card .cfc-row {
+  display: flex; justify-content: space-between; padding: 6px 0;
+  font-size: 14px; color: var(--gray-600);
+}
+.confirm-flight-card .cfc-row .cfc-val { font-weight: 600; color: var(--navy); }
+.email-notice {
+  font-size: 14px; color: var(--gray-600); margin-bottom: 28px;
+  display: flex; align-items: center; justify-content: center; gap: 8px;
+}
+.confirm-actions { display: flex; justify-content: center; gap: 14px; flex-wrap: wrap; }
+
+/* ── Spinner ── */
+.spinner-overlay {
+  display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(255,255,255,.85); z-index: 200;
+  align-items: center; justify-content: center; flex-direction: column; gap: 16px;
+}
+.spinner-overlay.active { display: flex; }
+.spinner {
+  width: 48px; height: 48px; border: 4px solid var(--gray-200);
+  border-top-color: var(--primary); border-radius: 50%;
+  animation: spin .8s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+.spinner-text { font-size: 16px; font-weight: 600; color: var(--navy); }
+
+/* ── Step Content ── */
+.step-content { display: none; }
+.step-content.active { display: block; }
+
+/* ── Responsive ── */
+@media (max-width: 900px) {
+  .main-layout { flex-direction: column; }
+  .sidebar { width: 100%; position: static; order: -1; }
+  .form-grid { grid-template-columns: 1fr; }
+  .insurance-grid { grid-template-columns: 1fr; }
+  .addon-grid { grid-template-columns: 1fr 1fr; }
+  .flight-route { flex-direction: column; gap: 10px; }
+  .route-middle { width: 100%; }
+  .card-row { grid-template-columns: 1fr; }
+  .stepper { gap: 0; }
+  .step-label { font-size: 12px; }
+  .step-line { width: 30px; margin: 0 6px; }
+}
+@media (max-width: 500px) {
+  .addon-grid { grid-template-columns: 1fr; }
+  .confirm-actions { flex-direction: column; }
+  .confirm-actions .btn { width: 100%; }
+}
+</style>
+</head>
+<body>
+
+<!-- Top Bar -->
+<header class="top-bar">
+  <div class="top-bar-inner">
+    <div class="top-bar-left">
+      <img src="wakanow-logo.svg" alt="Wakanow">
+      <span class="business-badge">FOR BUSINESS</span>
+    </div>
+    <a href="dashboard.html" class="back-link">
+      <i data-lucide="arrow-left" style="width:16px;height:16px"></i> Back to Results
+    </a>
+  </div>
+</header>
+
+<!-- Progress Stepper -->
+<div class="stepper-wrap" id="stepperWrap">
+  <div class="stepper">
+    <div class="step-item active" data-step="1">
+      <div class="step-circle">1</div>
+      <span class="step-label">Review Flight</span>
+    </div>
+    <div class="step-line" id="line1"></div>
+    <div class="step-item future" data-step="2">
+      <div class="step-circle">2</div>
+      <span class="step-label">Add-ons</span>
+    </div>
+    <div class="step-line" id="line2"></div>
+    <div class="step-item future" data-step="3">
+      <div class="step-circle">3</div>
+      <span class="step-label">Payment</span>
+    </div>
+  </div>
+</div>
+
+<!-- Main Layout -->
+<div class="container">
+  <div class="main-layout" id="mainLayout">
+
+    <!-- Main Content -->
+    <div class="main-content">
+
+      <!-- STEP 1 -->
+      <div class="step-content active" id="step1">
+        <div class="card">
+          <div class="flight-card-header">
+            <div class="airline-info">
+              <div class="airline-logo">AP</div>
+              <div>
+                <div class="airline-name">Air Peace</div>
+                <div class="airline-code">AP 204</div>
+              </div>
+            </div>
+            <span class="flight-badge">Direct Flight</span>
+          </div>
+          <div class="flight-route">
+            <div class="route-point">
+              <div class="route-time">08:30</div>
+              <div class="route-code">LOS</div>
+              <div class="route-city">Lagos, Nigeria</div>
+            </div>
+            <div class="route-middle">
+              <div class="route-duration">6h 15m</div>
+              <div class="route-line-wrap"></div>
+              <div class="route-type">Direct</div>
+            </div>
+            <div class="route-point">
+              <div class="route-time">14:45</div>
+              <div class="route-code">LHR</div>
+              <div class="route-city">London, UK</div>
+            </div>
+          </div>
+          <div class="flight-meta">
+            <div class="meta-item"><i data-lucide="calendar" style="width:15px;height:15px"></i> Fri, 17 Apr 2026</div>
+            <div class="meta-item"><i data-lucide="plane" style="width:15px;height:15px"></i> Boeing 787</div>
+            <div class="meta-item"><i data-lucide="briefcase" style="width:15px;height:15px"></i> Economy</div>
+            <div class="meta-item"><i data-lucide="luggage" style="width:15px;height:15px"></i> 23kg checked bag</div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-title">Passenger Details</div>
+          <div class="form-grid" id="passengerForm">
+            <div class="form-group">
+              <label class="form-label">Title <span class="required">*</span></label>
+              <select class="form-select" id="pTitle" required>
+                <option value="">Select</option>
+                <option>Mr</option><option>Mrs</option><option>Miss</option><option>Dr</option>
+              </select>
+              <span class="form-error">Please select a title</span>
+            </div>
+            <div class="form-group">
+              <label class="form-label">First Name <span class="required">*</span></label>
+              <input type="text" class="form-input" id="pFirstName" placeholder="e.g. Adaeze" required>
+              <span class="form-error">First name is required</span>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Last Name <span class="required">*</span></label>
+              <input type="text" class="form-input" id="pLastName" placeholder="e.g. Okafor" required>
+              <span class="form-error">Last name is required</span>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Email Address <span class="required">*</span></label>
+              <input type="email" class="form-input" id="pEmail" placeholder="email@example.com" required>
+              <span class="form-error">Valid email is required</span>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Phone Number <span class="required">*</span></label>
+              <input type="tel" class="form-input" id="pPhone" placeholder="+234 800 000 0000" required>
+              <span class="form-error">Phone number is required</span>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Date of Birth <span class="required">*</span></label>
+              <input type="text" class="form-input" id="pDOB" placeholder="DD/MM/YYYY" required maxlength="10">
+              <span class="form-error">Date of birth is required</span>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Passport Number <span class="required">*</span></label>
+              <input type="text" class="form-input" id="pPassport" placeholder="A12345678" required>
+              <span class="form-error">Passport number is required</span>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Passport Expiry Date <span class="required">*</span></label>
+              <input type="text" class="form-input" id="pPassportExp" placeholder="DD/MM/YYYY" required maxlength="10">
+              <span class="form-error">Passport expiry date is required</span>
+            </div>
+            <div class="form-group full">
+              <label class="form-label">Nationality <span class="required">*</span></label>
+              <select class="form-select" id="pNationality" required>
+                <option value="">Select nationality</option>
+                <option>Nigerian</option><option>Ghanaian</option><option>Kenyan</option>
+                <option>South African</option><option>British</option><option>American</option>
+                <option>Canadian</option><option>Indian</option><option>Other</option>
+              </select>
+              <span class="form-error">Please select nationality</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="step-actions">
+          <button class="btn btn-primary btn-lg" onclick="goToStep(2)">
+            Continue to Add-ons <i data-lucide="arrow-right" style="width:18px;height:18px"></i>
+          </button>
+        </div>
+      </div>
+
+      <!-- STEP 2 -->
+      <div class="step-content" id="step2">
+        <div class="card">
+          <div class="card-title"><i data-lucide="luggage" style="width:20px;height:20px;vertical-align:middle;margin-right:6px"></i> Extra Baggage</div>
+          <div class="addon-grid" id="baggageGrid">
+            <div class="addon-card selected" data-group="baggage" data-price="0" onclick="selectAddon(this,'baggage')">
+              <div class="check-mark"><i data-lucide="check" style="width:14px;height:14px"></i></div>
+              <div class="addon-icon"><i data-lucide="package" style="width:28px;height:28px"></i></div>
+              <div class="addon-name">No Extra Bag</div>
+              <div class="addon-desc">23kg included</div>
+              <div class="addon-price free">Free</div>
+            </div>
+            <div class="addon-card" data-group="baggage" data-price="25000" onclick="selectAddon(this,'baggage')">
+              <div class="check-mark"><i data-lucide="check" style="width:14px;height:14px"></i></div>
+              <div class="addon-icon"><i data-lucide="package-plus" style="width:28px;height:28px"></i></div>
+              <div class="addon-name">+15kg</div>
+              <div class="addon-desc">Extra checked bag</div>
+              <div class="addon-price">&#8358;25,000</div>
+            </div>
+            <div class="addon-card" data-group="baggage" data-price="38000" onclick="selectAddon(this,'baggage')">
+              <div class="check-mark"><i data-lucide="check" style="width:14px;height:14px"></i></div>
+              <div class="addon-icon"><i data-lucide="package-plus" style="width:28px;height:28px"></i></div>
+              <div class="addon-name">+23kg</div>
+              <div class="addon-desc">Extra checked bag</div>
+              <div class="addon-price">&#8358;38,000</div>
+            </div>
+            <div class="addon-card" data-group="baggage" data-price="52000" onclick="selectAddon(this,'baggage')">
+              <div class="check-mark"><i data-lucide="check" style="width:14px;height:14px"></i></div>
+              <div class="addon-icon"><i data-lucide="package-plus" style="width:28px;height:28px"></i></div>
+              <div class="addon-name">+32kg</div>
+              <div class="addon-desc">Extra checked bag</div>
+              <div class="addon-price">&#8358;52,000</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-title"><i data-lucide="armchair" style="width:20px;height:20px;vertical-align:middle;margin-right:6px"></i> Seat Selection</div>
+          <div class="addon-grid" id="seatGrid">
+            <div class="addon-card selected" data-group="seat" data-price="0" onclick="selectAddon(this,'seat')">
+              <div class="check-mark"><i data-lucide="check" style="width:14px;height:14px"></i></div>
+              <div class="addon-icon"><i data-lucide="armchair" style="width:28px;height:28px"></i></div>
+              <div class="addon-name">Standard</div>
+              <div class="addon-desc">Auto-assigned seat</div>
+              <div class="addon-price free">Free</div>
+            </div>
+            <div class="addon-card" data-group="seat" data-price="18000" onclick="selectAddon(this,'seat')">
+              <div class="check-mark"><i data-lucide="check" style="width:14px;height:14px"></i></div>
+              <div class="addon-icon"><i data-lucide="move-horizontal" style="width:28px;height:28px"></i></div>
+              <div class="addon-name">Extra Legroom</div>
+              <div class="addon-desc">More space to stretch</div>
+              <div class="addon-price">&#8358;18,000</div>
+            </div>
+            <div class="addon-card" data-group="seat" data-price="35000" onclick="selectAddon(this,'seat')">
+              <div class="check-mark"><i data-lucide="check" style="width:14px;height:14px"></i></div>
+              <div class="addon-icon"><i data-lucide="crown" style="width:28px;height:28px"></i></div>
+              <div class="addon-name">Premium</div>
+              <div class="addon-desc">Front cabin, priority board</div>
+              <div class="addon-price">&#8358;35,000</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-title"><i data-lucide="shield-check" style="width:20px;height:20px;vertical-align:middle;margin-right:6px"></i> Travel Insurance</div>
+          <div class="insurance-grid" id="insuranceGrid">
+            <div class="insurance-card selected" data-group="insurance" data-price="0" onclick="selectAddon(this,'insurance')">
+              <span class="ins-tag">Optional</span>
+              <div class="ins-name">No Insurance</div>
+              <div class="ins-desc">Travel at your own risk</div>
+              <div class="ins-price free">Free</div>
+            </div>
+            <div class="insurance-card" data-group="insurance" data-price="8500" onclick="selectAddon(this,'insurance')">
+              <span class="ins-tag">Basic</span>
+              <div class="ins-name">Basic Cover</div>
+              <div class="ins-desc">Cancellation protection + medical emergency up to &#8358;5M</div>
+              <div class="ins-price">&#8358;8,500</div>
+            </div>
+            <div class="insurance-card" data-group="insurance" data-price="15000" onclick="selectAddon(this,'insurance')">
+              <span class="ins-tag">Premium</span>
+              <div class="ins-name">Full Cover</div>
+              <div class="ins-desc">Everything in Basic + baggage loss, delay compensation, &#8358;15M medical</div>
+              <div class="ins-price">&#8358;15,000</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card meal-section">
+          <div class="card-title"><i data-lucide="utensils" style="width:20px;height:20px;vertical-align:middle;margin-right:6px"></i> Meal Preference</div>
+          <div class="form-group">
+            <label class="form-label">Select your meal preference</label>
+            <select class="form-select" id="mealPref">
+              <option value="none">No preference</option>
+              <option value="vegetarian">Vegetarian</option>
+              <option value="halal">Halal</option>
+              <option value="kosher">Kosher</option>
+              <option value="gluten-free">Gluten-free</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="step-actions">
+          <button class="back-btn" onclick="goToStep(1)">
+            <i data-lucide="arrow-left" style="width:16px;height:16px"></i> Back
+          </button>
+          <button class="btn btn-primary btn-lg" onclick="goToStep(3)">
+            Continue to Payment <i data-lucide="arrow-right" style="width:18px;height:18px"></i>
+          </button>
+        </div>
+      </div>
+
+      <!-- STEP 3 -->
+      <div class="step-content" id="step3">
+        <div class="card">
+          <div class="card-title"><i data-lucide="credit-card" style="width:20px;height:20px;vertical-align:middle;margin-right:6px"></i> Payment Method</div>
+          <div class="payment-tabs">
+            <button class="pay-tab active" onclick="switchPayTab('card')">Card Payment</button>
+            <button class="pay-tab" onclick="switchPayTab('bank')">Bank Transfer</button>
+          </div>
+
+          <!-- Card Payment -->
+          <div class="pay-tab-content active" id="tabCard">
+            <div class="form-grid">
+              <div class="form-group full">
+                <label class="form-label">Card Number <span class="required">*</span></label>
+                <input type="text" class="form-input" id="cardNumber" placeholder="0000  0000  0000  0000" maxlength="19">
+                <span class="form-error">Valid card number is required</span>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Expiry Date <span class="required">*</span></label>
+                <input type="text" class="form-input" id="cardExpiry" placeholder="MM/YY" maxlength="5">
+                <span class="form-error">Expiry date is required</span>
+              </div>
+              <div class="form-group">
+                <label class="form-label">CVV <span class="required">*</span></label>
+                <input type="text" class="form-input" id="cardCVV" placeholder="123" maxlength="4">
+                <span class="form-error">CVV is required</span>
+              </div>
+              <div class="form-group full">
+                <label class="form-label">Cardholder Name <span class="required">*</span></label>
+                <input type="text" class="form-input" id="cardName" placeholder="Name on card">
+                <span class="form-error">Cardholder name is required</span>
+              </div>
+            </div>
+            <div class="checkbox-row">
+              <input type="checkbox" id="saveCard">
+              <label for="saveCard">Save card for future bookings</label>
+            </div>
+            <div class="security-badges">
+              <div class="sec-badge"><i data-lucide="lock" style="width:15px;height:15px"></i> SSL Secured</div>
+              <div class="sec-badge">Visa</div>
+              <div class="sec-badge">Mastercard</div>
+              <div class="sec-badge">Verve</div>
+            </div>
+          </div>
+
+          <!-- Bank Transfer -->
+          <div class="pay-tab-content" id="tabBank">
+            <div class="bank-detail-box">
+              <div class="bank-detail-row">
+                <span class="bd-label">Bank Name</span>
+                <span class="bd-value">Guaranty Trust Bank (GTB)</span>
+              </div>
+              <div class="bank-detail-row">
+                <span class="bd-label">Account Number</span>
+                <span class="bd-value">0123456789</span>
+              </div>
+              <div class="bank-detail-row">
+                <span class="bd-label">Account Name</span>
+                <span class="bd-value">Wakanow Travel Ltd</span>
+              </div>
+            </div>
+            <div class="checkbox-row">
+              <input type="checkbox" id="transferDone">
+              <label for="transferDone">I have made this transfer</label>
+            </div>
+            <div style="margin-top:16px;">
+              <button class="upload-btn" onclick="document.getElementById('proofUpload').click()">
+                <i data-lucide="upload" style="width:16px;height:16px"></i> Upload proof of payment
+              </button>
+              <input type="file" id="proofUpload" hidden accept="image/*,.pdf">
+              <span id="uploadFileName" style="font-size:13px;color:var(--gray-600);margin-left:10px;"></span>
+            </div>
+          </div>
+        </div>
+
+        <div class="terms-box">
+          <div class="checkbox-row">
+            <input type="checkbox" id="agreeTerms">
+            <label for="agreeTerms">I agree to the <a href="#" style="color:var(--primary)">booking terms</a> and <a href="#" style="color:var(--primary)">cancellation policy</a></label>
+          </div>
+        </div>
+
+        <div class="step-actions" style="flex-direction:column;gap:0;">
+          <button class="btn btn-primary btn-lg btn-full" id="payBtn" onclick="processPayment()">
+            <i data-lucide="lock" style="width:18px;height:18px"></i> Pay &#8358;<span id="payBtnAmount">427,500</span>
+          </button>
+          <div class="trust-text"><i data-lucide="shield-check" style="width:15px;height:15px"></i> Your payment is secured with 256-bit SSL encryption</div>
+          <button class="back-btn" style="margin-top:14px;align-self:center;" onclick="goToStep(2)">
+            <i data-lucide="arrow-left" style="width:16px;height:16px"></i> Back to Add-ons
+          </button>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Sidebar -->
+    <div class="sidebar" id="sidebarCol">
+      <div class="sidebar-card">
+        <div class="sidebar-title">Trip Summary</div>
+        <div class="trip-flight">
+          <div class="trip-airline-icon">AP</div>
+          <div class="trip-flight-info">
+            <div class="trip-fl-name">Air Peace</div>
+            <div class="trip-fl-code">AP 204</div>
+          </div>
+        </div>
+        <div class="trip-route-row">
+          <span>Lagos (LOS)</span>
+          <span class="arrow"><i data-lucide="arrow-right" style="width:14px;height:14px"></i></span>
+          <span>London (LHR)</span>
+        </div>
+        <div class="trip-meta-row"><i data-lucide="calendar" style="width:13px;height:13px;vertical-align:middle;margin-right:4px"></i> Fri, 17 Apr 2026</div>
+        <div class="trip-meta-row"><i data-lucide="clock" style="width:13px;height:13px;vertical-align:middle;margin-right:4px"></i> 6h 15m &middot; Direct</div>
+
+        <div class="sidebar-divider"></div>
+
+        <div class="price-row"><span>Base fare</span><span class="price-val">&#8358;385,000</span></div>
+        <div class="price-row"><span>Taxes &amp; fees</span><span class="price-val">&#8358;42,500</span></div>
+        <div class="sidebar-addons" id="sidebarAddons"></div>
+
+        <div class="sidebar-divider"></div>
+
+        <div class="price-total">
+          <span class="total-label">Total</span>
+          <span class="total-val" id="sidebarTotal">&#8358;427,500</span>
+        </div>
+        <div class="commission-row">
+          <i data-lucide="trending-up" style="width:15px;height:15px"></i>
+          Commission earned: &#8358;<span id="commissionVal">19,250</span>
+        </div>
+        <a href="#" class="help-link"><i data-lucide="headphones" style="width:14px;height:14px;vertical-align:middle;margin-right:4px"></i> Need help?</a>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- Confirmation (Step 4) -->
+<div class="container" id="step4" style="display:none;">
+  <div class="confirmation-wrap">
+    <div class="success-circle">
+      <i data-lucide="check" style="width:48px;height:48px"></i>
+    </div>
+    <h1 class="confirm-heading">Booking Confirmed!</h1>
+    <p class="confirm-ref">Booking reference: <strong>WKB-FL-284719</strong></p>
+    <div class="confirm-flight-card">
+      <div class="cfc-row"><span>Airline</span><span class="cfc-val">Air Peace &middot; AP 204</span></div>
+      <div class="cfc-row"><span>Route</span><span class="cfc-val">Lagos (LOS) &rarr; London (LHR)</span></div>
+      <div class="cfc-row"><span>Date</span><span class="cfc-val">Fri, 17 Apr 2026</span></div>
+      <div class="cfc-row"><span>Departure</span><span class="cfc-val">08:30</span></div>
+      <div class="cfc-row"><span>Arrival</span><span class="cfc-val">14:45</span></div>
+      <div class="cfc-row"><span>Amount Paid</span><span class="cfc-val" id="confirmAmount">&#8358;427,500</span></div>
+    </div>
+    <div class="email-notice">
+      <i data-lucide="mail" style="width:18px;height:18px"></i>
+      Your e-ticket has been sent to your email
+    </div>
+    <div class="confirm-actions">
+      <a href="#" class="btn btn-primary">View Booking</a>
+      <a href="dashboard.html" class="btn btn-outline">Back to Dashboard</a>
+    </div>
+  </div>
+</div>
+
+<!-- Spinner -->
+<div class="spinner-overlay" id="spinnerOverlay">
+  <div class="spinner"></div>
+  <div class="spinner-text">Processing your payment...</div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  lucide.createIcons();
+  setupCardFormatting();
+  setupDateFormatting();
+  setupFileUpload();
+});
+
+/* ── State ── */
+const BASE_FARE = 385000;
+const TAXES = 42500;
+let addons = { baggage: 0, seat: 0, insurance: 0 };
+let currentStep = 1;
+
+/* ── Step Navigation ── */
+function goToStep(n) {
+  if (n > currentStep && !validateStep(currentStep)) return;
+  currentStep = n;
+  document.querySelectorAll('.step-content').forEach(el => el.classList.remove('active'));
+  const target = document.getElementById('step' + n);
+  if (target) target.classList.add('active');
+  updateStepper();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+  setTimeout(() => lucide.createIcons(), 50);
+}
+
+function updateStepper() {
+  document.querySelectorAll('.step-item').forEach(item => {
+    const s = parseInt(item.dataset.step);
+    item.className = 'step-item ' + (s < currentStep ? 'completed' : s === currentStep ? 'active' : 'future');
+    if (s < currentStep) {
+      item.querySelector('.step-circle').innerHTML = '<i data-lucide="check" style="width:18px;height:18px"></i>';
+    } else {
+      item.querySelector('.step-circle').textContent = s;
+    }
+  });
+  document.getElementById('line1').className = 'step-line' + (currentStep > 1 ? ' done' : '');
+  document.getElementById('line2').className = 'step-line' + (currentStep > 2 ? ' done' : '');
+  setTimeout(() => lucide.createIcons(), 10);
+}
+
+/* ── Validation ── */
+function validateStep(step) {
+  if (step === 1) return validatePassenger();
+  if (step === 2) return true;
+  if (step === 3) return validatePayment();
+  return true;
+}
+
+function validatePassenger() {
+  const fields = [
+    { id: 'pTitle', type: 'select' },
+    { id: 'pFirstName', type: 'text' },
+    { id: 'pLastName', type: 'text' },
+    { id: 'pEmail', type: 'email' },
+    { id: 'pPhone', type: 'text' },
+    { id: 'pDOB', type: 'text' },
+    { id: 'pPassport', type: 'text' },
+    { id: 'pPassportExp', type: 'text' },
+    { id: 'pNationality', type: 'select' }
+  ];
+  let valid = true;
+  fields.forEach(f => {
+    const el = document.getElementById(f.id);
+    const group = el.closest('.form-group');
+    const val = el.value.trim();
+    let fieldValid = val !== '';
+    if (f.type === 'email' && val) {
+      fieldValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(val);
+    }
+    if (fieldValid) {
+      group.classList.remove('has-error');
+      el.classList.remove('error');
+    } else {
+      group.classList.add('has-error');
+      el.classList.add('error');
+      valid = false;
+    }
+  });
+  return valid;
+}
+
+function validatePayment() {
+  const agree = document.getElementById('agreeTerms');
+  if (!agree.checked) {
+    agree.focus();
+    agree.parentElement.style.color = 'var(--red)';
+    setTimeout(() => agree.parentElement.style.color = '', 2000);
+    return false;
+  }
+  const activeTab = document.querySelector('.pay-tab-content.active');
+  if (activeTab.id === 'tabCard') {
+    let valid = true;
+    ['cardNumber','cardExpiry','cardCVV','cardName'].forEach(id => {
+      const el = document.getElementById(id);
+      const group = el.closest('.form-group');
+      if (!el.value.trim()) {
+        group.classList.add('has-error');
+        el.classList.add('error');
+        valid = false;
+      } else {
+        group.classList.remove('has-error');
+        el.classList.remove('error');
+      }
+    });
+    return valid;
+  }
+  return true;
+}
+
+/* ── Addon Selection ── */
+function selectAddon(card, group) {
+  const container = card.closest('.addon-grid, .insurance-grid');
+  container.querySelectorAll('[data-group="' + group + '"]').forEach(c => c.classList.remove('selected'));
+  card.classList.add('selected');
+  addons[group] = parseInt(card.dataset.price) || 0;
+  updatePriceSidebar();
+}
+
+function updatePriceSidebar() {
+  const addonHTML = [];
+  const names = { baggage: 'Extra Baggage', seat: 'Seat Upgrade', insurance: 'Travel Insurance' };
+  for (const key in addons) {
+    if (addons[key] > 0) {
+      addonHTML.push('<div class="price-row"><span>' + names[key] + '</span><span class="price-val">&#8358;' + addons[key].toLocaleString() + '</span></div>');
+    }
+  }
+  document.getElementById('sidebarAddons').innerHTML = addonHTML.join('');
+  const total = BASE_FARE + TAXES + addons.baggage + addons.seat + addons.insurance;
+  document.getElementById('sidebarTotal').innerHTML = '&#8358;' + total.toLocaleString();
+  document.getElementById('payBtnAmount').textContent = total.toLocaleString();
+  const commission = Math.round(total * 0.045);
+  document.getElementById('commissionVal').textContent = commission.toLocaleString();
+}
+
+/* ── Payment Tabs ── */
+function switchPayTab(tab) {
+  document.querySelectorAll('.pay-tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.pay-tab-content').forEach(t => t.classList.remove('active'));
+  if (tab === 'card') {
+    document.querySelectorAll('.pay-tab')[0].classList.add('active');
+    document.getElementById('tabCard').classList.add('active');
+  } else {
+    document.querySelectorAll('.pay-tab')[1].classList.add('active');
+    document.getElementById('tabBank').classList.add('active');
+  }
+}
+
+/* ── Payment Processing ── */
+function processPayment() {
+  if (!validatePayment()) return;
+  const spinner = document.getElementById('spinnerOverlay');
+  spinner.classList.add('active');
+  setTimeout(() => {
+    spinner.classList.remove('active');
+    showConfirmation();
+  }, 2000);
+}
+
+function showConfirmation() {
+  document.getElementById('mainLayout').style.display = 'none';
+  document.getElementById('stepperWrap').style.display = 'none';
+  document.getElementById('step4').style.display = 'block';
+  const total = BASE_FARE + TAXES + addons.baggage + addons.seat + addons.insurance;
+  document.getElementById('confirmAmount').innerHTML = '&#8358;' + total.toLocaleString();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+  setTimeout(() => lucide.createIcons(), 50);
+}
+
+/* ── Card Number Formatting ── */
+function setupCardFormatting() {
+  const cardInput = document.getElementById('cardNumber');
+  if (!cardInput) return;
+  cardInput.addEventListener('input', function(e) {
+    let v = this.value.replace(/\D/g, '').slice(0, 16);
+    this.value = v.replace(/(.{4})/g, '$1  ').trim();
+  });
+  const expiryInput = document.getElementById('cardExpiry');
+  if (!expiryInput) return;
+  expiryInput.addEventListener('input', function(e) {
+    let v = this.value.replace(/\D/g, '').slice(0, 4);
+    if (v.length >= 2) v = v.slice(0, 2) + '/' + v.slice(2);
+    this.value = v;
+  });
+  const cvvInput = document.getElementById('cardCVV');
+  if (!cvvInput) return;
+  cvvInput.addEventListener('input', function() {
+    this.value = this.value.replace(/\D/g, '').slice(0, 4);
+  });
+}
+
+/* ── Date Formatting ── */
+function setupDateFormatting() {
+  ['pDOB', 'pPassportExp'].forEach(id => {
+    const el = document.getElementById(id);
+    if (!el) return;
+    el.addEventListener('input', function() {
+      let v = this.value.replace(/\D/g, '').slice(0, 8);
+      if (v.length >= 4) v = v.slice(0, 2) + '/' + v.slice(2, 4) + '/' + v.slice(4);
+      else if (v.length >= 2) v = v.slice(0, 2) + '/' + v.slice(2);
+      this.value = v;
+    });
+  });
+}
+
+/* ── File Upload ── */
+function setupFileUpload() {
+  const fileInput = document.getElementById('proofUpload');
+  if (!fileInput) return;
+  fileInput.addEventListener('change', function() {
+    const nameEl = document.getElementById('uploadFileName');
+    nameEl.textContent = this.files.length ? this.files[0].name : '';
+  });
+}
+</script>
+</body>
+</html>

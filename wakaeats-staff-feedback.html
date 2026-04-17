@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#08A5E3">
+<title>Feedback — WakaEats</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+<script src="wakatribe-lang.js" defer></script>
+<script src="wakaeats-role.js" defer></script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Inter',system-ui,sans-serif;font-size:15px;color:#111827;line-height:1.55;background:#FAFAF5;min-height:100vh;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+h1,h2,h3{font-family:'Inter',sans-serif;font-weight:800;letter-spacing:-.02em;color:#0F172A;line-height:1.15}
+button{cursor:pointer;font-family:inherit;border:none;background:none;color:inherit}
+input,textarea,select{font-family:inherit;outline:none;font-size:15px}
+a{text-decoration:none;color:inherit}
+img,svg{display:block;max-width:100%}
+
+:root{
+  --g-700:#08A5E3;--g-800:#0789BF;--g-100:#E8F6FD;--g-50:#F2FAFD;
+  --ok-700:#27AE60;--ok-800:#1B7E45;--ok-100:#E8F8EF;
+  --cream-50:#FAFAF5;--cream-100:#F5F3EE;--cream-200:#E9E6DD;
+  --text:#111827;--muted:#6B7280;--muted-2:#9CA3AF;
+  --border:#E5E4DF;--border-2:#EDEBE4;--red:#DC2626;--red-lt:#FEE2E2;
+  --orange:#E89B45;--orange-lt:#FCEEDB;
+  --gold:#F59E0B;--gold-lt:#FEF3C7;
+  --r:14px;--r-lg:20px;--r-xl:24px;--r-pill:999px;
+}
+
+/* Header */
+.header{background:#fff;border-bottom:1px solid var(--cream-200);padding:calc(env(safe-area-inset-top,0) + 14px) 20px 14px;display:flex;align-items:center;justify-content:space-between;gap:12px;position:sticky;top:0;z-index:10}
+.header-brand{display:flex;align-items:center;gap:10px;cursor:pointer;transition:.2s}
+.header-brand:hover .header-name{color:var(--g-700)}
+.header-mark{width:36px;height:36px;border-radius:10px;background:var(--g-700);display:flex;align-items:center;justify-content:center}
+.header-mark i{color:#fff;width:18px;height:18px}
+.header-name{font-size:18px;font-weight:800;color:var(--text);letter-spacing:-.02em}
+.header-right{display:flex;align-items:center;gap:10px}
+.role-chip{display:flex;align-items:center;gap:8px;padding:8px 14px;background:#fff;border:1px solid var(--border);border-radius:var(--r-pill);font-size:13px;font-weight:600;color:var(--text)}
+.role-chip i{width:14px;height:14px;color:var(--muted)}
+.back-link{display:flex;align-items:center;gap:8px;color:var(--muted);font-size:13px;font-weight:500}
+.back-link:hover{color:var(--g-700)}
+.back-link i{width:16px;height:16px}
+
+.wrap{padding:28px 20px 120px;max-width:620px;margin:0 auto}
+
+.title-row{margin-bottom:6px;display:flex;align-items:flex-end;justify-content:space-between;gap:14px;flex-wrap:wrap}
+.title-row h1{font-size:30px;font-weight:800;color:var(--text)}
+.date-chip{display:inline-flex;align-items:center;gap:6px;padding:6px 12px;background:var(--cream-100);color:var(--muted);font-size:12px;font-weight:600;border-radius:var(--r-pill);letter-spacing:.06em}
+.date-chip i{width:12px;height:12px}
+.lede{color:var(--muted);font-size:14px;margin-bottom:24px}
+
+/* Form card */
+.form-card{background:#fff;border:1px solid var(--border-2);border-radius:var(--r-xl);padding:24px;margin-bottom:18px}
+
+/* Star rating */
+.rating-row{text-align:center;padding:10px 0 18px;border-bottom:1px solid var(--border-2);margin-bottom:20px}
+.rating-label{font-size:14px;font-weight:600;color:var(--text);margin-bottom:14px}
+.stars{display:flex;align-items:center;justify-content:center;gap:10px}
+.star{width:42px;height:42px;border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:.2s;color:var(--muted-2)}
+.star:hover{background:var(--gold-lt)}
+.star svg{width:28px;height:28px;fill:none;stroke:currentColor;stroke-width:2}
+.star.on{color:var(--gold)}
+.star.on svg{fill:var(--gold)}
+.rating-hint{font-size:12px;color:var(--muted);margin-top:10px;min-height:16px}
+
+/* Category chips */
+.cat-label{font-size:14px;font-weight:600;color:var(--text);margin-bottom:10px;display:block}
+.cats{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:20px}
+.cat{padding:10px 14px;background:var(--cream-100);border:1px solid transparent;border-radius:var(--r-pill);font-size:13px;font-weight:600;color:var(--muted);cursor:pointer;transition:.2s;display:inline-flex;align-items:center;gap:6px}
+.cat:hover{background:var(--cream-200)}
+.cat i{width:14px;height:14px}
+.cat.on{background:var(--g-100);color:var(--g-800);border-color:var(--g-700)}
+
+/* Comment */
+.comment-label{display:flex;align-items:center;justify-content:space-between;font-size:14px;font-weight:600;color:var(--text);margin-bottom:8px}
+.comment-label span.opt{font-size:12px;color:var(--muted);font-weight:500}
+.comment{width:100%;padding:14px;border:1px solid var(--border);border-radius:14px;background:var(--cream-100);font-size:14px;color:var(--text);min-height:100px;resize:vertical;line-height:1.55;transition:.2s;font-family:inherit}
+.comment:focus{border-color:var(--g-700);background:#fff;box-shadow:0 0 0 3px rgba(8,165,227,.18)}
+.char-count{font-size:11px;color:var(--muted-2);text-align:right;margin-top:4px}
+
+/* Photo upload */
+.photo-up{margin-top:18px;margin-bottom:20px}
+.photo-up-label{font-size:14px;font-weight:600;color:var(--text);margin-bottom:8px;display:flex;align-items:center;justify-content:space-between}
+.photo-up-label span.opt{font-size:12px;color:var(--muted);font-weight:500}
+.photo-drop{border:2px dashed var(--border);border-radius:14px;padding:22px 18px;text-align:center;background:var(--cream-50);transition:.2s;cursor:pointer;display:block}
+.photo-drop:hover{border-color:var(--g-700);background:var(--g-50)}
+.photo-drop i{width:28px;height:28px;color:var(--muted);margin:0 auto 8px;display:block}
+.photo-drop strong{font-size:14px;color:var(--text);display:block;margin-bottom:2px}
+.photo-drop span{font-size:12px;color:var(--muted)}
+.photo-preview{display:grid;grid-template-columns:repeat(auto-fill,minmax(80px,1fr));gap:8px;margin-top:12px}
+.photo-thumb{aspect-ratio:1;border-radius:10px;background:var(--cream-100);position:relative;overflow:hidden}
+.photo-thumb img{width:100%;height:100%;object-fit:cover}
+.photo-thumb button{position:absolute;top:4px;right:4px;width:22px;height:22px;border-radius:50%;background:rgba(15,23,42,.8);color:#fff;display:flex;align-items:center;justify-content:center}
+.photo-thumb button i{width:12px;height:12px}
+
+/* Privacy note */
+.privacy{font-size:12px;color:var(--muted);background:var(--g-50);border:1px solid var(--g-100);border-radius:12px;padding:12px 14px;margin-bottom:18px;display:flex;align-items:flex-start;gap:10px;line-height:1.55}
+.privacy i{width:14px;height:14px;color:var(--g-700);flex-shrink:0;margin-top:2px}
+
+/* Submit button */
+.submit-btn{width:100%;height:52px;border-radius:14px;background:var(--g-700);color:#fff;font-weight:600;font-size:15px;display:flex;align-items:center;justify-content:center;gap:10px;transition:.2s;font-family:inherit}
+.submit-btn:hover{background:var(--g-800);transform:translateY(-1px);box-shadow:0 6px 18px rgba(8,165,227,.28)}
+.submit-btn:disabled{opacity:.5;cursor:not-allowed;transform:none;box-shadow:none}
+.submit-btn i{width:18px;height:18px}
+
+/* Previous feedback list */
+.prev-section{margin-top:28px}
+.prev-section h3{font-size:16px;font-weight:700;margin-bottom:12px}
+.fb-row{background:#fff;border:1px solid var(--border-2);border-radius:var(--r-lg);padding:16px;margin-bottom:10px}
+.fb-head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:8px}
+.fb-date{font-size:12px;color:var(--muted);font-weight:500}
+.fb-stars{display:inline-flex;gap:2px}
+.fb-stars svg,.fb-stars i{width:14px;height:14px;fill:var(--gold);color:var(--gold)}
+.fb-stars svg.off,.fb-stars i.off{fill:none;color:var(--muted-2)}
+.fb-tags{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:8px}
+.fb-tag{padding:3px 10px;background:var(--cream-100);color:var(--muted);font-size:11px;font-weight:600;border-radius:var(--r-pill);letter-spacing:.04em}
+.fb-body{font-size:13px;color:var(--text-2);line-height:1.55}
+.fb-status{display:inline-flex;align-items:center;gap:5px;padding:3px 9px;border-radius:var(--r-pill);font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase}
+.fb-status.new{background:var(--g-100);color:var(--g-800)}
+.fb-status.resolved{background:var(--ok-100);color:var(--ok-800)}
+.fb-status i{width:10px;height:10px}
+
+/* Toast */
+.toast{position:fixed;bottom:100px;left:50%;transform:translateX(-50%) translateY(10px);background:var(--text);color:#fff;padding:14px 22px;border-radius:var(--r-pill);font-size:13px;font-weight:500;display:flex;align-items:center;gap:10px;opacity:0;pointer-events:none;transition:.25s;z-index:50;box-shadow:0 12px 30px rgba(0,0,0,.25)}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+.toast i{width:16px;height:16px;color:#6EE7A6}
+
+/* Tab bar */
+.tabbar{position:fixed;bottom:0;left:0;right:0;background:#fff;border-top:1px solid var(--cream-200);padding:10px 0 calc(env(safe-area-inset-bottom,0) + 10px);display:flex;justify-content:space-around;z-index:30}
+.tab{display:flex;flex-direction:column;align-items:center;gap:4px;padding:6px 16px;color:var(--muted);font-size:11px;font-weight:600;transition:.2s}
+.tab i{width:22px;height:22px}
+.tab.active{color:var(--g-700)}
+
+@media(min-width:760px){
+  body{background:#F2F0E9}
+  .wrap{padding:36px 28px 160px}
+  .header{padding:18px 32px}
+}
+@media(max-width:420px){
+  .header-right .back-link span{display:none}
+  .role-chip{padding:8px 12px}
+  .star{width:38px;height:38px}
+  .tab{padding:6px 10px;font-size:10px}
+}
+</style>
+</head>
+<body>
+
+<header class="header">
+  <a href="wakaeats-staff-home.html" class="header-brand">
+    <div class="header-mark"><i data-lucide="utensils-crossed"></i></div>
+    <div class="header-name">WakaEats</div>
+  </a>
+  <div class="header-right">
+    <button class="role-chip" data-role-menu type="button"><i data-lucide="user"></i> Staff <i data-lucide="chevron-down"></i></button>
+    <a href="wakaeats-login.html" class="back-link"><i data-lucide="log-out"></i> <span>Back to login</span></a>
+  </div>
+</header>
+
+<div class="wrap">
+
+  <div class="title-row">
+    <h1>Meal feedback</h1>
+    <span class="date-chip"><i data-lucide="calendar"></i> Friday 17 Apr</span>
+  </div>
+  <p class="lede">Help Finance and the caterer improve the lunch service. Your feedback is anonymous unless you add a photo.</p>
+
+  <!-- Feedback form -->
+  <form class="form-card" id="fbForm" onsubmit="submitFeedback(event)">
+
+    <!-- Star rating -->
+    <div class="rating-row">
+      <div class="rating-label">How was today's meal?</div>
+      <div class="stars" id="stars">
+        <button type="button" class="star" data-v="1" aria-label="1 star"><i data-lucide="star"></i></button>
+        <button type="button" class="star" data-v="2" aria-label="2 stars"><i data-lucide="star"></i></button>
+        <button type="button" class="star" data-v="3" aria-label="3 stars"><i data-lucide="star"></i></button>
+        <button type="button" class="star" data-v="4" aria-label="4 stars"><i data-lucide="star"></i></button>
+        <button type="button" class="star" data-v="5" aria-label="5 stars"><i data-lucide="star"></i></button>
+      </div>
+      <div class="rating-hint" id="ratingHint">Tap to rate</div>
+    </div>
+
+    <!-- Categories -->
+    <label class="cat-label">What about it? <small style="color:var(--muted);font-weight:500">(select any that apply)</small></label>
+    <div class="cats" id="cats">
+      <button type="button" class="cat" data-cat="portion"><i data-lucide="utensils"></i> Portion size</button>
+      <button type="button" class="cat" data-cat="taste"><i data-lucide="chef-hat"></i> Taste</button>
+      <button type="button" class="cat" data-cat="freshness"><i data-lucide="leaf"></i> Freshness</button>
+      <button type="button" class="cat" data-cat="variety"><i data-lucide="shuffle"></i> Variety</button>
+      <button type="button" class="cat" data-cat="hygiene"><i data-lucide="sparkles"></i> Hygiene</button>
+      <button type="button" class="cat" data-cat="service"><i data-lucide="hand-helping"></i> Service</button>
+      <button type="button" class="cat" data-cat="wait-time"><i data-lucide="clock"></i> Wait time</button>
+      <button type="button" class="cat" data-cat="temperature"><i data-lucide="thermometer"></i> Temperature</button>
+    </div>
+
+    <!-- Comment -->
+    <div class="comment-label">
+      <span>Tell us more</span>
+      <span class="opt">Optional</span>
+    </div>
+    <textarea id="comment" class="comment" placeholder="What worked well or didn't? e.g. The jollof was cold, portions were smaller today, the service was very fast…" maxlength="500"></textarea>
+    <div class="char-count"><span id="charCount">0</span>/500</div>
+
+    <!-- Photo upload -->
+    <div class="photo-up">
+      <div class="photo-up-label">
+        <span>Add photos</span>
+        <span class="opt">Optional · up to 3</span>
+      </div>
+      <label class="photo-drop" for="fbPhotos">
+        <i data-lucide="camera"></i>
+        <strong>Tap to add photos</strong>
+        <span>JPG or PNG · helps Admin investigate</span>
+      </label>
+      <input id="fbPhotos" type="file" accept="image/*" multiple hidden onchange="addPhotos(event)">
+      <div class="photo-preview" id="photoPreview"></div>
+    </div>
+
+    <!-- Privacy note -->
+    <div class="privacy">
+      <i data-lucide="shield-check"></i>
+      <span>Anonymous by default. Only Admin (Finance, HR) sees your feedback — staff names aren't shared with the caterer unless you ask us to.</span>
+    </div>
+
+    <!-- Submit -->
+    <button type="submit" class="submit-btn" id="submitBtn">
+      <i data-lucide="send"></i> Submit feedback
+    </button>
+  </form>
+
+  <!-- Previous feedback -->
+  <div class="prev-section">
+    <h3>Your recent feedback</h3>
+    <div id="prevList">
+      <div class="fb-row">
+        <div class="fb-head">
+          <span class="fb-date">Wed 15 Apr</span>
+          <span class="fb-status resolved"><i data-lucide="check"></i> Resolved</span>
+        </div>
+        <div class="fb-stars">
+          <i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star" class="off"></i><i data-lucide="star" class="off"></i>
+        </div>
+        <div class="fb-tags">
+          <span class="fb-tag">Temperature</span>
+          <span class="fb-tag">Portion size</span>
+        </div>
+        <p class="fb-body">Rice was lukewarm. Serving spoons were small — portions felt smaller than last week.</p>
+      </div>
+
+      <div class="fb-row">
+        <div class="fb-head">
+          <span class="fb-date">Mon 13 Apr</span>
+          <span class="fb-status new"><i data-lucide="dot"></i> Reviewed</span>
+        </div>
+        <div class="fb-stars">
+          <i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i>
+        </div>
+        <div class="fb-tags">
+          <span class="fb-tag">Taste</span>
+          <span class="fb-tag">Service</span>
+        </div>
+        <p class="fb-body">Best jollof in a while! Attendant was friendly even during peak.</p>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- Bottom tab bar -->
+<nav class="tabbar">
+  <a href="wakaeats-staff-home.html" class="tab"><i data-lucide="home"></i> Home</a>
+  <a href="wakaeats-my-qr.html" class="tab"><i data-lucide="qr-code"></i> My QR</a>
+  <a href="wakaeats-staff-feedback.html" class="tab active"><i data-lucide="message-square"></i> Feedback</a>
+  <a href="wakaeats-staff-profile.html" class="tab"><i data-lucide="user"></i> Profile</a>
+</nav>
+
+<!-- Toast -->
+<div class="toast" id="toast"><i data-lucide="check"></i> <span id="toastMsg">Feedback received</span></div>
+
+<script>
+  lucide.createIcons();
+
+  // Star rating
+  let rating = 0;
+  const hints = ['Tap to rate', 'Very poor 😕', 'Below expected', 'OK', 'Good 👍', 'Excellent 🎉'];
+  document.querySelectorAll('.star').forEach(s => {
+    s.addEventListener('click', () => {
+      rating = parseInt(s.dataset.v, 10);
+      document.querySelectorAll('.star').forEach((x, i) => x.classList.toggle('on', i < rating));
+      document.getElementById('ratingHint').textContent = hints[rating];
+    });
+    s.addEventListener('mouseenter', () => {
+      const v = parseInt(s.dataset.v, 10);
+      document.querySelectorAll('.star').forEach((x, i) => x.classList.toggle('on', i < v));
+      document.getElementById('ratingHint').textContent = hints[v];
+    });
+  });
+  document.getElementById('stars').addEventListener('mouseleave', () => {
+    document.querySelectorAll('.star').forEach((x, i) => x.classList.toggle('on', i < rating));
+    document.getElementById('ratingHint').textContent = hints[rating];
+  });
+
+  // Categories
+  const selectedCats = new Set();
+  document.querySelectorAll('.cat').forEach(c => {
+    c.addEventListener('click', () => {
+      const k = c.dataset.cat;
+      if(selectedCats.has(k)){ selectedCats.delete(k); c.classList.remove('on'); }
+      else { selectedCats.add(k); c.classList.add('on'); }
+    });
+  });
+
+  // Comment char count
+  const comment = document.getElementById('comment');
+  comment.addEventListener('input', () => {
+    document.getElementById('charCount').textContent = comment.value.length;
+  });
+
+  // Photo upload
+  const photos = [];
+  function addPhotos(e){
+    const files = Array.from(e.target.files).slice(0, 3 - photos.length);
+    files.forEach(f => {
+      const reader = new FileReader();
+      reader.onload = ev => {
+        photos.push(ev.target.result);
+        renderPhotos();
+      };
+      reader.readAsDataURL(f);
+    });
+    e.target.value = '';
+  }
+  function removePhoto(i){ photos.splice(i,1); renderPhotos(); }
+  function renderPhotos(){
+    const host = document.getElementById('photoPreview');
+    host.innerHTML = photos.map((p, i) =>
+      `<div class="photo-thumb"><img src="${p}" alt=""><button type="button" onclick="removePhoto(${i})" aria-label="Remove"><i data-lucide="x"></i></button></div>`
+    ).join('');
+    lucide.createIcons();
+  }
+
+  // Submit
+  function submitFeedback(e){
+    e.preventDefault();
+    if(rating === 0){
+      showToast('Please tap a star to rate');
+      return;
+    }
+    const msg = comment.value.trim();
+    // In production: POST /api/feedback
+    console.log('[stub] feedback:', {rating, categories:Array.from(selectedCats), comment:msg, photos:photos.length});
+
+    // Prepend to previous list
+    const row = document.createElement('div');
+    row.className = 'fb-row';
+    const starsHtml = Array.from({length:5}, (_,i)=>
+      `<i data-lucide="star"${i<rating?'':' class="off"'}></i>`
+    ).join('');
+    const tagsHtml = Array.from(selectedCats).map(c =>
+      `<span class="fb-tag">${c.charAt(0).toUpperCase()+c.slice(1).replace('-',' ')}</span>`
+    ).join('');
+    row.innerHTML = `
+      <div class="fb-head">
+        <span class="fb-date">Just now</span>
+        <span class="fb-status new"><i data-lucide="dot"></i> Submitted</span>
+      </div>
+      <div class="fb-stars">${starsHtml}</div>
+      ${tagsHtml ? `<div class="fb-tags">${tagsHtml}</div>` : ''}
+      ${msg ? `<p class="fb-body">${msg.replace(/</g,'&lt;')}</p>` : ''}
+    `;
+    document.getElementById('prevList').prepend(row);
+
+    // Reset form
+    rating = 0;
+    document.querySelectorAll('.star').forEach(x => x.classList.remove('on'));
+    document.getElementById('ratingHint').textContent = hints[0];
+    selectedCats.clear();
+    document.querySelectorAll('.cat').forEach(c => c.classList.remove('on'));
+    comment.value = '';
+    document.getElementById('charCount').textContent = '0';
+    photos.length = 0;
+    renderPhotos();
+    lucide.createIcons();
+
+    showToast('Thanks — feedback received');
+  }
+
+  let toastTimer;
+  function showToast(msg){
+    const t = document.getElementById('toast');
+    document.getElementById('toastMsg').textContent = msg;
+    t.classList.add('show');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => t.classList.remove('show'), 3000);
+  }
+</script>
+</body>
+</html>

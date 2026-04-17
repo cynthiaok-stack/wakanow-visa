@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>WakaSecure — WakaTribe</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+<script src="wakatribe-tenants.js"></script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Inter',system-ui,sans-serif;font-size:15px;color:#111827;line-height:1.55;background:#FAFAF5;min-height:100vh;-webkit-font-smoothing:antialiased}
+h1,h2{font-family:'Inter',sans-serif;font-weight:800;letter-spacing:-.02em;color:#0F172A}
+button{cursor:pointer;font-family:inherit;border:none;background:none;color:inherit}
+a{text-decoration:none;color:inherit}
+
+.header{background:#fff;border-bottom:1px solid #E9E6DD;padding:14px 32px;display:flex;align-items:center;justify-content:space-between;gap:12px}
+.header-brand{display:flex;align-items:center;gap:10px;cursor:pointer}
+.header-mark{width:38px;height:38px;border-radius:10px;background:linear-gradient(135deg,#A78BFA,#6D28D9);display:flex;align-items:center;justify-content:center}
+.header-mark i{color:#fff;width:18px;height:18px}
+.header-name{font-size:18px;font-weight:800;letter-spacing:-.02em}
+.header-sub{font-size:10px;color:#6B7280;letter-spacing:.14em;text-transform:uppercase;font-weight:700;margin-top:1px}
+.crumb{display:flex;align-items:center;gap:8px;font-size:13px;color:#6B7280}
+.crumb a{color:#6B7280}
+.crumb a:hover{color:#08A5E3}
+.crumb i{width:12px;height:12px}
+.back-link{display:flex;align-items:center;gap:6px;color:#6B7280;font-size:13px;font-weight:500}
+.back-link:hover{color:#08A5E3}
+.back-link i{width:16px;height:16px}
+
+.wrap{max-width:720px;margin:0 auto;padding:80px 32px 40px;text-align:center}
+.placeholder{background:#fff;border:1px solid #EDEBE4;border-radius:28px;padding:56px 40px;box-shadow:0 4px 24px rgba(15,23,42,.05)}
+.placeholder-icon{width:92px;height:92px;border-radius:24px;background:linear-gradient(135deg,#A78BFA,#6D28D9);display:inline-flex;align-items:center;justify-content:center;margin-bottom:24px;box-shadow:0 16px 40px rgba(139,92,246,.24)}
+.placeholder-icon i{color:#fff;width:44px;height:44px}
+.placeholder h1{font-size:34px;margin-bottom:8px}
+.placeholder .beta{display:inline-flex;align-items:center;gap:5px;padding:4px 12px;background:#EDE9FE;color:#5B21B6;border-radius:999px;font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;margin-bottom:18px}
+.placeholder p{color:#6B7280;font-size:15px;max-width:420px;margin:0 auto 28px;line-height:1.6}
+
+.feat-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:32px;text-align:left}
+.feat{background:#FAFAF5;border:1px solid #E9E6DD;border-radius:14px;padding:16px}
+.feat i{width:20px;height:20px;color:#6D28D9;margin-bottom:8px}
+.feat strong{font-size:13px;font-weight:600;display:block;margin-bottom:2px}
+.feat span{font-size:12px;color:#6B7280}
+
+.cta-row{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:24px}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:12px 22px;border-radius:14px;font-size:14px;font-weight:600;transition:.2s;font-family:inherit;height:44px}
+.btn-primary{background:#08A5E3;color:#fff}
+.btn-primary:hover{background:#0789BF}
+.btn-outline{background:#fff;color:#111827;border:1px solid #E5E4DF}
+.btn-outline:hover{border-color:#08A5E3;color:#08A5E3}
+.btn i{width:16px;height:16px}
+
+@media(max-width:600px){.wrap{padding:40px 20px 40px}.placeholder{padding:36px 22px;border-radius:22px}.feat-grid{grid-template-columns:1fr}.placeholder h1{font-size:26px}}
+</style>
+</head>
+<body>
+
+<header class="header">
+  <a href="wakatribe-hub.html" class="header-brand">
+    <div class="header-mark"><i data-lucide="shield-check"></i></div>
+    <div>
+      <div class="header-name">WakaSecure</div>
+      <div class="header-sub">Access & visitors</div>
+    </div>
+  </a>
+  <div class="crumb">
+    <a href="wakatribe-hub.html">WakaTribe</a>
+    <i data-lucide="chevron-right"></i>
+    <span style="color:#111827;font-weight:600">WakaSecure</span>
+  </div>
+  <a href="wakatribe-hub.html" class="back-link"><i data-lucide="arrow-left"></i> Hub</a>
+</header>
+
+<div class="wrap">
+  <div class="placeholder">
+    <div class="placeholder-icon"><i data-lucide="shield-check"></i></div>
+    <span class="beta">Beta · Coming May 2026</span>
+    <h1>WakaSecure</h1>
+    <p>Staff and visitor access, gate logs, parking passes and building sign-ins — all tied to the same WakaTribe identity.</p>
+
+    <div class="feat-grid">
+      <div class="feat">
+        <i data-lucide="door-open"></i>
+        <strong>Gate QR</strong>
+        <span>Tap your QR to enter the building or parking</span>
+      </div>
+      <div class="feat">
+        <i data-lucide="user-round-plus"></i>
+        <strong>Visitor invites</strong>
+        <span>Pre-register guests and they get a one-day QR</span>
+      </div>
+      <div class="feat">
+        <i data-lucide="clipboard-check"></i>
+        <strong>Gate log</strong>
+        <span>Every entry timestamped for audit and emergencies</span>
+      </div>
+      <div class="feat">
+        <i data-lucide="key-round"></i>
+        <strong>Suspend instantly</strong>
+        <span>Revoke access for a leaver the moment HR marks them inactive</span>
+      </div>
+    </div>
+
+    <div class="cta-row">
+      <a href="wakatribe-hub.html" class="btn btn-outline"><i data-lucide="arrow-left"></i> Back to hub</a>
+      <a href="#" class="btn btn-primary"><i data-lucide="bell"></i> Notify me at launch</a>
+    </div>
+  </div>
+</div>
+
+<script>lucide.createIcons();</script>
+</body>
+</html>

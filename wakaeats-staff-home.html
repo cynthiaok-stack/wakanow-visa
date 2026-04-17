@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#08A5E3">
+<title>Home — WakaEats</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+<script src="wakatribe-lang.js" defer></script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Inter',system-ui,sans-serif;font-size:15px;color:#111827;line-height:1.55;background:#FAFAF5;min-height:100vh;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+h1,h2,h3{font-family:'Inter',sans-serif;font-weight:800;letter-spacing:-.02em;color:#0F172A;line-height:1.15}
+button{cursor:pointer;font-family:inherit;border:none;background:none;color:inherit}
+a{text-decoration:none;color:inherit}
+
+:root{
+  --g-700:#08A5E3;--g-800:#0789BF;--g-600:#39B7E8;--g-100:#E8F6FD;--g-50:#F2FAFD;
+  --ok-700:#27AE60;--ok-800:#1B7E45;--ok-100:#E8F8EF;
+  --cream-50:#FAFAF5;--cream-100:#F5F3EE;--cream-200:#E9E6DD;
+  --text:#111827;--muted:#6B7280;--muted-2:#9CA3AF;
+  --border:#E5E4DF;--border-2:#EDEBE4;
+  --orange:#E89B45;--orange-lt:#FCEEDB;
+  --r:14px;--r-lg:20px;--r-xl:24px;--r-pill:999px;
+}
+
+/* ── Top header ── */
+.header{background:#fff;border-bottom:1px solid var(--cream-200);padding:calc(env(safe-area-inset-top,0) + 14px) 20px 14px;display:flex;align-items:center;justify-content:space-between;gap:12px;position:sticky;top:0;z-index:10}
+.header-brand{display:flex;align-items:center;gap:10px;cursor:pointer;transition:.2s}
+.header-brand:hover .header-name{color:var(--g-700)}
+.header-mark{width:36px;height:36px;border-radius:10px;background:var(--g-700);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.header-mark i{color:#fff;width:18px;height:18px}
+.header-name{font-size:18px;font-weight:800;color:var(--text);letter-spacing:-.02em}
+.header-right{display:flex;align-items:center;gap:10px}
+.role-chip{display:flex;align-items:center;gap:8px;padding:8px 14px;background:#fff;border:1px solid var(--border);border-radius:var(--r-pill);font-size:13px;font-weight:600;color:var(--text);cursor:pointer;transition:.2s}
+.role-chip:hover{border-color:var(--g-700)}
+.role-chip i{width:14px;height:14px;color:var(--muted)}
+.back-link{display:flex;align-items:center;gap:8px;color:var(--muted);font-size:13px;font-weight:500}
+.back-link:hover{color:var(--g-700)}
+.back-link i{width:16px;height:16px}
+
+/* ── Page content ── */
+.wrap{padding:24px 20px 120px;max-width:720px;margin:0 auto}
+
+.eyebrow{display:inline-flex;align-items:center;gap:6px;color:var(--muted);font-size:13px;font-weight:500;margin-bottom:10px}
+.eyebrow i{width:14px;height:14px}
+.greet{font-size:34px;font-weight:800;color:var(--text);letter-spacing:-.02em;line-height:1.1;margin-bottom:6px}
+.greet-sub{color:var(--muted);font-size:15px;margin-bottom:22px}
+
+/* ── Meal pass card ── */
+.pass-card{background:linear-gradient(135deg,#39B7E8 0%,#08A5E3 60%,#055F89 100%);color:#fff;border-radius:var(--r-xl);padding:22px;position:relative;overflow:hidden;margin-bottom:18px;box-shadow:0 10px 30px rgba(8,165,227,.22)}
+.pass-card::before{content:'';position:absolute;top:-50px;right:-50px;width:180px;height:180px;border-radius:50%;background:rgba(255,255,255,.06)}
+.pass-row{display:flex;align-items:flex-start;justify-content:space-between;position:relative;z-index:1;margin-bottom:20px}
+.pass-eyebrow{font-size:11px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:rgba(255,255,255,.65);margin-bottom:6px}
+.pass-title{font-size:22px;font-weight:800;color:#fff;line-height:1.2}
+.pass-qr{width:52px;height:52px;border-radius:12px;background:rgba(255,255,255,.14);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.pass-qr i{color:#fff;width:22px;height:22px}
+.pass-btn{display:flex;align-items:center;justify-content:center;gap:10px;width:100%;height:52px;background:rgba(255,255,255,.95);color:var(--g-700);font-weight:600;font-size:15px;border-radius:14px;transition:.2s;position:relative;z-index:1;font-family:inherit}
+.pass-btn:hover{background:#fff;transform:translateY(-1px)}
+.pass-btn i{width:18px;height:18px}
+
+/* ── Stat cards row ── */
+.stat-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:20px}
+.stat{background:#fff;border:1px solid var(--border-2);border-radius:var(--r-lg);padding:18px}
+.stat-ic{width:36px;height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center;margin-bottom:14px}
+.stat-ic i{width:16px;height:16px}
+.stat-ic.green{background:var(--ok-100);color:var(--ok-700)}
+.stat-ic.orange{background:var(--orange-lt);color:var(--orange)}
+.stat-num{font-size:24px;font-weight:800;color:var(--text);line-height:1;margin-bottom:8px;letter-spacing:-.02em}
+.stat-lbl{font-size:13px;color:var(--muted)}
+
+/* ── How it works ── */
+.how{background:var(--g-50);border:1px solid var(--g-100);border-radius:var(--r-lg);padding:20px;margin-bottom:16px}
+.how h3{font-size:17px;margin-bottom:8px;font-weight:700;color:var(--text)}
+.how p{font-size:14px;color:var(--muted);line-height:1.6}
+
+/* ── Bottom tab bar ── */
+.tabbar{position:fixed;bottom:0;left:0;right:0;background:#fff;border-top:1px solid var(--cream-200);padding:10px 0 calc(env(safe-area-inset-bottom,0) + 10px);display:flex;justify-content:space-around;z-index:30}
+.tab{display:flex;flex-direction:column;align-items:center;gap:4px;padding:6px 16px;color:var(--muted);font-size:11px;font-weight:600;transition:.2s;flex:1;min-width:0}
+.tab i{width:22px;height:22px}
+.tab.active{color:var(--g-700)}
+.tab:hover{color:var(--g-700)}
+
+/* Desktop: center on a cream page */
+@media(min-width:760px){
+  body{background:#F2F0E9}
+  .wrap{padding:32px 28px 140px}
+  .greet{font-size:40px}
+  .pass-card{padding:28px}
+  .pass-title{font-size:26px}
+  .stat-row{gap:16px}
+  .stat{padding:22px}
+  .header{padding:18px 32px}
+}
+</style>
+</head>
+<body>
+
+<header class="header">
+  <a href="wakaeats-staff-home.html" class="header-brand">
+    <div class="header-mark"><i data-lucide="utensils-crossed"></i></div>
+    <div class="header-name">WakaEats</div>
+  </a>
+  <div class="header-right">
+    <button class="role-chip" data-role-menu type="button"><i data-lucide="user"></i> Staff <i data-lucide="chevron-down"></i></button>
+    <a href="wakaeats-login.html" class="back-link"><i data-lucide="log-out"></i> <span class="hide-sm">Back to login</span></a>
+  </div>
+</header>
+
+<div class="wrap">
+
+  <div class="eyebrow"><i data-lucide="calendar"></i> FRIDAY 17 APRIL</div>
+  <h1 class="greet">Hi, Cynthia 👋</h1>
+  <p class="greet-sub">Ready for lunch today?</p>
+
+  <!-- Meal pass card -->
+  <div class="pass-card">
+    <div class="pass-row">
+      <div>
+        <div class="pass-eyebrow">Your meal pass</div>
+        <div class="pass-title">Show this at<br>the cafeteria</div>
+      </div>
+      <div class="pass-qr"><i data-lucide="qr-code"></i></div>
+    </div>
+    <a href="wakaeats-my-qr.html" class="pass-btn">Open my QR <i data-lucide="arrow-right"></i></a>
+  </div>
+
+  <!-- Stats row -->
+  <div class="stat-row">
+    <div class="stat">
+      <div class="stat-ic green"><i data-lucide="utensils"></i></div>
+      <div class="stat-num">—</div>
+      <div class="stat-lbl">Meals this month</div>
+    </div>
+    <div class="stat">
+      <div class="stat-ic orange"><i data-lucide="calendar-check"></i></div>
+      <div class="stat-num">—</div>
+      <div class="stat-lbl">Last meal</div>
+    </div>
+  </div>
+
+  <!-- How it works -->
+  <div class="how">
+    <h3>How it works</h3>
+    <p>Open your QR at the cafeteria entrance. The attendant scans it once per day. That's it — no sign-in sheets.</p>
+  </div>
+
+</div>
+
+<!-- Bottom tab bar -->
+<nav class="tabbar">
+  <a href="wakaeats-staff-home.html" class="tab active"><i data-lucide="home"></i> Home</a>
+  <a href="wakaeats-my-qr.html" class="tab"><i data-lucide="qr-code"></i> My QR</a>
+  <a href="wakaeats-staff-feedback.html" class="tab"><i data-lucide="message-square"></i> Feedback</a>
+  <a href="wakaeats-staff-profile.html" class="tab"><i data-lucide="user"></i> Profile</a>
+</nav>
+
+<script src="wakaeats-role.js" defer></script>
+<script>lucide.createIcons();</script>
+</body>
+</html>

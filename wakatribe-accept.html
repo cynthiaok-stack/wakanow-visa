@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#08A5E3">
+<title>You're invited — WakaTribe</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+<script src="wakatribe-tenants.js"></script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Inter',system-ui,sans-serif;font-size:15px;color:#111827;line-height:1.55;min-height:100vh;-webkit-font-smoothing:antialiased;padding:40px 20px}
+body{background:
+  radial-gradient(circle at 18% 22%, #39B7E8 0%, transparent 42%),
+  radial-gradient(circle at 82% 78%, #5EC7F2 0%, transparent 45%),
+  radial-gradient(circle at 50% 50%, #0789BF 0%, #055F89 100%)}
+h1,h2,h3{font-family:'Inter',sans-serif;font-weight:800;letter-spacing:-.02em;color:#0F172A}
+button{cursor:pointer;font-family:inherit;border:none;background:none;color:inherit}
+input{font-family:inherit;outline:none;font-size:15px}
+a{text-decoration:none;color:#08A5E3}
+
+.page{min-height:calc(100vh - 80px);display:flex;align-items:center;justify-content:center}
+
+/* Brand */
+.brand-bar{position:absolute;top:28px;left:50%;transform:translateX(-50%);display:flex;align-items:center;gap:10px;color:#fff}
+.brand-mark{width:38px;height:38px;border-radius:10px;background:linear-gradient(135deg,#39B7E8,#055F89);display:flex;align-items:center;justify-content:center;box-shadow:0 6px 18px rgba(0,0,0,.22)}
+.brand-mark i{color:#fff;width:18px;height:18px}
+.brand-name{font-size:18px;font-weight:800;letter-spacing:-.02em}
+
+/* Card */
+.card{background:#fff;border-radius:26px;width:100%;max-width:540px;padding:36px;box-shadow:0 24px 60px rgba(0,0,0,.22)}
+
+.invite-head{text-align:center;margin-bottom:28px}
+.invite-mark{width:72px;height:72px;border-radius:20px;background:linear-gradient(135deg,#39B7E8,#055F89);display:inline-flex;align-items:center;justify-content:center;margin-bottom:16px;box-shadow:0 10px 28px rgba(8,165,227,.3)}
+.invite-mark i{color:#fff;width:34px;height:34px}
+.invite-eyebrow{display:inline-flex;align-items:center;gap:6px;padding:5px 12px;background:#FEF3C7;color:#78350F;border-radius:999px;font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;margin-bottom:10px}
+.invite-eyebrow i{width:12px;height:12px}
+h1{font-size:28px;margin-bottom:6px}
+.invite-lede{color:#6B7280;font-size:14px;line-height:1.55;max-width:400px;margin:0 auto}
+
+/* Info card */
+.info-card{background:#F5F3EE;border:1px solid #E5E4DF;border-radius:16px;padding:18px;margin-bottom:18px}
+.info-row{display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid #E9E6DD;font-size:13px}
+.info-row:first-child{padding-top:0}
+.info-row:last-child{border-bottom:none;padding-bottom:0}
+.info-row .k{color:#6B7280;font-weight:500;width:110px;flex-shrink:0}
+.info-row .v{color:#111827;font-weight:600;flex:1}
+.info-row .biz{display:inline-flex;align-items:center;gap:6px}
+.info-row .biz-logo{width:20px;height:20px;border-radius:6px;color:#fff;display:inline-flex;align-items:center;justify-content:center;font-weight:700;font-size:10px}
+
+/* App badges */
+.access-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:8px;margin-bottom:20px}
+.access{display:flex;align-items:center;gap:10px;padding:10px 12px;background:#E8F6FD;border:1px solid #B6E1F2;border-radius:12px}
+.access-ic{width:30px;height:30px;border-radius:8px;color:#fff;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.access-ic i{width:14px;height:14px}
+.access-text strong{font-size:12px;font-weight:600;color:#111827;display:block;line-height:1.2}
+.access-text span{font-size:11px;color:#6B7280}
+
+/* Password setup */
+.field{margin-bottom:14px}
+.field label{font-size:13px;font-weight:600;color:#111827;margin-bottom:6px;display:block}
+.field input{width:100%;height:48px;padding:0 14px;border:1px solid #E5E4DF;border-radius:12px;background:#F5F3EE;font-size:15px;color:#111827;transition:.2s}
+.field input:focus{border-color:#08A5E3;background:#fff;box-shadow:0 0 0 3px rgba(8,165,227,.18)}
+
+/* Buttons */
+.actions{display:flex;gap:10px;margin-top:8px}
+.btn{flex:1;height:52px;border-radius:14px;font-weight:600;font-size:15px;display:flex;align-items:center;justify-content:center;gap:10px;transition:.2s;font-family:inherit}
+.btn i{width:18px;height:18px}
+.btn-primary{background:#08A5E3;color:#fff}
+.btn-primary:hover{background:#0789BF;transform:translateY(-1px);box-shadow:0 6px 18px rgba(8,165,227,.28)}
+.btn-ghost{background:#F5F3EE;color:#111827}
+.btn-ghost:hover{background:#E9E6DD}
+
+.foot{text-align:center;color:rgba(255,255,255,.75);font-size:12px;margin-top:22px;max-width:500px;margin-left:auto;margin-right:auto}
+
+@media(max-width:540px){
+  .card{padding:26px;border-radius:22px}
+  h1{font-size:24px}
+  .actions{flex-direction:column}
+}
+</style>
+</head>
+<body>
+
+<div class="brand-bar">
+  <div class="brand-mark"><i data-lucide="building-2"></i></div>
+  <div class="brand-name">WakaTribe</div>
+</div>
+
+<div class="page">
+  <div class="card">
+
+    <div class="invite-head">
+      <div class="invite-mark"><i data-lucide="mail-check"></i></div>
+      <span class="invite-eyebrow"><i data-lucide="gift"></i> You're invited</span>
+      <h1>Welcome to WakaTribe 👋</h1>
+      <p class="invite-lede">Cynthia Okejeh (<strong style="color:#111827">Admin at Wakanow</strong>) has invited you. Review your details, set a password, and you're in.</p>
+    </div>
+
+    <div class="info-card">
+      <div class="info-row"><span class="k">Name</span><span class="v" id="iName">Ada Okonkwo</span></div>
+      <div class="info-row"><span class="k">Staff ID</span><span class="v" id="iStaff">WKN-00421</span></div>
+      <div class="info-row"><span class="k">Email</span><span class="v" id="iEmail">ada.o@wakanow.com</span></div>
+      <div class="info-row"><span class="k">Department</span><span class="v" id="iDept">Product</span></div>
+      <div class="info-row">
+        <span class="k">Business</span>
+        <span class="v"><span class="biz"><span class="biz-logo" id="iBizLogo" style="background:#08A5E3">W</span> <span id="iBiz">Wakanow</span></span></span>
+      </div>
+    </div>
+
+    <label style="font-size:13px;font-weight:600;color:#111827;margin-bottom:10px;display:block">Apps you'll have access to</label>
+    <div class="access-grid" id="accessGrid"></div>
+
+    <form onsubmit="accept(event)">
+      <div class="field">
+        <label for="pw">Set your password</label>
+        <input id="pw" type="password" placeholder="At least 8 characters" minlength="8" required>
+      </div>
+      <div class="actions">
+        <button type="button" class="btn btn-ghost" onclick="reject()"><i data-lucide="x"></i> Not me</button>
+        <button type="submit" class="btn btn-primary"><i data-lucide="check"></i> Accept invite</button>
+      </div>
+    </form>
+
+  </div>
+</div>
+
+<p class="foot">This link was sent to your email and expires in 7 days. If you didn't expect it, you can safely ignore it.</p>
+
+<script>
+  lucide.createIcons();
+
+  // Read staff ID from URL (in production we'd validate the signed token server-side)
+  const params = new URLSearchParams(location.search);
+  const staffId = params.get('id') || 'WKN-00421';
+
+  // Demo data (in production: fetched from /api/invite/:token)
+  const invited = {
+    name: 'Ada Okonkwo',
+    staffId: staffId,
+    email: 'ada.o@wakanow.com',
+    dept: 'Product',
+    tenantId: 'wakanow',
+    apps: ['wakaeats','wakabus','wakasecure']
+  };
+  const tenant = WakaTribe.getTenantById(invited.tenantId);
+
+  // Populate
+  document.getElementById('iName').textContent = invited.name;
+  document.getElementById('iStaff').textContent = invited.staffId;
+  document.getElementById('iEmail').textContent = invited.email;
+  document.getElementById('iDept').textContent = invited.dept;
+  document.getElementById('iBiz').textContent = tenant.name;
+  document.getElementById('iBizLogo').textContent = tenant.logo;
+  document.getElementById('iBizLogo').style.background = tenant.color;
+
+  // Apps
+  const grid = document.getElementById('accessGrid');
+  invited.apps.forEach(id => {
+    const app = WakaTribe.getAppById(id);
+    if(!app) return;
+    const el = document.createElement('div');
+    el.className = 'access';
+    el.innerHTML = `
+      <div class="access-ic" style="background:${app.color}"><i data-lucide="${app.icon}"></i></div>
+      <div class="access-text">
+        <strong>${app.name}</strong>
+        <span>${app.tagline}</span>
+      </div>
+    `;
+    grid.appendChild(el);
+  });
+  lucide.createIcons();
+
+  function accept(e){
+    e.preventDefault();
+    WakaTribe.setCurrentUser(invited.email, 'staff', invited.tenantId);
+    localStorage.setItem('wakatribe.name', invited.name);
+    window.location = 'wakatribe-hub.html';
+  }
+
+  function reject(){
+    if(confirm('Not you? We\'ll let the admin know and this link will be disabled.')){
+      window.location = 'wakatribe-login.html';
+    }
+  }
+</script>
+</body>
+</html>

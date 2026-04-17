@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#08A5E3">
+<title>My QR — WakaEats</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/qrcode-generator@1.4.4/qrcode.js"></script>
+<script src="wakatribe-lang.js" defer></script>
+<script src="wakaeats-role.js" defer></script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Inter',system-ui,sans-serif;font-size:15px;color:#111827;line-height:1.55;background:#FAFAF5;min-height:100vh;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+h1,h2,h3{font-family:'Inter',sans-serif;font-weight:800;letter-spacing:-.02em;color:#0F172A;line-height:1.15}
+button{cursor:pointer;font-family:inherit;border:none;background:none;color:inherit}
+a{text-decoration:none;color:inherit}
+
+:root{
+  --g-700:#08A5E3;--g-800:#0789BF;--g-600:#39B7E8;--g-100:#E8F6FD;--g-50:#F2FAFD;
+  --ok-700:#27AE60;--ok-800:#1B7E45;--ok-100:#E8F8EF;
+  --cream-50:#FAFAF5;--cream-100:#F5F3EE;--cream-200:#E9E6DD;
+  --text:#111827;--muted:#6B7280;--muted-2:#9CA3AF;
+  --border:#E5E4DF;--border-2:#EDEBE4;
+  --orange:#E89B45;--orange-lt:#FCEEDB;
+  --r:14px;--r-lg:20px;--r-xl:24px;--r-pill:999px;
+}
+
+/* ── Header ── */
+.header{background:#fff;border-bottom:1px solid var(--cream-200);padding:calc(env(safe-area-inset-top,0) + 14px) 20px 14px;display:flex;align-items:center;justify-content:space-between;gap:12px;position:sticky;top:0;z-index:10}
+.header-brand{display:flex;align-items:center;gap:10px;cursor:pointer;transition:.2s}
+.header-brand:hover .header-name{color:var(--g-700)}
+.header-mark{width:36px;height:36px;border-radius:10px;background:var(--g-700);display:flex;align-items:center;justify-content:center}
+.header-mark i{color:#fff;width:18px;height:18px}
+.header-name{font-size:18px;font-weight:800;color:var(--text);letter-spacing:-.02em}
+.header-right{display:flex;align-items:center;gap:10px}
+.role-chip{display:flex;align-items:center;gap:8px;padding:8px 14px;background:#fff;border:1px solid var(--border);border-radius:var(--r-pill);font-size:13px;font-weight:600;color:var(--text)}
+.role-chip i{width:14px;height:14px;color:var(--muted)}
+.back-link{display:flex;align-items:center;gap:8px;color:var(--muted);font-size:13px;font-weight:500}
+.back-link:hover{color:var(--g-700)}
+.back-link i{width:16px;height:16px}
+
+.wrap{padding:24px 20px 120px;max-width:520px;margin:0 auto}
+
+.title-row{margin-bottom:24px}
+.title-row h1{font-size:28px;font-weight:800;color:var(--text);margin-bottom:4px}
+.title-row p{color:var(--muted);font-size:14px}
+
+/* ── Status pills ── */
+.status-row{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:20px}
+.pill{display:inline-flex;align-items:center;gap:6px;padding:6px 12px;border-radius:var(--r-pill);font-size:12px;font-weight:600}
+.pill i{width:12px;height:12px}
+.pill.green{background:var(--ok-100);color:var(--ok-800)}
+.pill.orange{background:var(--orange-lt);color:#8A5A0C}
+
+/* ── QR card ── */
+.qr-card{background:#fff;border:1px solid var(--border-2);border-radius:var(--r-xl);padding:28px 24px;text-align:center;box-shadow:0 4px 24px rgba(15,23,42,.05);margin-bottom:16px}
+.qr-card .name{font-size:22px;font-weight:800;color:var(--text);letter-spacing:-.02em;margin-bottom:2px}
+.qr-card .id{font-size:13px;color:var(--muted);font-weight:500;font-variant-numeric:tabular-nums}
+.qr-card .dept-tag{display:inline-block;margin-top:10px;padding:4px 12px;background:var(--g-100);color:var(--g-800);font-size:10px;font-weight:700;border-radius:var(--r-pill);letter-spacing:.14em;text-transform:uppercase}
+
+.qr-frame{margin:24px auto 0;padding:16px;background:var(--cream-50);border:1px solid var(--cream-200);border-radius:18px;width:min(100%,280px)}
+.qr-frame #qr-canvas{aspect-ratio:1;border-radius:8px;overflow:hidden;background:#fff}
+.qr-frame svg{width:100%;height:100%;display:block}
+
+.qr-hint{margin-top:18px;padding:12px 14px;background:var(--g-50);border-radius:12px;color:var(--g-800);font-size:13px;font-weight:500;display:flex;align-items:center;gap:10px}
+.qr-hint i{width:18px;height:18px;flex-shrink:0}
+
+/* ── Actions ── */
+.actions{display:flex;flex-direction:column;gap:10px;margin-bottom:24px}
+.btn{width:100%;height:52px;border-radius:14px;font-weight:600;font-size:15px;display:flex;align-items:center;justify-content:center;gap:10px;transition:.2s;font-family:inherit}
+.btn i{width:18px;height:18px}
+.btn-primary{background:var(--g-700);color:#fff}
+.btn-primary:hover{background:var(--g-800);transform:translateY(-1px);box-shadow:0 6px 18px rgba(8,165,227,.28)}
+.btn-outline{background:#fff;color:var(--text);border:1px solid var(--border)}
+.btn-outline:hover{border-color:var(--g-700);color:var(--g-700)}
+.btn-row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+
+/* ── Info section ── */
+.info-card{background:#fff;border:1px solid var(--border-2);border-radius:var(--r-lg);padding:20px;margin-bottom:12px}
+.info-card h3{font-size:16px;margin-bottom:12px;display:flex;align-items:center;gap:8px;color:var(--text)}
+.info-card h3 i{width:16px;height:16px;color:var(--g-700)}
+
+.kv{display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid var(--cream-100);font-size:13px}
+.kv:last-child{border-bottom:none}
+.kv-k{color:var(--muted)}
+.kv-v{color:var(--text);font-weight:600}
+
+/* ── Tab bar ── */
+.tabbar{position:fixed;bottom:0;left:0;right:0;background:#fff;border-top:1px solid var(--cream-200);padding:10px 0 calc(env(safe-area-inset-bottom,0) + 10px);display:flex;justify-content:space-around;z-index:30}
+.tab{display:flex;flex-direction:column;align-items:center;gap:4px;padding:6px 16px;color:var(--muted);font-size:11px;font-weight:600;transition:.2s;flex:1;min-width:0}
+.tab i{width:22px;height:22px}
+.tab.active{color:var(--g-700)}
+
+/* ── Fullscreen ── */
+.fs{position:fixed;inset:0;background:#fff;z-index:100;display:none;flex-direction:column;align-items:center;justify-content:center;padding:24px}
+.fs.show{display:flex}
+.fs-close{position:absolute;top:calc(env(safe-area-inset-top,0) + 16px);right:16px;width:44px;height:44px;border-radius:50%;background:var(--cream-100);display:flex;align-items:center;justify-content:center;color:var(--text)}
+.fs-close i{width:22px;height:22px}
+.fs-qr{width:min(82vw,440px);aspect-ratio:1;padding:24px;background:#fff;border:3px solid var(--g-700);border-radius:28px;box-shadow:0 24px 60px rgba(15,23,42,.15)}
+.fs-qr>div{width:100%;height:100%}
+.fs-qr svg{width:100%;height:100%;border-radius:8px}
+.fs-name{font-size:26px;font-weight:800;margin-top:24px;color:var(--text);text-align:center;letter-spacing:-.02em}
+.fs-id{font-size:15px;color:var(--muted);margin-top:4px;font-weight:500;font-variant-numeric:tabular-nums}
+.fs-hint{margin-top:22px;font-size:13px;color:var(--muted);display:flex;align-items:center;gap:8px}
+.fs-hint i{width:14px;height:14px}
+
+/* Toast */
+.toast{position:fixed;bottom:100px;left:50%;transform:translateX(-50%) translateY(10px);background:var(--text);color:#fff;padding:12px 18px;border-radius:var(--r-pill);font-size:13px;font-weight:500;display:flex;align-items:center;gap:8px;opacity:0;pointer-events:none;transition:.25s;z-index:50}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+.toast i{width:14px;height:14px;color:#6EE7A6}
+
+/* Desktop tweaks */
+@media(min-width:760px){
+  body{background:#F2F0E9}
+  .wrap{padding:36px 28px 160px}
+  .header{padding:18px 32px}
+}
+
+@media(max-width:420px){
+  .header-right .back-link span{display:none}
+  .role-chip{padding:8px 12px}
+}
+</style>
+</head>
+<body>
+
+<header class="header">
+  <a href="wakaeats-staff-home.html" class="header-brand">
+    <div class="header-mark"><i data-lucide="utensils-crossed"></i></div>
+    <div class="header-name">WakaEats</div>
+  </a>
+  <div class="header-right">
+    <button class="role-chip" data-role-menu type="button"><i data-lucide="user"></i> Staff <i data-lucide="chevron-down"></i></button>
+    <a href="wakaeats-login.html" class="back-link"><i data-lucide="log-out"></i> <span>Back to login</span></a>
+  </div>
+</header>
+
+<div class="wrap">
+
+  <div class="title-row">
+    <h1>My QR</h1>
+    <p>Show this at the cafeteria scanner.</p>
+  </div>
+
+  <div class="status-row">
+    <span class="pill green"><i data-lucide="check-circle"></i> Active employee</span>
+    <span class="pill orange"><i data-lucide="utensils"></i> Not yet eaten today</span>
+  </div>
+
+  <!-- QR card -->
+  <div class="qr-card">
+    <div class="name">Cynthia Okejeh</div>
+    <div class="id">WKN-00421</div>
+    <span class="dept-tag">Employee · Product</span>
+    <div class="qr-frame">
+      <div id="qr-canvas"></div>
+    </div>
+    <div class="qr-hint">
+      <i data-lucide="zap"></i>
+      <span>Works offline · valid for the lifetime of your badge</span>
+    </div>
+  </div>
+
+  <!-- Actions -->
+  <div class="actions">
+    <button class="btn btn-primary" onclick="openFs()"><i data-lucide="maximize-2"></i> Show full-screen to scanner</button>
+    <div class="btn-row">
+      <button class="btn btn-outline" onclick="downloadQR()"><i data-lucide="download"></i> Save</button>
+      <button class="btn btn-outline" onclick="shareQR()"><i data-lucide="share-2"></i> Share</button>
+    </div>
+  </div>
+
+  <!-- Info -->
+  <div class="info-card">
+    <h3><i data-lucide="shield-check"></i> Your details</h3>
+    <div class="kv"><span class="kv-k">Staff ID</span><span class="kv-v">WKN-00421</span></div>
+    <div class="kv"><span class="kv-k">Department</span><span class="kv-v">Product</span></div>
+    <div class="kv"><span class="kv-k">Status</span><span class="kv-v" style="color:var(--ok-700)">Active</span></div>
+    <div class="kv"><span class="kv-k">Issued</span><span class="kv-v">15 Apr 2026</span></div>
+  </div>
+
+  <div class="info-card">
+    <h3><i data-lucide="info"></i> How it works</h3>
+    <p style="font-size:14px;color:var(--muted);line-height:1.6">At the cafeteria, tap <strong style="color:var(--text)">Show full-screen</strong> and hold your phone ~30 cm from the scanner. The attendant sees your photo and name and confirms it matches you. You get <strong style="color:var(--g-700)">one meal per day</strong>.</p>
+  </div>
+
+</div>
+
+<!-- Tab bar -->
+<nav class="tabbar">
+  <a href="wakaeats-staff-home.html" class="tab"><i data-lucide="home"></i> Home</a>
+  <a href="wakaeats-my-qr.html" class="tab active"><i data-lucide="qr-code"></i> My QR</a>
+  <a href="wakaeats-staff-feedback.html" class="tab"><i data-lucide="message-square"></i> Feedback</a>
+  <a href="wakaeats-staff-profile.html" class="tab"><i data-lucide="user"></i> Profile</a>
+</nav>
+
+<!-- Fullscreen -->
+<div class="fs" id="fs">
+  <button class="fs-close" onclick="closeFs()"><i data-lucide="x"></i></button>
+  <div class="fs-qr"><div id="fs-canvas"></div></div>
+  <div class="fs-name">Cynthia Okejeh</div>
+  <div class="fs-id">WKN-00421</div>
+  <div class="fs-hint"><i data-lucide="sun"></i> Turn brightness to max</div>
+</div>
+
+<!-- Toast -->
+<div class="toast" id="toast"><i data-lucide="check"></i> <span id="toast-msg">Saved</span></div>
+
+<script>
+  lucide.createIcons();
+
+  const payload = JSON.stringify({id:'WKN-00421',sig:'a4f29c1e8b7d4f3a',iat:1744827600});
+
+  function renderQR(el, data, darkColor){
+    const qr = qrcode(0,'H');
+    qr.addData(data);
+    qr.make();
+    const modules = qr.getModuleCount();
+    const size = 500;
+    const cell = size / modules;
+    let paths = '';
+    for(let r=0;r<modules;r++){
+      for(let c=0;c<modules;c++){
+        if(qr.isDark(r,c)) paths += `M${c*cell},${r*cell}h${cell}v${cell}h-${cell}z`;
+      }
+    }
+    el.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${size} ${size}" shape-rendering="crispEdges"><rect width="${size}" height="${size}" fill="#FFFFFF"/><path d="${paths}" fill="${darkColor||'#111827'}"/></svg>`;
+  }
+
+  renderQR(document.getElementById('qr-canvas'), payload, '#111827');
+
+  function openFs(){
+    document.getElementById('fs').classList.add('show');
+    renderQR(document.getElementById('fs-canvas'), payload, '#08A5E3');
+  }
+  function closeFs(){ document.getElementById('fs').classList.remove('show'); }
+
+  function getBlob(cb){
+    const svg = document.querySelector('#qr-canvas svg');
+    const svgStr = new XMLSerializer().serializeToString(svg);
+    const img = new Image();
+    const canvas = document.createElement('canvas');
+    canvas.width = 720; canvas.height = 720;
+    const ctx = canvas.getContext('2d');
+    img.onload = () => {
+      ctx.fillStyle = '#fff'; ctx.fillRect(0,0,720,720);
+      ctx.drawImage(img,0,0,720,720);
+      canvas.toBlob(cb,'image/png');
+    };
+    img.src = 'data:image/svg+xml;base64,' + btoa(unescape(encodeURIComponent(svgStr)));
+  }
+
+  function downloadQR(){
+    getBlob(blob => {
+      const a = document.createElement('a');
+      a.download = 'wakaeats-qr-WKN-00421.png';
+      a.href = URL.createObjectURL(blob);
+      a.click();
+      setTimeout(()=>URL.revokeObjectURL(a.href), 1000);
+      toast('Saved to your device');
+    });
+  }
+
+  async function shareQR(){
+    if(!navigator.share){ toast('Sharing not supported — use Save'); return; }
+    getBlob(async blob => {
+      const file = new File([blob],'wakaeats-qr.png',{type:'image/png'});
+      try { await navigator.share({title:'My WakaEats QR', files:[file]}); } catch(e){}
+    });
+  }
+
+  let tmr;
+  function toast(msg){
+    const t = document.getElementById('toast');
+    document.getElementById('toast-msg').textContent = msg;
+    t.classList.add('show');
+    clearTimeout(tmr); tmr = setTimeout(()=>t.classList.remove('show'), 2400);
+  }
+
+  document.addEventListener('keydown', e => { if(e.key === 'Escape') closeFs(); });
+</script>
+</body>
+</html>

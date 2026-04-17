@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#08A5E3">
+<title>Sign in — WakaTribe</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+<script src="wakatribe-tenants.js"></script>
+<script src="wakatribe-lang.js" defer></script>
+<script src="wakaeats-email.js" defer></script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Inter',system-ui,sans-serif;font-size:15px;color:#111827;line-height:1.55;min-height:100vh;-webkit-font-smoothing:antialiased}
+body{background:
+  radial-gradient(circle at 18% 22%, #39B7E8 0%, transparent 42%),
+  radial-gradient(circle at 82% 78%, #5EC7F2 0%, transparent 45%),
+  radial-gradient(circle at 50% 50%, #0789BF 0%, #055F89 100%)}
+h1,h2,h3{font-family:'Inter',sans-serif;font-weight:800;letter-spacing:-.02em;color:#0F172A}
+button{cursor:pointer;font-family:inherit;border:none;background:none;color:inherit}
+input{font-family:inherit;outline:none;font-size:15px}
+a{text-decoration:none;color:#08A5E3}
+
+.page{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:32px 20px}
+
+/* Brand */
+.brand{display:flex;flex-direction:column;align-items:center;margin-bottom:18px}
+.brand-row{display:flex;align-items:center;gap:16px}
+.brand-mark{width:64px;height:64px;border-radius:18px;background:linear-gradient(135deg,#39B7E8 0%,#055F89 100%);display:flex;align-items:center;justify-content:center;box-shadow:0 10px 30px rgba(0,0,0,.25);position:relative;overflow:hidden}
+.brand-mark::before{content:'';position:absolute;inset:0;background:radial-gradient(circle at 30% 30%, rgba(255,255,255,.25), transparent 60%)}
+.brand-mark i{color:#fff;width:30px;height:30px;position:relative;z-index:1}
+.brand-name{font-size:38px;font-weight:800;color:#0F172A;line-height:1;letter-spacing:-.03em}
+.brand-sub{font-size:11px;color:#0F172A;letter-spacing:.18em;text-transform:uppercase;font-weight:700;margin-top:4px;opacity:.55}
+.tagline{color:rgba(255,255,255,.9);font-size:15px;max-width:460px;text-align:center;margin-top:14px;line-height:1.55}
+
+/* Auth card */
+.card{background:#fff;border-radius:24px;width:100%;max-width:480px;padding:28px;box-shadow:0 24px 60px rgba(0,0,0,.22);margin-top:32px}
+
+.tabs{display:flex;background:#F5F3EE;border-radius:999px;padding:5px;gap:2px;margin-bottom:24px}
+.tabs button{flex:1;padding:12px 10px;border-radius:999px;font-size:14px;font-weight:600;color:#6B7280;transition:.2s}
+.tabs button.active{background:#fff;color:#0F172A;box-shadow:0 1px 3px rgba(15,23,42,.08)}
+
+/* Tenant detection banner */
+.tenant-chip{display:flex;align-items:center;gap:10px;padding:12px 14px;background:#E8F6FD;border:1px solid #B6E1F2;border-radius:14px;margin-bottom:18px;font-size:13px;animation:tenantIn .25s ease}
+.tenant-chip.unknown{background:#FFFBEB;border-color:#FCD34D;color:#78350F}
+.tenant-chip .t-logo{width:30px;height:30px;border-radius:8px;font-weight:800;color:#fff;display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0}
+.tenant-chip .t-info{flex:1;min-width:0}
+.tenant-chip .t-info strong{font-weight:600;color:#111827;font-size:13px;display:block}
+.tenant-chip .t-info span{font-size:12px;color:#6B7280}
+.tenant-chip.unknown .t-info strong{color:#78350F}
+.tenant-chip.unknown .t-info span{color:#92400E}
+.tenant-chip .t-check{width:18px;height:18px;color:#27AE60;flex-shrink:0}
+.tenant-chip.unknown .t-check{color:#D97706}
+@keyframes tenantIn{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:translateY(0)}}
+
+.field{margin-bottom:16px}
+.field label{font-size:14px;font-weight:600;color:#111827;margin-bottom:8px;display:block}
+.field input{width:100%;height:50px;padding:0 16px;border:1px solid #E5E4DF;border-radius:14px;background:#F5F3EE;font-size:15px;color:#111827;transition:.2s}
+.field input:focus{border-color:#08A5E3;background:#fff;box-shadow:0 0 0 3px rgba(8,165,227,.18)}
+
+.row{display:flex;justify-content:space-between;align-items:center;margin:6px 0 20px;font-size:13px}
+.check{display:flex;align-items:center;gap:8px;color:#6B7280}
+.check input{width:16px;height:16px;accent-color:#08A5E3}
+.forgot{color:#08A5E3;font-weight:600}
+
+.btn-primary{width:100%;height:52px;border-radius:14px;background:#08A5E3;color:#fff;font-weight:600;font-size:15px;transition:.2s;font-family:inherit}
+.btn-primary:hover{background:#0789BF;transform:translateY(-1px);box-shadow:0 6px 18px rgba(8,165,227,.28)}
+
+/* Recognized tenants grid */
+.tenants-row{display:flex;gap:6px;justify-content:center;margin-top:18px;flex-wrap:wrap}
+.tenant-pill{display:inline-flex;align-items:center;gap:6px;padding:5px 10px;background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.22);border-radius:999px;font-size:11px;font-weight:600;color:#fff}
+.tenant-pill .dot{width:6px;height:6px;border-radius:50%}
+
+.hint{text-align:center;color:rgba(255,255,255,.72);font-size:13px;margin-top:22px;max-width:460px;line-height:1.55}
+.hint a{color:#fff;font-weight:600;text-decoration:underline}
+
+.panel{display:none}
+.panel.active{display:block}
+
+@media(max-width:540px){
+  .brand-row{gap:12px}
+  .brand-mark{width:56px;height:56px}
+  .brand-mark i{width:26px;height:26px}
+  .brand-name{font-size:30px}
+  .card{padding:22px;border-radius:22px}
+  .tagline{font-size:14px;padding:0 8px}
+}
+</style>
+</head>
+<body>
+<div class="page">
+
+  <div class="brand">
+    <div class="brand-row">
+      <div class="brand-mark"><i data-lucide="building-2"></i></div>
+      <div>
+        <div class="brand-name">WakaTribe</div>
+        <div class="brand-sub">By Wakanow</div>
+      </div>
+    </div>
+    <p class="tagline">One workspace for every internal tool — cafeteria, transport, access and more. Built for Wakanow and our sister businesses.</p>
+  </div>
+
+  <div class="card">
+    <div class="tabs">
+      <button class="active" data-tab="signin">Sign in</button>
+      <button data-tab="signup">Sign up</button>
+      <button data-tab="super">Super admin</button>
+    </div>
+
+    <!-- Tenant detection banner -->
+    <div id="tenantChip"></div>
+
+    <!-- Sign in -->
+    <form class="panel active" id="signin" onsubmit="handleSignin(event)">
+      <div class="field">
+        <label for="si-email">Work email</label>
+        <input id="si-email" type="email" autocomplete="email" placeholder="you@wakanow.com" required oninput="detectTenant(this.value)">
+      </div>
+      <div class="field">
+        <label for="si-pw">Password</label>
+        <input id="si-pw" type="password" autocomplete="current-password" placeholder="••••••••" required>
+      </div>
+      <div class="row">
+        <label class="check"><input type="checkbox"> Keep me signed in</label>
+        <a class="forgot" href="#">Forgot password?</a>
+      </div>
+      <button type="submit" class="btn-primary">Sign in</button>
+    </form>
+
+    <!-- Sign up -->
+    <form class="panel" id="signup" onsubmit="handleSignup(event)">
+      <div class="field">
+        <label for="su-name">Full name</label>
+        <input id="su-name" type="text" autocomplete="name" placeholder="e.g. Cynthia Okejeh" required>
+      </div>
+      <div class="field">
+        <label for="su-email">Work email</label>
+        <input id="su-email" type="email" autocomplete="email" placeholder="you@kalabash54.com" required oninput="detectTenant(this.value, 'su')">
+      </div>
+      <div class="field">
+        <label for="su-pw">Create password</label>
+        <input id="su-pw" type="password" autocomplete="new-password" placeholder="At least 8 characters" required minlength="8">
+      </div>
+      <button type="submit" class="btn-primary" style="margin-top:4px">Create account</button>
+    </form>
+
+    <!-- Super admin -->
+    <form class="panel" id="super" onsubmit="handleSuper(event)">
+      <div class="field">
+        <label for="sa-email">Super admin email</label>
+        <input id="sa-email" type="email" autocomplete="email" placeholder="super@wakanow.com" required>
+      </div>
+      <div class="field">
+        <label for="sa-pw">Password</label>
+        <input id="sa-pw" type="password" autocomplete="current-password" placeholder="••••••••" required>
+      </div>
+      <button type="submit" class="btn-primary">Enter master console</button>
+    </form>
+  </div>
+
+  <!-- Recognized tenants -->
+  <div class="tenants-row">
+    <span class="tenant-pill"><span class="dot" style="background:#08A5E3"></span> wakanow.com</span>
+    <span class="tenant-pill"><span class="dot" style="background:#27AE60"></span> kalabash54.com</span>
+    <span class="tenant-pill"><span class="dot" style="background:#F59E0B"></span> pointview.com</span>
+    <span class="tenant-pill"><span class="dot" style="background:#8B5CF6"></span> onburd.com</span>
+  </div>
+
+  <p class="hint">New to WakaTribe? Your business admin must be onboarded first. <a href="#" onclick="document.querySelector('[data-tab=super]').click();return false">Super admin?</a></p>
+
+</div>
+
+<script>
+  lucide.createIcons();
+
+  document.querySelectorAll('.tabs button').forEach(b=>{
+    b.addEventListener('click',()=>{
+      document.querySelectorAll('.tabs button').forEach(x=>x.classList.remove('active'));
+      document.querySelectorAll('.panel').forEach(x=>x.classList.remove('active'));
+      b.classList.add('active');
+      document.getElementById(b.dataset.tab).classList.add('active');
+      // Clear tenant chip when switching to super admin
+      if(b.dataset.tab === 'super') document.getElementById('tenantChip').innerHTML = '';
+    });
+  });
+
+  const CYNTHIA = 'cynthiaok@wakanow.com';
+
+  function detectTenant(email, source){
+    const chip = document.getElementById('tenantChip');
+    if(!email || !email.includes('@')){ chip.innerHTML = ''; return; }
+    const tenant = WakaTribe.getTenantByEmail(email);
+    if(!tenant){
+      chip.innerHTML = `
+        <div class="tenant-chip unknown">
+          <i data-lucide="alert-triangle" class="t-check"></i>
+          <div class="t-info">
+            <strong>Unknown domain</strong>
+            <span>Your business hasn't been onboarded to WakaTribe yet. Ask your IT lead.</span>
+          </div>
+        </div>`;
+    } else {
+      chip.innerHTML = `
+        <div class="tenant-chip">
+          <div class="t-logo" style="background:${tenant.color}">${tenant.logo}</div>
+          <div class="t-info">
+            <strong>${tenant.name}</strong>
+            <span>${tenant.subscriptions.length} app${tenant.subscriptions.length!==1?'s':''}: ${tenant.subscriptions.map(s => WakaTribe.getAppById(s)?.name).filter(Boolean).join(' · ')}</span>
+          </div>
+          <i data-lucide="check-circle" class="t-check"></i>
+        </div>`;
+    }
+    lucide.createIcons();
+  }
+
+  function handleSignin(e){
+    e.preventDefault();
+    const email = document.getElementById('si-email').value.trim().toLowerCase();
+
+    if(WakaTribe.isSuperAdmin(email)){
+      WakaTribe.setCurrentUser(email, 'super-admin', null);
+      window.location = 'wakatribe-super-admin.html';
+      return;
+    }
+
+    const tenant = WakaTribe.getTenantByEmail(email);
+    if(!tenant){
+      if(window.WakaEatsEmail){
+        WakaEatsEmail.toast('Your business isn\'t on WakaTribe yet', 'Contact your IT admin', 'info', 'alert-triangle');
+      } else { alert('Your business isn\'t on WakaTribe yet. Contact your IT admin.'); }
+      return;
+    }
+
+    // Cynthia is both admin + staff on Wakanow
+    let role = 'staff';
+    if(email === CYNTHIA){
+      role = localStorage.getItem('wakatribe.role') === 'staff' ? 'staff' : 'admin';
+    } else if(email === tenant.primaryAdmin){
+      role = 'admin';
+    }
+
+    WakaTribe.setCurrentUser(email, role, tenant.id);
+    window.location = 'wakatribe-hub.html';
+  }
+
+  function handleSignup(e){
+    e.preventDefault();
+    const name = document.getElementById('su-name').value.trim();
+    const email = document.getElementById('su-email').value.trim().toLowerCase();
+    const tenant = WakaTribe.getTenantByEmail(email);
+    if(!tenant){
+      if(window.WakaEatsEmail){
+        WakaEatsEmail.toast('Your business isn\'t on WakaTribe yet', 'Contact your IT admin to onboard it', 'info', 'alert-triangle');
+      }
+      return;
+    }
+    WakaTribe.setCurrentUser(email, 'staff', tenant.id);
+    localStorage.setItem('wakatribe.name', name);
+    if(window.WakaEatsEmail) WakaEatsEmail.sendWelcome(name, email);
+    setTimeout(() => { window.location = 'wakatribe-hub.html'; }, 1200);
+  }
+
+  function handleSuper(e){
+    e.preventDefault();
+    const email = document.getElementById('sa-email').value.trim().toLowerCase();
+    WakaTribe.setCurrentUser(email, 'super-admin', null);
+    window.location = 'wakatribe-super-admin.html';
+  }
+</script>
+</body>
+</html>
