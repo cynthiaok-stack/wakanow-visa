@@ -180,6 +180,12 @@ img{display:block;max-width:100%}
 .lang-btn.active{border-color:var(--primary);background:var(--primary-light);font-weight:600}
 .lang-btn .flag{font-size:18px;flex-shrink:0}
 .lang-btn.disabled{opacity:.4;cursor:not-allowed;pointer-events:none}
+.lang-card-header{display:flex;align-items:center;justify-content:space-between;cursor:pointer;user-select:none}
+.lang-card-header h3{margin-bottom:0}
+.lang-card-header i{width:18px;height:18px;color:var(--gray-400);transition:var(--ease)}
+.lang-card-header.expanded i{transform:rotate(180deg)}
+.lang-options.collapsed{display:none;margin-top:0}
+.lang-options:not(.collapsed){margin-top:12px}
 
 /* Pricing card */
 .pricing-card{background:#fff;border-radius:var(--radius-lg);padding:26px 24px;box-shadow:var(--shadow-sm)}
@@ -343,8 +349,8 @@ img{display:block;max-width:100%}
       </div>
     </section>
 
-    <!-- Option cards (filtered by modality + language) — above About -->
-    <section class="options-section" id="optionsSection">
+    <!-- Option cards (filtered by modality + language) — hidden until Check Availability -->
+    <section class="options-section" id="optionsSection" style="display:none">
       <h2 class="section-label">Available options</h2>
       <div class="option-cards" id="optionCards"></div>
     </section>
@@ -421,7 +427,7 @@ img{display:block;max-width:100%}
       <div class="cost-lines" id="costBreakdown"></div>
 
       <div class="cta-row">
-        <button class="btn-book" id="ctaBtn">Select a date to book</button>
+        <button class="btn-book" id="ctaBtn" onclick="handleCta()">Select a date</button>
       </div>
 
       <div class="trust-list">
@@ -431,8 +437,8 @@ img{display:block;max-width:100%}
       </div>
     </div>
 
-    <!-- 2. Modality selector -->
-    <div class="modality-card">
+    <!-- 2. Modality selector (hidden until Check Availability) -->
+    <div class="modality-card" id="modalityCard" style="display:none">
       <h3>Tour type</h3>
       <div class="modality-options">
         <div class="modality-btn active" data-modality="shared" onclick="selectModality('shared')">
@@ -452,10 +458,13 @@ img{display:block;max-width:100%}
       </div>
     </div>
 
-    <!-- 3. Language selector -->
-    <div class="language-card">
-      <h3>Guide language</h3>
-      <div class="lang-options" id="langOptions"></div>
+    <!-- 3. Language selector (hidden + collapsed until needed) -->
+    <div class="language-card" id="languageCard" style="display:none">
+      <div class="lang-card-header" onclick="toggleLanguagePanel()">
+        <h3>Guide language</h3>
+        <i data-lucide="chevron-down" id="langChevron"></i>
+      </div>
+      <div class="lang-options collapsed" id="langOptions"></div>
     </div>
 
   </aside>
@@ -464,16 +473,16 @@ img{display:block;max-width:100%}
 <script>
 // ── Tour data ──
 const TOUR_OPTIONS = [
-  { optionId:'shared-en-morning', modality:'shared', language:'en', title:'Shared Group Tour — Morning', description:'Join a guided group tour with English-speaking guide. Coach departs from Hammersmith at 8:45 AM.', pricePerPax:45, currency:'GBP', symbol:'£', timeSlots:['8:45 AM','11:00 AM'], cancelPolicy:'Free cancellation up to 24h before' },
-  { optionId:'shared-en-afternoon', modality:'shared', language:'en', title:'Shared Group Tour — Afternoon', description:'Afternoon departure with English-speaking guide. Perfect for late risers.', pricePerPax:48, currency:'GBP', symbol:'£', timeSlots:['1:00 PM','3:30 PM'], cancelPolicy:'Free cancellation up to 24h before' },
-  { optionId:'shared-fr', modality:'shared', language:'fr', title:'Visite en groupe — Français', description:'Visite guidée en français. Départ en car depuis Hammersmith.', pricePerPax:48, currency:'GBP', symbol:'£', timeSlots:['10:00 AM','3:00 PM'], cancelPolicy:'Free cancellation up to 24h before' },
-  { optionId:'shared-ar', modality:'shared', language:'ar', title:'Shared Group Tour — Arabic', description:'Guided tour with Arabic-speaking guide. Coach from Hammersmith.', pricePerPax:50, currency:'GBP', symbol:'£', timeSlots:['9:00 AM','2:00 PM'], cancelPolicy:'Free cancellation up to 24h before' },
-  { optionId:'shared-de', modality:'shared', language:'de', title:'Gruppentour — Deutsch', description:'Geführte Gruppentour mit deutschsprachigem Reiseleiter.', pricePerPax:48, currency:'GBP', symbol:'£', timeSlots:['10:00 AM'], cancelPolicy:'Free cancellation up to 24h before' },
-  { optionId:'shared-es', modality:'shared', language:'es', title:'Tour grupal — Español', description:'Visita guiada en español. Salida en autocar desde Hammersmith.', pricePerPax:48, currency:'GBP', symbol:'£', timeSlots:['9:30 AM','2:30 PM'], cancelPolicy:'Free cancellation up to 24h before' },
-  { optionId:'shared-pt', modality:'shared', language:'pt', title:'Tour em grupo — Português', description:'Tour guiado em português. Saída de Hammersmith.', pricePerPax:50, currency:'GBP', symbol:'£', timeSlots:['11:00 AM'], cancelPolicy:'Free cancellation up to 24h before' },
-  { optionId:'private-en', modality:'private', language:'en', title:'Private Exclusive Tour — English', description:'Private tour for your group with a dedicated English-speaking guide. Flexible scheduling, personalised experience.', basePrice:800, pricePerAdditionalGuest:100, currency:'GBP', symbol:'£', timeSlots:['Flexible'], cancelPolicy:'Free cancellation up to 48h before' },
-  { optionId:'private-fr', modality:'private', language:'fr', title:'Tour privé exclusif — Français', description:'Tour privé avec guide francophone dédié. Horaire flexible.', basePrice:850, pricePerAdditionalGuest:110, currency:'GBP', symbol:'£', timeSlots:['Flexible'], cancelPolicy:'Free cancellation up to 48h before' },
-  { optionId:'private-ar', modality:'private', language:'ar', title:'Private Exclusive Tour — Arabic', description:'Private tour with dedicated Arabic-speaking guide. Flexible schedule.', basePrice:900, pricePerAdditionalGuest:120, currency:'GBP', symbol:'£', timeSlots:['Flexible'], cancelPolicy:'Free cancellation up to 48h before' }
+  { optionId:'shared-en-morning', modality:'shared', language:'en', title:'Shared Group Tour — Morning', description:'Join a guided group tour with English-speaking guide. Coach departs from Hammersmith at 8:45 AM.', pricePerPax:70000, currency:'NGN', symbol:'₦', timeSlots:['8:45 AM','11:00 AM'], cancelPolicy:'Free cancellation up to 24h before' },
+  { optionId:'shared-en-afternoon', modality:'shared', language:'en', title:'Shared Group Tour — Afternoon', description:'Afternoon departure with English-speaking guide. Perfect for late risers.', pricePerPax:75000, currency:'NGN', symbol:'₦', timeSlots:['1:00 PM','3:30 PM'], cancelPolicy:'Free cancellation up to 24h before' },
+  { optionId:'shared-fr', modality:'shared', language:'fr', title:'Visite en groupe — Français', description:'Visite guidée en français. Départ en car depuis Hammersmith.', pricePerPax:75000, currency:'NGN', symbol:'₦', timeSlots:['10:00 AM','3:00 PM'], cancelPolicy:'Free cancellation up to 24h before' },
+  { optionId:'shared-ar', modality:'shared', language:'ar', title:'Shared Group Tour — Arabic', description:'Guided tour with Arabic-speaking guide. Coach from Hammersmith.', pricePerPax:78000, currency:'NGN', symbol:'₦', timeSlots:['9:00 AM','2:00 PM'], cancelPolicy:'Free cancellation up to 24h before' },
+  { optionId:'shared-de', modality:'shared', language:'de', title:'Gruppentour — Deutsch', description:'Geführte Gruppentour mit deutschsprachigem Reiseleiter.', pricePerPax:75000, currency:'NGN', symbol:'₦', timeSlots:['10:00 AM'], cancelPolicy:'Free cancellation up to 24h before' },
+  { optionId:'shared-es', modality:'shared', language:'es', title:'Tour grupal — Español', description:'Visita guiada en español. Salida en autocar desde Hammersmith.', pricePerPax:75000, currency:'NGN', symbol:'₦', timeSlots:['9:30 AM','2:30 PM'], cancelPolicy:'Free cancellation up to 24h before' },
+  { optionId:'shared-pt', modality:'shared', language:'pt', title:'Tour em grupo — Português', description:'Tour guiado em português. Saída de Hammersmith.', pricePerPax:78000, currency:'NGN', symbol:'₦', timeSlots:['11:00 AM'], cancelPolicy:'Free cancellation up to 24h before' },
+  { optionId:'private-en', modality:'private', language:'en', title:'Private Exclusive Tour — English', description:'Private tour for your group with a dedicated English-speaking guide. Flexible scheduling, personalised experience.', basePrice:1200000, pricePerAdditionalGuest:150000, currency:'NGN', symbol:'₦', timeSlots:['Flexible'], cancelPolicy:'Free cancellation up to 48h before' },
+  { optionId:'private-fr', modality:'private', language:'fr', title:'Tour privé exclusif — Français', description:'Tour privé avec guide francophone dédié. Horaire flexible.', basePrice:1300000, pricePerAdditionalGuest:165000, currency:'NGN', symbol:'₦', timeSlots:['Flexible'], cancelPolicy:'Free cancellation up to 48h before' },
+  { optionId:'private-ar', modality:'private', language:'ar', title:'Private Exclusive Tour — Arabic', description:'Private tour with dedicated Arabic-speaking guide. Flexible schedule.', basePrice:1400000, pricePerAdditionalGuest:180000, currency:'NGN', symbol:'₦', timeSlots:['Flexible'], cancelPolicy:'Free cancellation up to 48h before' }
 ];
 
 const LANGUAGES = [
@@ -491,7 +500,10 @@ let state = {
   language: 'en',
   count: 1,
   selectedOption: null,
-  selectedSlot: null
+  selectedSlot: null,
+  step: 'initial',
+  languageExpanded: false,
+  languageConfirmed: false
 };
 
 // ── Modality ──
@@ -523,6 +535,7 @@ function getAvailableLanguages(mod) {
 
 function selectLanguage(code) {
   state.language = code;
+  state.languageConfirmed = true;
   state.selectedOption = null;
   state.selectedSlot = null;
 
@@ -532,6 +545,7 @@ function selectLanguage(code) {
 
   renderOptions();
   renderPricing();
+  updateCta();
 }
 
 function renderLanguages() {
@@ -691,13 +705,51 @@ function selectSlot(optId, slot) {
 function updateCta() {
   const btn = document.getElementById('ctaBtn');
   const hasDate = document.getElementById('tourDate').value;
-  if (hasDate) {
-    btn.textContent = 'Book Now';
-    btn.classList.add('active');
+
+  if (state.step === 'initial') {
+    if (hasDate) {
+      btn.innerHTML = 'Check Availability';
+      btn.classList.add('active');
+    } else {
+      btn.innerHTML = 'Select a date';
+      btn.classList.remove('active');
+    }
   } else {
-    btn.textContent = 'Select a date to book';
-    btn.classList.remove('active');
+    if (state.languageConfirmed) {
+      btn.innerHTML = 'Book Now';
+      btn.classList.add('active');
+    } else {
+      btn.innerHTML = 'Select language to continue';
+      btn.classList.remove('active');
+    }
   }
+}
+
+function handleCta() {
+  const btn = document.getElementById('ctaBtn');
+  if (state.step === 'initial') {
+    if (!document.getElementById('tourDate').value) return;
+    state.step = 'availability_checked';
+    document.getElementById('modalityCard').style.display = '';
+    document.getElementById('languageCard').style.display = '';
+    document.getElementById('optionsSection').style.display = '';
+    renderLanguages();
+    renderPricing();
+    renderOptions();
+    updateCta();
+    lucide.createIcons();
+    document.getElementById('modalityCard').scrollIntoView({behavior:'smooth', block:'center'});
+  } else if (state.languageConfirmed) {
+    alert('Proceeding to booking...');
+  }
+}
+
+function toggleLanguagePanel() {
+  state.languageExpanded = !state.languageExpanded;
+  const opts = document.getElementById('langOptions');
+  const chevron = document.getElementById('langChevron');
+  opts.classList.toggle('collapsed', !state.languageExpanded);
+  if (chevron) chevron.style.transform = state.languageExpanded ? 'rotate(180deg)' : '';
 }
 
 // ── Init ──
