@@ -426,6 +426,28 @@ img{display:block;max-width:100%}
 
       <div class="cost-lines" id="costBreakdown"></div>
 
+      <div class="field-group" id="modalityCard" style="display:none">
+        <div class="field-label">Tour Type</div>
+        <div class="modality-options">
+          <div class="modality-btn active" data-modality="shared" onclick="selectModality('shared')">
+            <div class="modality-radio"><div class="modality-radio-dot"></div></div>
+            <div class="modality-name">Shared Tour</div>
+          </div>
+          <div class="modality-btn" data-modality="private" onclick="selectModality('private')">
+            <div class="modality-radio"><div class="modality-radio-dot"></div></div>
+            <div class="modality-name">Private Tour</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="field-group" id="languageCard" style="display:none">
+        <div class="lang-card-header" onclick="toggleLanguagePanel()">
+          <span class="field-label" style="margin-bottom:0">Guide Language</span>
+          <i data-lucide="chevron-down" id="langChevron"></i>
+        </div>
+        <div class="lang-options collapsed" id="langOptions"></div>
+      </div>
+
       <div class="cta-row">
         <button class="btn-book" id="ctaBtn" onclick="handleCta()">Select a date</button>
       </div>
@@ -437,35 +459,6 @@ img{display:block;max-width:100%}
       </div>
     </div>
 
-    <!-- 2. Modality selector (hidden until Check Availability) -->
-    <div class="modality-card" id="modalityCard" style="display:none">
-      <h3>Tour type</h3>
-      <div class="modality-options">
-        <div class="modality-btn active" data-modality="shared" onclick="selectModality('shared')">
-          <div class="modality-radio"><div class="modality-radio-dot"></div></div>
-          <div class="modality-info">
-            <div class="modality-name">Shared Tour</div>
-            <div class="modality-desc">Group experience, per-person pricing</div>
-          </div>
-        </div>
-        <div class="modality-btn" data-modality="private" onclick="selectModality('private')">
-          <div class="modality-radio"><div class="modality-radio-dot"></div></div>
-          <div class="modality-info">
-            <div class="modality-name">Private Tour</div>
-            <div class="modality-desc">Exclusive experience, base + per-person pricing</div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- 3. Language selector (hidden + collapsed until needed) -->
-    <div class="language-card" id="languageCard" style="display:none">
-      <div class="lang-card-header" onclick="toggleLanguagePanel()">
-        <h3>Guide language</h3>
-        <i data-lucide="chevron-down" id="langChevron"></i>
-      </div>
-      <div class="lang-options collapsed" id="langOptions"></div>
-    </div>
 
   </aside>
 </div>
@@ -715,11 +708,10 @@ function updateCta() {
       btn.classList.remove('active');
     }
   } else {
+    btn.innerHTML = 'Book Now';
     if (state.languageConfirmed) {
-      btn.innerHTML = 'Book Now';
       btn.classList.add('active');
     } else {
-      btn.innerHTML = 'Select language to continue';
       btn.classList.remove('active');
     }
   }
