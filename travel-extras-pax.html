@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Complete Your Booking — Travel Extras</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Poppins',system-ui,sans-serif;font-size:14px;color:#1E3138;line-height:1.55;background:#F5F7FB;min-height:100vh}
+h1,h2,h3,h4{font-family:'Poppins',system-ui,sans-serif;font-weight:700;line-height:1.25}
+button{cursor:pointer;font-family:inherit;border:none;background:none;color:inherit}
+input,select{font-family:inherit;outline:none}
+a{text-decoration:none;color:inherit}
+
+:root{
+  --primary:#08A5E3; --primary-dark:#0789BF; --primary-light:#E8F6FD;
+  --navy:#1E3138; --orange:#F58220; --green:#27AE60; --red:#E74C3C;
+  --amber-lt:#FEF3C7; --amber:#F59E0B;
+  --gray-100:#F2F3F5; --gray-200:#E5E7EB; --gray-300:#D1D5DB; --gray-400:#9CA3AF; --gray-500:#6B7280; --gray-600:#4B5563;
+  --radius:10px; --radius-lg:14px;
+  --shadow-sm:0 1px 3px rgba(0,0,0,.05);
+  --shadow-md:0 4px 20px rgba(0,0,0,.08);
+  --ease:.2s ease;
+}
+
+/* Top dark bar */
+.topbar-dark{background:var(--navy);color:#fff;padding:14px 32px;display:flex;align-items:center;justify-content:space-between;gap:20px}
+.back-link{display:inline-flex;align-items:center;gap:6px;color:rgba(255,255,255,.75);font-size:13px;font-weight:500;cursor:pointer}
+.back-link:hover{color:#fff}
+.back-link i{width:14px;height:14px}
+.progress-steps{display:flex;align-items:center;gap:22px;font-size:12px;color:rgba(255,255,255,.7);font-weight:500}
+.progress-steps .step{display:inline-flex;align-items:center;gap:6px;white-space:nowrap}
+.progress-steps .step i{width:13px;height:13px;color:rgba(255,255,255,.45)}
+.progress-steps .step.on{color:#fff;font-weight:600}
+.progress-steps .step.on i{color:var(--primary)}
+.progress-steps .sep{color:rgba(255,255,255,.25)}
+
+/* Page layout */
+.shell{max-width:1180px;margin:0 auto;padding:24px 32px 60px}
+.page-head{background:#fff;border-radius:var(--radius-lg);padding:20px 28px;margin-bottom:18px;box-shadow:var(--shadow-sm)}
+.page-head h1{font-size:22px;color:var(--navy);margin-bottom:2px}
+
+.grid{display:grid;grid-template-columns:1fr 340px;gap:22px;align-items:start}
+@media(max-width:1024px){ .grid{grid-template-columns:1fr} }
+
+/* Form card */
+.form-card{background:#fff;border-radius:var(--radius-lg);padding:24px 28px;box-shadow:var(--shadow-sm)}
+.form-card h2{font-size:16px;color:var(--navy);font-weight:700;margin-bottom:14px}
+.form-card .hint{background:var(--amber-lt);border:1px solid #FCD34D;color:#78350F;padding:10px 14px;border-radius:var(--radius);font-size:12px;line-height:1.5;margin-bottom:18px;display:flex;align-items:flex-start;gap:8px}
+.form-card .hint i{width:14px;height:14px;color:var(--amber);flex-shrink:0;margin-top:2px}
+.pax-header{display:flex;align-items:center;gap:10px;margin-bottom:14px;padding-bottom:12px;border-bottom:1px solid var(--gray-200)}
+.pax-header .check{width:18px;height:18px;border-radius:4px;background:var(--primary);color:#fff;display:inline-flex;align-items:center;justify-content:center}
+.pax-header .check i{width:12px;height:12px}
+.pax-header h3{font-size:14px;font-weight:700;color:var(--navy)}
+.pax-counter{margin-left:auto;font-size:12px;color:var(--gray-500);font-weight:500}
+
+/* Form grid */
+.fgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px 16px}
+@media(max-width:680px){ .fgrid{grid-template-columns:1fr 1fr} }
+@media(max-width:480px){ .fgrid{grid-template-columns:1fr} }
+.field{display:flex;flex-direction:column}
+.field.span-2{grid-column:span 2}
+.field.span-3{grid-column:span 3}
+.field label{font-size:12px;font-weight:500;color:var(--gray-600);margin-bottom:5px}
+.field label .req{color:var(--red)}
+.field input,.field select{height:42px;padding:0 12px;border:1px solid var(--gray-200);border-radius:var(--radius);background:#fff;font-size:13px;color:var(--navy);transition:var(--ease)}
+.field input:focus,.field select:focus{border-color:var(--primary);box-shadow:0 0 0 3px rgba(8,165,227,.12)}
+.field input::placeholder{color:var(--gray-400)}
+.field-phone{display:flex;gap:0}
+.field-phone .code{height:42px;padding:0 10px;border:1px solid var(--gray-200);border-right:none;border-radius:var(--radius) 0 0 var(--radius);background:var(--gray-100);font-size:13px;display:flex;align-items:center;min-width:60px}
+.field-phone input{border-radius:0 var(--radius) var(--radius) 0;flex:1}
+.radio-group{display:flex;gap:16px;align-items:center;height:42px}
+.radio-group label{display:inline-flex;align-items:center;gap:6px;font-size:13px;color:var(--navy);cursor:pointer}
+.radio-group input{width:16px;height:16px;accent-color:var(--primary)}
+
+/* Cart (right) */
+.cart{background:#fff;border-radius:var(--radius-lg);padding:22px 24px;box-shadow:var(--shadow-sm);position:sticky;top:24px}
+.cart h3{font-size:16px;font-weight:700;color:var(--navy);margin-bottom:12px}
+.cart-row{padding:10px 0;border-bottom:1px solid var(--gray-200);font-size:12px}
+.cart-row:last-of-type{border-bottom:none}
+.cart-row .l{font-weight:600;color:var(--navy);font-size:13px;margin-bottom:4px}
+.cart-row .sl{color:var(--gray-600);display:flex;align-items:center;gap:5px;line-height:1.5}
+.cart-row .sl i{width:12px;height:12px;color:var(--gray-500);flex-shrink:0}
+.cart-row.addon{display:flex;justify-content:space-between;gap:10px;align-items:start}
+.cart-row.addon .name{font-size:11px;color:var(--gray-600);line-height:1.4;flex:1;font-weight:500}
+.cart-row.addon .amt{font-weight:600;font-size:12px;color:var(--navy);white-space:nowrap;font-variant-numeric:tabular-nums}
+.cart-total{display:flex;justify-content:space-between;align-items:center;padding-top:12px;border-top:1.5px solid var(--gray-200);margin-top:4px}
+.cart-total .l{font-size:13px;font-weight:700;color:var(--navy)}
+.cart-total .amt{font-size:17px;font-weight:700;color:var(--navy);font-variant-numeric:tabular-nums}
+
+.promo{background:var(--primary-light);border-radius:var(--radius);padding:14px;margin-top:14px}
+.promo .title{font-size:13px;font-weight:700;color:var(--primary-dark);margin-bottom:8px}
+.promo .row{display:flex;gap:6px}
+.promo input{flex:1;height:36px;padding:0 10px;border:1px solid var(--gray-200);border-radius:6px;background:#fff;font-size:12px}
+.promo button{padding:0 14px;height:36px;background:var(--primary);color:#fff;font-weight:600;font-size:12px;border-radius:6px}
+.promo button:hover{background:var(--primary-dark)}
+
+/* Continue bar */
+.foot{background:#fff;border-top:1px solid var(--gray-200);padding:14px 32px;margin-top:-12px;display:flex;align-items:center;justify-content:space-between;gap:16px;font-size:11px;color:var(--gray-500)}
+.foot a{color:var(--primary);font-weight:600}
+.btn-continue{background:var(--orange);color:#fff;padding:12px 36px;font-family:'Poppins',system-ui,sans-serif;font-size:14px;font-weight:700;border-radius:var(--radius);border:none;cursor:pointer;display:inline-flex;align-items:center;gap:8px;transition:var(--ease)}
+.btn-continue:hover{background:#e07318;transform:translateY(-1px);box-shadow:0 6px 16px rgba(245,130,32,.24)}
+.btn-continue i{width:14px;height:14px}
+</style>
+</head>
+<body>
+
+<!-- Progress header -->
+<div class="topbar-dark">
+  <div class="back-link" onclick="location.href='travel-extras.html'"><i data-lucide="arrow-left"></i> Go Back</div>
+  <div style="font-size:14px;font-weight:600">Complete your booking</div>
+  <div class="progress-steps">
+    <span class="step"><i data-lucide="search"></i> Search Flight</span>
+    <span class="sep">·</span>
+    <span class="step on"><i data-lucide="user"></i> Traveller Info</span>
+    <span class="sep">·</span>
+    <span class="step"><i data-lucide="briefcase"></i> Trip Customization</span>
+    <span class="sep">·</span>
+    <span class="step"><i data-lucide="credit-card"></i> Make Secure Payment</span>
+  </div>
+</div>
+
+<div class="shell">
+  <div class="grid">
+    <div>
+      <!-- Guest Details form -->
+      <div class="form-card">
+        <h2>Guest Details</h2>
+
+        <!-- Adult passenger -->
+        <div id="paxForms"></div>
+      </div>
+    </div>
+
+    <!-- Cart -->
+    <aside class="cart">
+      <h3>My Cart</h3>
+      <div class="cart-row">
+        <div class="l">Flight</div>
+        <div class="sl"><i data-lucide="plane"></i> <span id="cAirport">—</span></div>
+        <div class="sl" style="margin-top:3px"><span style="color:var(--gray-500);font-size:11px">Departure:</span> <span id="cDate">—</span></div>
+      </div>
+      <div class="cart-row">
+        <div class="l">Passenger</div>
+        <div class="sl"><span id="cPax">Adult x 1</span></div>
+      </div>
+      <div class="cart-row">
+        <div class="l">Essentials Add-ons</div>
+        <div id="cAddons"></div>
+      </div>
+      <div class="cart-total">
+        <span class="l">Trip Total</span>
+        <span class="amt" id="cTotal">₦0</span>
+      </div>
+      <div class="promo">
+        <div class="title">Promo Codes</div>
+        <div class="row">
+          <input type="text" placeholder="Enter your promocode">
+          <button onclick="applyPromo()">Apply</button>
+        </div>
+      </div>
+    </aside>
+  </div>
+</div>
+
+<!-- Footer with continue -->
+<div class="foot">
+  <div>By proceeding you agree you have read and accepted our <a href="#">Terms &amp; Conditions</a></div>
+  <button class="btn-continue" onclick="goToPayment()">Continue <i data-lucide="arrow-right"></i></button>
+</div>
+
+<script>
+lucide.createIcons();
+
+// ── Load cart from session ──
+const cart = (() => { try { return JSON.parse(sessionStorage.getItem('wk_extras_cart') || '{}'); } catch(e){ return {}; } })();
+if(!cart.items || cart.items.length === 0){
+  // No cart — send user back to build one
+  location.replace('travel-extras.html');
+}
+const paxCount = cart.pax || 1;
+
+// Render cart summary
+document.getElementById('cAirport').textContent = `${cart.airportCity || '—'} Airport (${cart.airportCode || '—'})`;
+document.getElementById('cDate').textContent = fmtDate(cart.date);
+document.getElementById('cPax').textContent = `Adult x ${paxCount}`;
+document.getElementById('cAddons').innerHTML = cart.items.map(x => `
+  <div class="cart-row addon" style="border:none;padding:5px 0">
+    <span class="name">${slug(x.name)}${x.ageRange ? '-' + x.ageRange.replace(/\\s/g,'') : ''}</span>
+    <span class="amt">₦${(x.price * paxCount).toLocaleString()}</span>
+  </div>`).join('');
+document.getElementById('cTotal').textContent = '₦' + (cart.subtotal || 0).toLocaleString();
+
+// Render one form per passenger
+const paxForms = document.getElementById('paxForms');
+paxForms.innerHTML = '';
+for(let i = 1; i <= paxCount; i++){
+  paxForms.insertAdjacentHTML('beforeend', renderPaxForm(i, paxCount));
+}
+// Show once at top
+document.querySelector('.form-card').insertAdjacentHTML('afterbegin', `
+  <div class="hint">
+    <i data-lucide="info"></i>
+    <div><strong>Adult (17 yrs+)</strong> · Enter your name as it is mentioned on your passport. Passport should be valid for a minimum of 6 months from date of travel.</div>
+  </div>
+`);
+lucide.createIcons();
+
+function renderPaxForm(idx, total){
+  return `<div data-pax="${idx}" style="${idx > 1 ? 'border-top:1px solid var(--gray-200);padding-top:18px;margin-top:18px' : ''}">
+    <div class="pax-header">
+      <span class="check"><i data-lucide="check"></i></span>
+      <h3>Adult - ${idx}</h3>
+      <span class="pax-counter">${idx}/${total} added</span>
+    </div>
+    <div class="fgrid">
+      <div class="field">
+        <label>Title <span class="req">*</span></label>
+        <select name="title" required>
+          <option value="">Select</option>
+          <option>Mr</option><option>Mrs</option><option>Ms</option><option>Dr</option><option>Prof</option>
+        </select>
+      </div>
+      <div class="field"><label>Last Name <span class="req">*</span></label><input name="lastName" type="text" placeholder="Last Name" required></div>
+      <div class="field"><label>First Name <span class="req">*</span></label><input name="firstName" type="text" placeholder="First Name" required></div>
+      <div class="field"><label>Middle Name</label><input name="middleName" type="text" placeholder="Middle Name"></div>
+      <div class="field"><label>Date of Birth <span class="req">*</span></label><input name="dob" type="date" required placeholder="yyyy-mm-dd"></div>
+      <div class="field"><label>Nationality <span class="req">*</span></label>
+        <select name="nationality" required>
+          <option>Nigeria</option><option>Ghana</option><option>Kenya</option><option>South Africa</option><option>United States</option><option>United Kingdom</option>
+        </select>
+      </div>
+      <div class="field span-3">
+        <label>Gender <span class="req">*</span></label>
+        <div class="radio-group">
+          <label><input type="radio" name="gender-${idx}" value="male" required> Male</label>
+          <label><input type="radio" name="gender-${idx}" value="female" required> Female</label>
+        </div>
+      </div>
+      <div class="field">
+        <label>Mobile No <span class="req">*</span></label>
+        <div class="field-phone">
+          <span class="code">+234</span>
+          <input name="mobile" type="tel" placeholder="7812345678" required>
+        </div>
+      </div>
+      <div class="field"><label>Email Address <span class="req">*</span></label><input name="email" type="email" placeholder="user@mail.com" required></div>
+      <div class="field"><label>PNR (Optional)</label><input name="pnr" type="text" placeholder="e.g. 6xxxxxxxxxxxx"></div>
+      <div class="field"><label>Time of Travel <span class="req">*</span></label>
+        <select name="timeOfTravel" required><option value="">Select Time</option><option>Morning</option><option>Afternoon</option><option>Evening</option><option>Night</option></select>
+      </div>
+      <div class="field"><label>Arrival Country <span class="req">*</span></label>
+        <select name="arrivalCountry" required><option value="">Select</option><option>United Kingdom</option><option>United States</option><option>France</option><option>Germany</option><option>Ghana</option><option>Nigeria</option><option>South Africa</option></select>
+      </div>
+      <div class="field"><label>Passport Number <span class="req">*</span></label><input name="passport" type="text" placeholder="B00504****99" required></div>
+    </div>
+  </div>`;
+}
+
+function applyPromo(){ alert('Promo codes are coming soon.'); }
+
+function goToPayment(){
+  // Collect every passenger form
+  const paxData = [];
+  let valid = true;
+  document.querySelectorAll('[data-pax]').forEach(block => {
+    const data = {};
+    block.querySelectorAll('input[name], select[name]').forEach(el => {
+      if(el.required && !el.value) valid = false;
+      data[el.name] = el.value;
+    });
+    const genderSel = block.querySelector('input[type="radio"]:checked');
+    if(!genderSel) valid = false;
+    else data.gender = genderSel.value;
+    paxData.push(data);
+  });
+  if(!valid){
+    alert('Please fill in all required fields marked with *');
+    return;
+  }
+  try { sessionStorage.setItem('wk_extras_pax', JSON.stringify(paxData)); } catch(e){}
+  location.href = 'travel-extras-payment.html';
+}
+
+function fmtDate(iso){
+  if(!iso) return '—';
+  try { return new Date(iso).toLocaleDateString('en-GB', { day:'2-digit', month:'short', year:'numeric' }); }
+  catch(e){ return iso; }
+}
+function slug(s){ return s.toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,''); }
+</script>
+</body>
+</html>

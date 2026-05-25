@@ -6,14 +6,14 @@
 <title>Hotel Booking — Wakanow for Business</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
 <style>
 /* ==================== RESET & BASE ==================== */
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 html{-webkit-text-size-adjust:100%;scroll-behavior:smooth}
-body{font-family:'DM Sans',sans-serif;font-size:15px;color:#1E3138;line-height:1.6;background:#F7F8FA;min-height:100vh;overflow-x:hidden}
-h1,h2,h3,h4,h5,h6{font-family:'Syne',sans-serif;font-weight:700;line-height:1.25}
+body{font-family:'Poppins', system-ui, sans-serif;font-size:15px;color:#1E3138;line-height:1.6;background:#F7F8FA;min-height:100vh;overflow-x:hidden}
+h1,h2,h3,h4,h5,h6{font-family:'Poppins', system-ui, sans-serif;font-weight:700;line-height:1.25}
 img,svg{display:block;max-width:100%}
 button{cursor:pointer;font-family:inherit;border:none;background:none}
 input,select,textarea{font-family:inherit;outline:none}
@@ -57,7 +57,7 @@ a{text-decoration:none;color:inherit}
 .top-bar .container{display:flex;align-items:center;justify-content:space-between;width:100%}
 .top-bar-left{display:flex;align-items:center;gap:12px}
 .top-bar-left img{height:32px}
-.badge-business{background:var(--navy);color:var(--white);font-size:10px;font-weight:700;letter-spacing:1.2px;padding:3px 8px;border-radius:var(--radius-pill);text-transform:uppercase;font-family:'Syne',sans-serif}
+.badge-business{background:var(--navy);color:var(--white);font-size:10px;font-weight:700;letter-spacing:1.2px;padding:3px 8px;border-radius:var(--radius-pill);text-transform:uppercase;font-family:'Poppins', system-ui, sans-serif}
 .back-link{display:flex;align-items:center;gap:6px;color:var(--primary);font-weight:500;font-size:14px;transition:color var(--transition)}
 .back-link:hover{color:var(--primary-dark)}
 
@@ -65,7 +65,7 @@ a{text-decoration:none;color:inherit}
 .stepper-wrap{background:var(--white);border-bottom:1px solid var(--gray-200);padding:20px 0}
 .stepper{display:flex;align-items:center;justify-content:center;gap:0;max-width:600px;margin:0 auto}
 .step{display:flex;align-items:center;gap:10px;position:relative}
-.step-circle{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Syne',sans-serif;font-weight:700;font-size:14px;transition:all var(--transition);flex-shrink:0}
+.step-circle{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Poppins', system-ui, sans-serif;font-weight:700;font-size:14px;transition:all var(--transition);flex-shrink:0}
 .step.future .step-circle{background:var(--gray-200);color:var(--gray-400)}
 .step.active .step-circle{background:var(--primary);color:var(--white)}
 .step.completed .step-circle{background:var(--green);color:var(--white)}
@@ -83,7 +83,7 @@ a{text-decoration:none;color:inherit}
 
 /* ==================== SIDEBAR ==================== */
 .sidebar-card{background:var(--white);border-radius:var(--radius);box-shadow:var(--shadow-md);padding:24px;overflow:hidden}
-.sidebar-hotel-name{font-family:'Syne',sans-serif;font-weight:800;font-size:18px;color:var(--navy);margin-bottom:4px}
+.sidebar-hotel-name{font-family:'Poppins', system-ui, sans-serif;font-weight:800;font-size:18px;color:var(--navy);margin-bottom:4px}
 .sidebar-stars{color:var(--gold);font-size:16px;margin-bottom:6px;letter-spacing:2px}
 .sidebar-location{display:flex;align-items:center;gap:4px;color:var(--gray-600);font-size:13px;margin-bottom:12px}
 .rating-badge{display:inline-flex;align-items:center;gap:8px;margin-bottom:16px}
@@ -95,7 +95,7 @@ a{text-decoration:none;color:inherit}
 .stay-detail-label{color:var(--gray-600)}
 .stay-detail-value{font-weight:600;color:var(--navy);text-align:right}
 .price-row{display:flex;justify-content:space-between;font-size:14px;margin-bottom:8px}
-.price-row.total{font-family:'Syne',sans-serif;font-weight:800;font-size:20px;color:var(--navy);margin-top:8px}
+.price-row.total{font-family:'Poppins', system-ui, sans-serif;font-weight:800;font-size:20px;color:var(--navy);margin-top:8px}
 .price-row .saved{color:var(--green);font-size:13px;font-weight:600}
 .commission-row{display:flex;align-items:center;gap:6px;background:var(--green-light);color:var(--green);font-size:13px;font-weight:600;padding:8px 12px;border-radius:8px;margin-top:12px}
 .free-cancel{display:flex;align-items:center;gap:6px;color:var(--green);font-size:13px;font-weight:500;margin-top:14px}
@@ -121,7 +121,7 @@ a{text-decoration:none;color:inherit}
 /* ==================== ROOM TABLE ==================== */
 .rooms-section h2{font-size:20px;margin-bottom:16px;color:var(--navy)}
 .room-table{width:100%;border-collapse:separate;border-spacing:0;background:var(--white);border-radius:var(--radius);box-shadow:var(--shadow-sm);overflow:hidden;margin-bottom:24px}
-.room-table thead th{background:var(--primary-light);color:var(--navy);font-family:'Syne',sans-serif;font-weight:700;font-size:13px;text-transform:uppercase;letter-spacing:.5px;padding:14px 16px;text-align:left;border-bottom:2px solid var(--primary)}
+.room-table thead th{background:var(--primary-light);color:var(--navy);font-family:'Poppins', system-ui, sans-serif;font-weight:700;font-size:13px;text-transform:uppercase;letter-spacing:.5px;padding:14px 16px;text-align:left;border-bottom:2px solid var(--primary)}
 .room-table thead th:last-child{text-align:center;width:130px}
 .room-table thead th:nth-child(3){text-align:right;width:160px}
 .room-table thead th:nth-child(2){width:80px;text-align:center}
@@ -129,7 +129,7 @@ a{text-decoration:none;color:inherit}
 .room-table tbody tr:last-child{border-bottom:none}
 .room-table tbody tr:hover{background:var(--gray-100)}
 .room-table td{padding:16px;vertical-align:top}
-.room-name{font-family:'Syne',sans-serif;font-weight:700;font-size:16px;color:var(--navy);margin-bottom:4px}
+.room-name{font-family:'Poppins', system-ui, sans-serif;font-weight:700;font-size:16px;color:var(--navy);margin-bottom:4px}
 .room-bed{display:flex;align-items:center;gap:6px;font-size:13px;color:var(--gray-600);margin-bottom:10px}
 .room-bed i{width:16px;height:16px}
 .room-tags{display:flex;flex-wrap:wrap;gap:6px}
@@ -138,13 +138,13 @@ a{text-decoration:none;color:inherit}
 .room-sleeps{text-align:center;display:flex;align-items:center;justify-content:center;gap:2px;color:var(--gray-600)}
 .room-sleeps i{width:18px;height:18px}
 .room-price-cell{text-align:right}
-.room-price{font-family:'Syne',sans-serif;font-weight:700;font-size:18px;color:var(--navy)}
+.room-price{font-family:'Poppins', system-ui, sans-serif;font-weight:700;font-size:18px;color:var(--navy)}
 .room-price-sub{font-size:11px;color:var(--gray-400);margin-top:2px}
 .room-select-cell{text-align:center;vertical-align:middle}
 .room-qty{width:70px;padding:8px 10px;border:2px solid var(--gray-200);border-radius:8px;font-size:14px;font-weight:600;text-align:center;color:var(--navy);background:var(--white);transition:border-color var(--transition);cursor:pointer;appearance:auto}
 .room-qty:focus{border-color:var(--primary)}
 
-.btn-reserve{display:block;width:100%;padding:16px;background:var(--primary);color:var(--white);font-family:'Syne',sans-serif;font-weight:700;font-size:16px;border-radius:var(--radius);transition:all var(--transition);text-align:center;margin-bottom:32px}
+.btn-reserve{display:block;width:100%;padding:16px;background:var(--primary);color:var(--white);font-family:'Poppins', system-ui, sans-serif;font-weight:700;font-size:16px;border-radius:var(--radius);transition:all var(--transition);text-align:center;margin-bottom:32px}
 .btn-reserve:hover{background:var(--primary-dark);box-shadow:var(--shadow-md)}
 .btn-reserve:disabled{opacity:.5;cursor:not-allowed}
 
@@ -207,7 +207,7 @@ textarea.form-input{resize:vertical;min-height:80px}
 .addon-body{flex:1}
 .addon-title{font-weight:700;font-size:15px;color:var(--navy);margin-bottom:2px}
 .addon-desc{font-size:13px;color:var(--gray-600);margin-bottom:6px}
-.addon-price{font-family:'Syne',sans-serif;font-weight:700;color:var(--primary);font-size:15px}
+.addon-price{font-family:'Poppins', system-ui, sans-serif;font-weight:700;color:var(--primary);font-size:15px}
 .addon-toggle{position:relative;width:48px;height:26px;border-radius:13px;background:var(--gray-200);transition:background var(--transition);flex-shrink:0;cursor:pointer}
 .addon-toggle.on{background:var(--primary)}
 .addon-toggle::after{content:'';position:absolute;top:3px;left:3px;width:20px;height:20px;border-radius:50%;background:var(--white);box-shadow:var(--shadow-sm);transition:transform var(--transition)}
@@ -256,7 +256,7 @@ textarea.form-input{resize:vertical;min-height:80px}
 .terms-check input{margin-top:3px;width:18px;height:18px;accent-color:var(--primary)}
 .terms-check a{color:var(--primary);text-decoration:underline}
 
-.btn-complete{display:block;width:100%;padding:18px;background:var(--primary);color:var(--white);font-family:'Syne',sans-serif;font-weight:700;font-size:17px;border-radius:var(--radius);transition:all var(--transition);text-align:center}
+.btn-complete{display:block;width:100%;padding:18px;background:var(--primary);color:var(--white);font-family:'Poppins', system-ui, sans-serif;font-weight:700;font-size:17px;border-radius:var(--radius);transition:all var(--transition);text-align:center}
 .btn-complete:hover{background:var(--primary-dark);box-shadow:var(--shadow-md)}
 .btn-complete:disabled{opacity:.5;cursor:not-allowed}
 
@@ -290,9 +290,9 @@ textarea.form-input{resize:vertical;min-height:80px}
 .confirm-info p i{width:16px;height:16px;color:var(--primary)}
 
 .confirm-actions{display:flex;gap:14px;justify-content:center;margin-bottom:16px}
-.btn-primary{padding:14px 28px;background:var(--primary);color:var(--white);font-family:'Syne',sans-serif;font-weight:700;font-size:15px;border-radius:var(--radius);transition:all var(--transition)}
+.btn-primary{padding:14px 28px;background:var(--primary);color:var(--white);font-family:'Poppins', system-ui, sans-serif;font-weight:700;font-size:15px;border-radius:var(--radius);transition:all var(--transition)}
 .btn-primary:hover{background:var(--primary-dark)}
-.btn-outline{padding:14px 28px;border:2px solid var(--primary);color:var(--primary);font-family:'Syne',sans-serif;font-weight:700;font-size:15px;border-radius:var(--radius);transition:all var(--transition)}
+.btn-outline{padding:14px 28px;border:2px solid var(--primary);color:var(--primary);font-family:'Poppins', system-ui, sans-serif;font-weight:700;font-size:15px;border-radius:var(--radius);transition:all var(--transition)}
 .btn-outline:hover{background:var(--primary-light)}
 .download-link{display:inline-flex;align-items:center;gap:6px;color:var(--primary);font-size:14px;font-weight:500}
 .download-link:hover{text-decoration:underline}
@@ -301,7 +301,7 @@ textarea.form-input{resize:vertical;min-height:80px}
 .step-nav{display:flex;align-items:center;gap:16px;margin-top:24px}
 .btn-back{display:inline-flex;align-items:center;gap:6px;color:var(--gray-600);font-weight:500;font-size:14px;padding:12px 0;transition:color var(--transition)}
 .btn-back:hover{color:var(--navy)}
-.btn-next{padding:16px 32px;background:var(--primary);color:var(--white);font-family:'Syne',sans-serif;font-weight:700;font-size:15px;border-radius:var(--radius);transition:all var(--transition);margin-left:auto}
+.btn-next{padding:16px 32px;background:var(--primary);color:var(--white);font-family:'Poppins', system-ui, sans-serif;font-weight:700;font-size:15px;border-radius:var(--radius);transition:all var(--transition);margin-left:auto}
 .btn-next:hover{background:var(--primary-dark);box-shadow:var(--shadow-md)}
 
 /* ==================== SPINNER ==================== */
@@ -309,7 +309,7 @@ textarea.form-input{resize:vertical;min-height:80px}
 .spinner-overlay.active{display:flex}
 .spinner{width:48px;height:48px;border:4px solid var(--gray-200);border-top-color:var(--primary);border-radius:50%;animation:spin .8s linear infinite}
 @keyframes spin{to{transform:rotate(360deg)}}
-.spinner-text{font-family:'Syne',sans-serif;font-weight:700;color:var(--navy);font-size:16px}
+.spinner-text{font-family:'Poppins', system-ui, sans-serif;font-weight:700;color:var(--navy);font-size:16px}
 
 /* ==================== RESPONSIVE ==================== */
 @media(max-width:900px){
@@ -949,7 +949,7 @@ textarea.form-input{resize:vertical;min-height:80px}
       <div class="confirm-summary-row"><span class="label">Check-out</span><span class="value">Sat, 25 Apr 2026 (11:00)</span></div>
       <div class="confirm-summary-row"><span class="label">Room</span><span class="value" id="confirmRoom">Superior Double Room</span></div>
       <div class="confirm-summary-row"><span class="label">Guests</span><span class="value">2 adults</span></div>
-      <div class="confirm-summary-row"><span class="label">Total Paid</span><span class="value" id="confirmTotal" style="color:var(--primary);font-family:'Syne',sans-serif;font-weight:700">&#8358;1,369,500</span></div>
+      <div class="confirm-summary-row"><span class="label">Total Paid</span><span class="value" id="confirmTotal" style="color:var(--primary);font-family:'Poppins', system-ui, sans-serif;font-weight:700">&#8358;1,369,500</span></div>
     </div>
 
     <div class="confirm-info">

@@ -1,0 +1,710 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tour Detail — Wakanow Tours</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Rubik',system-ui,sans-serif;font-size:16px;color:#1E3138;line-height:1.55;background:#F5F7FA;min-height:100vh}
+h1,h2,h3,h4{font-family:'Rubik',system-ui,sans-serif;font-weight:700;line-height:1.2}
+button{cursor:pointer;font-family:inherit;border:none;background:none;color:inherit}
+a{text-decoration:none;color:inherit}
+img{display:block;max-width:100%}
+
+:root{
+  --primary:#08A5E3; --primary-dark:#0789BF; --primary-light:#E8F6FD;
+  --navy:#0F2A33; --navy-deep:#0B3A52;
+  --orange:#F58220; --orange-dark:#E07318;
+  --green:#27AE60; --red:#E74C3C;
+  --gray-50:#F9FAFB; --gray-100:#F2F3F5; --gray-200:#E5E7EB; --gray-300:#D1D5DB; --gray-400:#9CA3AF; --gray-500:#6B7280; --gray-600:#4B5563;
+  --radius:10px; --radius-lg:14px;
+  --shadow-sm:0 1px 3px rgba(0,0,0,.06);
+  --shadow-md:0 4px 20px rgba(0,0,0,.08);
+  --ease:.22s cubic-bezier(.4,0,.2,1);
+}
+
+/* ── Header ── */
+.site-header{background:#fff;padding:14px 40px;display:flex;align-items:center;gap:20px;box-shadow:0 1px 0 rgba(15,42,51,.06);position:sticky;top:0;z-index:100}
+.site-header .logo{height:32px}
+.nav-links{display:flex;gap:28px;margin-left:40px}
+.nav-links a{font-size:14px;color:var(--navy);font-weight:500}
+.nav-links a:hover{color:var(--primary)}
+.nav-links a.active{color:var(--primary);font-weight:600}
+.header-right{display:flex;align-items:center;gap:18px;margin-left:auto}
+.header-right a{font-size:14px;color:var(--navy);font-weight:500}
+.header-right a:hover{color:var(--primary)}
+.btn-signup{background:var(--orange);color:#fff!important;font-weight:600;font-size:13px;padding:10px 22px;border-radius:8px}
+.btn-signup:hover{background:var(--orange-dark)}
+.cart-btn{width:40px;height:40px;display:flex;align-items:center;justify-content:center;border-radius:8px;border:1px solid var(--gray-200);color:var(--navy)}
+.cart-btn:hover{background:var(--gray-50)}
+
+/* ── Sub-header tabs ── */
+.sub-header{background:#fff;border-bottom:1px solid var(--gray-200);padding:0 40px;display:flex;align-items:center;gap:0}
+.tab-nav{display:flex;gap:0}
+.tab-nav a{padding:14px 20px;font-size:14px;font-weight:500;color:var(--gray-500);border-bottom:2px solid transparent;transition:var(--ease)}
+.tab-nav a:hover{color:var(--navy)}
+.tab-nav a.active{color:var(--navy);font-weight:600;border-bottom-color:var(--primary)}
+.sub-header-name{font-size:14px;font-weight:700;color:var(--navy);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:280px;padding-right:16px;border-right:1px solid var(--gray-200);margin-right:4px}
+.sub-header .book-now-top{margin-left:auto;background:var(--orange);color:#fff;font-weight:600;font-size:13px;padding:10px 24px;border-radius:8px;transition:var(--ease)}
+.sub-header .book-now-top:hover{background:var(--orange-dark)}
+
+/* ── Breadcrumbs ── */
+.crumbs{font-size:13px;color:var(--gray-500);padding:16px 40px 0;display:flex;gap:6px;align-items:center;max-width:1280px;margin:0 auto}
+.crumbs a{color:var(--navy);font-weight:500}
+.crumbs a:hover{color:var(--primary)}
+.crumbs i{width:14px;height:14px}
+
+/* ── Shell (2-col layout) ── */
+.shell{max-width:1280px;margin:0 auto;padding:20px 40px 60px;display:grid;grid-template-columns:1fr 380px;gap:28px;align-items:start}
+
+/* ── Badges row ── */
+.badges{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-bottom:12px}
+.badge{font-size:12px;font-weight:600;padding:6px 14px;border-radius:6px;display:inline-flex;align-items:center;gap:6px}
+.badge i{width:13px;height:13px}
+.badge-type{background:var(--navy);color:#fff;text-transform:uppercase;letter-spacing:.5px}
+.badge-loc{font-size:13px;color:var(--gray-500);font-weight:500;display:inline-flex;align-items:center;gap:4px}
+.badge-loc i{width:14px;height:14px;color:var(--gray-400)}
+.badge-tag{border:1px solid var(--gray-200);color:var(--green);background:#fff}
+.badge-tag.confirm{color:var(--primary)}
+
+/* ── Title block ── */
+.tour-title{font-size:28px;color:var(--navy);font-weight:700;margin-bottom:8px;line-height:1.25}
+.tour-meta{display:flex;align-items:center;gap:16px;flex-wrap:wrap;margin-bottom:20px}
+.stars{display:flex;align-items:center;gap:2px}
+.stars svg{width:16px;height:16px;fill:#F5B544;color:#F5B544}
+.meta-text{font-size:14px;color:var(--navy);font-weight:600}
+.meta-link{font-size:14px;color:var(--primary);font-weight:500;text-decoration:underline}
+.meta-sep{width:4px;height:4px;border-radius:50%;background:var(--gray-300)}
+.meta-item{font-size:14px;color:var(--gray-500);display:inline-flex;align-items:center;gap:5px}
+.meta-item i{width:15px;height:15px}
+
+/* ── Gallery ── */
+.gallery{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:28px;border-radius:var(--radius-lg);overflow:hidden}
+.gallery-img{width:100%;height:240px;object-fit:cover;background:var(--gray-100)}
+.gallery-img:first-child{grid-row:1/3;height:100%}
+.gallery-img.placeholder{display:flex;align-items:center;justify-content:center;font-size:13px;color:var(--gray-400)}
+
+/* ── Review card (top right of gallery) ── */
+.review-card{background:#fff;border-radius:var(--radius-lg);padding:22px 24px;box-shadow:var(--shadow-sm);margin-bottom:0}
+.review-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
+.review-label{font-size:16px;font-weight:700;color:var(--navy)}
+.review-score{background:var(--navy);color:#fff;font-size:16px;font-weight:700;padding:6px 12px;border-radius:8px}
+.review-count{font-size:13px;color:var(--gray-500);margin-bottom:12px}
+.review-loved{font-size:14px;font-weight:600;color:var(--navy);margin-bottom:8px}
+.review-quote{font-size:13px;color:var(--gray-600);font-style:italic;line-height:1.6;margin-bottom:8px}
+.review-author{font-size:13px;font-weight:600;color:var(--navy);margin-bottom:14px}
+.review-link{font-size:14px;color:var(--primary);font-weight:500;display:inline-flex;align-items:center;gap:4px}
+.review-link i{width:14px;height:14px}
+
+/* ── Highlights ── */
+.section-label{font-size:20px;font-weight:700;color:var(--navy);margin-bottom:14px}
+.highlights-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px 32px;margin-bottom:32px}
+.highlight-item{display:flex;align-items:flex-start;gap:10px;font-size:14px;color:var(--gray-600);line-height:1.5}
+.highlight-item .emoji{font-size:18px;flex-shrink:0;line-height:1.4}
+
+/* ── About ── */
+.about-text{font-size:14px;color:var(--gray-600);line-height:1.75;margin-bottom:8px}
+.read-more{font-size:14px;color:var(--primary);font-weight:500;cursor:pointer;display:inline-flex;align-items:center;gap:4px;margin-bottom:32px}
+.read-more i{width:14px;height:14px;transition:var(--ease)}
+
+/* ── Inclusions ── */
+.inclusions-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-bottom:32px}
+.incl-col h4{font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;margin-bottom:10px}
+.incl-col.yes h4{color:var(--green)}
+.incl-col.no h4{color:var(--red)}
+.incl-item{display:flex;align-items:center;gap:8px;font-size:14px;color:var(--gray-600);padding:5px 0}
+.incl-item i{width:16px;height:16px;flex-shrink:0}
+.incl-col.yes .incl-item i{color:var(--green)}
+.incl-col.no .incl-item i{color:var(--red)}
+
+/* ── Meeting point ── */
+.meeting-card{background:var(--gray-50);border-radius:var(--radius-lg);padding:20px 24px;margin-bottom:32px}
+.meeting-card p{font-size:14px;color:var(--gray-600);line-height:1.6;margin-bottom:8px}
+.meeting-loc{font-size:13px;color:var(--gray-500);display:flex;align-items:center;gap:6px}
+.meeting-loc i{width:14px;height:14px;color:var(--primary)}
+
+/* ── Option cards ── */
+.options-section{margin-bottom:32px}
+.option-cards{display:flex;flex-direction:column;gap:16px}
+.option-card{background:#fff;border:2px solid var(--gray-200);border-radius:var(--radius-lg);padding:24px;transition:var(--ease);cursor:pointer}
+.option-card:hover{border-color:var(--primary);box-shadow:0 4px 16px rgba(8,165,227,.10)}
+.option-card.selected{border-color:var(--primary);background:var(--primary-light)}
+.option-card-header{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:10px}
+.option-card-title{font-size:17px;font-weight:700;color:var(--navy)}
+.option-card-desc{font-size:13px;color:var(--gray-600);line-height:1.6;margin-bottom:14px}
+.option-card-meta{display:flex;flex-wrap:wrap;gap:12px;align-items:center;font-size:13px;color:var(--gray-500)}
+.option-card-meta span{display:inline-flex;align-items:center;gap:5px}
+.option-card-meta i{width:14px;height:14px}
+.option-timeslot-row{display:flex;align-items:center;gap:10px;margin-top:14px}
+.option-timeslot-row label{font-size:12px;font-weight:700;color:var(--gray-500);text-transform:uppercase;letter-spacing:.04em;white-space:nowrap}
+.timeslot-select{flex:1;padding:10px 14px;border:1.5px solid var(--gray-200);border-radius:8px;font-family:inherit;font-size:14px;font-weight:500;color:var(--navy);background:#fff;cursor:pointer;appearance:none;-webkit-appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%236B7280' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 12px center;padding-right:36px;transition:var(--ease)}
+.timeslot-select:hover{border-color:var(--gray-300)}
+.timeslot-select:focus{outline:none;border-color:var(--primary)}
+.option-price-row{display:flex;align-items:center;justify-content:space-between;margin-top:16px;padding-top:14px;border-top:1px solid var(--gray-200)}
+.option-price{font-size:18px;font-weight:700;color:var(--navy)}
+.option-price .per{font-size:12px;color:var(--gray-500);font-weight:400}
+.option-cancel{font-size:12px;color:var(--green);display:flex;align-items:center;gap:4px}
+.option-cancel i{width:13px;height:13px}
+.no-options{background:#fff;border:2px dashed var(--gray-200);border-radius:var(--radius-lg);padding:40px;text-align:center;color:var(--gray-500);font-size:14px}
+.no-options i{width:32px;height:32px;color:var(--gray-300);margin-bottom:10px}
+
+/* ── RIGHT SIDEBAR ── */
+.sidebar{display:flex;flex-direction:column;gap:16px;position:sticky;top:120px}
+
+/* Modality selector */
+.modality-card{background:#fff;border-radius:var(--radius-lg);padding:22px 24px;box-shadow:var(--shadow-sm)}
+.modality-card h3{font-size:14px;font-weight:700;color:var(--navy);text-transform:uppercase;letter-spacing:.04em;margin-bottom:12px}
+.modality-options{display:flex;flex-direction:column;gap:8px}
+.modality-btn{display:flex;align-items:center;gap:12px;padding:14px 16px;border:2px solid var(--gray-200);border-radius:var(--radius);cursor:pointer;transition:var(--ease);background:#fff}
+.modality-btn:hover{border-color:var(--gray-300);background:var(--gray-50)}
+.modality-btn.active{border-color:var(--primary);background:var(--primary-light)}
+.modality-radio{width:20px;height:20px;border:2px solid var(--gray-300);border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:var(--ease)}
+.modality-btn.active .modality-radio{border-color:var(--primary)}
+.modality-radio-dot{width:10px;height:10px;border-radius:50%;background:var(--primary);transform:scale(0);transition:var(--ease)}
+.modality-btn.active .modality-radio-dot{transform:scale(1)}
+.modality-info{flex:1;min-width:0}
+.modality-name{font-size:14px;font-weight:600;color:var(--navy)}
+.modality-desc{font-size:12px;color:var(--gray-500);margin-top:2px}
+
+/* Language selector */
+.language-card{background:#fff;border-radius:var(--radius-lg);padding:22px 24px;box-shadow:var(--shadow-sm)}
+.language-card h3{font-size:14px;font-weight:700;color:var(--navy);text-transform:uppercase;letter-spacing:.04em;margin-bottom:12px}
+.lang-options{display:flex;flex-direction:column;gap:6px}
+.lang-btn{display:flex;align-items:center;gap:10px;padding:10px 14px;border:1.5px solid var(--gray-200);border-radius:8px;cursor:pointer;transition:var(--ease);background:#fff;font-size:14px;color:var(--navy);font-weight:500}
+.lang-btn:hover{border-color:var(--gray-300);background:var(--gray-50)}
+.lang-btn.active{border-color:var(--primary);background:var(--primary-light);font-weight:600}
+.lang-btn .flag{font-size:18px;flex-shrink:0}
+.lang-btn.disabled{opacity:.4;cursor:not-allowed;pointer-events:none}
+
+/* Pricing card */
+.pricing-card{background:#fff;border-radius:var(--radius-lg);padding:26px 24px;box-shadow:var(--shadow-sm)}
+.price-line{display:flex;align-items:baseline;gap:6px;flex-wrap:wrap;margin-bottom:4px}
+.price-from{font-size:13px;color:var(--gray-500)}
+.price-main{font-size:28px;font-weight:700;color:var(--navy);font-variant-numeric:tabular-nums}
+.price-main .currency{font-size:20px}
+.price-per{font-size:13px;color:var(--gray-500)}
+.price-extra{font-size:13px;color:var(--gray-500);margin-bottom:10px}
+.price-badge{display:inline-flex;align-items:center;gap:4px;border:1.5px solid var(--green);color:var(--green);font-size:12px;font-weight:600;padding:5px 12px;border-radius:6px;margin-bottom:20px;background:#fff}
+.price-badge i{width:13px;height:13px}
+
+/* Date + travelers in pricing */
+.field-group{margin-bottom:16px}
+.field-label{font-size:12px;font-weight:700;color:var(--gray-500);text-transform:uppercase;letter-spacing:.04em;margin-bottom:8px}
+.field-date{width:100%;padding:14px 16px;border:1.5px solid var(--gray-200);border-radius:10px;font-family:inherit;font-size:14px;color:var(--navy);background:#fff;cursor:pointer}
+.field-date:focus{outline:none;border-color:var(--primary)}
+
+.traveler-control{display:flex;align-items:center;border:1.5px solid var(--gray-200);border-radius:10px;overflow:hidden}
+.traveler-btn{width:50px;height:48px;display:flex;align-items:center;justify-content:center;background:#fff;color:var(--navy);font-size:18px;font-weight:700;transition:var(--ease);border:none;cursor:pointer}
+.traveler-btn:hover{background:var(--gray-50)}
+.traveler-btn:disabled{color:var(--gray-300);cursor:not-allowed}
+.traveler-btn:disabled:hover{background:#fff}
+.traveler-count{flex:1;text-align:center;font-size:14px;font-weight:500;color:var(--navy);padding:12px 0}
+
+/* Cost breakdown */
+.cost-lines{margin-top:16px}
+.cost-row{display:flex;justify-content:space-between;padding:5px 0;font-size:13px;color:var(--gray-600)}
+.cost-row .val{color:var(--navy);font-weight:600;font-variant-numeric:tabular-nums}
+.cost-row.sub{font-size:12px;color:var(--gray-400)}
+.cost-row.sub .val{color:var(--gray-500);font-weight:500}
+.cost-row.total{padding-top:14px;margin-top:4px;font-size:15px;font-weight:700}
+.cost-row.total,.cost-row.total .val{color:var(--navy)}
+.cost-row.total .val{font-size:22px;font-weight:700;font-variant-numeric:tabular-nums}
+
+/* CTA button */
+.cta-row{margin-top:20px}
+.btn-book{width:100%;padding:16px;background:var(--gray-100);color:var(--gray-500);font-weight:600;font-size:14px;border-radius:var(--radius);display:flex;align-items:center;justify-content:center;gap:8px;transition:var(--ease);border:none;cursor:pointer}
+.btn-book.active{background:var(--orange);color:#fff;cursor:pointer}
+.btn-book.active:hover{background:var(--orange-dark);box-shadow:0 6px 16px rgba(245,130,32,.28)}
+.btn-book i{width:16px;height:16px}
+
+/* Trust signals */
+.trust-list{display:flex;flex-direction:column;gap:6px;margin-top:18px;padding-top:16px;border-top:1px solid var(--gray-100)}
+.trust-item{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--gray-600)}
+.trust-item i{width:16px;height:16px;flex-shrink:0}
+.trust-item.green i{color:var(--green)}
+.trust-item.blue i{color:var(--primary)}
+
+/* ── Mobile ── */
+@media(max-width:720px){
+  .nav-links{display:none}
+  .site-header{padding:12px 20px}
+  .sub-header{padding:0 20px;overflow-x:auto}
+  .crumbs{padding:14px 20px 0}
+  .shell{grid-template-columns:1fr;padding:20px 20px 40px;gap:20px}
+  .sidebar{position:static}
+  .gallery{grid-template-columns:1fr;gap:6px}
+  .gallery-img{height:200px}
+  .gallery-img:first-child{height:200px}
+  .highlights-grid{grid-template-columns:1fr}
+  .inclusions-grid{grid-template-columns:1fr}
+  .tour-title{font-size:22px}
+}
+
+@media(min-width:721px) and (max-width:1000px){
+  .shell{grid-template-columns:1fr 320px;gap:20px;padding:20px 24px 40px}
+}
+</style>
+</head>
+<body>
+
+<!-- ── Header ── -->
+<header class="site-header">
+  <img src="wakanow-logo.svg" alt="Wakanow" class="logo">
+  <nav class="nav-links">
+    <a href="#">Flights</a>
+    <a href="#">Hotels</a>
+    <a href="#">Packages</a>
+    <a href="#" class="active">Tours</a>
+    <a href="#">Visa</a>
+  </nav>
+  <div class="header-right">
+    <a href="#">Business</a>
+    <button class="cart-btn"><i data-lucide="shopping-bag"></i></button>
+    <a href="#">Log in</a>
+    <a href="#" class="btn-signup">Sign up</a>
+  </div>
+</header>
+
+<!-- ── Sub-header (tour name + tabs) ── -->
+<div class="sub-header">
+  <span class="sub-header-name">Warner Bros. Studio Tour</span>
+  <nav class="tab-nav">
+    <a href="#overview" class="active">Overview</a>
+    <a href="#about">About</a>
+    <a href="#included">Included</a>
+    <a href="#reviews">Reviews</a>
+  </nav>
+  <button class="book-now-top" onclick="document.getElementById('pricingCard').scrollIntoView({behavior:'smooth'})">Book Now</button>
+</div>
+
+<!-- ── Breadcrumbs ── -->
+<div class="crumbs">
+  <a href="#">Home</a>
+  <i data-lucide="chevron-right"></i>
+  <a href="#">Tours</a>
+  <i data-lucide="chevron-right"></i>
+  <span>London</span>
+</div>
+
+<!-- ── Main content ── -->
+<div class="shell">
+
+  <!-- LEFT COLUMN -->
+  <main>
+    <!-- Badges -->
+    <div class="badges">
+      <span class="badge badge-type">Day Trips</span>
+      <span class="badge-loc"><i data-lucide="map-pin"></i> London, UK</span>
+      <span class="badge badge-tag"><i data-lucide="check"></i> Free cancellation</span>
+      <span class="badge badge-tag confirm"><i data-lucide="zap"></i> Instant confirmation</span>
+    </div>
+
+    <!-- Title -->
+    <h1 class="tour-title" id="overview">London: Warner Bros. Studio Tour &mdash; The Making of Harry Potter</h1>
+
+    <!-- Meta -->
+    <div class="tour-meta">
+      <div class="stars">
+        <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87L18.18 22 12 18.56 5.82 22 7 14.14l-5-4.87 6.91-1.01z"/></svg>
+        <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87L18.18 22 12 18.56 5.82 22 7 14.14l-5-4.87 6.91-1.01z"/></svg>
+        <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87L18.18 22 12 18.56 5.82 22 7 14.14l-5-4.87 6.91-1.01z"/></svg>
+        <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87L18.18 22 12 18.56 5.82 22 7 14.14l-5-4.87 6.91-1.01z"/></svg>
+        <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87L18.18 22 12 18.56 5.82 22 7 14.14l-5-4.87 6.91-1.01z"/></svg>
+      </div>
+      <span class="meta-text">4.9</span>
+      <a href="#reviews" class="meta-link">3,421 reviews</a>
+      <span class="meta-sep"></span>
+      <span class="meta-item"><i data-lucide="clock"></i> Full day</span>
+      <span class="meta-sep"></span>
+      <span class="meta-item"><i data-lucide="users"></i> Max 50 people</span>
+    </div>
+
+    <!-- Gallery -->
+    <div class="gallery">
+      <div class="gallery-img" style="background:linear-gradient(135deg,#1a3a2a 0%,#0a2a1a 100%)"></div>
+      <div class="gallery-img placeholder" style="background:var(--gray-100)">Photo 2</div>
+      <div class="gallery-img" style="background:linear-gradient(135deg,#3a2a1a 0%,#5a3a2a 100%)"></div>
+    </div>
+
+    <!-- Highlights -->
+    <section id="highlights">
+      <h2 class="section-label">Highlights</h2>
+      <div class="highlights-grid">
+        <div class="highlight-item"><span class="emoji">🏰</span> Walk through the original Great Hall set</div>
+        <div class="highlight-item"><span class="emoji">🚂</span> Board the real Hogwarts Express on Platform 9&frac34;</div>
+        <div class="highlight-item"><span class="emoji">🎭</span> 3,000 original props and costumes on display</div>
+        <div class="highlight-item"><span class="emoji">🐉</span> The Creature Shop &mdash; see how Dobby and dragons were made</div>
+        <div class="highlight-item"><span class="emoji">🏰</span> Hogwarts Castle 1:24 scale model &mdash; used in all 8 films</div>
+      </div>
+    </section>
+
+    <!-- Option cards (filtered by modality + language) — above About -->
+    <section class="options-section" id="optionsSection">
+      <h2 class="section-label">Available options</h2>
+      <div class="option-cards" id="optionCards"></div>
+    </section>
+
+    <!-- About -->
+    <section id="about">
+      <h2 class="section-label">About this experience</h2>
+      <p class="about-text">The Warner Bros. Studio Tour just outside London is the most comprehensive behind-the-scenes film experience in the world. Over 4 hours, you'll walk through original sets (the Great Hall, Dumbledore's office, the Gryffindor common room), examine thousands of original props and costumes, explore Diagon Alley, and step onto Platform 9&frac34; with the Hogwarts Express.</p>
+      <div class="read-more">Read more <i data-lucide="chevron-down"></i></div>
+    </section>
+
+    <!-- Inclusions -->
+    <section id="included">
+      <h2 class="section-label">What's included</h2>
+      <div class="inclusions-grid">
+        <div class="incl-col yes">
+          <h4>Included</h4>
+          <div class="incl-item"><i data-lucide="check"></i> Warner Bros. Studio Tour entrance ticket</div>
+          <div class="incl-item"><i data-lucide="check"></i> Round-trip coach from Hammersmith, London</div>
+          <div class="incl-item"><i data-lucide="check"></i> Butterbeer (1 per person)</div>
+          <div class="incl-item"><i data-lucide="check"></i> Printed souvenir guide</div>
+        </div>
+        <div class="incl-col no">
+          <h4>Not Included</h4>
+          <div class="incl-item"><i data-lucide="x"></i> Additional meals and merchandise</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Meeting point -->
+    <section>
+      <h2 class="section-label">Meeting point</h2>
+      <div class="meeting-card">
+        <p>Meet at Hammersmith Odeon, Queen Caroline Street, London W6 9QH. Coaches depart at 8:45 AM and 11:00 AM. Check your confirmation for your departure time.</p>
+        <div class="meeting-loc"><i data-lucide="map-pin"></i> Hammersmith Odeon, Queen Caroline St, London W6 9QH</div>
+      </div>
+    </section>
+  </main>
+
+  <!-- RIGHT SIDEBAR -->
+  <aside class="sidebar">
+
+    <!-- Review card -->
+    <div class="review-card">
+      <div class="review-header">
+        <span class="review-label">Excellent</span>
+        <span class="review-score">4.9</span>
+      </div>
+      <div class="review-count">3,421 reviews</div>
+      <div class="review-loved">Travellers loved</div>
+      <div class="review-quote">"My 11-year old daughter was speechless for the first 20 minutes. The detail in the sets is extraordinary."</div>
+      <div class="review-author">Taiwo A.</div>
+      <a href="#reviews" class="review-link">See all reviews <i data-lucide="arrow-right"></i></a>
+    </div>
+
+    <!-- 1. Pricing card (with date & travelers) -->
+    <div class="pricing-card" id="pricingCard">
+      <div id="pricingHeader"></div>
+
+      <div class="field-group">
+        <div class="field-label">Select Date</div>
+        <input type="date" class="field-date" id="tourDate" onchange="updateCta()">
+      </div>
+
+      <div class="field-group">
+        <div class="field-label" id="guestLabel">Travelers</div>
+        <div class="traveler-control">
+          <button class="traveler-btn" onclick="changeCount(-1)" id="btnMinus">&minus;</button>
+          <div class="traveler-count" id="guestCount">1 traveler</div>
+          <button class="traveler-btn" onclick="changeCount(1)" id="btnPlus">+</button>
+        </div>
+      </div>
+
+      <div class="cost-lines" id="costBreakdown"></div>
+
+      <div class="cta-row">
+        <button class="btn-book" id="ctaBtn">Select a date to book</button>
+      </div>
+
+      <div class="trust-list">
+        <div class="trust-item green"><i data-lucide="check-circle"></i> Free cancellation</div>
+        <div class="trust-item blue"><i data-lucide="shield"></i> Secure payment</div>
+        <div class="trust-item green"><i data-lucide="zap"></i> Instant confirmation</div>
+      </div>
+    </div>
+
+    <!-- 2. Modality selector -->
+    <div class="modality-card">
+      <h3>Tour type</h3>
+      <div class="modality-options">
+        <div class="modality-btn active" data-modality="shared" onclick="selectModality('shared')">
+          <div class="modality-radio"><div class="modality-radio-dot"></div></div>
+          <div class="modality-info">
+            <div class="modality-name">Shared Tour</div>
+            <div class="modality-desc">Group experience, per-person pricing</div>
+          </div>
+        </div>
+        <div class="modality-btn" data-modality="private" onclick="selectModality('private')">
+          <div class="modality-radio"><div class="modality-radio-dot"></div></div>
+          <div class="modality-info">
+            <div class="modality-name">Private Tour</div>
+            <div class="modality-desc">Exclusive experience, base + per-person pricing</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 3. Language selector -->
+    <div class="language-card">
+      <h3>Guide language</h3>
+      <div class="lang-options" id="langOptions"></div>
+    </div>
+
+  </aside>
+</div>
+
+<script>
+// ── Tour data ──
+const TOUR_OPTIONS = [
+  { optionId:'shared-en-morning', modality:'shared', language:'en', title:'Shared Group Tour — Morning', description:'Join a guided group tour with English-speaking guide. Coach departs from Hammersmith at 8:45 AM.', pricePerPax:45, currency:'GBP', symbol:'£', timeSlots:['8:45 AM','11:00 AM'], cancelPolicy:'Free cancellation up to 24h before' },
+  { optionId:'shared-en-afternoon', modality:'shared', language:'en', title:'Shared Group Tour — Afternoon', description:'Afternoon departure with English-speaking guide. Perfect for late risers.', pricePerPax:48, currency:'GBP', symbol:'£', timeSlots:['1:00 PM','3:30 PM'], cancelPolicy:'Free cancellation up to 24h before' },
+  { optionId:'shared-fr', modality:'shared', language:'fr', title:'Visite en groupe — Français', description:'Visite guidée en français. Départ en car depuis Hammersmith.', pricePerPax:48, currency:'GBP', symbol:'£', timeSlots:['10:00 AM','3:00 PM'], cancelPolicy:'Free cancellation up to 24h before' },
+  { optionId:'shared-ar', modality:'shared', language:'ar', title:'Shared Group Tour — Arabic', description:'Guided tour with Arabic-speaking guide. Coach from Hammersmith.', pricePerPax:50, currency:'GBP', symbol:'£', timeSlots:['9:00 AM','2:00 PM'], cancelPolicy:'Free cancellation up to 24h before' },
+  { optionId:'shared-de', modality:'shared', language:'de', title:'Gruppentour — Deutsch', description:'Geführte Gruppentour mit deutschsprachigem Reiseleiter.', pricePerPax:48, currency:'GBP', symbol:'£', timeSlots:['10:00 AM'], cancelPolicy:'Free cancellation up to 24h before' },
+  { optionId:'shared-es', modality:'shared', language:'es', title:'Tour grupal — Español', description:'Visita guiada en español. Salida en autocar desde Hammersmith.', pricePerPax:48, currency:'GBP', symbol:'£', timeSlots:['9:30 AM','2:30 PM'], cancelPolicy:'Free cancellation up to 24h before' },
+  { optionId:'shared-pt', modality:'shared', language:'pt', title:'Tour em grupo — Português', description:'Tour guiado em português. Saída de Hammersmith.', pricePerPax:50, currency:'GBP', symbol:'£', timeSlots:['11:00 AM'], cancelPolicy:'Free cancellation up to 24h before' },
+  { optionId:'private-en', modality:'private', language:'en', title:'Private Exclusive Tour — English', description:'Private tour for your group with a dedicated English-speaking guide. Flexible scheduling, personalised experience.', basePrice:800, pricePerAdditionalGuest:100, currency:'GBP', symbol:'£', timeSlots:['Flexible'], cancelPolicy:'Free cancellation up to 48h before' },
+  { optionId:'private-fr', modality:'private', language:'fr', title:'Tour privé exclusif — Français', description:'Tour privé avec guide francophone dédié. Horaire flexible.', basePrice:850, pricePerAdditionalGuest:110, currency:'GBP', symbol:'£', timeSlots:['Flexible'], cancelPolicy:'Free cancellation up to 48h before' },
+  { optionId:'private-ar', modality:'private', language:'ar', title:'Private Exclusive Tour — Arabic', description:'Private tour with dedicated Arabic-speaking guide. Flexible schedule.', basePrice:900, pricePerAdditionalGuest:120, currency:'GBP', symbol:'£', timeSlots:['Flexible'], cancelPolicy:'Free cancellation up to 48h before' }
+];
+
+const LANGUAGES = [
+  { code:'en', name:'English', flag:'🇬🇧' },
+  { code:'fr', name:'French', flag:'🇫🇷' },
+  { code:'ar', name:'Arabic', flag:'🇸🇦' },
+  { code:'de', name:'German', flag:'🇩🇪' },
+  { code:'es', name:'Spanish', flag:'🇪🇸' },
+  { code:'pt', name:'Portuguese', flag:'🇵🇹' }
+];
+
+// ── State ──
+let state = {
+  modality: 'shared',
+  language: 'en',
+  count: 1,
+  selectedOption: null,
+  selectedSlot: null
+};
+
+// ── Modality ──
+function selectModality(mod) {
+  state.modality = mod;
+  state.selectedOption = null;
+  state.selectedSlot = null;
+
+  document.querySelectorAll('.modality-btn').forEach(b => {
+    b.classList.toggle('active', b.dataset.modality === mod);
+  });
+
+  const availLangs = getAvailableLanguages(mod);
+  if (!availLangs.includes(state.language)) {
+    state.language = availLangs[0] || 'en';
+  }
+
+  renderLanguages();
+  renderPricing();
+  renderOptions();
+}
+
+// ── Languages ──
+function getAvailableLanguages(mod) {
+  const set = new Set();
+  TOUR_OPTIONS.filter(o => o.modality === mod).forEach(o => set.add(o.language));
+  return [...set];
+}
+
+function selectLanguage(code) {
+  state.language = code;
+  state.selectedOption = null;
+  state.selectedSlot = null;
+
+  document.querySelectorAll('.lang-btn').forEach(b => {
+    b.classList.toggle('active', b.dataset.lang === code);
+  });
+
+  renderOptions();
+  renderPricing();
+}
+
+function renderLanguages() {
+  const available = getAvailableLanguages(state.modality);
+  const container = document.getElementById('langOptions');
+  container.innerHTML = LANGUAGES.map(lang => {
+    const avail = available.includes(lang.code);
+    const active = lang.code === state.language;
+    return `<button class="lang-btn ${active ? 'active' : ''} ${!avail ? 'disabled' : ''}" data-lang="${lang.code}" onclick="selectLanguage('${lang.code}')" ${!avail ? 'disabled' : ''}>
+      <span class="flag">${lang.flag}</span> ${lang.name}
+    </button>`;
+  }).join('');
+}
+
+// ── Traveler count ──
+function changeCount(delta) {
+  state.count = Math.max(1, Math.min(20, state.count + delta));
+  document.getElementById('guestCount').textContent = state.count + (state.count === 1 ? ' traveler' : ' travelers');
+  document.getElementById('btnMinus').disabled = state.count <= 1;
+  document.getElementById('btnPlus').disabled = state.count >= 20;
+  renderPricing();
+}
+
+// ── Pricing ──
+function renderPricing() {
+  const headerEl = document.getElementById('pricingHeader');
+  const breakdownEl = document.getElementById('costBreakdown');
+  const labelEl = document.getElementById('guestLabel');
+
+  const options = TOUR_OPTIONS.filter(o => o.modality === state.modality && o.language === state.language);
+  const opt = options[0];
+  if (!opt) {
+    headerEl.innerHTML = '<p style="color:var(--gray-500);font-size:14px">Select a tour option</p>';
+    breakdownEl.innerHTML = '';
+    return;
+  }
+
+  const sym = opt.symbol;
+
+  if (state.modality === 'shared') {
+    labelEl.textContent = 'Travelers';
+    const ppp = opt.pricePerPax;
+    const subtotal = ppp * state.count;
+    const service = Math.round(subtotal * 0.10);
+    const total = subtotal + service;
+
+    headerEl.innerHTML = `
+      <div class="price-line">
+        <span class="price-from">From</span>
+        <span class="price-main"><span class="currency">${sym}</span>${ppp.toLocaleString()}</span>
+        <span class="price-per">per person</span>
+      </div>
+      <div class="price-badge"><i data-lucide="check"></i> Free cancellation</div>
+    `;
+
+    breakdownEl.innerHTML = `
+      <div class="cost-row total"><span>Total</span><span class="val">${sym}${total.toLocaleString()}</span></div>
+    `;
+  } else {
+    labelEl.textContent = 'Guests';
+    const base = opt.basePrice;
+    const perExtra = opt.pricePerAdditionalGuest;
+    const extras = Math.max(0, state.count - 1);
+    const extraCost = extras * perExtra;
+    const subtotal = base + extraCost;
+    const service = Math.round(subtotal * 0.10);
+    const total = subtotal + service;
+
+    headerEl.innerHTML = `
+      <div class="price-line">
+        <span class="price-from">From</span>
+        <span class="price-main"><span class="currency">${sym}</span>${base.toLocaleString()}</span>
+        <span class="price-per">per person</span>
+      </div>
+      <div class="price-extra">+ ${sym}${perExtra} per additional guest</div>
+      <div class="price-badge"><i data-lucide="check"></i> Free cancellation</div>
+    `;
+
+    breakdownEl.innerHTML = `
+      <div class="cost-row total"><span>Total</span><span class="val">${sym}${total.toLocaleString()}</span></div>
+    `;
+  }
+
+  updateCta();
+  lucide.createIcons();
+}
+
+// ── Option cards ──
+function renderOptions() {
+  const container = document.getElementById('optionCards');
+  const options = TOUR_OPTIONS.filter(o => o.modality === state.modality && o.language === state.language);
+
+  if (options.length === 0) {
+    container.innerHTML = `<div class="no-options"><i data-lucide="search-x"></i><br>No tours available for this combination.<br>Try a different language or tour type.</div>`;
+    lucide.createIcons();
+    return;
+  }
+
+  container.innerHTML = options.map((opt, idx) => {
+    const isSelected = state.selectedOption === opt.optionId;
+    const sym = opt.symbol;
+
+    let priceDisplay;
+    if (opt.modality === 'shared') {
+      priceDisplay = `${sym}${opt.pricePerPax.toLocaleString()} <span class="per">per person</span>`;
+    } else {
+      priceDisplay = `${sym}${opt.basePrice.toLocaleString()} <span class="per">base price</span>`;
+    }
+
+    return `
+      <div class="option-card ${isSelected ? 'selected' : ''}" onclick="selectOption('${opt.optionId}')">
+        <div class="option-card-header">
+          <div class="option-card-title">${opt.title}</div>
+        </div>
+        <div class="option-card-desc">${opt.description}</div>
+        <div class="option-card-meta">
+          <span><i data-lucide="clock"></i> ${opt.modality === 'private' ? 'Flexible schedule' : 'Fixed departure'}</span>
+          <span><i data-lucide="globe"></i> ${LANGUAGES.find(l => l.code === opt.language)?.name || opt.language}</span>
+          ${opt.cancelPolicy ? `<span><i data-lucide="calendar-check"></i> ${opt.cancelPolicy}</span>` : ''}
+        </div>
+        ${opt.timeSlots && opt.timeSlots.length && opt.timeSlots[0] !== 'Flexible' ? `
+          <div class="option-timeslot-row">
+            <label>Select a starting time</label>
+            <select class="timeslot-select" onchange="event.stopPropagation();selectSlot('${opt.optionId}',this.value)" onclick="event.stopPropagation()">
+              ${opt.timeSlots.map(slot => `<option value="${slot}" ${state.selectedOption === opt.optionId && state.selectedSlot === slot ? 'selected' : ''}>${slot}</option>`).join('')}
+            </select>
+          </div>
+        ` : ''}
+        <div class="option-price-row">
+          <div class="option-price">${priceDisplay}</div>
+          <div class="option-cancel"><i data-lucide="check-circle"></i> Free cancellation</div>
+        </div>
+      </div>
+    `;
+  }).join('');
+
+  lucide.createIcons();
+}
+
+function selectOption(id) {
+  state.selectedOption = id;
+  const opt = TOUR_OPTIONS.find(o => o.optionId === id);
+  if (opt && opt.timeSlots && opt.timeSlots[0] !== 'Flexible') {
+    state.selectedSlot = opt.timeSlots[0];
+  }
+  renderOptions();
+  renderPricing();
+}
+
+function selectSlot(optId, slot) {
+  state.selectedOption = optId;
+  state.selectedSlot = slot;
+  renderOptions();
+}
+
+// ── CTA state ──
+function updateCta() {
+  const btn = document.getElementById('ctaBtn');
+  const hasDate = document.getElementById('tourDate').value;
+  if (hasDate) {
+    btn.textContent = 'Book Now';
+    btn.classList.add('active');
+  } else {
+    btn.textContent = 'Select a date to book';
+    btn.classList.remove('active');
+  }
+}
+
+// ── Init ──
+renderLanguages();
+renderPricing();
+renderOptions();
+lucide.createIcons();
+</script>
+</body>
+</html>

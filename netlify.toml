@@ -1,37 +1,109 @@
-# WakaTribe — Netlify config
-# Handles pretty URLs + sensible defaults.
+# Wakanow for Business — Netlify config
+# Static site. Pretty URLs + sensible security headers.
 
 [build]
   publish = "."
 
-# Redirect / to the WakaTribe login
+# ── Front door ─────────────────────────────────────────────────────────────
+# / lands on the B2B partner landing page.
 [[redirects]]
   from = "/"
-  to = "/wakatribe-login.html"
+  to = "/wakanow-b2b.html"
   status = 302
 
-# Friendly URLs (optional — /hub → /wakatribe-hub.html etc.)
+# ── Friendly URLs — Wakanow for Business ──────────────────────────────────
 [[redirects]]
-  from = "/hub"
+  from = "/business"
+  to = "/wakanow-b2b.html"
+  status = 302
+[[redirects]]
+  from = "/signup"
+  to = "/signup.html"
+  status = 302
+[[redirects]]
+  from = "/dashboard"
+  to = "/dashboard.html"
+  status = 302
+[[redirects]]
+  from = "/bookings"
+  to = "/bookings.html"
+  status = 302
+[[redirects]]
+  from = "/settings"
+  to = "/settings.html"
+  status = 302
+
+# ── Friendly URLs — Umrah portal ──────────────────────────────────────────
+[[redirects]]
+  from = "/umrah"
+  to = "/saudi-packages.html"
+  status = 302
+[[redirects]]
+  from = "/saudi-packages"
+  to = "/saudi-packages.html"
+  status = 200
+[[redirects]]
+  from = "/umrah/qualify"
+  to = "/umrah-qualify.html"
+  status = 302
+[[redirects]]
+  from = "/qualify"
+  to = "/umrah-qualify.html"
+  status = 200
+[[redirects]]
+  from = "/umrah/sign-in"
+  to = "/umrah-signin.html"
+  status = 302
+[[redirects]]
+  from = "/umrah-packages"
+  to = "/umrah-packages.html"
+  status = 200
+
+# ── Friendly URLs — Other apps in this repo (still accessible) ────────────
+[[redirects]]
+  from = "/tribe"
+  to = "/wakatribe-login.html"
+  status = 302
+[[redirects]]
+  from = "/tribe/hub"
   to = "/wakatribe-hub.html"
   status = 302
 [[redirects]]
-  from = "/login"
-  to = "/wakatribe-login.html"
-  status = 302
-[[redirects]]
-  from = "/super"
-  to = "/wakatribe-super-admin.html"
-  status = 302
-[[redirects]]
-  from = "/scanner"
+  from = "/eats/scanner"
   to = "/wakaeats-scanner.html"
   status = 302
+[[redirects]]
+  from = "/bus"
+  to = "/wakabus-dashboard.html"
+  status = 302
+[[redirects]]
+  from = "/gate"
+  to = "/wakagate-dashboard.html"
+  status = 302
+[[redirects]]
+  from = "/tour-detail"
+  to = "/tour-detail.html"
+  status = 302
 
-# Headers — basic security
+# ── Security headers ──────────────────────────────────────────────────────
 [[headers]]
   for = "/*"
   [headers.values]
     X-Frame-Options = "SAMEORIGIN"
     X-Content-Type-Options = "nosniff"
     Referrer-Policy = "strict-origin-when-cross-origin"
+    Permissions-Policy = "camera=(), microphone=(), geolocation=()"
+
+# Long-cache static assets
+[[headers]]
+  for = "/*.svg"
+  [headers.values]
+    Cache-Control = "public, max-age=604800"
+[[headers]]
+  for = "/*.css"
+  [headers.values]
+    Cache-Control = "public, max-age=86400"
+[[headers]]
+  for = "/icons/*"
+  [headers.values]
+    Cache-Control = "public, max-age=604800"
