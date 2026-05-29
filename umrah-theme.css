@@ -1,0 +1,1127 @@
+/* ============================================================
+   Wakanow Design System — Umrah Portal Theme Overrides
+   Loaded AFTER each page's inline <style> so rules cascade over.
+   ============================================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;500;600;700;800&display=swap');
+
+/* ----- Token refinements ----- */
+:root {
+  /* Brand — interactive accent (CTAs, links, focus) */
+  --primary: #08A5E3;
+  --primary-600: #0792C9;
+  --primary-700: #0680B3;
+  --primary-soft: #E6F6FD;
+  --primary-tint: #F2FAFE;
+
+  /* Brand — structural deep blue (header, footer, headings, dark surfaces) */
+  --brand-blue: #0E2D5C;
+  --brand-blue-700: #0A2148;
+  --brand-blue-800: #07193A;
+  --brand-blue-soft: #EBF0F8;
+  --brand-blue-tint: #F4F7FB;
+
+  /* Legacy navy kept for ink-style backgrounds (status pills, etc.) */
+  --navy: #1E3138;
+  --navy-700: #16252B;
+  --navy-soft: #EEF2F4;
+
+  /* Orange — refined warmer hue */
+  --orange: #F58220;
+  --orange-600: #E5731A;
+  --orange-dark: #C25E0C;
+  --orange-soft: #FFF1E2;
+
+  /* Surface — cooler, blue-tinted neutrals to harmonize with brand-blue */
+  --bg: #F4F6FA;
+  --bg-2: #EEF1F7;
+  --surface: #FFFFFF;
+  --surface-soft: #FAFBFD;
+  --line: #DEE3EC;
+  --line-soft: #ECEFF5;
+  --line-strong: #C7CFDB;
+
+  /* Text — deep, slightly warm ink */
+  --ink: #0B1B2D;
+  --ink-2: #243446;
+  --muted: #56657A;
+  --muted-2: #8593A6;
+
+  /* Semantic */
+  --success: #15A45A;
+  --success-soft: #E4F5EC;
+  --danger: #E03946;
+  --danger-soft: #FCEAEC;
+  --warn: #F0AD00;
+  --warn-soft: #FEF6DD;
+
+  /* Geometry */
+  --radius-sm: 8px;
+  --radius: 12px;
+  --radius-lg: 20px;
+  --radius-xl: 28px;
+  --radius-pill: 999px;
+
+  /* Shadow — blue-tinted for cohesion with brand chrome */
+  --shadow-sm: 0 1px 2px rgba(14,45,92,.06);
+  --shadow: 0 8px 22px rgba(14,45,92,.08);
+  --shadow-lg: 0 22px 48px rgba(14,45,92,.14);
+  --shadow-glow-primary: 0 10px 26px rgba(8,165,227,.30);
+  --shadow-glow-orange: 0 10px 26px rgba(245,130,32,.28);
+
+  /* Type scale */
+  --font-display: 'Rubik', system-ui, -apple-system, sans-serif;
+  --font-body: 'Rubik', system-ui, -apple-system, sans-serif;
+
+  /* Easing */
+  --ease-out: cubic-bezier(.2,.8,.25,1);
+  --ease-in-out: cubic-bezier(.4,0,.2,1);
+}
+
+/* ----- Typography overrides (high specificity to beat inline page styles) ----- */
+html, html body {
+  font-family: var(--font-body);
+  font-size: 16px;
+  font-feature-settings: "ss01", "cv11";
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  letter-spacing: -0.005em;
+  color: var(--ink);
+  background: var(--bg);
+}
+
+html body h1,
+html body h2,
+html body h3,
+html body h4,
+html body .display,
+html body .heading,
+html body .eyebrow + h2,
+html body .hero-title,
+html body .section-title {
+  font-family: var(--font-display);
+  font-weight: 700;
+  letter-spacing: -0.022em;
+  color: var(--brand-blue);
+}
+
+html body h1, html body .h1 { font-weight: 800; line-height: 1.06; letter-spacing: -0.028em; }
+html body h2, html body .h2 { font-weight: 700; line-height: 1.12; letter-spacing: -0.024em; }
+html body h3, html body .h3 { font-weight: 700; line-height: 1.18; }
+html body h4, html body .h4 { font-weight: 700; line-height: 1.25; }
+
+/* Light-on-dark surfaces keep heading color white via context */
+html body .hero-title,
+html body section[class*="dark"] h1,
+html body section[class*="dark"] h2,
+html body section[class*="navy"] h2,
+html body footer h1,
+html body footer h2,
+html body footer h3,
+html body footer h4 {
+  color: inherit;
+}
+
+html body .eyebrow {
+  font-family: var(--font-body);
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  font-size: 12px;
+  color: var(--primary);
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+html body .eyebrow::before {
+  content: "";
+  width: 22px;
+  height: 2px;
+  background: var(--primary);
+  border-radius: 2px;
+}
+
+html body p, html body li, html body label, html body input, html body select, html body textarea, html body button, html body a {
+  font-family: var(--font-body);
+}
+
+/* ----- Buttons — refined Peter pass ----- */
+html body .btn,
+html body .button,
+html body button.cta,
+html body .cta-primary,
+html body .cta-secondary,
+html body .cta-outline,
+html body .btn-primary,
+html body .btn-secondary,
+html body .btn-outline,
+html body .btn-ghost,
+html body .btn-orange,
+html body .btn-navy,
+html body .btn-dark,
+html body .btn-brand {
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 15px;
+  letter-spacing: -0.005em;
+  border-radius: var(--radius);
+  padding: 14px 28px;
+  line-height: 1;
+  transition: transform .18s var(--ease-out), box-shadow .22s var(--ease-out), background .22s var(--ease-out), color .2s ease, border-color .2s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  cursor: pointer;
+  border: 1px solid transparent;
+  text-decoration: none;
+  white-space: nowrap;
+  position: relative;
+  isolation: isolate;
+}
+
+/* Hover lift for solid CTAs only */
+html body .btn-primary:hover,
+html body .cta-primary:hover,
+html body .btn-orange:hover,
+html body .btn-navy:hover,
+html body .btn-dark:hover,
+html body .btn-brand:hover,
+html body button.cta:hover {
+  transform: translateY(-1px);
+}
+
+html body .btn:focus-visible,
+html body .button:focus-visible,
+html body button.cta:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px var(--surface), 0 0 0 5px rgba(8,165,227,.5);
+}
+
+html body .btn:disabled,
+html body .button:disabled,
+html body button.cta:disabled,
+html body .btn-primary:disabled {
+  opacity: .55;
+  cursor: not-allowed;
+  transform: none !important;
+  box-shadow: none !important;
+}
+
+/* Primary — cyan gradient with glow */
+html body .btn-primary,
+html body .cta-primary {
+  background: linear-gradient(180deg, #0FB3F0 0%, #0792C9 100%);
+  color: #fff;
+  border-color: transparent;
+  box-shadow: 0 1px 0 rgba(255,255,255,.18) inset, 0 6px 16px rgba(8,165,227,.26);
+}
+html body .btn-primary:hover,
+html body .cta-primary:hover {
+  background: linear-gradient(180deg, #14BAF5 0%, #0883B5 100%);
+  box-shadow: 0 1px 0 rgba(255,255,255,.18) inset, 0 12px 26px rgba(8,165,227,.36);
+}
+
+/* Orange — warm gradient with glow */
+html body .btn-orange {
+  background: linear-gradient(180deg, #F8902E 0%, #E5731A 100%);
+  color: #fff;
+  border-color: transparent;
+  box-shadow: 0 1px 0 rgba(255,255,255,.2) inset, 0 6px 16px rgba(245,130,32,.26);
+}
+html body .btn-orange:hover {
+  background: linear-gradient(180deg, #FA9938 0%, #D26414 100%);
+  box-shadow: 0 1px 0 rgba(255,255,255,.2) inset, 0 12px 26px rgba(245,130,32,.34);
+}
+
+/* Brand-blue solid — for "View all packages" / dark CTAs */
+html body .btn-brand,
+html body .btn-navy,
+html body .btn-dark {
+  background: linear-gradient(180deg, #16407A 0%, #0E2D5C 100%);
+  color: #fff;
+  border-color: transparent;
+  box-shadow: 0 1px 0 rgba(255,255,255,.12) inset, 0 6px 16px rgba(14,45,92,.28);
+}
+html body .btn-brand:hover,
+html body .btn-navy:hover,
+html body .btn-dark:hover {
+  background: linear-gradient(180deg, #1A4A8A 0%, #0A2148 100%);
+  box-shadow: 0 1px 0 rgba(255,255,255,.12) inset, 0 12px 26px rgba(14,45,92,.36);
+}
+
+/* Outline — refined 1.5px border, navy text, soft tint hover */
+html body .btn-outline,
+html body .cta-outline {
+  background: transparent;
+  color: var(--brand-blue);
+  border: 1.5px solid var(--line-strong);
+}
+html body .btn-outline:hover,
+html body .cta-outline:hover {
+  border-color: var(--brand-blue);
+  background: var(--brand-blue-tint);
+  color: var(--brand-blue);
+}
+
+/* Ghost — minimal, soft hover */
+html body .btn-ghost {
+  background: transparent;
+  color: var(--ink-2);
+  border-color: transparent;
+}
+html body .btn-ghost:hover {
+  background: var(--brand-blue-soft);
+  color: var(--brand-blue);
+}
+
+html body .btn-sm {
+  padding: 10px 18px;
+  font-size: 14px;
+  border-radius: 10px;
+}
+
+html body .btn-lg {
+  padding: 16px 40px;
+  font-size: 16px;
+}
+
+/* ----- Inputs — refined ----- */
+html body input[type="text"],
+html body input[type="email"],
+html body input[type="tel"],
+html body input[type="number"],
+html body input[type="password"],
+html body input[type="date"],
+html body select,
+html body textarea {
+  font-family: var(--font-body);
+  font-size: 15px;
+  border-radius: var(--radius);
+  border: 1.5px solid var(--line);
+  padding: 12px 14px;
+  color: var(--ink);
+  background: #fff;
+  transition: border-color .18s var(--ease-out), box-shadow .22s var(--ease-out), background .18s ease;
+}
+html body input:hover,
+html body select:hover,
+html body textarea:hover {
+  border-color: var(--line-strong);
+}
+html body input:focus,
+html body select:focus,
+html body textarea:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 4px rgba(8,165,227,0.14);
+}
+html body input::placeholder,
+html body textarea::placeholder {
+  color: var(--muted-2);
+}
+
+/* ----- Cards — refined elevation, blue-tinted shadow, hover lift ----- */
+html body .card,
+html body .package-card,
+html body .summary-card,
+html body .panel,
+html body .pkg-card,
+html body .feature-card {
+  border-radius: var(--radius-lg);
+  background: var(--surface);
+  border: 1px solid var(--line-soft);
+  box-shadow: var(--shadow-sm);
+  transition: transform .22s var(--ease-out), box-shadow .25s var(--ease-out), border-color .2s ease;
+}
+
+html body .pkg-card:hover,
+html body .package-card:hover,
+html body .feature-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow);
+  border-color: rgba(14,45,92,.12);
+}
+
+/* Image-bearing cards keep image radius synced with outer radius */
+html body .pkg-card img,
+html body .package-card img,
+html body .pkg-media img {
+  border-radius: 0;
+}
+
+/* ----- Pills / chips — refined active state ----- */
+html body .chip,
+html body .filter-chip,
+html body .pill {
+  font-family: var(--font-body);
+  font-weight: 500;
+  letter-spacing: -0.005em;
+  border-radius: var(--radius-pill);
+  transition: background .18s var(--ease-out), color .18s ease, border-color .18s ease, box-shadow .2s ease;
+}
+
+html body .chip:hover,
+html body .filter-chip:hover {
+  border-color: var(--line-strong);
+  color: var(--brand-blue);
+}
+
+html body .chip.on,
+html body .chip.active,
+html body .filter-chip.on,
+html body .filter-chip.active,
+html body .pill.on,
+html body .pill.active {
+  background: var(--brand-blue) !important;
+  color: #fff !important;
+  border-color: var(--brand-blue) !important;
+  box-shadow: 0 4px 12px rgba(14,45,92,.22) !important;
+}
+
+/* ----- Status pills (semantic) ----- */
+html body .status-pill,
+html body .status {
+  font-size: 11px;
+  font-weight: 600;
+  padding: 4px 10px;
+  border-radius: var(--radius-pill);
+  letter-spacing: .02em;
+}
+html body .status-pill.success,
+html body .status.success { background: var(--success-soft); color: var(--success); }
+html body .status-pill.warn,
+html body .status.warn { background: var(--warn-soft); color: #B07A00; }
+html body .status-pill.danger,
+html body .status.danger { background: var(--danger-soft); color: var(--danger); }
+html body .status-pill.info,
+html body .status.info { background: var(--brand-blue-soft); color: var(--brand-blue); }
+
+/* ----- Links ----- */
+html body a {
+  color: var(--primary-700);
+  text-decoration: none;
+  transition: color .15s ease;
+}
+html body a:hover {
+  color: var(--primary);
+}
+
+/* Header & footer link contrast */
+html body footer a,
+html body .nav a,
+html body header a {
+  color: inherit;
+}
+
+/* ----- Section utilities ----- */
+html body .section-tint {
+  background: var(--brand-blue-tint);
+}
+
+/* Soft divider replacing default hr */
+html body hr {
+  border: 0;
+  height: 1px;
+  background: var(--line-soft);
+  margin: 24px 0;
+}
+
+/* ----- Scrollbar / selection ----- */
+html body ::selection {
+  background: rgba(14,45,92,0.16);
+  color: var(--brand-blue);
+}
+
+html body * {
+  scrollbar-width: thin;
+  scrollbar-color: var(--line-strong) transparent;
+}
+html body *::-webkit-scrollbar { width: 10px; height: 10px; }
+html body *::-webkit-scrollbar-thumb { background: var(--line-strong); border-radius: 999px; border: 2px solid transparent; background-clip: padding-box; }
+html body *::-webkit-scrollbar-thumb:hover { background: var(--muted-2); background-clip: padding-box; border: 2px solid transparent; }
+html body *::-webkit-scrollbar-track { background: transparent; }
+
+/* ----- Focus ring (keyboard) ----- */
+html body :focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+  border-radius: 6px;
+}
+
+/* ============================================================
+   Header + Footer — deep brand navy (tokens defined in main :root)
+   ============================================================ */
+
+/* ----- Site header ----- */
+html body .site-header,
+html body header.site-header,
+html body header.header {
+  background: var(--brand-blue) !important;
+  box-shadow: 0 1px 0 rgba(255,255,255,0.04), 0 8px 24px rgba(7,25,58,0.18) !important;
+  color: #fff;
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+}
+
+html body .site-header .nav-links a,
+html body .site-header .sign-in,
+html body .site-header .country-pill,
+html body .site-header .menu-link,
+html body header.site-header a,
+html body header.site-header button {
+  color: #fff !important;
+}
+
+html body .site-header .nav-links a:hover,
+html body .site-header .sign-in:hover,
+html body .site-header .country-pill:hover {
+  color: rgba(255,255,255,0.78) !important;
+}
+
+/* Active nav link gets the bright primary accent */
+html body .site-header .nav-links a.active,
+html body .site-header .nav-links a[aria-current="page"] {
+  color: #fff !important;
+  position: relative;
+}
+html body .site-header .nav-links a.active::after,
+html body .site-header .nav-links a[aria-current="page"]::after {
+  content: "";
+  position: absolute;
+  left: 0; right: 0; bottom: -6px;
+  height: 2px;
+  background: var(--primary);
+  border-radius: 2px;
+}
+
+/* Cart / icon buttons in header */
+html body .site-header .cart,
+html body .site-header .icon-btn,
+html body .site-header [class*="cart"] svg,
+html body .site-header [class*="cart"] i {
+  color: #fff !important;
+}
+
+/* Auto-swap dark logo for white logo on dark header */
+html body .site-header .logo[src$="wakanow-logo.svg"] {
+  content: url("wakanow-logo-white.svg");
+}
+
+/* Search / dropdown panels inside header keep light surface */
+html body .site-header .search input,
+html body .site-header input[type="search"] {
+  background: rgba(255,255,255,0.08);
+  color: #fff;
+  border-color: rgba(255,255,255,0.18);
+}
+html body .site-header .search input::placeholder,
+html body .site-header input[type="search"]::placeholder {
+  color: rgba(255,255,255,0.6);
+}
+
+/* Sign-up / orange CTA inside header keeps orange */
+html body .site-header .btn-orange,
+html body .site-header .btn-manage,
+html body .site-header .signup,
+html body .site-header [class*="signup"] {
+  background: var(--orange) !important;
+  color: #fff !important;
+  border-color: var(--orange);
+  box-shadow: 0 6px 18px rgba(245,130,32,.28);
+}
+html body .site-header .btn-orange:hover,
+html body .site-header .btn-manage:hover {
+  background: var(--orange-dark) !important;
+  border-color: var(--orange-dark);
+}
+
+/* ----- Footer ----- */
+html body footer,
+html body .site-footer,
+html body footer.footer {
+  background: var(--brand-blue) !important;
+  color: #fff;
+}
+
+html body footer a,
+html body .site-footer a {
+  color: rgba(255,255,255,0.78) !important;
+}
+html body footer a:hover,
+html body .site-footer a:hover {
+  color: #fff !important;
+}
+
+html body footer .copy,
+html body footer .copyright,
+html body .site-footer .copy {
+  color: rgba(255,255,255,0.55) !important;
+}
+
+html body footer .links a,
+html body .site-footer .links a {
+  color: rgba(255,255,255,0.78) !important;
+}
+html body footer .links a:hover,
+html body .site-footer .links a:hover {
+  color: #fff !important;
+}
+
+/* ============================================================
+   Legacy token retrofit — remap per-page tokens to the new system
+   so existing inline rules (var(--gray-500), var(--navy), etc.)
+   automatically adopt the refined Wakanow palette across all 9 pages.
+   ============================================================ */
+:root {
+  /* Cool, blue-tinted gray scale that pairs with brand-blue */
+  --gray-50:  #F7F8FB;
+  --gray-100: #EEF1F7;
+  --gray-200: #DEE3EC;
+  --gray-300: #C7CFDB;
+  --gray-400: #8593A6;
+  --gray-500: #56657A;
+  --gray-600: #3A4A5E;
+  --gray-700: #243446;
+  --gray-800: #14253A;
+  --gray-900: #0B1B2D;
+
+  /* Per-page navy → brand-blue alias (one unified deep blue everywhere) */
+  --navy: #0E2D5C;
+  --navy-deep: #0A2148;
+
+  /* Refined orange-dark used by per-page button hovers */
+  --orange-dark: #C25E0C;
+
+  /* Refined primary halo + light tint used by per-page cards/inputs */
+  --primary-dark: #0792C9;
+  --primary-light: #E6F6FD;
+
+  /* Refined success */
+  --green: #15A45A;
+  --amber: #F0AD00;
+
+  /* Geometry — bumps page-level radii to the new system */
+  --radius: 12px;
+  --radius-lg: 20px;
+
+  /* Easing alias matches new system */
+  --ease: .22s cubic-bezier(.2,.8,.25,1);
+
+  /* Refined shadows — blue-tinted */
+  --shadow-sm: 0 1px 2px rgba(14,45,92,.06);
+  --shadow-md: 0 8px 22px rgba(14,45,92,.08);
+  --shadow-lg: 0 22px 48px rgba(14,45,92,.14);
+}
+
+/* ----- Hero / dark-band sections that previously used --navy ----- */
+/* Now resolve to brand-blue via the alias above. Add subtle glow inside dark bands. */
+html body .esim-band,
+html body .support-band,
+html body .hero,
+html body .dark-band {
+  /* Pages set their own background; we only adjust shared visuals */
+}
+
+/* Lead capture / newsletter input groups inside dark bands */
+html body .esim-band input::placeholder,
+html body .hero input::placeholder {
+  color: rgba(255,255,255,.6);
+}
+
+/* ----- Per-page heading colors that used --navy directly ----- */
+html body .pkg-title,
+html body .std-head h2,
+html body .support-band h2,
+html body .lead-title,
+html body .modal-body h3,
+html body .inclusions-label,
+html body .highlights-label,
+html body .cat-body h3,
+html body .trust-item strong,
+html body .summary-card h4,
+html body .summary-card h3,
+html body .step-head h2,
+html body .step-head h3,
+html body .panel h3,
+html body .panel h4 {
+  color: var(--brand-blue) !important;
+  font-family: var(--font-display);
+  letter-spacing: -0.018em;
+}
+
+html body .pkg-title { font-weight: 700; }
+
+/* ----- Section subheads / muted copy ----- */
+html body .std-head .sub,
+html body .std-head p,
+html body .section-sub,
+html body .lead-sub {
+  color: var(--muted) !important;
+  font-family: var(--font-body);
+}
+
+/* ----- Per-page price displays (tabular nums + display font) ----- */
+html body .pkg-price,
+html body .price,
+html body .total-amount,
+html body .summary-total,
+html body .total-row .v {
+  font-family: var(--font-display);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.02em;
+  color: var(--brand-blue);
+}
+
+/* ----- Stat / number displays ----- */
+html body .stat-num,
+html body .summary-pill .v,
+html body .pill .v {
+  font-family: var(--font-display);
+  font-weight: 700;
+  letter-spacing: -0.018em;
+  color: var(--brand-blue);
+}
+
+/* ----- Page-head crumb refinement ----- */
+html body .crumbs,
+html body .breadcrumbs {
+  font-size: 13px;
+  color: var(--muted);
+}
+html body .crumbs a,
+html body .breadcrumbs a {
+  color: var(--muted);
+  font-weight: 500;
+}
+html body .crumbs a:hover,
+html body .breadcrumbs a:hover {
+  color: var(--brand-blue);
+}
+html body .crumbs i,
+html body .breadcrumbs i {
+  width: 14px;
+  height: 14px;
+  color: var(--muted-2);
+}
+
+/* ----- Step indicator / progress (visa wizard, checkout) ----- */
+html body .step-pill,
+html body .step-indicator .step {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  color: var(--muted);
+  font-weight: 500;
+  border-radius: var(--radius-pill);
+}
+html body .step-pill.active,
+html body .step-indicator .step.active,
+html body .step-pill.current {
+  background: var(--brand-blue);
+  border-color: var(--brand-blue);
+  color: #fff;
+  box-shadow: 0 4px 12px rgba(14,45,92,.22);
+}
+html body .step-pill.done,
+html body .step-indicator .step.done {
+  background: var(--success-soft);
+  border-color: var(--success-soft);
+  color: var(--success);
+}
+
+html body .progress-bar,
+html body .progress {
+  background: var(--line-soft);
+  border-radius: 999px;
+  overflow: hidden;
+}
+html body .progress-fill,
+html body .progress > .fill,
+html body .progress-bar > .fill {
+  background: linear-gradient(90deg, var(--primary) 0%, #0E84B8 100%);
+  border-radius: 999px;
+  transition: width .35s var(--ease-out);
+}
+
+/* ----- Tabs / segmented controls (manage page) ----- */
+html body .tab,
+html body .seg-tab {
+  font-weight: 500;
+  color: var(--muted);
+  border-radius: var(--radius);
+  transition: background .18s var(--ease-out), color .18s ease;
+}
+html body .tab:hover,
+html body .seg-tab:hover {
+  background: var(--brand-blue-tint);
+  color: var(--brand-blue);
+}
+html body .tab.active,
+html body .seg-tab.active,
+html body .tab[aria-selected="true"] {
+  background: var(--brand-blue);
+  color: #fff;
+}
+
+/* ----- Package cards: tag pill + price refinement ----- */
+html body .pkg-tag {
+  font-family: var(--font-body);
+  background: #fff;
+  color: var(--brand-blue) !important;
+  font-weight: 600;
+  letter-spacing: .04em;
+  border: 1px solid var(--line-soft);
+}
+
+/* ----- Modals ----- */
+html body .modal,
+html body .modal-content,
+html body .modal-body {
+  border-radius: var(--radius-lg);
+}
+html body .modal-close {
+  background: rgba(255,255,255,.95) !important;
+  color: var(--brand-blue) !important;
+  border: 1px solid var(--line-soft);
+}
+html body .modal-close:hover {
+  background: #fff !important;
+  border-color: var(--line);
+}
+
+/* ----- Form labels ----- */
+html body label,
+html body .field-label,
+html body .form-label {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--ink-2);
+  letter-spacing: 0;
+  margin-bottom: 6px;
+  display: block;
+}
+
+/* ----- Helper text ----- */
+html body .hint,
+html body .field-hint,
+html body .help-text,
+html body small {
+  color: var(--muted);
+  font-size: 12px;
+}
+
+/* ----- Quantity stepper ----- */
+html body .qty,
+html body .stepper {
+  background: var(--surface);
+  border: 1.5px solid var(--line);
+  border-radius: var(--radius);
+  padding: 4px;
+  display: inline-flex;
+  align-items: center;
+}
+html body .qty button,
+html body .stepper button {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  border: none;
+  background: transparent;
+  color: var(--brand-blue);
+  cursor: pointer;
+  font-size: 18px;
+  font-weight: 600;
+  transition: background .15s ease;
+}
+html body .qty button:hover,
+html body .stepper button:hover {
+  background: var(--brand-blue-soft);
+}
+html body .qty .v,
+html body .stepper .v {
+  min-width: 36px;
+  text-align: center;
+  font-weight: 600;
+  color: var(--brand-blue);
+}
+
+/* ----- Sidebar summary cards (detail/checkout/pay) ----- */
+html body .summary-card,
+html body .sticky-summary,
+html body .order-summary {
+  background: var(--surface);
+  border: 1px solid var(--line-soft);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+}
+html body .summary-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 14px;
+  padding: 8px 0;
+}
+html body .summary-row .l { color: var(--muted); }
+html body .summary-row .v { color: var(--ink); font-weight: 600; }
+html body .summary-divider {
+  height: 1px;
+  background: var(--line-soft);
+  margin: 12px 0;
+}
+
+/* ----- Checkboxes / radios ----- */
+html body input[type="checkbox"],
+html body input[type="radio"] {
+  accent-color: var(--primary);
+  width: 18px;
+  height: 18px;
+}
+
+/* ----- Trust strip on landing ----- */
+html body .trust-strip {
+  background: var(--surface);
+  border-top: 1px solid var(--line-soft);
+  border-bottom: 1px solid var(--line-soft);
+}
+html body .trust-item strong {
+  color: var(--brand-blue) !important;
+  font-family: var(--font-display);
+  font-weight: 700;
+}
+html body .trust-item span {
+  color: var(--muted) !important;
+}
+
+/* ----- Lead capture ----- */
+html body .lead-card,
+html body .newsletter {
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--line-soft);
+  background: var(--surface);
+}
+
+/* ----- Micro polish: image radius syncing ----- */
+html body .pkg-card,
+html body .package-card {
+  overflow: hidden;
+}
+
+/* ----- Confirmation page ----- */
+html body .success-icon,
+html body .check-circle {
+  background: var(--success-soft);
+  color: var(--success);
+}
+
+/* ----- Page-head dark gradient (manage page) — unified deep blue ----- */
+html body .page-head {
+  background: linear-gradient(135deg, var(--brand-blue) 0%, var(--brand-blue-700) 100%) !important;
+  color: #fff;
+}
+html body .page-head h1,
+html body .page-head h2,
+html body .page-head h3 {
+  color: #fff !important;
+}
+html body .page-head .crumbs,
+html body .page-head .crumbs a {
+  color: rgba(255,255,255,.78) !important;
+}
+html body .page-head .crumbs a:hover {
+  color: #fff !important;
+}
+html body .page-head .sub,
+html body .page-head .lead {
+  color: rgba(255,255,255,.82) !important;
+}
+
+/* ----- Step-header dark band (checkout/wizard) ----- */
+html body .step-header {
+  background: linear-gradient(135deg, var(--brand-blue) 0%, var(--brand-blue-700) 100%) !important;
+  color: #fff !important;
+}
+html body .step-header .step.on .step-num {
+  background: var(--primary) !important;
+}
+html body .step-header .step.done .step-num {
+  background: #fff !important;
+  color: var(--brand-blue) !important;
+}
+
+/* ----- eSIM band — keep dramatic gradient with brand-blue base ----- */
+html body .esim-band {
+  background: linear-gradient(135deg, var(--brand-blue) 0%, #143E7C 50%, var(--brand-blue-700) 100%) !important;
+}
+
+/* ----- Inline status banners (quality bar etc.) ----- */
+html body .quality-bar,
+html body .info-banner.success {
+  background: var(--success-soft) !important;
+  border: 1px solid #BFE5CE !important;
+  color: #0F6F3F !important;
+}
+html body .info-banner.danger,
+html body .alert-danger {
+  background: var(--danger-soft) !important;
+  border: 1px solid #F4C5C9 !important;
+  color: #B61C25 !important;
+}
+html body .info-banner.warn,
+html body .alert-warn {
+  background: var(--warn-soft) !important;
+  border: 1px solid #F4DD9A !important;
+  color: #8C6900 !important;
+}
+html body .info-banner.info,
+html body .alert-info {
+  background: var(--brand-blue-soft) !important;
+  border: 1px solid #C9D5E8 !important;
+  color: var(--brand-blue) !important;
+}
+
+/* ----- Form errors / required asterisk ----- */
+html body .field .err,
+html body .field-error,
+html body .error-text {
+  color: var(--danger) !important;
+  font-size: 12px;
+  font-weight: 500;
+}
+html body .field.invalid input,
+html body .field.invalid select,
+html body .field.invalid textarea,
+html body input.invalid,
+html body select.invalid {
+  border-color: var(--danger) !important;
+  box-shadow: 0 0 0 3px rgba(224,57,70,.12) !important;
+}
+html body .req,
+html body .required {
+  color: var(--danger) !important;
+}
+
+/* ----- Booking card / list-item refinements ----- */
+html body .booking-card,
+html body .list-item {
+  border: 1px solid var(--line-soft);
+  border-radius: var(--radius-lg);
+  transition: transform .22s var(--ease-out), box-shadow .25s var(--ease-out), border-color .2s ease;
+}
+html body .booking-card:hover,
+html body .list-item:hover {
+  border-color: rgba(14,45,92,.14);
+  box-shadow: var(--shadow);
+}
+html body .booking-body .badge {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: .04em;
+  padding: 4px 10px;
+  border-radius: var(--radius-pill);
+}
+html body .booking-body .badge.visa,
+html body .booking-body .badge.success {
+  background: var(--success-soft) !important;
+  color: var(--success) !important;
+}
+html body .booking-body .badge.pending {
+  background: var(--warn-soft) !important;
+  color: #8C6900 !important;
+}
+
+/* ----- Side nav (manage page) ----- */
+html body .side-nav a {
+  color: var(--muted) !important;
+  font-weight: 500;
+  border-radius: var(--radius);
+  transition: background .18s var(--ease-out), color .18s ease;
+}
+html body .side-nav a:hover {
+  background: var(--brand-blue-tint) !important;
+  color: var(--brand-blue) !important;
+}
+html body .side-nav a.active,
+html body .side-nav a[aria-current="page"] {
+  background: var(--brand-blue) !important;
+  color: #fff !important;
+  font-weight: 600;
+}
+
+/* ----- Timeline (manage page) ----- */
+html body .tl-item.done .tl-dot {
+  background: var(--success) !important;
+  color: #fff !important;
+}
+html body .tl-item.on .tl-dot {
+  background: var(--primary) !important;
+  color: #fff !important;
+  box-shadow: 0 0 0 4px rgba(8,165,227,.18) !important;
+}
+html body .tl-item .tl-dot {
+  background: var(--line) !important;
+  color: var(--muted-2) !important;
+}
+
+/* ----- Add-pax / soft action button (checkout) ----- */
+html body .add-pax {
+  background: var(--primary-soft) !important;
+  color: var(--primary-700) !important;
+  font-weight: 600;
+  border-radius: var(--radius);
+  border: 1px dashed rgba(8,165,227,.36) !important;
+  transition: background .18s var(--ease-out), border-color .18s ease;
+}
+html body .add-pax:hover {
+  background: #DCF1FB !important;
+  border-color: var(--primary) !important;
+}
+
+/* ----- Upload row (visa wizard / checkout) ----- */
+html body .upload-row {
+  border: 1.5px dashed var(--line-strong) !important;
+  border-radius: var(--radius);
+  background: var(--surface-soft) !important;
+  transition: border-color .2s ease, background .2s ease;
+}
+html body .upload-row:hover {
+  border-color: var(--primary) !important;
+  background: var(--primary-tint) !important;
+}
+html body .upload-row.ok {
+  border-color: var(--success) !important;
+  background: var(--success-soft) !important;
+  color: var(--success) !important;
+}
+
+/* ----- Section card refinement (forms) ----- */
+html body .section-card {
+  background: var(--surface) !important;
+  border: 1px solid var(--line-soft) !important;
+  border-radius: var(--radius-lg) !important;
+  box-shadow: var(--shadow-sm) !important;
+}
+html body .section-card h3,
+html body .section-card h4 {
+  color: var(--brand-blue) !important;
+  font-family: var(--font-display);
+  letter-spacing: -0.018em;
+}
+
+/* ----- Hero (landing) — slight refinement on stat numbers ----- */
+html body .hero-stat strong {
+  font-family: var(--font-display);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
+
+/* ----- Final cleanup: ensure all elements inherit Rubik from body ----- */
+html body * {
+  font-family: inherit;
+}
+html body h1, html body h2, html body h3, html body h4,
+html body .pkg-title, html body .price, html body .pkg-price,
+html body .stat-num, html body .total-amount,
+html body .std-head h2, html body .esim-content h2, html body .support-band h2,
+html body .hero-stat strong, html body .modal-body h3, html body .lead-title,
+html body .esim-feat h4, html body .summary-card h3, html body .summary-card h4,
+html body .section-card h3, html body .section-card h4 {
+  font-family: var(--font-display) !important;
+}

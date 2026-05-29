@@ -1,0 +1,2385 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Visa Application — Wakanow Umrah</title>
+<link href="https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Rubik',system-ui,sans-serif;font-size:16px;color:#1E3138;line-height:1.55;background:#F5F7FA;min-height:100vh}
+h1,h2,h3,h4{font-family:'Rubik',system-ui,sans-serif;font-weight:700;line-height:1.2}
+button{cursor:pointer;font-family:inherit;border:none;background:none;color:inherit}
+a{text-decoration:none;color:inherit}
+input,select,textarea{font-family:inherit;font-size:14px}
+
+:root{
+  --primary:#08A5E3; --primary-dark:#0789BF; --primary-light:#E8F6FD;
+  --navy:#0F2A33;
+  --orange:#F58220; --orange-dark:#E07318;
+  --green:#27AE60;
+  --gray-100:#F2F3F5; --gray-200:#E5E7EB; --gray-300:#D1D5DB; --gray-400:#9CA3AF; --gray-500:#6B7280; --gray-600:#4B5563;
+  --radius-lg:14px;
+  --shadow-sm:0 1px 3px rgba(0,0,0,.06);
+  --shadow-md:0 6px 22px rgba(15,42,51,.08);
+  --ease:.22s cubic-bezier(.4,0,.2,1);
+}
+
+.site-header{background:#fff;padding:14px 32px;display:flex;align-items:center;gap:14px;box-shadow:0 1px 0 rgba(15,42,51,.06);position:sticky;top:0;z-index:30}
+.site-header .logo{height:30px}
+.site-header .manage-app-link{font-size:12.5px;color:var(--navy);font-weight:600;display:inline-flex;align-items:center;gap:5px;padding:7px 11px;border-radius:8px;transition:.18s;cursor:pointer}
+.site-header .manage-app-link:hover{background:var(--gray-100);color:var(--primary-dark)}
+.site-header .manage-app-link i{width:13px;height:13px}
+@media(max-width:600px){ .site-header .manage-app-link{padding:6px 9px} .site-header .manage-app-link span{display:none} }
+.site-header .saved{margin-left:auto;font-size:12px;color:var(--gray-500);display:inline-flex;align-items:center;gap:6px;font-weight:500;opacity:.6;transition:.3s}
+.site-header .saved.flash{opacity:1;color:var(--green)}
+.site-header .saved i{width:13px;height:13px}
+.site-header .save-exit{font-size:12.5px;color:var(--navy);font-weight:600;padding:8px 14px;border-radius:8px;background:var(--gray-100);transition:.18s}
+.site-header .save-exit:hover{background:var(--gray-200)}
+@media(max-width:600px){
+  .site-header{padding:12px 16px}
+  .site-header .saved span{display:none}
+  .site-header .save-exit{padding:7px 10px;font-size:12px}
+}
+
+/* Mobile compact header bar — replaces big navy progress on phones */
+.mobile-progress{display:none;background:var(--navy);color:#fff;padding:14px 18px;flex-direction:column;gap:8px;position:sticky;top:55px;z-index:25}
+.mobile-progress .row{display:flex;justify-content:space-between;align-items:center;gap:10px;font-size:12.5px}
+.mobile-progress .row .step-of{font-weight:600}
+.mobile-progress .row .pct{color:rgba(255,255,255,.7)}
+.mobile-progress .bar{height:5px;background:rgba(255,255,255,.18);border-radius:99px;overflow:hidden}
+.mobile-progress .fill{height:100%;background:linear-gradient(90deg,var(--primary),#4AC8F3);transition:width .4s ease}
+@media(max-width:840px){ .mobile-progress{display:flex} }
+
+/* Desktop: shell with sidebar progress */
+.shell{max-width:1100px;margin:0 auto;padding:28px 32px 60px;display:grid;grid-template-columns:260px 1fr;gap:30px;align-items:start}
+@media(max-width:840px){ .shell{grid-template-columns:1fr;padding:20px 18px 40px;gap:0} }
+
+.side-progress{background:#fff;border-radius:var(--radius-lg);padding:22px 22px;box-shadow:var(--shadow-sm);position:sticky;top:84px}
+@media(max-width:840px){ .side-progress{display:none} }
+.side-progress h3{font-size:11px;text-transform:uppercase;letter-spacing:.06em;color:var(--gray-500);margin-bottom:14px;font-weight:600}
+.side-step{display:flex;align-items:flex-start;gap:12px;padding:10px 0;position:relative}
+.side-step:not(:last-child)::after{content:'';position:absolute;left:14px;top:32px;bottom:-2px;width:2px;background:var(--gray-200)}
+.side-step.done:not(:last-child)::after{background:var(--green)}
+.side-step .dot{width:28px;height:28px;border-radius:50%;background:var(--gray-200);color:var(--gray-500);display:inline-flex;align-items:center;justify-content:center;flex-shrink:0;font-size:12px;font-weight:700;z-index:1;transition:var(--ease)}
+.side-step .dot i{width:13px;height:13px}
+.side-step.done .dot{background:var(--green);color:#fff}
+.side-step.on .dot{background:var(--primary);color:#fff;box-shadow:0 0 0 4px rgba(8,165,227,.18)}
+.side-step .lbl{padding-top:4px}
+.side-step .lbl .name{font-size:13px;color:var(--navy);font-weight:600}
+.side-step .lbl .sub{font-size:11px;color:var(--gray-500);margin-top:1px}
+.side-step.done .lbl .sub{color:var(--green)}
+.side-step.on .lbl .name{color:var(--primary)}
+.side-progress .booking-tag{margin-top:14px;padding-top:14px;border-top:1px solid var(--gray-100);font-size:11px;color:var(--gray-500);line-height:1.55}
+.side-progress .booking-tag strong{color:var(--navy);display:block;font-size:12px;margin-bottom:2px;font-family:'DM Mono',monospace}
+
+/* Applicant selector (Item 17) */
+.applicant-bar{background:#fff;border-radius:var(--radius-lg);padding:14px 18px;box-shadow:var(--shadow-sm);margin-bottom:14px;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.applicant-bar .label{font-size:11px;color:var(--gray-500);text-transform:uppercase;letter-spacing:.06em;font-weight:600;flex-shrink:0}
+.applicant-tabs{display:flex;gap:8px;flex-wrap:wrap;flex:1;min-width:0}
+.applicant-tab{display:inline-flex;align-items:center;gap:7px;padding:8px 14px;border:1.5px solid var(--gray-200);border-radius:999px;background:#fff;font-size:12.5px;color:var(--gray-600);font-weight:600;transition:var(--ease);cursor:pointer}
+.applicant-tab:hover{border-color:var(--gray-300)}
+.applicant-tab.on{background:var(--primary-light);border-color:var(--primary);color:var(--primary)}
+.applicant-tab.complete{border-color:#B6E1C6;color:#1F6E3D;background:#E7F6EE}
+.applicant-tab.complete.on{background:#D8F0E2;border-color:var(--green)}
+.applicant-tab .num{width:20px;height:20px;border-radius:50%;background:var(--gray-200);color:var(--gray-600);display:inline-flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0}
+.applicant-tab.on .num{background:var(--primary);color:#fff}
+.applicant-tab.complete .num{background:var(--green);color:#fff}
+.applicant-tab i{width:12px;height:12px}
+.applicant-bar .summary-pct{font-size:11.5px;color:var(--gray-500);font-weight:500;margin-left:auto}
+.applicant-bar .summary-pct strong{color:var(--navy)}
+@media(max-width:560px){
+  .applicant-bar{padding:12px 14px}
+  .applicant-bar .summary-pct{margin-left:0;width:100%;text-align:right;border-top:1px solid var(--gray-100);padding-top:10px;margin-top:4px}
+}
+
+/* Wizard card */
+.wizard-card{background:#fff;border-radius:var(--radius-lg);padding:28px 32px;box-shadow:var(--shadow-sm)}
+@media(max-width:600px){ .wizard-card{padding:22px 18px;border-radius:12px} }
+.wizard-card h2{font-size:18px;color:var(--navy);margin-bottom:4px;font-weight:700;letter-spacing:-.005em}
+.wizard-card .step-sub{font-size:13px;color:var(--gray-500);margin-bottom:22px;line-height:1.55}
+
+.form-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
+@media(max-width:600px){ .form-grid{grid-template-columns:1fr} }
+.field{display:flex;flex-direction:column;gap:6px}
+.field.full{grid-column:1/-1}
+.field label{font-size:12px;color:var(--navy);font-weight:600}
+.field label .req{color:#DC2626;margin-left:2px}
+.field input,.field select,.field textarea{padding:11px 13px;border:1.5px solid var(--gray-200);border-radius:9px;background:#fff;color:var(--navy);transition:var(--ease);font-size:13.5px}
+.field input:focus,.field select:focus,.field textarea:focus{outline:none;border-color:var(--primary);box-shadow:0 0 0 3px rgba(8,165,227,.14)}
+.field input:disabled,.field select:disabled,.field textarea:disabled{background:#F2F3F5;color:var(--gray-500);cursor:not-allowed;border-color:#E5E7EB;opacity:.85}
+.field.invalid input,.field.invalid select,.field.invalid textarea{border-color:#DC2626;background:#FEF2F2}
+
+/* Locked-step banner shown on Step 1 / Step 2 when data was captured pre-payment */
+.locked-banner{display:flex;align-items:center;gap:12px;padding:13px 16px;border:1.5px solid #B6E1C6;background:linear-gradient(135deg,#E7F6EE 0%,#F0FAF4 100%);border-radius:11px;margin-bottom:18px;color:#1F6E3D;font-size:13px;line-height:1.5}
+.locked-banner i.lock-ic{width:18px;height:18px;flex-shrink:0;color:var(--green)}
+.locked-banner .x{flex:1;line-height:1.45}
+.locked-banner .x strong{display:block;font-size:13px;color:#1F6E3D;font-weight:700;margin-bottom:2px}
+.locked-banner .x span{font-size:12px;color:#387C58}
+.locked-banner .edit-btn{flex-shrink:0;background:#fff;color:#1F6E3D;border:1.5px solid #B6E1C6;padding:8px 14px;border-radius:8px;font-size:12.5px;font-weight:600;display:inline-flex;align-items:center;gap:6px;transition:var(--ease)}
+.locked-banner .edit-btn:hover{background:#F0FAF4;border-color:var(--green)}
+.locked-banner .edit-btn i{width:13px;height:13px}
+@media(max-width:560px){
+  .locked-banner{flex-wrap:wrap}
+  .locked-banner .edit-btn{margin-left:auto}
+}
+.field .hint{font-size:11px;color:var(--gray-500)}
+.field .err{font-size:11.5px;color:#DC2626;display:none;align-items:center;gap:4px;font-weight:500}
+.field .err i{width:12px;height:12px}
+.field.invalid .err{display:inline-flex}
+
+.doc-row{border:1.5px dashed var(--gray-300);border-radius:11px;padding:18px;text-align:center;color:var(--gray-500);cursor:pointer;transition:var(--ease);margin-bottom:12px;background:#FAFBFC}
+.doc-row:hover{border-color:var(--primary);color:var(--primary);background:var(--primary-light)}
+.doc-row i{width:26px;height:26px;margin-bottom:6px;display:inline-block}
+.doc-row.ok{border-color:var(--green);color:var(--green);background:#F0FAF4;border-style:solid}
+.doc-row .meta{font-size:11px;color:var(--gray-500);margin-top:3px}
+.doc-row.ok .meta{color:var(--green)}
+
+/* Upload info banner (50KB cap notice) */
+.upload-info-banner{display:flex;align-items:flex-start;gap:10px;background:#E8F6FD;border:1px solid #B8DDF0;border-radius:10px;padding:12px 14px;margin-bottom:16px;font-size:12.5px;color:var(--navy);line-height:1.5}
+.upload-info-banner i{width:16px;height:16px;color:var(--primary);flex-shrink:0;margin-top:1px}
+.upload-info-banner strong{font-weight:700}
+
+/* Locked doc row (passport — collected at booking) */
+.doc-row.locked{border:1.5px solid var(--green);background:#F0FAF4;cursor:default;text-align:left;padding:14px 16px;display:flex;align-items:center;gap:14px}
+.doc-row.locked:hover{border-color:var(--green);color:inherit;background:#F0FAF4}
+.doc-row.locked .doc-thumb{width:46px;height:46px;border-radius:8px;overflow:hidden;background:#fff;border:1px solid var(--gray-200);flex-shrink:0;display:flex;align-items:center;justify-content:center}
+.doc-row.locked .doc-thumb img{width:100%;height:100%;object-fit:cover}
+.doc-row.locked .doc-thumb i{width:20px;height:20px;color:var(--gray-400);margin:0}
+.doc-row.locked .doc-info{flex:1;min-width:0;text-align:left}
+.doc-row.locked .doc-info .n{font-size:13px;font-weight:600;color:var(--navy);line-height:1.3;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.doc-row.locked .doc-info .meta{font-size:11px;color:var(--green);margin-top:2px;font-weight:500}
+.doc-row.locked .doc-edit-link{font-size:11.5px;color:var(--primary);font-weight:600;cursor:pointer;flex-shrink:0;display:inline-flex;align-items:center;gap:4px}
+.doc-row.locked .doc-edit-link:hover{text-decoration:underline}
+.doc-row.locked .doc-edit-link i{width:12px;height:12px;margin:0}
+
+/* Filled (uploaded) doc row — with thumbnail + remove */
+.doc-row.ok.filled{cursor:default;text-align:left;display:flex;align-items:center;gap:14px;padding:14px 16px}
+.doc-row.ok.filled:hover{background:#F0FAF4;color:var(--green)}
+.doc-row.ok.filled .doc-thumb{width:46px;height:46px;border-radius:8px;overflow:hidden;background:#fff;border:1px solid #B6E1C6;flex-shrink:0;display:flex;align-items:center;justify-content:center}
+.doc-row.ok.filled .doc-thumb img{width:100%;height:100%;object-fit:cover}
+.doc-row.ok.filled .doc-thumb i{width:20px;height:20px;color:var(--green);margin:0}
+.doc-row.ok.filled .doc-info{flex:1;min-width:0;text-align:left}
+.doc-row.ok.filled .doc-info .n{font-size:13px;font-weight:600;color:var(--navy);line-height:1.3;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.doc-row.ok.filled .doc-info .meta{font-size:11px;color:var(--green);margin-top:2px;font-weight:500}
+.doc-row .doc-remove{flex-shrink:0;width:28px;height:28px;border-radius:7px;background:#fff;border:1px solid var(--gray-200);color:#DC2626;display:inline-flex;align-items:center;justify-content:center;cursor:pointer;transition:var(--ease)}
+.doc-row .doc-remove:hover{background:#FEF2F2;border-color:#FCA5A5}
+.doc-row .doc-remove i{width:14px;height:14px;margin:0}
+
+/* Inline 50KB error */
+.doc-error{display:none;font-size:11.5px;color:#DC2626;margin:-6px 0 12px;padding:8px 12px;background:#FEF2F2;border-left:3px solid #DC2626;border-radius:0 7px 7px 0;font-weight:500;line-height:1.4;align-items:center;gap:6px}
+.doc-error.show{display:flex}
+.doc-error i{width:13px;height:13px;flex-shrink:0}
+
+/* Pills */
+.optional-tag{display:inline-flex;align-items:center;font-size:10.5px;font-weight:600;color:var(--gray-600);background:var(--gray-100);border:1px solid var(--gray-200);padding:2px 7px;border-radius:99px;letter-spacing:.02em;margin-left:auto}
+.completed-badge{display:inline-flex;align-items:center;gap:4px;font-size:10.5px;font-weight:700;color:#1F6E3D;background:#E7F6EE;border:1px solid #B6E1C6;padding:2px 8px;border-radius:99px;letter-spacing:.02em;margin-left:auto}
+.completed-badge i{width:11px;height:11px;color:var(--green);margin:0}
+
+.doc-label{font-size:13px;font-weight:700;color:var(--navy);margin-bottom:8px;display:flex;align-items:center;gap:8px;margin-top:14px}
+.doc-label:first-child{margin-top:0}
+.doc-label i{width:15px;height:15px;color:var(--primary)}
+.doc-label .req{color:#DC2626}
+
+.review{background:var(--gray-100);border-radius:11px;padding:16px 20px;margin-bottom:18px}
+.review h4{font-size:12px;color:var(--gray-500);text-transform:uppercase;letter-spacing:.05em;margin-bottom:10px;display:flex;justify-content:space-between;align-items:center}
+.review h4 a{font-size:11px;color:var(--primary);font-weight:600;text-transform:none;letter-spacing:0;cursor:pointer}
+.review h4 a:hover{text-decoration:underline}
+.review-row{display:flex;justify-content:space-between;padding:6px 0;font-size:13px;color:var(--gray-600);gap:16px;align-items:flex-start}
+.review-row .k{color:var(--gray-500);flex-shrink:0}
+.review-row .v{color:var(--navy);font-weight:600;text-align:right;line-height:1.4}
+.review-row .v.miss{color:#DC2626;font-weight:500}
+
+.declare{border:1px solid var(--gray-200);border-radius:11px;padding:18px;margin-bottom:18px;font-size:12px;color:var(--gray-600);line-height:1.6;background:#FAFBFC}
+.declare label{display:flex;gap:10px;align-items:flex-start;margin-top:12px;font-size:13px;color:var(--navy);cursor:pointer}
+.declare input{margin-top:3px;flex-shrink:0}
+.declare strong{color:var(--navy)}
+
+.completion-card{background:linear-gradient(135deg,#E8F6FD 0%,#F4FAFE 100%);border:1px solid #B8DDF0;border-radius:11px;padding:14px 18px;margin-bottom:14px;display:flex;align-items:center;gap:12px;font-size:12.5px;color:var(--navy)}
+.completion-card.complete{background:linear-gradient(135deg,#E7F6EE 0%,#F0FAF4 100%);border-color:#B6E1C6;color:#1F6E3D}
+.completion-card i{width:18px;height:18px;flex-shrink:0;color:var(--primary)}
+.completion-card.complete i{color:var(--green)}
+.completion-card .x{display:flex;flex-direction:column;line-height:1.4}
+.completion-card .x strong{font-weight:700;font-size:13px}
+
+.nav-row{display:flex;justify-content:space-between;align-items:center;margin-top:24px;gap:10px;flex-wrap:wrap}
+.btn{padding:13px 22px;border-radius:11px;font-size:13.5px;font-weight:600;transition:var(--ease);display:inline-flex;align-items:center;justify-content:center;gap:7px;min-height:46px;cursor:pointer;border:none}
+.btn i{width:14px;height:14px}
+.btn-primary{background:var(--orange);color:#fff;box-shadow:0 6px 14px rgba(245,130,32,.28)}
+.btn-primary:hover:not(:disabled){background:var(--orange-dark);box-shadow:0 8px 18px rgba(245,130,32,.36)}
+.btn-primary:disabled{background:var(--gray-300);cursor:not-allowed;box-shadow:none}
+.btn-ghost{background:#fff;color:var(--navy);border:1.5px solid var(--gray-200)}
+.btn-ghost:hover{border-color:var(--gray-300);background:var(--gray-100)}
+
+@media(max-width:600px){
+  .nav-row{display:none}    /* hidden in favor of sticky bar on mobile */
+}
+
+/* Mobile sticky CTA bar */
+.mobile-cta{display:none;position:fixed;left:0;right:0;bottom:0;background:#fff;border-top:1px solid #DEE3EC;box-shadow:0 -10px 28px rgba(15,42,51,.10);padding:12px 14px env(safe-area-inset-bottom);z-index:50;gap:10px;align-items:center}
+.mobile-cta .btn{flex:1;padding:13px 14px;font-size:13.5px;min-height:48px}
+.mobile-cta .btn-ghost{flex:0 0 auto;width:48px;padding:0}
+@media(max-width:600px){
+  .mobile-cta{display:flex}
+  body.has-mobile-cta{padding-bottom:88px}
+}
+
+.not-found{background:#fff;border-radius:var(--radius-lg);padding:60px 20px;text-align:center;color:var(--gray-500);box-shadow:var(--shadow-sm)}
+
+/* Yes/No toggle group */
+.yn-group{display:inline-flex;gap:0;background:var(--gray-100);border-radius:9px;padding:3px;border:1.5px solid var(--gray-200);overflow:hidden}
+.yn-group button{padding:8px 18px;font-size:12.5px;font-weight:600;color:var(--gray-600);border-radius:7px;transition:var(--ease);background:transparent;min-width:62px}
+.yn-group button.on{background:#fff;color:var(--navy);box-shadow:0 2px 6px rgba(15,42,51,.10)}
+.yn-group button.on[data-v="Yes"]{color:var(--primary)}
+.yn-group button.on[data-v="No"]{color:#475569}
+
+/* Disclosure rows: question + Y/N on the right */
+.disc-section{margin-top:18px;padding-top:14px;border-top:1px solid var(--gray-100)}
+.disc-section:first-of-type{margin-top:6px;padding-top:0;border-top:none}
+.disc-section h3{font-size:13px;color:var(--navy);margin-bottom:10px;font-weight:700;display:flex;align-items:center;gap:8px}
+.disc-section h3 i{width:15px;height:15px;color:var(--primary)}
+.disc-row{display:flex;align-items:center;justify-content:space-between;gap:14px;padding:11px 0;border-bottom:1px dashed var(--gray-100);font-size:13px;color:var(--navy)}
+.disc-row:last-child{border-bottom:none}
+.disc-row .q{flex:1;line-height:1.45;font-weight:500}
+.disc-row .req{color:#DC2626;margin-left:2px}
+.disc-row.invalid{background:#FEF2F2;border-radius:8px;padding-left:10px;padding-right:10px;border-bottom-color:transparent}
+.conditional.invalid{border-left-color:#DC2626;background:#FEF2F2}
+@media(max-width:560px){
+  .disc-row{flex-direction:column;align-items:stretch;gap:8px}
+  .disc-row .yn-group{align-self:flex-start}
+}
+
+/* Conditional reveal */
+.conditional{display:none;margin-top:10px;padding:14px 16px;background:#F4FAFE;border-left:3px solid var(--primary);border-radius:0 9px 9px 0}
+.conditional.show{display:block}
+.conditional h4{font-size:12px;color:var(--navy);margin-bottom:10px;font-weight:700}
+
+/* "Please provide details" inline reveal under Y/N rows (lighter than .conditional) */
+.cond-text{display:none;margin:6px 0 4px;padding:0 2px;animation:condTextReveal .18s ease}
+.cond-text.show{display:block}
+.cond-text label{display:block;font-size:12px;font-weight:600;color:var(--navy);margin-bottom:6px}
+.cond-text label .req{color:#DC2626;margin-left:2px}
+.cond-text textarea{width:100%;min-height:64px;padding:10px 12px;border:1.5px solid var(--gray-200);border-radius:9px;background:#fff;color:var(--navy);font-size:13px;line-height:1.5;resize:vertical;font-family:inherit;transition:var(--ease)}
+.cond-text textarea:focus{outline:none;border-color:var(--primary);box-shadow:0 0 0 3px rgba(8,165,227,.12)}
+.cond-text.invalid textarea{border-color:#DC2626;background:#FEF2F2}
+@keyframes condTextReveal{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:translateY(0)}}
+
+/* ── Visa questionnaire sub-wizard (Step 4 — internal 4-step questionnaire) ── */
+.disc-progress{display:flex;gap:10px;align-items:center;margin:0 0 22px;padding:0;list-style:none}
+.disc-progress .seg{flex:1;display:flex;flex-direction:column;gap:7px;cursor:default;opacity:.55;transition:var(--ease);user-select:none}
+.disc-progress .seg.reachable{cursor:pointer;opacity:1}
+.disc-progress .seg.reachable:hover .bar{filter:brightness(.96)}
+.disc-progress .seg .bar{height:4px;border-radius:99px;background:var(--gray-200);transition:background var(--ease)}
+.disc-progress .seg.done .bar{background:var(--green)}
+.disc-progress .seg.on .bar{background:var(--primary)}
+.disc-progress .seg .meta{display:flex;align-items:center;gap:7px;font-size:11.5px;color:var(--gray-500);font-weight:600;line-height:1.25}
+.disc-progress .seg.on .meta{color:var(--primary)}
+.disc-progress .seg.done .meta{color:var(--green)}
+.disc-progress .seg .num{width:18px;height:18px;border-radius:50%;background:var(--gray-200);color:var(--gray-500);display:inline-flex;align-items:center;justify-content:center;font-size:10.5px;font-weight:700;flex-shrink:0;transition:var(--ease)}
+.disc-progress .seg .num i{width:11px;height:11px}
+.disc-progress .seg.on .num{background:var(--primary);color:#fff}
+.disc-progress .seg.done .num{background:var(--green);color:#fff}
+@media(max-width:768px){
+  .disc-progress{position:sticky;top:128px;background:#fff;padding:12px 0 10px;z-index:6;margin:-4px 0 14px;gap:6px}
+  .disc-progress .seg .meta span.label{display:none}
+  .disc-progress .seg .meta{font-size:11px}
+}
+
+.disc-substep{animation:discSubSlide .25s cubic-bezier(.4,0,.2,1)}
+@keyframes discSubSlide{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+.disc-substep h3.disc-sub-title{font-family:'Rubik',system-ui,sans-serif;font-size:15px;color:var(--navy);margin-bottom:14px;font-weight:700;display:flex;align-items:center;gap:8px;padding-bottom:10px;border-bottom:1px solid var(--gray-100)}
+.disc-substep h3.disc-sub-title i{width:16px;height:16px;color:var(--primary)}
+.disc-substep .disc-row{padding:14px 0}
+.disc-substep .disc-row + .conditional,
+.disc-substep .disc-row + .cond-text{margin-top:0;margin-bottom:8px}
+
+.disc-substep-nav{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-top:32px;padding-top:18px;border-top:1px solid var(--gray-100);flex-wrap:wrap}
+.disc-substep-nav .btn{padding:12px 22px;border-radius:10px;font-size:13.5px;font-weight:600;display:inline-flex;align-items:center;gap:7px;border:1.5px solid transparent;font-family:inherit;cursor:pointer;transition:var(--ease);min-height:44px;line-height:1}
+.disc-substep-nav .btn i{width:14px;height:14px}
+.disc-substep-nav .btn-disc-back{background:#fff;color:var(--navy);border-color:var(--gray-200)}
+.disc-substep-nav .btn-disc-back:hover{border-color:var(--gray-300);background:var(--gray-100)}
+.disc-substep-nav .btn-disc-continue{background:var(--primary);color:#fff;border-color:var(--primary);box-shadow:0 6px 14px rgba(8,165,227,.22)}
+.disc-substep-nav .btn-disc-continue:hover{background:var(--primary-dark);border-color:var(--primary-dark);box-shadow:0 8px 18px rgba(8,165,227,.30)}
+@media(max-width:768px){
+  .disc-substep-nav{display:none} /* on mobile we use the sticky CTA bar instead */
+}
+
+/* Inline 2-col field grid used inside disclosure sub-steps */
+.disc-pair-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:8px}
+@media(max-width:768px){ .disc-pair-grid{grid-template-columns:1fr} }
+
+/* Repeater entries */
+.repeater{display:flex;flex-direction:column;gap:10px}
+.rep-entry{background:#fff;border:1.5px solid var(--gray-200);border-radius:10px;padding:12px}
+.rep-entry .rep-grid{display:grid;grid-template-columns:1.4fr 1fr 1fr auto;gap:10px;align-items:flex-end}
+@media(max-width:600px){ .rep-entry .rep-grid{grid-template-columns:1fr 1fr;gap:8px} .rep-entry .rep-grid > .rm{grid-column:1/-1;justify-self:end} }
+.rep-entry .rm{background:#FEF2F2;color:#DC2626;border:1px solid #FECACA;padding:8px 10px;border-radius:8px;font-size:11px;font-weight:600;display:inline-flex;align-items:center;gap:4px;height:38px}
+.rep-entry .rm i{width:13px;height:13px}
+.rep-entry .rm:hover{background:#FEE2E2}
+.rep-add{align-self:flex-start;background:var(--primary-light);color:var(--primary);border:1.5px dashed var(--primary);padding:9px 14px;border-radius:9px;font-size:12.5px;font-weight:600;display:inline-flex;align-items:center;gap:6px;margin-top:4px}
+.rep-add:hover{background:#D8EEFC}
+.rep-add i{width:13px;height:13px}
+.rep-empty{font-size:12px;color:var(--gray-500);font-style:italic;padding:6px 0}
+
+/* Phone (country code + number) */
+.phone-row{display:grid;grid-template-columns:110px 1fr;gap:8px}
+
+/* Title + first name (small select inline with input — mirrors PAX form) */
+.title-row{display:grid;grid-template-columns:88px 1fr;gap:8px}
+
+/* Section divider inside a step */
+.section-head{font-size:12px;text-transform:uppercase;letter-spacing:.06em;color:var(--gray-500);font-weight:700;margin:18px 0 8px;padding-top:14px;border-top:1px solid var(--gray-100);display:flex;align-items:center;gap:8px}
+.section-head:first-child{margin-top:0;padding-top:0;border-top:none}
+.section-head i{width:15px;height:15px;color:var(--primary)}
+
+/* Contact information block (mirrors PAX form's "Who should we contact?") */
+.contact-info-block{background:#FAFBFC;border:1px solid var(--gray-200);border-radius:11px;padding:18px 20px;margin-bottom:18px}
+.contact-info-block h4{font-size:13px;color:var(--navy);margin-bottom:4px;display:flex;align-items:center;gap:8px;font-weight:700}
+.contact-info-block h4 i{width:15px;height:15px;color:var(--primary)}
+.contact-info-block .muted{font-size:12px;color:var(--gray-500);margin-bottom:14px}
+
+/* Consent checkboxes (Step 6) */
+.consent-list{display:flex;flex-direction:column;gap:10px;margin:8px 0 18px}
+.consent-list label{display:flex;gap:12px;align-items:flex-start;padding:12px 14px;border:1.5px solid var(--gray-200);border-radius:10px;background:#FAFBFC;cursor:pointer;transition:var(--ease);font-size:13px;color:var(--navy);line-height:1.5}
+.consent-list label:hover{border-color:var(--gray-300)}
+.consent-list label.checked{border-color:var(--green);background:#F0FAF4}
+.consent-list input{margin-top:3px;flex-shrink:0;width:16px;height:16px;accent-color:var(--green)}
+
+/* ── Service section heading (used for Flight, Hotel, Transfer, Ground) ── */
+.svc-section{margin-top:18px;padding-top:0}
+.svc-section:first-of-type{margin-top:0}
+.svc-section + .svc-section{margin-top:24px;padding-top:24px;border-top:1px solid var(--gray-100)}
+.svc-section .svc-head{display:flex;justify-content:space-between;align-items:center;gap:14px;flex-wrap:wrap;margin-bottom:10px}
+.svc-section .svc-head .svc-title{font-size:15px;font-weight:700;color:var(--navy);font-family:'Rubik',system-ui,sans-serif;display:inline-flex;align-items:center;gap:8px}
+.svc-section .svc-head .svc-title i{width:16px;height:16px;color:var(--primary)}
+.svc-section .svc-head .embassy-note{font-size:12px;color:var(--primary);font-weight:600}
+.svc-section .svc-toggle{display:flex;align-items:center;gap:14px;padding:11px 0;font-size:13px;color:var(--navy);font-weight:500}
+.svc-section .svc-toggle .q{flex:1;line-height:1.45}
+.svc-section .svc-body{display:none;margin-top:14px;padding:16px;background:#FAFBFC;border:1px solid var(--gray-200);border-radius:11px;animation:svcReveal var(--ease)}
+.svc-section .svc-body.show{display:block}
+@keyframes svcReveal{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:translateY(0)}}
+.svc-section .svc-sub{font-size:13px;font-weight:600;color:var(--navy);margin-bottom:10px}
+@media(max-width:560px){
+  .svc-section .svc-toggle{flex-direction:column;align-items:flex-start;gap:8px}
+  .svc-section .svc-toggle .yn-group{align-self:flex-start}
+}
+
+/* ── 3-column grid for service forms (collapses to 1 col on mobile) ── */
+.form-grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+@media(max-width:760px){ .form-grid-3{grid-template-columns:1fr} }
+
+/* ── ₦ price prefix for currency inputs ── */
+.field.price{position:relative}
+.field.price input{padding-left:30px}
+.field.price::before{content:'₦';position:absolute;left:13px;top:32px;font-size:13.5px;font-weight:600;color:var(--gray-500);pointer-events:none;z-index:1}
+
+/* ── Search Flight CTA — primary blue, right-aligned ── */
+.flight-search-actions{display:flex;justify-content:flex-end;margin-top:14px}
+.btn-search-flight{background:var(--primary);color:#fff;padding:11px 22px;border-radius:10px;font-size:13.5px;font-weight:600;display:inline-flex;align-items:center;gap:7px;transition:var(--ease);border:none;cursor:pointer;box-shadow:0 4px 14px rgba(8,165,227,.22)}
+.btn-search-flight:hover{background:var(--primary-dark);box-shadow:0 6px 18px rgba(8,165,227,.30)}
+.btn-search-flight i{width:14px;height:14px}
+
+/* ── Flight result cards ── */
+.flight-list-head{font-size:13px;font-weight:700;color:var(--navy);margin:18px 0 10px}
+.flight-list{display:flex;flex-direction:column;gap:10px}
+.flight-card{display:flex;align-items:center;gap:16px;padding:13px 16px;border:1.5px solid var(--gray-200);border-radius:11px;transition:var(--ease);cursor:pointer;background:#fff}
+.flight-card:hover{border-color:var(--primary);box-shadow:0 2px 10px rgba(8,165,227,.08)}
+.flight-card .a{flex:1.4;font-weight:700;font-size:13.5px;color:var(--navy)}
+.flight-card .b{flex:1.4;font-size:12.5px;color:var(--gray-500)}
+.flight-card .c{flex:1.4;font-size:12.5px;color:var(--navy);font-weight:500}
+.flight-card .btn-sel{background:#fff;border:1.5px solid var(--gray-200);color:var(--navy);padding:7px 18px;font-size:12.5px;font-weight:600;border-radius:8px;cursor:pointer;transition:var(--ease)}
+.flight-card .btn-sel:hover{border-color:var(--primary);color:var(--primary);background:var(--primary-light)}
+@media(max-width:560px){
+  .flight-card{flex-wrap:wrap;gap:6px}
+  .flight-card .a{flex:1 0 100%}
+  .flight-card .b,.flight-card .c{flex:1 0 auto;font-size:12px}
+  .flight-card .btn-sel{margin-left:auto}
+}
+
+/* ── Selected flight (cyan card with Change button) ── */
+.flight-selected{display:flex;align-items:center;gap:16px;padding:16px 18px;background:linear-gradient(135deg,var(--primary) 0%,var(--primary-dark) 100%);border-radius:12px;box-shadow:0 4px 14px rgba(8,165,227,.22);color:#fff;margin-bottom:14px}
+.flight-selected .a{flex:1.4;color:#fff;font-weight:700;font-size:13.5px}
+.flight-selected .b{flex:2;color:#fff;font-weight:700;font-size:13.5px}
+.flight-selected .b small{display:block;font-weight:400;font-size:12px;opacity:.85;margin-top:2px}
+.flight-selected .btn-change{background:transparent;border:1.5px solid rgba(255,255,255,.55);color:#fff;padding:7px 18px;font-size:12.5px;font-weight:600;border-radius:8px;cursor:pointer;transition:var(--ease)}
+.flight-selected .btn-change:hover{background:rgba(255,255,255,.12);border-color:#fff}
+@media(max-width:560px){
+  .flight-selected{flex-wrap:wrap;gap:8px}
+  .flight-selected .btn-change{margin-left:auto}
+}
+
+/* ── Declaration page (Page 3) ── */
+.declaration-card{border:1px solid var(--gray-200);border-radius:12px;padding:8px 22px;background:#FAFBFC;margin-bottom:22px}
+.declaration-row{display:flex;gap:12px;align-items:flex-start;padding:14px 0;cursor:pointer}
+.declaration-row + .declaration-row{border-top:1px solid #EEF1F5}
+.declaration-row input[type="checkbox"]{flex-shrink:0;width:18px;height:18px;margin-top:2px;accent-color:var(--primary);cursor:pointer}
+.declaration-row .t{font-size:14px;color:var(--navy);line-height:1.55}
+
+/* ── Submit Application button (full-width orange, gated) ── */
+.btn-submit-app{width:100%;padding:14px;background:var(--orange);color:#fff;border:none;border-radius:12px;font-size:15px;font-weight:700;font-family:inherit;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:8px;transition:var(--ease);box-shadow:0 6px 14px rgba(245,130,32,.28)}
+.btn-submit-app:hover:not(:disabled){background:var(--orange-dark);box-shadow:0 8px 20px rgba(245,130,32,.36)}
+.btn-submit-app:disabled{background:var(--gray-300);cursor:not-allowed;box-shadow:none}
+.btn-submit-app i{width:16px;height:16px}
+.btn-submit-app .spin{display:none;width:16px;height:16px;border:2px solid rgba(255,255,255,.5);border-top-color:#fff;border-radius:50%;animation:btnSpin .8s linear infinite}
+.btn-submit-app.loading .spin{display:inline-block}
+.btn-submit-app.loading i,.btn-submit-app.loading span{display:none}
+@keyframes btnSpin{to{transform:rotate(360deg)}}
+
+/* ── Side-progress: condense for 9 steps (smaller dot row spacing) ── */
+@media(min-width:841px){
+  .side-progress .side-step{padding:7px 0}
+  .side-progress .side-step .dot{width:24px;height:24px;font-size:11px}
+  .side-progress .side-step:not(:last-child)::after{left:12px;top:28px}
+  .side-progress .side-step .lbl .name{font-size:12.5px}
+  .side-progress .side-step .lbl .sub{font-size:10.5px}
+}
+
+/* Auth gate placeholder while modal loads */
+.auth-gate{background:#fff;border-radius:var(--radius-lg);padding:60px 24px;text-align:center;color:var(--gray-500);box-shadow:var(--shadow-sm);max-width:520px;margin:60px auto}
+.auth-gate i{width:48px;height:48px;color:var(--primary);display:inline-block;margin-bottom:14px}
+.auth-gate h3{color:var(--navy);font-size:18px;margin-bottom:6px}
+.auth-gate p{font-size:13px;margin-bottom:20px}
+.auth-gate .btn{padding:13px 26px}
+
+/* Welcome-back toast — shown once after returning from signin (?welcome=1).
+   Pinned top-center, slides down, auto-dismisses after 3s. */
+.welcome-toast{position:fixed;top:74px;left:50%;transform:translateX(-50%) translateY(-12px);background:var(--navy);color:#fff;padding:11px 18px;border-radius:99px;font-size:13.5px;font-weight:500;display:inline-flex;align-items:center;gap:9px;box-shadow:0 10px 30px rgba(15,42,51,.22);z-index:60;opacity:0;pointer-events:none;transition:opacity .25s ease,transform .25s ease}
+.welcome-toast.on{opacity:1;transform:translateX(-50%) translateY(0)}
+.welcome-toast i{width:16px;height:16px;color:#4AC8F3}
+@media(max-width:600px){ .welcome-toast{top:64px;font-size:12.5px;padding:9px 14px} }
+</style>
+<link rel="stylesheet" href="umrah-theme.css">
+</head>
+<body>
+
+<header class="site-header">
+  <a href="saudi-packages.html"><img src="wakanow-logo.svg" alt="Wakanow" class="logo"></a>
+  <a href="umrah-signin.html" class="manage-app-link" title="Continue an existing visa application">
+    <i data-lucide="user-check"></i><span>Manage Application</span>
+  </a>
+  <span class="saved" id="savedIndicator"><i data-lucide="check-circle"></i> <span>Progress saved</span></span>
+  <button class="save-exit" type="button" onclick="saveAndExit()">Save &amp; exit</button>
+</header>
+
+<div class="mobile-progress" id="mobileProgress" style="display:none">
+  <div class="row">
+    <span class="step-of" id="mobStepOf">Step 1 of 6</span>
+    <span class="pct" id="mobPct">0%</span>
+  </div>
+  <div class="bar"><div class="fill" id="mobFill" style="width:0%"></div></div>
+  <div class="row" style="font-size:12px;color:rgba(255,255,255,.85);margin-top:2px">
+    <span id="mobStepName">Biographical</span>
+    <span id="mobApplicantTag"></span>
+  </div>
+</div>
+
+<div class="shell" id="shell"></div>
+
+<div class="mobile-cta" id="mobileCta" style="display:none">
+  <button class="btn btn-ghost" id="mobBackBtn" type="button" aria-label="Back"><i data-lucide="arrow-left"></i></button>
+  <button class="btn btn-primary" id="mobNextBtn" type="button">Save &amp; continue <i data-lucide="arrow-right"></i></button>
+</div>
+
+<script src="umrah-portal-data.js"></script>
+<script src="umrah-contact.js" defer></script>
+<script src="umrah-auth.js" defer></script>
+<script>
+lucide.createIcons();
+
+const bookingId = new URLSearchParams(location.search).get('bookingId');
+let booking = UmrahPortal.findBooking(bookingId);
+const shell = document.getElementById('shell');
+
+const STEPS = [
+  { key: 'personal',    label: 'Personal',    sub: 'Tell us about yourself',        icon: 'user' },
+  { key: 'passport',    label: 'Passport',    sub: 'Passport & residency details',  icon: 'book-open' },
+  { key: 'travel',      label: 'Travel',      sub: 'Trip + travel history',         icon: 'plane' },
+  { key: 'disclosures', label: 'Disclosures', sub: 'Background, health & family',   icon: 'shield-check' },
+  { key: 'flight',      label: 'Flight',      sub: 'Flight & contact details',      icon: 'plane-takeoff' },
+  { key: 'services',    label: 'Services',    sub: 'Hotel, transfer, ground',       icon: 'concierge-bell' },
+  { key: 'docs',        label: 'Documents',   sub: 'Bio-page, photo, vaccination',  icon: 'file-text' },
+  { key: 'review',      label: 'Review',      sub: 'Verify your application',       icon: 'list-checks' },
+  { key: 'declare',     label: 'Submit',      sub: 'Declaration & submit',          icon: 'send' }
+];
+
+/* ── Mock data for Flight + Services steps (no real APIs) ── */
+const MOCK_INBOUND_FLIGHTS = [
+  { airline: 'Brussels Airlines', dest: 'Saudi Arabia', date: '01 Oct 2026', time: '09:00 PM' },
+  { airline: 'Turkish Airlines',  dest: 'Saudi Arabia', date: '01 Oct 2026', time: '11:30 PM' },
+  { airline: 'Saudi Airlines',    dest: 'Saudi Arabia', date: '02 Oct 2026', time: '06:00 AM' },
+  { airline: 'Egypt Air',         dest: 'Saudi Arabia', date: '01 Oct 2026', time: '03:15 PM' },
+  { airline: 'Emirates',          dest: 'Saudi Arabia', date: '02 Oct 2026', time: '01:00 AM' }
+];
+const MOCK_OUTBOUND_FLIGHTS = [
+  { airline: 'BIRDY AIRLINES S.A.', dest: 'Netherlands', date: '20 Oct 2026', time: '09:00 PM' },
+  { airline: 'Turkish Airlines',    dest: 'Nigeria',     date: '20 Oct 2026', time: '07:45 PM' },
+  { airline: 'Saudi Airlines',      dest: 'Nigeria',     date: '21 Oct 2026', time: '04:30 AM' },
+  { airline: 'Emirates',            dest: 'Nigeria',     date: '20 Oct 2026', time: '11:00 PM' }
+];
+const MOCK_HOTELS = ['GABER GABER','Hilton Suites Makkah','Swissotel Al Maqam','Pullman ZamZam','Dar Al Tawhid Intercontinental'];
+const MOCK_TRANSFER_PROVIDERS = ['Al Safwa Transport','Makkah Express Transfers','Saudi Limousine','Haramain Shuttle Services'];
+const MOCK_GROUND_OPERATORS = ['BASIC GROUND SERVICE','AL SAFWA TRANSPORT','PREMIUM GROUND LOGISTICS','HARAMAIN GROUND CO.'];
+const MOCK_VEHICLE_MAKES = ['Toyota','Hyundai','GMC','Mercedes-Benz'];
+const MOCK_VEHICLE_TYPES = ['Sedan','SUV','Van','Bus','Minibus'];
+const MOCK_TRIP_CATEGORIES = ['Airport Pickup','Airport Drop-off','Inter-city Transfer','Local Transfer'];
+
+/* Default array fields (recent travel, past visas, family in KSA) */
+function defaultArrays(){
+  return {
+    recentTravel: [],   // {country, date, length}
+    pastVisa: [],       // {country, date, length}
+    familyKsa: []       // {name, relation}
+  };
+}
+
+let currentApplicantIdx = 0;
+
+if (!booking){
+  shell.innerHTML = `<div class="not-found"><h2>Visa application not found</h2><p style="margin-top:8px">This booking either doesn't exist, isn't a Visa+Package booking, or has been completed.</p><p style="margin-top:14px"><a href="saudi-packages.html" style="color:var(--primary);font-weight:600">→ Back to home</a></p></div>`;
+} else if (!booking.preQualification || booking.preQualification.status !== 'passed') {
+  // Per spec: the wizard is gated by pre-qualification. Send the user to the
+  // qualify page; if they failed pre-qual the qualify page renders the
+  // support state, otherwise it resumes them at the right tier/step.
+  location.replace('umrah-qualify.html?bookingId=' + encodeURIComponent(bookingId));
+} else if (!booking.visa){
+  shell.innerHTML = `<div class="not-found"><h2>Visa application not found</h2><p style="margin-top:8px">This booking either doesn't exist, isn't a Visa+Package booking, or has been completed.</p><p style="margin-top:14px"><a href="saudi-packages.html" style="color:var(--primary);font-weight:600">→ Back to home</a></p></div>`;
+} else {
+  ensureMigratedApplicants();
+  if (UmrahPortal.hasSessionAuth(bookingId)){
+    boot();
+  } else {
+    showAuthGate();
+  }
+}
+
+/* ----- Auth gate: require booking-id+code verification once per session ----- */
+// Per Manage Application spec: there is no inline modal or interstitial. If the
+// session isn't already verified, send the user to the dedicated signin page.
+// On successful verification there, signin redirects back here with ?welcome=1
+// so we know to show the one-shot "Welcome back" toast.
+function showAuthGate(){
+  location.replace('umrah-signin.html?bookingId=' + encodeURIComponent(bookingId || ''));
+}
+
+/* ----- Backwards-compat: turn legacy visa.formData into per-applicant array --- */
+function ensureMigratedApplicants(){
+  const v = booking.visa;
+  // TEMP: only render a single applicant form, regardless of booking quantity.
+  // Trim any pre-existing extra applicants (from earlier multi-pax test data).
+  if (Array.isArray(v.applicants) && v.applicants.length > 1){
+    v.applicants = v.applicants.slice(0, 1);
+    UmrahPortal.updateVisa(bookingId, { applicants: v.applicants });
+    booking = UmrahPortal.findBooking(bookingId);
+  }
+  if (!Array.isArray(v.applicants) || !v.applicants.length){
+    const count = 1; // booking.quantity || 1 — capped to 1 for now
+    const seedFromPax = Array.isArray(booking.passengers) ? booking.passengers : [];
+    v.applicants = [];
+    const cartContact = (booking.contact || {});
+    for (let i = 0; i < count; i++){
+      const pax = seedFromPax[i] || {};
+      const seedFormData = Object.assign(defaultArrays(), i === 0 ? (v.formData || {}) : {});
+      // Pre-populate from passenger info captured at checkout — ALL wizard step 1+2 fields
+      // come from checkout's PAX form, so steps 1 and 2 can lock as "already provided".
+      const map = {
+        title: 'title', firstName: 'firstName', lastName: 'lastName', middleName: 'middleName',
+        mobileCC: 'mobileCC', mobile: 'mobile', email: 'email', applyingFrom: 'applyingFrom',
+        dob: 'dob', gender: 'gender', marital: 'marital', nationality: 'nationality', birthCountry: 'birthCountry',
+        passport: 'passportNo', issueCountry: 'issueCountry', issueDate: 'issueDate',
+        expiry: 'expiryDate', passportType: 'passportType'
+      };
+      Object.keys(map).forEach(srcKey => {
+        const dstKey = map[srcKey];
+        if (pax[srcKey] && !seedFormData[dstKey]) seedFormData[dstKey] = pax[srcKey];
+      });
+      // Lead applicant inherits booking contact when missing
+      if (i === 0){
+        if (cartContact.email) seedFormData.email = seedFormData.email || cartContact.email;
+        if (cartContact.phone) seedFormData.mobile = seedFormData.mobile || cartContact.phone;
+      }
+      // Migrate legacy single 'fullName' to first/last
+      if (seedFormData.fullName && !seedFormData.firstName){
+        const parts = String(seedFormData.fullName).split(/\s+/);
+        seedFormData.firstName = parts.shift() || '';
+        seedFormData.lastName = parts.join(' ');
+      }
+      // Migrate legacy 'issuer' to issueCountry
+      if (seedFormData.issuer && !seedFormData.issueCountry) seedFormData.issueCountry = seedFormData.issuer;
+      // Ensure array fields exist
+      ['recentTravel','pastVisa','familyKsa'].forEach(k => {
+        if (!Array.isArray(seedFormData[k])) seedFormData[k] = [];
+      });
+      const fullName = seedFormData.firstName || seedFormData.lastName
+        ? `${seedFormData.firstName || ''} ${seedFormData.lastName || ''}`.trim()
+        : (i === 0 ? 'Lead applicant' : `Applicant ${i+1}`);
+      // Lock state — steps that came from checkout start LOCKED. Toggle via Edit button.
+      const step1Filled = seedFormData.firstName && seedFormData.lastName && seedFormData.dob && seedFormData.gender;
+      const step2Filled = seedFormData.passportNo && seedFormData.issueCountry && seedFormData.expiryDate;
+      // First-open should land on Step 3 if 1+2 are pre-filled — saves the user from
+      // re-traversing identical data. They can still click step 1/2 in the sidebar.
+      const startStep = (step1Filled && step2Filled) ? 3 : 1;
+      // For the lead applicant, preserve any genuine in-progress step from a legacy
+      // single-applicant flow (Math.max), but never let the default seed value (1)
+      // override startStep when the user already provided steps 1+2 pre-payment.
+      const leadStep = Math.max(Number(v.currentStep) || 1, startStep);
+      v.applicants.push({
+        idx: i,
+        name: fullName,
+        currentStep: i === 0 ? leadStep : startStep,
+        completedSteps: [],
+        formData: seedFormData,
+        documents: i === 0 ? [...(v.documents || [])] : [],
+        complete: false,
+        locked: { 1: !!step1Filled, 2: !!step2Filled }
+      });
+    }
+    UmrahPortal.updateVisa(bookingId, { applicants: v.applicants });
+    booking = UmrahPortal.findBooking(bookingId);
+  }
+}
+
+/* ----- Boot the wizard once auth is satisfied -------------------------------- */
+function boot(){
+  document.body.classList.add('has-mobile-cta');
+  document.getElementById('mobileProgress').style.display = '';
+  document.getElementById('mobileCta').style.display = '';
+  // Pick the first incomplete applicant
+  const idx = booking.visa.applicants.findIndex(a => !a.complete);
+  currentApplicantIdx = idx === -1 ? 0 : idx;
+  render();
+  // Welcome-back toast — only when arriving from the signin page (?welcome=1).
+  // Auto-dismiss after 3s and strip the param so a refresh doesn't re-trigger.
+  maybeShowWelcomeBackToast();
+}
+
+function maybeShowWelcomeBackToast(){
+  const params = new URLSearchParams(location.search);
+  if (params.get('welcome') !== '1') return;
+  const a = applicant() || {};
+  const f = a.formData || {};
+  const firstName = (f.firstName || (booking.passengers && booking.passengers[0] && booking.passengers[0].firstName) || '').trim();
+  const greeting = firstName ? ('Welcome back, ' + firstName) : 'Welcome back';
+  const t = document.createElement('div');
+  t.className = 'welcome-toast';
+  t.innerHTML = '<i data-lucide="hand"></i><span>' + greeting + '</span>';
+  document.body.appendChild(t);
+  lucide.createIcons();
+  // Defer to next frame so the transition runs.
+  requestAnimationFrame(() => t.classList.add('on'));
+  setTimeout(() => {
+    t.classList.remove('on');
+    setTimeout(() => t.remove(), 280);
+  }, 3000);
+  // Clean the URL so a refresh after toast dismissal doesn't show it again.
+  params.delete('welcome');
+  const cleanQs = params.toString();
+  history.replaceState({}, '', location.pathname + (cleanQs ? '?' + cleanQs : ''));
+}
+
+/* ----- Helpers --------------------------------------------------------------- */
+function applicant(){ return booking.visa.applicants[currentApplicantIdx]; }
+function applicantPct(a){
+  // 9 step contributions, weighted to reach ~100 when fully complete
+  const f = a.formData || {};
+  let pct = 0;
+  // Step 1 — Personal
+  if (f.title && f.firstName && f.lastName && f.gender && f.dob && f.marital && f.nationality && f.birthCountry && f.applyingFrom && f.email && f.mobile) pct += 11;
+  // Step 2 — Passport (residency moved to Step 4 sub-step 1)
+  const passportOk = f.passportNo && f.issueCountry && f.issueDate && f.expiryDate && f.passportType;
+  if (passportOk) pct += 11;
+  // Step 3 — Travel & History (passportRestrictions / recentTravel moved to Step 4 sub-step 4)
+  const travelBaseOk = f.arrival && f.departure && f.prevUmrah && f.pastVisaYN && f.saudiRejected;
+  const pastOk = f.pastVisaYN === 'No' || (f.pastVisaYN === 'Yes' && (f.pastVisa || []).length > 0);
+  if (travelBaseOk && pastOk) pct += 11;
+  // Step 4 — Visa questionnaire (4 sub-steps complete)
+  const subOk = (typeof discSubReady === 'function')
+    ? [1,2,3,4].every(n => discSubReady(n))
+    : false;
+  if (subOk) pct += 11;
+  // Step 5 — Flight & Contact
+  const flightOk = f.flightBooked === 'No' || (f.flightBooked === 'Yes' && f.inboundFlight && f.outboundFlight);
+  const contactOk = f.contactEmail && f.contactPhone;
+  if (f.flightBooked && flightOk && contactOk) pct += 11;
+  // Step 6 — Travel Services (Hotel + Transfer + Ground)
+  const hotelOk    = f.hotelBooked === 'No' || (f.hotelBooked === 'Yes' && f.hotelProvider && f.hotelCheckin && f.hotelCheckout && f.hotelPrice && f.hotelReservationNo);
+  const transferOk = f.transferBooked === 'No' || (f.transferBooked === 'Yes' && f.transferProvider && f.transferTripNo && f.transferTripDate && f.transferTripPrice && f.transferTripCategory && f.transferVehicleMake && f.transferVehicleType && f.transferBookingId);
+  const groundOk   = f.groundBooked === 'No' || (f.groundBooked === 'Yes' && f.groundOperator && f.groundServiceCategory && f.groundServiceCode && f.groundPrice);
+  if (f.hotelBooked && f.transferBooked && f.groundBooked && hotelOk && transferOk && groundOk) pct += 11;
+  // Step 7 — Documents (passport bio is auto-completed; only photo is required)
+  if ((a.documents || []).includes('photo')) pct += 11;
+  // Step 8 — Review (visited)
+  if (a.currentStep >= 8) pct += 11;
+  // Step 9 — Declaration submitted
+  if (a.complete) pct += 12;
+  return Math.min(100, pct);
+}
+function overallPct(){
+  const apps = booking.visa.applicants;
+  return Math.round(apps.reduce((s, a) => s + applicantPct(a), 0) / apps.length);
+}
+function val(k){ return (applicant().formData[k] || ''); }
+function setVal(k, v){ applicant().formData[k] = v; }
+
+/* ----- Render --------------------------------------------------------------- */
+function render(){
+  const a = applicant();
+  if (a.currentStep < 1) a.currentStep = 1;
+  const stepIdx = a.currentStep - 1;
+  const step = STEPS[stepIdx];
+
+  shell.innerHTML = `
+    <aside class="side-progress">
+      <h3>Application steps</h3>
+      ${STEPS.map((s, i) => {
+        const n = i + 1;
+        const lockedDone = !!(a.locked && a.locked[n]);
+        // Locked steps stay marked done in the sidebar even when the user is viewing them.
+        const cls = (n < a.currentStep || (lockedDone && n !== a.currentStep))
+          ? 'done'
+          : n === a.currentStep
+            ? (lockedDone ? 'done on' : 'on')
+            : '';
+        const ic = cls.includes('done') ? 'check' : (cls === 'on' ? s.icon : '');
+        const subTxt = cls.includes('done')
+          ? (lockedDone ? 'From booking' : 'Completed')
+          : (cls === 'on' ? s.sub : 'Pending');
+        return `
+          <div class="side-step ${cls}" onclick="goTo(${n})" style="cursor:pointer">
+            <div class="dot">${ic ? `<i data-lucide="${ic}"></i>` : n}</div>
+            <div class="lbl">
+              <div class="name">${n}. ${s.label}</div>
+              <div class="sub">${subTxt}</div>
+            </div>
+          </div>
+        `;
+      }).join('')}
+      <div class="booking-tag">
+        Booking ref<strong>${booking.id}</strong>
+        ${booking.packageName}
+      </div>
+    </aside>
+    <main>
+      ${renderApplicantBar()}
+      <div class="wizard-card" id="wizardCard">${stepView(step.key)}</div>
+    </main>
+  `;
+  lucide.createIcons();
+  wireAutoSave();
+  updateMobileProgress();
+  wireMobileCta();
+  flashSaved(false);
+}
+
+function renderApplicantBar(){
+  const apps = booking.visa.applicants;
+  if (apps.length <= 1) return ''; // Item 17 only relevant for 2+
+  const tabs = apps.map((a, i) => {
+    const cls = (i === currentApplicantIdx ? 'on ' : '') + (a.complete ? 'complete' : '');
+    const icon = a.complete ? '<i data-lucide="check-circle"></i>' : '';
+    return `
+      <button class="applicant-tab ${cls}" data-i="${i}" type="button">
+        <span class="num">${i + 1}</span>
+        <span>${escapeHtml(a.name || 'Applicant ' + (i+1))}</span>
+        ${icon}
+      </button>
+    `;
+  }).join('');
+  return `
+    <div class="applicant-bar">
+      <span class="label">Applicants</span>
+      <div class="applicant-tabs">${tabs}</div>
+      <div class="summary-pct"><strong>${apps.filter(a => a.complete).length}</strong> of <strong>${apps.length}</strong> complete</div>
+    </div>
+  `;
+}
+
+function stepView(key){
+  return ({
+    personal:    stepPersonal,
+    passport:    stepPassportResidency,
+    travel:      stepTravelHistory,
+    disclosures: stepDisclosures,
+    flight:      stepFlight,
+    services:    stepServices,
+    docs:        stepDocs,
+    review:      stepReview,
+    declare:     stepDeclare
+  }[key])();
+}
+
+/* ----- Yes/No toggle helper ----- */
+function ynGroup(key){
+  const v = val(key);
+  return `
+    <div class="yn-group" data-yn="${key}">
+      <button type="button" data-v="Yes" class="${v === 'Yes' ? 'on' : ''}">Yes</button>
+      <button type="button" data-v="No"  class="${v === 'No'  ? 'on' : ''}">No</button>
+    </div>
+  `;
+}
+function discRow(key, question, opts){
+  opts = opts || {};
+  const showDetails = !!opts.detailsKey;
+  const detailsKey = opts.detailsKey;
+  const detailsLabel = opts.detailsLabel || 'Please provide details';
+  const detailsPlaceholder = opts.detailsPlaceholder || 'Provide details…';
+  const isYes = val(key) === 'Yes';
+  const detailsValue = showDetails ? (val(detailsKey) || '') : '';
+  const detailsBlock = showDetails ? `
+    <div class="cond-text${isYes ? ' show' : ''}" data-cond="${key}">
+      <label for="cd-${detailsKey}">${detailsLabel} <span class="req">*</span></label>
+      <textarea id="cd-${detailsKey}" data-k="${detailsKey}" placeholder="${detailsPlaceholder}" rows="2">${detailsValue}</textarea>
+    </div>
+  ` : '';
+  return `
+    <div class="disc-row" data-row="${key}">
+      <span class="q">${question} <span class="req">*</span></span>
+      ${ynGroup(key)}
+    </div>
+    ${detailsBlock}
+  `;
+}
+
+/* ----- Step 1: Applicant Details (mirrors PAX form) ----- */
+function stepPersonal(){
+  const titles = ['Mr','Mrs','Miss','Ms','Dr','Mx'];
+  const maritalOpts = ['Single','Married','Divorced','Widowed'];
+  const countryOpts = ['Nigeria','Saudi Arabia','United Kingdom','United States','UAE','South Africa','Ghana','Kenya','Egypt','India','Pakistan','Indonesia','Malaysia','Other'];
+  const isLocked = !!(applicant().locked && applicant().locked[1]);
+  const dis = isLocked ? 'disabled' : '';
+  const select = (k, opts, fallback) => {
+    const cur = val(k) || fallback || '';
+    return `<select data-k="${k}" ${dis}><option value="">-Select-</option>${opts.map(o => `<option ${cur === o ? 'selected' : ''}>${o}</option>`).join('')}</select>`;
+  };
+  const banner = isLocked ? `
+    <div class="locked-banner">
+      <i data-lucide="lock-keyhole" class="lock-ic"></i>
+      <div class="x">
+        <strong>Captured at booking</strong>
+        <span>These details came from your booking. Tap Edit if anything needs to change.</span>
+      </div>
+      <button type="button" class="edit-btn" onclick="unlockStep(1)"><i data-lucide="pencil"></i> Edit</button>
+    </div>
+  ` : '';
+  return `
+    <h2>Step 1 — Applicant details</h2>
+    <p class="step-sub">Enter the applicant's details exactly as shown on their passport.</p>
+    ${banner}
+    <div class="form-grid">
+      <div class="field"><label>First name <span class="req">*</span></label>
+        <div class="title-row">
+          ${select('title', titles)}
+          <input data-k="firstName" autocomplete="given-name" value="${escapeHtml(val('firstName'))}" placeholder="First name" ${dis}>
+        </div>
+        <span class="err"><i data-lucide="alert-circle"></i> First name is required</span>
+      </div>
+      <div class="field"><label>Last name <span class="req">*</span></label><input data-k="lastName" autocomplete="family-name" value="${escapeHtml(val('lastName'))}" placeholder="Last name" ${dis}><span class="err"><i data-lucide="alert-circle"></i> Last name is required</span></div>
+      <div class="field"><label>Middle name</label><input data-k="middleName" value="${escapeHtml(val('middleName'))}" placeholder="Enter middle name" ${dis}></div>
+
+      <div class="field"><label>Phone number <span class="req">*</span></label>
+        <div class="phone-row">
+          <input data-k="mobileCC" value="${escapeHtml(val('mobileCC') || '+234')}" placeholder="+234" inputmode="tel" autocomplete="tel-country-code" ${dis}>
+          <input data-k="mobile" type="tel" inputmode="tel" autocomplete="tel-national" value="${escapeHtml(val('mobile'))}" placeholder="Enter Phone number" ${dis}>
+        </div>
+        <span class="err"><i data-lucide="alert-circle"></i> Phone number is required</span>
+      </div>
+      <div class="field"><label>Email address <span class="req">*</span></label><input type="email" data-k="email" autocomplete="email" inputmode="email" value="${escapeHtml(val('email'))}" placeholder="Enter email address" ${dis}><span class="err"><i data-lucide="alert-circle"></i> A valid email is required</span></div>
+      <div class="field"><label>Applying from <span class="req">*</span></label>${select('applyingFrom', countryOpts, 'Nigeria')}<span class="err"><i data-lucide="alert-circle"></i> Select country you're applying from</span></div>
+
+      <div class="field"><label>Date of birth <span class="req">*</span></label><input type="date" data-k="dob" autocomplete="bday" value="${val('dob')}" ${dis}><span class="err"><i data-lucide="alert-circle"></i> Date of birth is required</span></div>
+      <div class="field"><label>Gender <span class="req">*</span></label>${select('gender', ['Male','Female'])}<span class="err"><i data-lucide="alert-circle"></i> Select gender</span></div>
+      <div class="field"><label>Marital status <span class="req">*</span></label>${select('marital', maritalOpts)}<span class="err"><i data-lucide="alert-circle"></i> Select marital status</span></div>
+
+      <div class="field"><label>Nationality <span class="req">*</span></label>${select('nationality', countryOpts, 'Nigeria')}<span class="err"><i data-lucide="alert-circle"></i> Select nationality</span></div>
+      <div class="field"><label>Birth country <span class="req">*</span></label>${select('birthCountry', countryOpts, 'Nigeria')}<span class="err"><i data-lucide="alert-circle"></i> Select birth country</span></div>
+    </div>
+    ${navRow(false, true)}
+  `;
+}
+
+/* ----- Step 2: Passport ----- */
+function stepPassportResidency(){
+  // (Residency Y/N + permit fields moved to Step 4 sub-step 1 — Family & residency)
+  const isLocked = !!(applicant().locked && applicant().locked[2]);
+  const dis = isLocked ? 'disabled' : '';
+  const banner = isLocked ? `
+    <div class="locked-banner">
+      <i data-lucide="lock-keyhole" class="lock-ic"></i>
+      <div class="x">
+        <strong>Captured at booking</strong>
+        <span>Your passport details came from your booking. Tap Edit if anything needs to change.</span>
+      </div>
+      <button type="button" class="edit-btn" onclick="unlockStep(2)"><i data-lucide="pencil"></i> Edit</button>
+    </div>
+  ` : '';
+  return `
+    <h2>Step 2 — Passport details</h2>
+    <p class="step-sub">Make sure the passport is valid for at least 6 months from your travel date.</p>
+    ${banner}
+
+    <div class="section-head">Passport details</div>
+    <div class="form-grid">
+      <div class="field"><label>Passport number <span class="req">*</span></label><input data-k="passportNo" value="${escapeHtml(val('passportNo'))}" autocapitalize="characters" placeholder="A12345678" ${dis}><span class="err"><i data-lucide="alert-circle"></i> Passport number is required</span></div>
+      <div class="field"><label>Passport issuing country <span class="req">*</span></label>
+        <select data-k="issueCountry" ${dis}>
+          <option value="">-Select-</option>
+          ${['Nigeria','Saudi Arabia','United Kingdom','United States','UAE','Ghana','Kenya','South Africa','Egypt','Other'].map(c => `<option ${val('issueCountry') === c ? 'selected' : ''}>${c}</option>`).join('')}
+        </select>
+        <span class="err"><i data-lucide="alert-circle"></i> Issuing country is required</span>
+      </div>
+      <div class="field"><label>Passport issue date <span class="req">*</span></label><input type="date" data-k="issueDate" value="${val('issueDate')}" ${dis}><span class="err"><i data-lucide="alert-circle"></i> Issue date is required</span></div>
+      <div class="field"><label>Passport expiry date <span class="req">*</span></label><input type="date" data-k="expiryDate" value="${val('expiryDate')}" ${dis}><span class="hint">Must be valid for ≥6 months after travel.</span><span class="err"><i data-lucide="alert-circle"></i> Expiry date is required</span></div>
+      <div class="field"><label>Passport type <span class="req">*</span></label>
+        <select data-k="passportType" ${dis}>
+          <option value="">-Select-</option>
+          ${['Regular','Diplomatic','Service','Official','Emergency'].map(t => `<option ${val('passportType') === t ? 'selected' : ''}>${t}</option>`).join('')}
+        </select>
+        <span class="err"><i data-lucide="alert-circle"></i> Select passport type</span>
+      </div>
+    </div>
+
+    ${navRow(true, true)}
+  `;
+}
+
+/* ----- Step 3: Travel & History ----- */
+function stepTravelHistory(){
+  const showPastV = val('pastVisaYN') === 'Yes';
+  return `
+    <h2>Step 3 — Travel &amp; history</h2>
+    <p class="step-sub">Trip dates plus your prior Umrah / Hajj and visa history.</p>
+
+    <div class="section-head">Trip dates</div>
+    <div class="form-grid">
+      <div class="field"><label>Intended arrival date <span class="req">*</span></label><input type="date" data-k="arrival" value="${val('arrival') || booking.travelDate || ''}"><span class="err"><i data-lucide="alert-circle"></i> Arrival date required</span></div>
+      <div class="field"><label>Intended departure date <span class="req">*</span></label><input type="date" data-k="departure" value="${val('departure')}"><span class="err"><i data-lucide="alert-circle"></i> Departure date required</span></div>
+      <div class="field full"><label>Previous Umrah / Hajj? <span class="req">*</span></label>
+        <select data-k="prevUmrah">
+          <option value="">Select</option>
+          ${['No','Yes — within last 5 years','Yes — more than 5 years ago'].map(x => `<option ${val('prevUmrah') === x ? 'selected' : ''}>${x}</option>`).join('')}
+        </select>
+        <span class="err"><i data-lucide="alert-circle"></i> Required</span>
+      </div>
+    </div>
+
+    <div class="section-head">Visa history</div>
+    ${discRow('pastVisaYN', 'Have you ever been issued an entry visa to any country?')}
+    <div class="conditional ${showPastV ? 'show' : ''}" data-cond="pastVisaYN">
+      <h4>Past visas (up to 5 entries)</h4>
+      ${repeaterMarkup('pastVisa', 'past visa', 5)}
+    </div>
+    ${discRow('saudiRejected', 'Have you ever had a Saudi visa application rejected?', {
+      detailsKey: 'saudiRejectedDetails',
+      detailsLabel: 'Please provide details',
+      detailsPlaceholder: 'Reason given, year, embassy…'
+    })}
+    ${navRow(true, true)}
+  `;
+}
+
+/* ----- Step 4: Visa questionnaire (4-step internal sub-wizard) ----------- */
+const DISC_SUB_LABELS = ['Family & residency','Security & legal','Military & affiliations','Health & travel'];
+
+function stepDisclosures(){
+  const f = applicant().formData;
+  if (!f.disclosureSubStep || f.disclosureSubStep < 1 || f.disclosureSubStep > 4) f.disclosureSubStep = 1;
+  // Guard: don't let users land on a sub-step they haven't unlocked yet (e.g. via stale state)
+  const max = discMaxReachable();
+  if (f.disclosureSubStep > max) f.disclosureSubStep = max;
+  const sub = f.disclosureSubStep;
+  const renderer = [discFamilyResidential, discSecurityLegal, discMilitary, discHealthPassport][sub - 1];
+  const continueLabel = sub === 4 ? 'Save &amp; continue' : 'Continue';
+  return `
+    <h2>Step 4 — Visa questionnaire</h2>
+    <p class="step-sub">A short 4-part questionnaire required by Saudi authorities. Please answer truthfully.</p>
+    ${discProgressBar()}
+    <div class="disc-substep" data-sub="${sub}" key="disc-sub-${sub}">
+      ${renderer()}
+    </div>
+    <div class="disc-substep-nav">
+      <button type="button" class="btn btn-disc-back" onclick="discSubBack()"><i data-lucide="arrow-left"></i> Back</button>
+      <button type="button" class="btn btn-disc-continue" onclick="discSubNext()">${continueLabel} <i data-lucide="arrow-right"></i></button>
+    </div>
+  `;
+}
+
+function discProgressBar(){
+  const sub = applicant().formData.disclosureSubStep || 1;
+  const max = discMaxReachable();
+  return `
+    <div class="disc-progress" role="tablist" aria-label="Visa questionnaire progress">
+      ${DISC_SUB_LABELS.map((l, i) => {
+        const n = i + 1;
+        const isDone = n < sub;
+        const isCurrent = n === sub;
+        const reachable = n <= max; // backward + completed-only-forward
+        const cls = (isDone ? 'done' : '') + (isCurrent ? ' on' : '') + (reachable ? ' reachable' : '');
+        const ic = isDone ? 'check' : '';
+        const click = reachable ? `onclick="discSubGoTo(${n})"` : '';
+        return `
+          <div class="seg ${cls.trim()}" ${click} role="tab" aria-selected="${isCurrent}" aria-disabled="${!reachable}">
+            <div class="bar"></div>
+            <div class="meta">
+              <span class="num">${ic ? `<i data-lucide="${ic}"></i>` : n}</span>
+              <span class="label">${l}</span>
+            </div>
+          </div>`;
+      }).join('')}
+    </div>
+  `;
+}
+
+/* Sub-step 1 — Family information + Residential information */
+function discFamilyResidential(){
+  const f = applicant().formData;
+  const showFamily = f.familyKsaYN === 'Yes';
+  const showPermit = f.residesAbroad === 'Yes';
+  return `
+    <h3 class="disc-sub-title">Family information</h3>
+    ${discRow('familyKsaYN', 'Do you have a relative currently living in Saudi Arabia?')}
+    <div class="conditional ${showFamily ? 'show' : ''}" data-cond="familyKsaYN">
+      <h4>Relative's details</h4>
+      <div class="disc-pair-grid">
+        <div class="field">
+          <label>Relative's name <span class="req">*</span></label>
+          <input data-k="familyKsaName" value="${escapeHtml(val('familyKsaName'))}" placeholder="Full name">
+          <span class="err"><i data-lucide="alert-circle"></i> Name is required</span>
+        </div>
+        <div class="field">
+          <label>Relationship <span class="req">*</span></label>
+          <select data-k="familyKsaRelation">
+            <option value="">Select relationship</option>
+            ${REPEATER_RELATIONS.map(r => `<option ${val('familyKsaRelation') === r ? 'selected' : ''}>${escapeHtml(r)}</option>`).join('')}
+          </select>
+          <span class="err"><i data-lucide="alert-circle"></i> Relationship is required</span>
+        </div>
+      </div>
+    </div>
+
+    <h3 class="disc-sub-title" style="margin-top:24px">Residential information</h3>
+    ${discRow('residesAbroad', 'Are you currently residing in a country different from your nationality?')}
+    <div class="conditional ${showPermit ? 'show' : ''}" data-cond="residesAbroad">
+      <h4>Residence permit</h4>
+      <div class="disc-pair-grid">
+        <div class="field">
+          <label>Residence permit number <span class="req">*</span></label>
+          <input data-k="permitNumber" value="${escapeHtml(val('permitNumber'))}" placeholder="Permit / Iqama number">
+          <span class="err"><i data-lucide="alert-circle"></i> Permit number is required</span>
+        </div>
+        <div class="field">
+          <label>Residence permit expiry date <span class="req">*</span></label>
+          <input type="date" data-k="permitExpiry" value="${val('permitExpiry')}">
+          <span class="err"><i data-lucide="alert-circle"></i> Expiry date is required</span>
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+/* Sub-step 2 — Security & legal history */
+function discSecurityLegal(){
+  return `
+    <h3 class="disc-sub-title">Security &amp; legal history</h3>
+    ${discRow('secPrison', 'Have you ever been sentenced to prison in any country?', {
+      detailsKey: 'secPrisonDetails',
+      detailsLabel: 'Provide more information',
+      detailsPlaceholder: 'Country, year, charge, outcome…'
+    })}
+    ${discRow('secDeported', 'Have you ever been deported from any country (including Saudi Arabia)?', {
+      detailsKey: 'secDeportedDetails',
+      detailsLabel: 'Provide more information',
+      detailsPlaceholder: 'Country, year, reason…'
+    })}
+    ${discRow('secTerror', 'Have you ever been involved in terrorism-related cases?', {
+      detailsKey: 'secTerrorDetails',
+      detailsLabel: 'Provide more information',
+      detailsPlaceholder: 'Provide full details…'
+    })}
+    ${discRow('secSmuggling', 'Have you ever been arrested or convicted for smuggling or money laundering?', {
+      detailsKey: 'secSmugglingDetails',
+      detailsLabel: 'Provide more information',
+      detailsPlaceholder: 'Country, year, charge, outcome…'
+    })}
+  `;
+}
+
+/* Sub-step 3 — Military, political & organisational history */
+function discMilitary(){
+  return `
+    <h3 class="disc-sub-title">Military, political &amp; organisational history</h3>
+    ${discRow('milService', 'Have you ever served in the military, police, intelligence, or security forces?', {
+      detailsKey: 'milServiceDetails',
+      detailsLabel: 'Provide more information',
+      detailsPlaceholder: 'Branch, role, years of service…'
+    })}
+    ${discRow('milMedia', 'Have you ever worked in the media or political field?', {
+      detailsKey: 'milMediaDetails',
+      detailsLabel: 'Provide more information',
+      detailsPlaceholder: 'Organisation, role, years…'
+    })}
+    ${discRow('milAffiliate', 'Have you ever been affiliated with an organisation classified as terrorist?', {
+      detailsKey: 'milAffiliateDetails',
+      detailsLabel: 'Provide more information',
+      detailsPlaceholder: 'Provide full details…'
+    })}
+  `;
+}
+
+/* Sub-step 4 — Health + Passport / Travel history */
+function discHealthPassport(){
+  const f = applicant().formData;
+  const showRecent = f.recentTravelYN === 'Yes';
+  return `
+    <h3 class="disc-sub-title">Health &amp; vaccination</h3>
+    ${discRow('hltDisability', 'Do you have any physical disabilities?', {
+      detailsKey: 'hltDisabilityDetails',
+      detailsLabel: 'Provide more information',
+      detailsPlaceholder: 'Describe the disability and any assistance required…'
+    })}
+    ${discRow('hltVaccinated', 'Have you taken the required vaccinations for Umrah?', {
+      detailsKey: 'hltVaccinatedDetails',
+      detailsLabel: 'Provide more information',
+      detailsPlaceholder: 'List vaccinations taken and dates…'
+    })}
+    ${discRow('hltAgreeCert', 'Do you agree to present your vaccination certificate if requested?', {
+      detailsKey: 'hltAgreeCertDetails',
+      detailsLabel: 'Provide more information',
+      detailsPlaceholder: 'Any notes or conditions…'
+    })}
+
+    <h3 class="disc-sub-title" style="margin-top:24px">Passport &amp; travel history</h3>
+    ${discRow('passportRestrictions', 'Does your passport have any travel restrictions or limitations?', {
+      detailsKey: 'passportRestrictionsDetails',
+      detailsLabel: 'Provide more information',
+      detailsPlaceholder: 'Describe the restriction or limitation…'
+    })}
+    ${discRow('recentTravelYN', 'Have you travelled to other countries in the last 6 months?')}
+    <div class="conditional ${showRecent ? 'show' : ''}" data-cond="recentTravelYN">
+      <h4>Recent travel (up to 5 entries)</h4>
+      ${repeaterMarkup('recentTravel', 'recent travel', 5)}
+    </div>
+  `;
+}
+
+/* ----- Sub-wizard navigation helpers ------------------------------------- */
+function discSubReady(n){
+  const f = applicant().formData;
+  const ynWithDetails = (k) => {
+    if (!f[k]) return false;
+    if (f[k] === 'Yes' && !(f[k + 'Details'] || '').trim()) return false;
+    return true;
+  };
+  if (n === 1){
+    const famOk = f.familyKsaYN === 'No' || (f.familyKsaYN === 'Yes' && f.familyKsaName && f.familyKsaRelation);
+    const resOk = f.residesAbroad === 'No' || (f.residesAbroad === 'Yes' && f.permitNumber && f.permitExpiry);
+    return !!(f.familyKsaYN && famOk && f.residesAbroad && resOk);
+  }
+  if (n === 2) return ['secPrison','secDeported','secTerror','secSmuggling'].every(ynWithDetails);
+  if (n === 3) return ['milService','milMedia','milAffiliate'].every(ynWithDetails);
+  if (n === 4){
+    const hltOk = ['hltDisability','hltVaccinated','hltAgreeCert'].every(ynWithDetails);
+    const passOk = ynWithDetails('passportRestrictions');
+    const recentOk = f.recentTravelYN === 'No' || (f.recentTravelYN === 'Yes' && (f.recentTravel || []).length > 0);
+    return !!(hltOk && passOk && f.recentTravelYN && recentOk);
+  }
+  return false;
+}
+
+function discMaxReachable(){
+  // 1 + count of consecutive completed sub-steps (but never past 4)
+  let n = 1;
+  while (n <= 4 && discSubReady(n)) n++;
+  return Math.min(4, n);
+}
+
+function discSubGoTo(n){
+  const f = applicant().formData;
+  const cur = f.disclosureSubStep || 1;
+  if (n === cur) return;
+  if (n < cur){
+    // Backward jump always allowed
+    f.disclosureSubStep = n;
+  } else {
+    // Forward jump only to a sub-step the user has unlocked (no skip-ahead)
+    if (n > discMaxReachable()) return;
+    f.disclosureSubStep = n;
+  }
+  UmrahPortal.updateVisa(bookingId, { applicants: booking.visa.applicants });
+  render();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function discSubBack(){
+  const f = applicant().formData;
+  const sub = f.disclosureSubStep || 1;
+  if (sub > 1){
+    f.disclosureSubStep = sub - 1;
+    UmrahPortal.updateVisa(bookingId, { applicants: booking.visa.applicants });
+    render();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  } else {
+    // At sub-step 1 → fall back to outer wizard's previous step
+    prev();
+  }
+}
+
+function discSubNext(){
+  if (!validateCurrent()) return;
+  const f = applicant().formData;
+  const sub = f.disclosureSubStep || 1;
+  if (sub < 4){
+    f.disclosureSubStep = sub + 1;
+    UmrahPortal.updateVisa(bookingId, { applicants: booking.visa.applicants });
+    render();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  } else {
+    // Final sub-step → advance the outer wizard
+    next();
+  }
+}
+
+/* Lightweight in-place refresh of the segmented progress bar — avoids a full
+   render() that would blur the active textarea while the user is typing. */
+function refreshDiscProgress(){
+  const stepKey = STEPS[applicant().currentStep - 1].key;
+  if (stepKey !== 'disclosures') return;
+  const host = document.querySelector('.wizard-card .disc-progress');
+  if (!host) return;
+  const tmp = document.createElement('div');
+  tmp.innerHTML = discProgressBar();
+  const next = tmp.firstElementChild;
+  host.replaceWith(next);
+  if (window.lucide) lucide.createIcons();
+}
+
+/* ----- Repeater markup ----- */
+const REPEATER_COUNTRIES = [
+  'Nigeria','Saudi Arabia','United Arab Emirates','United Kingdom','United States','Canada',
+  'Egypt','Ghana','Kenya','South Africa','Turkey','Qatar','Bahrain','Kuwait','Oman','Jordan',
+  'Lebanon','India','Pakistan','Indonesia','Malaysia','Singapore','China','France','Germany',
+  'Italy','Spain','Netherlands','Switzerland','Sweden','Norway','Australia','Other'
+];
+const REPEATER_RELATIONS = ['Brother','Sister','Parent','Spouse','Uncle','Aunt','Cousin','Other'];
+
+function repOption(value, current){
+  const sel = (current || '') === value ? ' selected' : '';
+  return `<option value="${escapeHtml(value)}"${sel}>${escapeHtml(value)}</option>`;
+}
+
+function repEntryMarkup(key, i, e){
+  e = e || {};
+  if (key === 'familyKsa'){
+    return `
+      <div class="field"><label>Relative's name</label>
+        <input data-rep="${key}" data-rep-field="name" data-rep-i="${i}" value="${escapeHtml(e.name || '')}" placeholder="Full name">
+      </div>
+      <div class="field"><label>Relationship</label>
+        <select data-rep="${key}" data-rep-field="relation" data-rep-i="${i}">
+          <option value="">Select relationship</option>
+          ${REPEATER_RELATIONS.map(r => repOption(r, e.relation)).join('')}
+        </select>
+      </div>
+      <div></div>
+    `;
+  }
+  // recentTravel & pastVisa: Country (dropdown) + Travel date + Length of stay (number/days)
+  return `
+    <div class="field"><label>Country</label>
+      <select data-rep="${key}" data-rep-field="country" data-rep-i="${i}">
+        <option value="">Select country</option>
+        ${REPEATER_COUNTRIES.map(c => repOption(c, e.country)).join('')}
+      </select>
+    </div>
+    <div class="field"><label>Travel date</label>
+      <input type="date" data-rep="${key}" data-rep-field="date" data-rep-i="${i}" value="${escapeHtml(e.date || '')}">
+    </div>
+    <div class="field"><label>Length of stay (days)</label>
+      <input type="number" min="1" max="365" data-rep="${key}" data-rep-field="length" data-rep-i="${i}" value="${escapeHtml(e.length || '')}" placeholder="Days">
+    </div>
+  `;
+}
+
+function repeaterMarkup(key, label, max){
+  const list = applicant().formData[key] || [];
+  const entries = list.map((e, i) => `
+    <div class="rep-entry">
+      <div class="rep-grid">
+        ${repEntryMarkup(key, i, e)}
+        <button type="button" class="rm" data-rep-rm="${key}" data-rep-i="${i}" aria-label="Remove entry"><i data-lucide="x"></i> Remove</button>
+      </div>
+    </div>
+  `).join('');
+  const empty = list.length === 0 ? `<div class="rep-empty">No ${label} added yet — click the button below to add one.</div>` : '';
+  const addBtn = list.length < max
+    ? `<button type="button" class="rep-add" data-rep-add="${key}"><i data-lucide="plus"></i> Add more</button>`
+    : `<div class="rep-empty">Maximum of ${max} entries reached.</div>`;
+  return `<div class="repeater" data-rep-list="${key}">${empty}${entries}${addBtn}</div>`;
+}
+
+/* ----- Step 5: Flight Details + Contact Information ------------------------ */
+function stepFlight(){
+  const a = applicant();
+  const f = a.formData;
+  // First-render contact prefill from PAX / booking contact
+  if (!f.contactEmail){
+    f.contactEmail = (booking.contact && booking.contact.email) || f.email || '';
+  }
+  if (!f.contactPhone){
+    const cc = f.mobileCC ? (f.mobileCC + ' ') : '';
+    f.contactPhone = (booking.contact && booking.contact.phone) || (f.mobile ? (cc + f.mobile) : '');
+  }
+  const booked = val('flightBooked');
+  const showSearch = booked === 'Yes';
+  const inbound  = f.inboundFlight  || null;
+  const outbound = f.outboundFlight || null;
+  const showInboundList  = showSearch && f.flightSearched && !inbound;
+  const showOutboundList = showSearch && f.flightSearched && inbound && !outbound;
+
+  const flightCard = (g, dir) => `
+    <div class="flight-card" onclick="selectFlight('${dir}', ${g.__i})">
+      <span class="a">${escapeHtml(g.airline)}</span>
+      <span class="b">${escapeHtml(g.dest)}</span>
+      <span class="c">${escapeHtml(g.date)}, ${escapeHtml(g.time)}</span>
+      <button type="button" class="btn-sel">Select</button>
+    </div>
+  `;
+  const selectedCard = (g, dir) => `
+    <div class="flight-list-head">Selected ${dir === 'inbound' ? 'Inbound' : 'Outbound'} Flight</div>
+    <div class="flight-selected">
+      <span class="a">${escapeHtml(g.airline)}</span>
+      <span class="b">${escapeHtml(g.dest)}<small>${escapeHtml(g.date)}, ${escapeHtml(g.time)}</small></span>
+      <button type="button" class="btn-change" onclick="changeFlight('${dir}')">Change</button>
+    </div>
+  `;
+  const inboundList = MOCK_INBOUND_FLIGHTS.map((g, i) => flightCard({ ...g, __i: i }, 'inbound')).join('');
+  const outboundList = MOCK_OUTBOUND_FLIGHTS.map((g, i) => flightCard({ ...g, __i: i }, 'outbound')).join('');
+
+  return `
+    <h2>Step 5 — Flight Details</h2>
+    <p class="step-sub">Tell us about your booked flights and how we can reach you.</p>
+
+    <div class="svc-section">
+      <div class="svc-head">
+        <span class="svc-title">Flight Details</span>
+        <span class="embassy-note">Embassy approved flights</span>
+      </div>
+      <div class="svc-toggle">
+        <span class="q">Already booked a flight?</span>
+        ${ynGroup('flightBooked')}
+      </div>
+
+      <div class="svc-body${showSearch ? ' show' : ''}" data-cond="flightBooked">
+        <div class="svc-sub">Enter your Arrival &amp; Departure Information to get Saudi approved flights</div>
+        <div class="form-grid">
+          <div class="field"><label>Intended Arrival Date <span class="req">*</span></label><input type="date" data-k="flightArrivalDate" value="${escapeHtml(val('flightArrivalDate'))}"><span class="err"><i data-lucide="alert-circle"></i> Arrival date is required</span></div>
+          <div class="field"><label>Intended Arrival Flight ID <span class="req">*</span></label><input type="text" data-k="flightArrivalId" value="${escapeHtml(val('flightArrivalId'))}" placeholder="e.g. SV462"><span class="err"><i data-lucide="alert-circle"></i> Flight ID is required</span></div>
+          <div class="field"><label>Expected Departure Date <span class="req">*</span></label><input type="date" data-k="flightDepartureDate" value="${escapeHtml(val('flightDepartureDate'))}"><span class="err"><i data-lucide="alert-circle"></i> Departure date is required</span></div>
+          <div class="field"><label>Expected Departure Flight ID <span class="req">*</span></label><input type="text" data-k="flightDepartureId" value="${escapeHtml(val('flightDepartureId'))}" placeholder="e.g. SV461"><span class="err"><i data-lucide="alert-circle"></i> Flight ID is required</span></div>
+        </div>
+        <div class="flight-search-actions">
+          <button type="button" class="btn-search-flight" onclick="runFlightSearch()"><i data-lucide="search"></i> Search Flight</button>
+        </div>
+
+        ${inbound ? selectedCard(inbound, 'inbound') : (showInboundList ? `
+          <div class="flight-list-head">Select Inbound Flight</div>
+          <div class="flight-list">${inboundList}</div>
+        ` : '')}
+
+        ${outbound ? selectedCard(outbound, 'outbound') : (showOutboundList ? `
+          <div class="flight-list-head">Select Outbound Flight</div>
+          <div class="flight-list">${outboundList}</div>
+        ` : '')}
+      </div>
+    </div>
+
+    <div class="contact-info-block" style="margin-top:24px">
+      <h4>Contact Information</h4>
+      <p class="muted">Who should we contact?</p>
+      <div class="form-grid">
+        <div class="field"><label>Email Address <span class="req">*</span></label><input type="email" data-k="contactEmail" inputmode="email" autocomplete="email" value="${escapeHtml(f.contactEmail || '')}" placeholder="Enter contact email"><span class="err"><i data-lucide="alert-circle"></i> Contact email is required</span></div>
+        <div class="field"><label>Phone Number <span class="req">*</span></label><input type="tel" data-k="contactPhone" inputmode="tel" autocomplete="tel" value="${escapeHtml(f.contactPhone || '')}" placeholder="Enter contact phone"><span class="err"><i data-lucide="alert-circle"></i> Contact phone is required</span></div>
+      </div>
+    </div>
+
+    ${navRow(true, true)}
+  `;
+}
+
+/* ----- Flight search / select / change handlers ------------------------ */
+function runFlightSearch(){
+  const f = applicant().formData;
+  const required = ['flightArrivalDate','flightArrivalId','flightDepartureDate','flightDepartureId'];
+  let ok = true, firstInvalid = null;
+  required.forEach(k => {
+    const el = document.querySelector(`[data-k="${k}"]`);
+    const wrapper = el ? el.closest('.field') : null;
+    const empty = !f[k];
+    if (wrapper) wrapper.classList.toggle('invalid', empty);
+    if (empty){ ok = false; if (!firstInvalid) firstInvalid = el; }
+  });
+  if (!ok){
+    if (firstInvalid && firstInvalid.scrollIntoView) firstInvalid.scrollIntoView({ behavior:'smooth', block:'center' });
+    return;
+  }
+  f.flightSearched = true;
+  // Reset any previous selections so the user starts fresh from inbound list
+  delete f.inboundFlight;
+  delete f.outboundFlight;
+  UmrahPortal.updateVisa(bookingId, { applicants: booking.visa.applicants });
+  render();
+}
+
+function selectFlight(dir, idx){
+  const f = applicant().formData;
+  const src = dir === 'inbound' ? MOCK_INBOUND_FLIGHTS : MOCK_OUTBOUND_FLIGHTS;
+  const g = src[idx];
+  if (!g) return;
+  if (dir === 'inbound')  f.inboundFlight  = { airline: g.airline, dest: g.dest, date: g.date, time: g.time };
+  else                    f.outboundFlight = { airline: g.airline, dest: g.dest, date: g.date, time: g.time };
+  UmrahPortal.updateVisa(bookingId, { applicants: booking.visa.applicants });
+  render();
+}
+
+function changeFlight(dir){
+  const f = applicant().formData;
+  if (dir === 'inbound'){
+    delete f.inboundFlight;
+    delete f.outboundFlight; // outbound depends on inbound being chosen
+  } else {
+    delete f.outboundFlight;
+  }
+  UmrahPortal.updateVisa(bookingId, { applicants: booking.visa.applicants });
+  render();
+}
+
+/* ----- Step 6: Other Travel Services ------------------------------------ */
+function stepServices(){
+  const f = applicant().formData;
+  const hotelOpen    = val('hotelBooked')    === 'Yes';
+  const transferOpen = val('transferBooked') === 'Yes';
+  const groundOpen   = val('groundBooked')   === 'Yes';
+
+  const opt = (arr, current) => arr.map(o => `<option value="${escapeHtml(o)}"${current === o ? ' selected' : ''}>${escapeHtml(o)}</option>`).join('');
+  const placeholderOpt = (label) => `<option value="" disabled${label ? '' : ' selected'}>Select ${label}</option>`;
+  const select = (key, list, placeholder) => `
+    <select data-k="${key}">
+      ${val(key) ? '' : placeholderOpt(placeholder)}
+      ${opt(list, val(key))}
+    </select>
+  `;
+
+  return `
+    <h2>Step 6 — Other Travel Services</h2>
+    <p class="step-sub">Tell us about your accommodation, airport transfer, and ground transportation.</p>
+
+    <div class="svc-section">
+      <div class="svc-head">
+        <span class="svc-title">Accommodation Details</span>
+        <span class="embassy-note">Embassy approved hotels</span>
+      </div>
+      <div class="svc-toggle">
+        <span class="q">Already booked an accommodation?</span>
+        ${ynGroup('hotelBooked')}
+      </div>
+      <div class="svc-body${hotelOpen ? ' show' : ''}" data-cond="hotelBooked">
+        <div class="form-grid-3">
+          <div class="field"><label>Accommodation Provider <span class="req">*</span></label>${select('hotelProvider', MOCK_HOTELS, 'a hotel')}<span class="err"><i data-lucide="alert-circle"></i> Provider is required</span></div>
+          <div class="field"><label>Check in date <span class="req">*</span></label><input type="date" data-k="hotelCheckin" value="${escapeHtml(val('hotelCheckin'))}"><span class="err"><i data-lucide="alert-circle"></i> Check-in date is required</span></div>
+          <div class="field"><label>Check out date <span class="req">*</span></label><input type="date" data-k="hotelCheckout" value="${escapeHtml(val('hotelCheckout'))}"><span class="err"><i data-lucide="alert-circle"></i> Check-out date is required</span></div>
+          <div class="field price"><label>Price <span class="req">*</span></label><input type="number" data-k="hotelPrice" inputmode="numeric" min="0" value="${escapeHtml(val('hotelPrice'))}" placeholder="0"><span class="err"><i data-lucide="alert-circle"></i> Price is required</span></div>
+          <div class="field"><label>Reservation No <span class="req">*</span></label><input type="text" data-k="hotelReservationNo" value="${escapeHtml(val('hotelReservationNo'))}" placeholder="e.g. HLT-77AB12"><span class="err"><i data-lucide="alert-circle"></i> Reservation number is required</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="svc-section">
+      <div class="svc-head">
+        <span class="svc-title">Airport Transfer</span>
+        <span class="embassy-note">Embassy approved Airport Transfer</span>
+      </div>
+      <div class="svc-toggle">
+        <span class="q">Already booked airport transfer?</span>
+        ${ynGroup('transferBooked')}
+      </div>
+      <div class="svc-body${transferOpen ? ' show' : ''}" data-cond="transferBooked">
+        <div class="form-grid-3">
+          <div class="field"><label>Transfer Provider <span class="req">*</span></label>${select('transferProvider', MOCK_TRANSFER_PROVIDERS, 'a provider')}<span class="err"><i data-lucide="alert-circle"></i> Provider is required</span></div>
+          <div class="field"><label>Trip Number <span class="req">*</span></label><input type="text" data-k="transferTripNo" value="${escapeHtml(val('transferTripNo'))}" placeholder="e.g. TR-9921"><span class="err"><i data-lucide="alert-circle"></i> Trip number is required</span></div>
+          <div class="field"><label>Trip date <span class="req">*</span></label><input type="date" data-k="transferTripDate" value="${escapeHtml(val('transferTripDate'))}"><span class="err"><i data-lucide="alert-circle"></i> Trip date is required</span></div>
+          <div class="field price"><label>Trip price <span class="req">*</span></label><input type="number" data-k="transferTripPrice" inputmode="numeric" min="0" value="${escapeHtml(val('transferTripPrice'))}" placeholder="0"><span class="err"><i data-lucide="alert-circle"></i> Trip price is required</span></div>
+          <div class="field"><label>Trip instructions</label><input type="text" data-k="transferTripInstructions" value="${escapeHtml(val('transferTripInstructions'))}" placeholder="Optional"></div>
+          <div class="field"><label>Trip category <span class="req">*</span></label>${select('transferTripCategory', MOCK_TRIP_CATEGORIES, 'a category')}<span class="err"><i data-lucide="alert-circle"></i> Trip category is required</span></div>
+          <div class="field"><label>Vehicle Make <span class="req">*</span></label>${select('transferVehicleMake', MOCK_VEHICLE_MAKES, 'a make')}<span class="err"><i data-lucide="alert-circle"></i> Vehicle make is required</span></div>
+          <div class="field"><label>Vehicle Type <span class="req">*</span></label>${select('transferVehicleType', MOCK_VEHICLE_TYPES, 'a type')}<span class="err"><i data-lucide="alert-circle"></i> Vehicle type is required</span></div>
+          <div class="field"><label>Booking ID <span class="req">*</span></label><input type="text" data-k="transferBookingId" value="${escapeHtml(val('transferBookingId'))}" placeholder="e.g. BK-44JK02"><span class="err"><i data-lucide="alert-circle"></i> Booking ID is required</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="svc-section">
+      <div class="svc-head">
+        <span class="svc-title">Ground Transportation</span>
+        <span class="embassy-note">Embassy approved ground transport</span>
+      </div>
+      <div class="svc-toggle">
+        <span class="q">Already booked ground transportation?</span>
+        ${ynGroup('groundBooked')}
+      </div>
+      <div class="svc-body${groundOpen ? ' show' : ''}" data-cond="groundBooked">
+        <div class="form-grid-3">
+          <div class="field"><label>Ground Transport Operator <span class="req">*</span></label>${select('groundOperator', MOCK_GROUND_OPERATORS, 'an operator')}<span class="err"><i data-lucide="alert-circle"></i> Operator is required</span></div>
+          <div class="field"><label>Service category <span class="req">*</span></label><input type="text" data-k="groundServiceCategory" value="${escapeHtml(val('groundServiceCategory'))}" placeholder="e.g. Shuttle"><span class="err"><i data-lucide="alert-circle"></i> Service category is required</span></div>
+          <div class="field"><label>Service Code <span class="req">*</span></label><input type="text" data-k="groundServiceCode" value="${escapeHtml(val('groundServiceCode'))}" placeholder="e.g. GT-001"><span class="err"><i data-lucide="alert-circle"></i> Service code is required</span></div>
+          <div class="field price"><label>Price <span class="req">*</span></label><input type="number" data-k="groundPrice" inputmode="numeric" min="0" value="${escapeHtml(val('groundPrice'))}" placeholder="0"><span class="err"><i data-lucide="alert-circle"></i> Price is required</span></div>
+        </div>
+      </div>
+    </div>
+
+    ${navRow(true, true)}
+  `;
+}
+
+function stepDocs(){
+  const a = applicant();
+  // Passport bio-page is auto-captured on the traveller form (Step 04 / pax form)
+  // so we mark it complete on enter and never let the user re-upload here.
+  a.documents = a.documents || [];
+  a.docFiles  = a.docFiles  || {};
+  if (!a.documents.includes('bio')) a.documents.push('bio');
+  if (!a.docFiles.bio){
+    a.docFiles.bio = {
+      name: 'Passport bio-page (captured at booking)',
+      fromBooking: true
+    };
+  }
+  const d = a.documents;
+  const files = a.docFiles;
+
+  const fmtSize = (b) => {
+    if (!b && b !== 0) return '';
+    if (b < 1024) return `${b} B`;
+    return `${(b/1024).toFixed(1)} KB`;
+  };
+
+  // Locked passport row (read-only thumbnail + Completed badge + edit-link to step 1)
+  const bioFile = files.bio || {};
+  const lockedRow = `
+    <div class="doc-label">
+      Passport bio-page
+      <span class="completed-badge"><i data-lucide="check"></i> Completed</span>
+    </div>
+    <div class="doc-row locked" aria-label="Passport bio-page, captured at booking">
+      <div class="doc-thumb">
+        ${bioFile.dataUrl
+          ? `<img src="${escapeHtml(bioFile.dataUrl)}" alt="Passport bio-page preview">`
+          : `<i data-lucide="book-open"></i>`}
+      </div>
+      <div class="doc-info">
+        <div class="n">${escapeHtml(bioFile.name || 'Passport bio-page')}</div>
+        <div class="meta"><i data-lucide="check-circle" style="width:11px;height:11px;display:inline-block;vertical-align:-1px;margin-right:2px"></i> Captured on traveller form</div>
+      </div>
+      <span class="doc-edit-link" onclick="goTo(1)" role="button" tabindex="0"><i data-lucide="pencil"></i> Edit on traveller form</span>
+    </div>
+  `;
+
+  // Editable upload row (photo = required, supporting = optional)
+  const uploadRow = (key, label, icon, hint, accept, required) => {
+    const file = files[key] || {};
+    const has  = d.includes(key);
+    const reqMark = required ? `<span class="req">*</span>` : `<span class="optional-tag">Optional</span>`;
+    return `
+      <div class="doc-label">
+        ${label} ${reqMark}
+      </div>
+      <div class="doc-row ${has ? 'ok filled' : ''}" ${has ? '' : `onclick="document.getElementById('docInp_${key}').click()"`}>
+        ${has ? `
+          <div class="doc-thumb">
+            ${file.dataUrl && /^image\//.test(file.type || '')
+              ? `<img src="${escapeHtml(file.dataUrl)}" alt="${escapeHtml(label)} preview">`
+              : `<i data-lucide="${/pdf/i.test(file.type || file.name || '') ? 'file-text' : icon}"></i>`}
+          </div>
+          <div class="doc-info">
+            <div class="n">${escapeHtml(file.name || label)}</div>
+            <div class="meta">${fmtSize(file.size)} · Uploaded</div>
+          </div>
+          <button type="button" class="doc-remove" onclick="event.stopPropagation();removeDoc('${key}')" aria-label="Remove ${escapeHtml(label)}"><i data-lucide="x"></i></button>
+        ` : `
+          <i data-lucide="upload-cloud"></i>
+          <div>Click to upload</div>
+          <div class="meta">${hint}</div>
+        `}
+      </div>
+      <div class="doc-error" id="docErr_${key}"><i data-lucide="alert-circle"></i> <span>This file is too large. Please upload a file under 50&nbsp;KB.</span></div>
+      <input type="file" id="docInp_${key}" accept="${accept}" style="display:none" onchange="handleDocFile('${key}', this.files[0]); this.value='';">
+    `;
+  };
+
+  return `
+    <h2>Step 7 — Supporting documents</h2>
+    <p class="step-sub">Your passport bio-page was captured at booking and is locked here. Add your photograph and any supporting document below.</p>
+
+    <div class="upload-info-banner">
+      <i data-lucide="info"></i>
+      <div><strong>File size:</strong> All uploaded files must not exceed <strong>50&nbsp;KB</strong> in size.</div>
+    </div>
+
+    ${lockedRow}
+    ${uploadRow('photo',      'Passport Photograph', 'camera',   'JPG or PNG · max 50 KB · white background',     'image/jpeg,image/png',                      true)}
+    ${uploadRow('supporting', 'Supporting Document', 'file-text','JPG, PNG or PDF · max 50 KB',                   'image/jpeg,image/png,application/pdf',      false)}
+
+    ${navRow(true, true)}
+  `;
+}
+
+function stepReview(){
+  const a = applicant();
+  const f = a.formData;
+  const personalFields = [
+    { k: 'title',         l: 'Title' },
+    { k: 'firstName',     l: 'First name' },
+    { k: 'lastName',      l: 'Last name' },
+    { k: 'middleName',    l: 'Middle name' },
+    { k: 'gender',        l: 'Gender' },
+    { k: 'dob',           l: 'Date of birth' },
+    { k: 'marital',       l: 'Marital status' },
+    { k: 'nationality',   l: 'Nationality' },
+    { k: 'birthCountry',  l: 'Birth country' },
+    { k: 'applyingFrom',  l: 'Applying from' },
+    { k: 'email',         l: 'Email' },
+    { k: '__mobile',      l: 'Phone', custom: () => f.mobile ? `${f.mobileCC || ''} ${f.mobile}`.trim() : '' }
+  ];
+  const passportFields = [
+    { k: 'passportNo',    l: 'Passport number' },
+    { k: 'issueCountry',  l: 'Issuing country' },
+    { k: 'issueDate',     l: 'Issue date' },
+    { k: 'expiryDate',    l: 'Expiry date' },
+    { k: 'passportType',  l: 'Passport type' }
+  ];
+  const travelFields = [
+    { k: 'arrival',       l: 'Arrival date' },
+    { k: 'departure',     l: 'Departure date' },
+    { k: 'prevUmrah',     l: 'Previous Umrah / Hajj?' },
+    { k: 'pastVisaYN',    l: 'Previously issued visas?' },
+    { k: 'saudiRejected', l: 'Saudi visa rejected before?' }
+  ];
+  // Disclosures — grouped by sub-step
+  const discFamFields = [
+    { k: 'familyKsaYN',   l: 'Relative in Saudi Arabia?' },
+    { k: 'residesAbroad', l: 'Resides abroad?' }
+  ];
+  const discSecFields = [
+    { k: 'secPrison',    l: 'Sentenced to prison?' },
+    { k: 'secDeported',  l: 'Deported from any country?' },
+    { k: 'secTerror',    l: 'Terrorism cases?' },
+    { k: 'secSmuggling', l: 'Smuggling / money laundering?' }
+  ];
+  const discMilFields = [
+    { k: 'milService',   l: 'Military / police service?' },
+    { k: 'milMedia',     l: 'Media / political work?' },
+    { k: 'milAffiliate', l: 'Terror-classed affiliation?' }
+  ];
+  const discHltFields = [
+    { k: 'hltDisability',        l: 'Physical disabilities?' },
+    { k: 'hltVaccinated',        l: 'Required vaccinations done?' },
+    { k: 'hltAgreeCert',         l: 'Agree to present cert?' },
+    { k: 'passportRestrictions', l: 'Passport restrictions?' },
+    { k: 'recentTravelYN',       l: 'Travelled in last 6 mo.?' }
+  ];
+  const docs = a.documents || [];
+  const hasBio   = docs.includes('bio');
+  const hasPhoto = docs.includes('photo');
+  const hasSupp  = docs.includes('supporting');
+  const docOk    = hasBio && hasPhoto;
+  const docSummary = docOk
+    ? `Passport ✓ · Photograph ✓${hasSupp ? ' · Supporting ✓' : ''}`
+    : (!hasPhoto ? 'Passport photograph missing' : 'Documents incomplete');
+  const apps = booking.visa.applicants;
+  const allComplete = apps.every(x => x.complete);
+  const isLast = currentApplicantIdx === apps.length - 1;
+
+  const rowsFrom = (fields, stepIdx) => fields.map(({k, l, custom}) => {
+    const v = custom ? custom() : f[k];
+    return `<div class="review-row"><span class="k">${l}</span><span class="v ${v ? '' : 'miss'}">${escapeHtml(v || 'Missing')}</span></div>`;
+  }).join('');
+
+  const recentSummary = (f.recentTravel || []).length
+    ? (f.recentTravel || []).map(e => `${escapeHtml(e.country || '?')} (${escapeHtml(e.date || '')}, ${escapeHtml(e.length || '')})`).join('<br>')
+    : (f.recentTravelYN === 'No' ? '—' : 'Missing entries');
+  const pastVisaSummary = (f.pastVisa || []).length
+    ? (f.pastVisa || []).map(e => `${escapeHtml(e.country || '?')} (${escapeHtml(e.date || '')}, ${escapeHtml(e.length || '')})`).join('<br>')
+    : (f.pastVisaYN === 'No' ? '—' : 'Missing entries');
+  const familySummary = (f.familyKsaYN === 'Yes')
+    ? ((f.familyKsaName || f.familyKsaRelation)
+        ? `${escapeHtml(f.familyKsaName || '?')} — ${escapeHtml(f.familyKsaRelation || '?')}`
+        : 'Missing entries')
+    : (f.familyKsaYN === 'No' ? '—' : 'Missing entries');
+  const permitSummary = (f.residesAbroad === 'Yes')
+    ? ((f.permitNumber || f.permitExpiry)
+        ? `${escapeHtml(f.permitNumber || '?')} (expires ${escapeHtml(f.permitExpiry || '?')})`
+        : 'Missing entries')
+    : (f.residesAbroad === 'No' ? '—' : 'Missing entries');
+
+  // Flight + Services summaries
+  const flightSummary = (() => {
+    if (f.flightBooked !== 'Yes') return '—';
+    const ib = f.inboundFlight, ob = f.outboundFlight;
+    if (!ib && !ob) return 'Yes — flights not yet selected';
+    const parts = [];
+    if (ib) parts.push(`Inbound: ${escapeHtml(ib.airline)} → ${escapeHtml(ib.dest)} (${escapeHtml(ib.date)}, ${escapeHtml(ib.time)})`);
+    if (ob) parts.push(`Outbound: ${escapeHtml(ob.airline)} → ${escapeHtml(ob.dest)} (${escapeHtml(ob.date)}, ${escapeHtml(ob.time)})`);
+    return parts.join('<br>');
+  })();
+  const hotelSummary = f.hotelBooked === 'Yes'
+    ? `${escapeHtml(f.hotelProvider || '?')} (${escapeHtml(f.hotelCheckin || '?')} → ${escapeHtml(f.hotelCheckout || '?')}, ₦${escapeHtml(f.hotelPrice || '0')})`
+    : '—';
+  const transferSummary = f.transferBooked === 'Yes'
+    ? `${escapeHtml(f.transferProvider || '?')} · ${escapeHtml(f.transferTripCategory || '?')} · ₦${escapeHtml(f.transferTripPrice || '0')}`
+    : '—';
+  const groundSummary = f.groundBooked === 'Yes'
+    ? `${escapeHtml(f.groundOperator || '?')} · ${escapeHtml(f.groundServiceCategory || '?')} · ₦${escapeHtml(f.groundPrice || '0')}`
+    : '—';
+  const contactSummary = (f.contactEmail || f.contactPhone)
+    ? `${escapeHtml(f.contactEmail || '')}${f.contactEmail && f.contactPhone ? ' · ' : ''}${escapeHtml(f.contactPhone || '')}`
+    : 'Missing';
+
+  return `
+    <h2>Step 8 — Review your application</h2>
+    <p class="step-sub">Check every section for ${escapeHtml(a.name)} before continuing to declaration &amp; submit.</p>
+
+    <div class="review">
+      <h4>Personal <a onclick="goTo(1)">Edit</a></h4>
+      ${rowsFrom(personalFields, 1)}
+    </div>
+
+    <div class="review">
+      <h4>Passport <a onclick="goTo(2)">Edit</a></h4>
+      ${rowsFrom(passportFields, 2)}
+    </div>
+
+    <div class="review">
+      <h4>Travel &amp; history <a onclick="goTo(3)">Edit</a></h4>
+      ${rowsFrom(travelFields, 3)}
+      <div class="review-row"><span class="k">Past visas</span><span class="v">${pastVisaSummary}</span></div>
+    </div>
+
+    <div class="review">
+      <h4>Visa questionnaire <a onclick="goTo(4)">Edit</a></h4>
+      ${rowsFrom(discFamFields, 4)}
+      <div class="review-row"><span class="k">Relative in Saudi</span><span class="v">${familySummary}</span></div>
+      <div class="review-row"><span class="k">Residence permit</span><span class="v">${permitSummary}</span></div>
+      ${rowsFrom(discSecFields, 4)}
+      ${rowsFrom(discMilFields, 4)}
+      ${rowsFrom(discHltFields, 4)}
+      <div class="review-row"><span class="k">Recent travel</span><span class="v">${recentSummary}</span></div>
+    </div>
+
+    <div class="review">
+      <h4>Flight &amp; contact <a onclick="goTo(5)">Edit</a></h4>
+      <div class="review-row"><span class="k">Flight booked?</span><span class="v ${f.flightBooked ? '' : 'miss'}">${escapeHtml(f.flightBooked || 'Missing')}</span></div>
+      <div class="review-row"><span class="k">Flight details</span><span class="v">${flightSummary}</span></div>
+      <div class="review-row"><span class="k">Contact</span><span class="v ${(f.contactEmail && f.contactPhone) ? '' : 'miss'}">${contactSummary}</span></div>
+    </div>
+
+    <div class="review">
+      <h4>Travel services <a onclick="goTo(6)">Edit</a></h4>
+      <div class="review-row"><span class="k">Accommodation</span><span class="v">${hotelSummary}</span></div>
+      <div class="review-row"><span class="k">Airport transfer</span><span class="v">${transferSummary}</span></div>
+      <div class="review-row"><span class="k">Ground transport</span><span class="v">${groundSummary}</span></div>
+    </div>
+
+    <div class="review">
+      <h4>Documents <a onclick="goTo(7)">Edit</a></h4>
+      <div class="review-row"><span class="k">Required documents</span><span class="v ${docOk ? '' : 'miss'}">${docSummary}</span></div>
+    </div>
+
+    ${apps.length > 1 ? `
+      <div class="completion-card ${allComplete ? 'complete' : ''}">
+        <i data-lucide="${allComplete ? 'check-circle' : 'users'}"></i>
+        <div class="x">
+          <strong>${apps.filter(x => x.complete).length} of ${apps.length} applicants complete</strong>
+          <span>${allComplete ? 'All applicants ready — continue to declaration to submit.' : 'Mark this applicant complete and continue with the next applicant.'}</span>
+        </div>
+      </div>
+    ` : ''}
+
+    <div class="nav-row">
+      <button class="btn btn-ghost" type="button" onclick="prev()"><i data-lucide="arrow-left"></i> Back</button>
+      ${apps.length > 1 && !isLast ? `
+        <button class="btn btn-primary" type="button" id="completeApplicantBtn">Mark complete &amp; continue <i data-lucide="arrow-right"></i></button>
+      ` : `
+        <button class="btn btn-primary" type="button" onclick="next()">Continue to declaration <i data-lucide="arrow-right"></i></button>
+      `}
+    </div>
+  `;
+}
+
+/* ----- Step 9: Declaration + Submit (final step) ------------------------- */
+function stepDeclare(){
+  const f = applicant().formData;
+  const allChecked = !!(f.declareAccurate && f.declareNoFalse && f.declareConsent);
+  const checkRow = (key, label) => `
+    <label class="declaration-row">
+      <input type="checkbox" data-consent="${key}"${val(key) ? ' checked' : ''}>
+      <span class="t">${escapeHtml(label)}</span>
+    </label>
+  `;
+
+  return `
+    <h2>Step 9 — Declaration</h2>
+    <p class="step-sub">Please confirm the following before submitting your visa application.</p>
+
+    <div class="declaration-card">
+      ${checkRow('declareAccurate', 'I confirm that all information provided is accurate and complete.')}
+      ${checkRow('declareNoFalse',  'I understand that providing false information may result in visa rejection.')}
+      ${checkRow('declareConsent',  'I consent to my information being shared with Saudi authorities for visa processing.')}
+    </div>
+
+    <button type="button" class="btn-submit-app${allChecked ? '' : ''}" id="submitAppBtn"${allChecked ? '' : ' disabled'} onclick="handleSubmit()">
+      <i data-lucide="send"></i><span>Submit Application</span><span class="spin" aria-hidden="true"></span>
+    </button>
+
+    <div class="nav-row" style="margin-top:18px">
+      <button class="btn btn-ghost" type="button" onclick="prev()"><i data-lucide="arrow-left"></i> Back to review</button>
+      <span></span>
+    </div>
+  `;
+}
+
+function navRow(showBack, showNext){
+  return `
+    <div class="nav-row">
+      ${showBack ? `<button class="btn btn-ghost" type="button" onclick="prev()"><i data-lucide="arrow-left"></i> Back</button>` : `<span></span>`}
+      ${showNext ? `<button class="btn btn-primary" type="button" onclick="next()">Save &amp; continue <i data-lucide="arrow-right"></i></button>` : ''}
+    </div>
+  `;
+}
+
+/* ----- Unlock a pre-filled step so the user can edit captured booking data ---- */
+function unlockStep(stepNum){
+  const a = applicant();
+  if (!a.locked) a.locked = {};
+  a.locked[stepNum] = false;
+  UmrahPortal.updateVisa(bookingId, { applicants: booking.visa.applicants });
+  render();
+}
+
+/* ----- Mobile progress + sticky CTA wiring ---------------------------------- */
+function updateMobileProgress(){
+  const a = applicant();
+  document.getElementById('mobStepOf').textContent = `Step ${a.currentStep} of ${STEPS.length}`;
+  document.getElementById('mobStepName').textContent = STEPS[a.currentStep - 1].label;
+  document.getElementById('mobApplicantTag').textContent = booking.visa.applicants.length > 1 ? `Applicant ${currentApplicantIdx + 1} of ${booking.visa.applicants.length}` : '';
+  const pct = applicantPct(a);
+  document.getElementById('mobFill').style.width = pct + '%';
+  document.getElementById('mobPct').textContent = pct + '% complete';
+  // Sync overall progress + currentStep on storage
+  UmrahPortal.updateVisa(bookingId, { progress: overallPct(), currentStep: a.currentStep, applicants: booking.visa.applicants });
+}
+
+function wireMobileCta(){
+  const a = applicant();
+  const stepKey = STEPS[a.currentStep - 1].key;
+  const isLastStep = a.currentStep === STEPS.length;
+  const mobileCta = document.getElementById('mobileCta');
+  const backBtn = document.getElementById('mobBackBtn');
+  const nextBtn = document.getElementById('mobNextBtn');
+  // The Declaration step (step 9) ships its own full-width Submit Application
+  // button inside the declaration card, so we hide the sticky mobile CTA here
+  // to avoid showing two Submit buttons on phones / tablets.
+  if (stepKey === 'declare'){
+    if (mobileCta) mobileCta.style.display = 'none';
+    document.body.classList.remove('has-mobile-cta');
+    return;
+  }
+  if (mobileCta) mobileCta.style.display = '';
+  document.body.classList.add('has-mobile-cta');
+  // On the disclosures step the back button is always visible (sub-step 1 falls
+  // back to outer prev() inside discSubBack), so users always have a way out.
+  if (stepKey === 'disclosures'){
+    backBtn.style.visibility = 'visible';
+    backBtn.onclick = discSubBack;
+    const f = applicant().formData;
+    const sub = f.disclosureSubStep || 1;
+    nextBtn.innerHTML = (sub === 4 ? 'Save &amp; continue' : 'Continue') + ' <i data-lucide="arrow-right"></i>';
+    nextBtn.onclick = discSubNext;
+    lucide.createIcons();
+    return;
+  }
+  backBtn.style.visibility = a.currentStep > 1 ? 'visible' : 'hidden';
+  backBtn.onclick = prev;
+  if (isLastStep){
+    const apps = booking.visa.applicants;
+    const isLast = currentApplicantIdx === apps.length - 1;
+    if (apps.length > 1 && !isLast){
+      nextBtn.innerHTML = 'Mark complete <i data-lucide="arrow-right"></i>';
+      nextBtn.onclick = handleCompleteApplicant;
+    } else {
+      nextBtn.innerHTML = 'Submit <i data-lucide="send"></i>';
+      nextBtn.onclick = handleSubmit;
+    }
+  } else {
+    nextBtn.innerHTML = 'Save &amp; continue <i data-lucide="arrow-right"></i>';
+    nextBtn.onclick = next;
+  }
+  lucide.createIcons();
+}
+
+/* ----- Auto-save & validation ---------------------------------------------- */
+function wireAutoSave(){
+  document.querySelectorAll('[data-k]').forEach(el => {
+    el.addEventListener('input', debounce(() => {
+      setVal(el.dataset.k, el.value);
+      // Keep applicant.name in sync with first/last
+      if (el.dataset.k === 'firstName' || el.dataset.k === 'lastName'){
+        const f = applicant().formData;
+        const newName = `${f.firstName || ''} ${f.lastName || ''}`.trim();
+        if (newName) applicant().name = newName;
+      }
+      UmrahPortal.updateVisa(bookingId, { applicants: booking.visa.applicants });
+      flashSaved(true);
+      updateMobileProgress();
+      refreshDiscProgress();
+    }, 350));
+    el.addEventListener('blur', () => {
+      const wrapper = el.closest('.field');
+      if (wrapper && el.value) wrapper.classList.remove('invalid');
+    });
+  });
+  // Y/N toggle groups
+  document.querySelectorAll('.yn-group').forEach(group => {
+    const key = group.dataset.yn;
+    group.querySelectorAll('button[data-v]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        setVal(key, btn.dataset.v);
+        group.querySelectorAll('button[data-v]').forEach(b => b.classList.toggle('on', b === btn));
+        // Toggle conditional reveal (.conditional panels, .cond-text inline reveals, and .svc-body service sections)
+        document.querySelectorAll(`.conditional[data-cond="${key}"], .cond-text[data-cond="${key}"], .svc-body[data-cond="${key}"]`).forEach(c => {
+          c.classList.toggle('show', btn.dataset.v === 'Yes');
+          if (btn.dataset.v !== 'Yes') c.classList.remove('invalid');
+        });
+        // Clear invalid state
+        const row = group.closest('.disc-row');
+        if (row) row.classList.remove('invalid');
+        UmrahPortal.updateVisa(bookingId, { applicants: booking.visa.applicants });
+        flashSaved(true);
+        updateMobileProgress();
+        // Refresh the disclosures progress bar (segments may have unlocked)
+        // without re-rendering the whole step (preserves textarea focus).
+        refreshDiscProgress();
+      });
+    });
+  });
+  // Repeater inputs (live edit existing entry)
+  document.querySelectorAll('[data-rep]').forEach(el => {
+    el.addEventListener('input', debounce(() => {
+      const key = el.dataset.rep;
+      const i = parseInt(el.dataset.repI, 10);
+      const field = el.dataset.repField;
+      const arr = applicant().formData[key] || [];
+      if (arr[i]){
+        arr[i][field] = el.value;
+        applicant().formData[key] = arr;
+        UmrahPortal.updateVisa(bookingId, { applicants: booking.visa.applicants });
+        flashSaved(true);
+        updateMobileProgress();
+      }
+    }, 350));
+  });
+  // Repeater add buttons
+  document.querySelectorAll('[data-rep-add]').forEach(btn => {
+    btn.addEventListener('click', () => addRepeaterEntry(btn.dataset.repAdd));
+  });
+  // Repeater remove buttons
+  document.querySelectorAll('[data-rep-rm]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      removeRepeaterEntry(btn.dataset.repRm, parseInt(btn.dataset.repI, 10));
+    });
+  });
+  // Consent checkboxes
+  document.querySelectorAll('[data-consent]').forEach(cb => {
+    cb.addEventListener('change', () => {
+      setVal(cb.dataset.consent, cb.checked);
+      const lbl = cb.closest('label');
+      if (lbl) lbl.classList.toggle('checked', cb.checked);
+      UmrahPortal.updateVisa(bookingId, { applicants: booking.visa.applicants });
+      flashSaved(true);
+      // Toggle the Declaration step's Submit button live as the 3 checkboxes change
+      const submitAppBtn = document.getElementById('submitAppBtn');
+      if (submitAppBtn){
+        const f = applicant().formData;
+        const allDec = !!(f.declareAccurate && f.declareNoFalse && f.declareConsent);
+        submitAppBtn.disabled = !allDec;
+      }
+    });
+  });
+  // Applicant tabs
+  document.querySelectorAll('.applicant-tab').forEach(tab => {
+    tab.addEventListener('click', () => switchApplicant(parseInt(tab.dataset.i, 10)));
+  });
+  // Last-step buttons
+  const completeBtn = document.getElementById('completeApplicantBtn');
+  if (completeBtn) completeBtn.addEventListener('click', handleCompleteApplicant);
+  const submitBtn = document.getElementById('submitAppBtn');
+  if (submitBtn) submitBtn.addEventListener('click', handleSubmit);
+}
+
+function addRepeaterEntry(key){
+  const a = applicant();
+  const arr = a.formData[key] || [];
+  if (arr.length >= 5) return;
+  if (key === 'familyKsa') arr.push({ name: '', relation: '' });
+  else arr.push({ country: '', date: '', length: '' });
+  a.formData[key] = arr;
+  UmrahPortal.updateVisa(bookingId, { applicants: booking.visa.applicants });
+  render();
+}
+
+function removeRepeaterEntry(key, i){
+  const a = applicant();
+  const arr = a.formData[key] || [];
+  arr.splice(i, 1);
+  a.formData[key] = arr;
+  UmrahPortal.updateVisa(bookingId, { applicants: booking.visa.applicants });
+  render();
+}
+
+let saveTimer;
+function flashSaved(show){
+  const el = document.getElementById('savedIndicator');
+  if (!el) return;
+  if (show){
+    el.classList.add('flash');
+    el.querySelector('span').textContent = 'Saved';
+    clearTimeout(saveTimer);
+    saveTimer = setTimeout(() => { el.classList.remove('flash'); el.querySelector('span').textContent = 'Progress saved'; }, 1400);
+  }
+}
+function debounce(fn, ms){ let t; return (...a) => { clearTimeout(t); t = setTimeout(() => fn(...a), ms); }; }
+
+function validateCurrent(){
+  let ok = true, firstInvalid = null;
+  const f = applicant().formData;
+  const stepKey = STEPS[applicant().currentStep - 1].key;
+  // Plain inputs/selects with data-k (skip those inside hidden conditionals, hidden cond-text reveals, or collapsed svc-body panels)
+  document.querySelectorAll('[data-k]').forEach(el => {
+    const wrapper = el.closest('.field');
+    const cond = el.closest('.conditional, .cond-text');
+    const svcBody = el.closest('.svc-body');
+    if (cond && !cond.classList.contains('show')) return; // skip hidden conditional
+    if (svcBody && !svcBody.classList.contains('show')) return; // skip collapsed service section
+    // Skip optional fields explicitly marked as such
+    if (el.dataset.optional === '1' || el.dataset.k === 'transferTripInstructions') return;
+    const empty = !el.value || (el.value && el.value.trim() === '');
+    if (wrapper) wrapper.classList.toggle('invalid', empty);
+    // Mark cond-text invalid state (lighter UI than .field)
+    if (cond && cond.classList.contains('cond-text')){
+      cond.classList.toggle('invalid', empty);
+    }
+    if (empty){ ok = false; if (!firstInvalid) firstInvalid = el; }
+  });
+  // Y/N toggle groups (every disc-row)
+  document.querySelectorAll('.disc-row').forEach(row => {
+    const key = row.dataset.row;
+    if (!key) return;
+    const v = applicant().formData[key];
+    const missing = !v;
+    row.classList.toggle('invalid', missing);
+    if (missing){
+      ok = false;
+      if (!firstInvalid) firstInvalid = row;
+    }
+  });
+  // Service-section Y/N toggles (Flight, Hotel, Transfer, Ground) — every yn-group inside a .svc-toggle
+  document.querySelectorAll('.svc-toggle .yn-group').forEach(group => {
+    const key = group.dataset.yn;
+    if (!key) return;
+    const missing = !applicant().formData[key];
+    const row = group.closest('.svc-toggle');
+    if (row) row.classList.toggle('invalid', missing);
+    if (missing){
+      ok = false;
+      if (!firstInvalid) firstInvalid = row || group;
+    }
+  });
+  // Step-5 specific: when flightBooked=Yes, an inbound + outbound flight must be selected
+  if (stepKey === 'flight' && f.flightBooked === 'Yes'){
+    if (!f.inboundFlight || !f.outboundFlight){
+      ok = false;
+      if (!firstInvalid) firstInvalid = document.querySelector('.flight-search-actions, .svc-body');
+    }
+  }
+  // Step-9 specific: all 3 declaration checkboxes must be ticked
+  if (stepKey === 'declare'){
+    if (!(f.declareAccurate && f.declareNoFalse && f.declareConsent)){
+      ok = false;
+      if (!firstInvalid) firstInvalid = document.querySelector('.declaration-card');
+    }
+  }
+  // Repeater minimums (when YN parent is "Yes" and conditional is shown).
+  // familyKsa no longer uses the repeater (it's now a single name+relation pair
+  // gated by the standard data-k validation above).
+  document.querySelectorAll('.conditional.show').forEach(cond => {
+    const key = cond.dataset.cond;
+    if (!key) return;
+    const arrKey = (key === 'recentTravelYN') ? 'recentTravel'
+                 : (key === 'pastVisaYN') ? 'pastVisa'
+                 : null;
+    if (!arrKey) return;
+    const arr = applicant().formData[arrKey] || [];
+    if (arr.length === 0){
+      ok = false;
+      if (!firstInvalid) firstInvalid = cond;
+      cond.classList.add('invalid');
+    } else {
+      cond.classList.remove('invalid');
+    }
+  });
+  if (firstInvalid){
+    if (firstInvalid.focus) firstInvalid.focus({ preventScroll: false });
+    firstInvalid.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }
+  return ok;
+}
+
+/* ----- Step navigation ----------------------------------------------------- */
+function next(){
+  if (!validateCurrent()) return;
+  // Special case: docs step — passport bio is auto-completed; only the photograph is required.
+  if (STEPS[applicant().currentStep - 1].key === 'docs'){
+    if (!(applicant().documents || []).includes('photo')){
+      alert('Please upload your passport photograph before continuing.');
+      return;
+    }
+  }
+  applicant().currentStep = Math.min(STEPS.length, applicant().currentStep + 1);
+  UmrahPortal.updateVisa(bookingId, { applicants: booking.visa.applicants });
+  render();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function prev(){
+  applicant().currentStep = Math.max(1, applicant().currentStep - 1);
+  UmrahPortal.updateVisa(bookingId, { applicants: booking.visa.applicants });
+  render();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function goTo(step){
+  applicant().currentStep = Math.max(1, Math.min(STEPS.length, step));
+  UmrahPortal.updateVisa(bookingId, { applicants: booking.visa.applicants });
+  render();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+/* ----- Document uploads (real file handling with 50KB cap) ---------------- */
+const DOC_MAX_BYTES = 50 * 1024;
+const DOC_ACCEPTED = {
+  photo:      ['image/jpeg','image/png'],
+  supporting: ['image/jpeg','image/png','application/pdf']
+};
+
+function showDocError(key, msg){
+  const el = document.getElementById('docErr_' + key);
+  if (!el) return;
+  if (msg){
+    const span = el.querySelector('span');
+    if (span) span.textContent = msg;
+    el.classList.add('show');
+  } else {
+    el.classList.remove('show');
+  }
+}
+
+function handleDocFile(key, file){
+  if (!file) return;
+  showDocError(key, '');
+  // Type validation
+  const allowed = DOC_ACCEPTED[key] || [];
+  if (allowed.length && !allowed.includes(file.type)){
+    const friendly = key === 'supporting'
+      ? 'Please upload a JPG, PNG or PDF file.'
+      : 'Please upload a JPG or PNG file.';
+    showDocError(key, friendly);
+    return;
+  }
+  // Size validation (50 KB cap)
+  if (file.size > DOC_MAX_BYTES){
+    showDocError(key, 'This file is too large. Please upload a file under 50 KB.');
+    return;
+  }
+  const reader = new FileReader();
+  reader.onload = (ev) => {
+    const a = applicant();
+    a.docFiles = a.docFiles || {};
+    a.docFiles[key] = {
+      name:    file.name,
+      size:    file.size,
+      type:    file.type,
+      dataUrl: ev.target.result
+    };
+    a.documents = a.documents || [];
+    if (!a.documents.includes(key)) a.documents.push(key);
+    UmrahPortal.updateVisa(bookingId, { applicants: booking.visa.applicants });
+    render();
+  };
+  reader.onerror = () => {
+    showDocError(key, 'Could not read this file. Please try another.');
+  };
+  reader.readAsDataURL(file);
+}
+
+function removeDoc(key){
+  const a = applicant();
+  a.documents = (a.documents || []).filter(k => k !== key);
+  if (a.docFiles) delete a.docFiles[key];
+  UmrahPortal.updateVisa(bookingId, { applicants: booking.visa.applicants });
+  render();
+}
+
+/* ----- Multi-applicant switching + completion gating ----------------------- */
+function switchApplicant(i){
+  if (i < 0 || i >= booking.visa.applicants.length) return;
+  currentApplicantIdx = i;
+  render();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function handleCompleteApplicant(){
+  const f = applicant().formData;
+  if (!f.contactEmail || !f.contactPhone){
+    alert('Please fill the Contact Information (email and phone) before continuing.');
+    return;
+  }
+  // Note: Terms & Conditions consent is captured on the checkout/pax page
+  // before payment, so it's no longer gated here.
+  // Verify the applicant has filled everything across all steps
+  if (!isApplicantReady(applicant())){
+    alert('This applicant is missing required fields or documents. Please go back and complete the previous steps.');
+    return;
+  }
+  applicant().complete = true;
+  UmrahPortal.updateVisa(bookingId, { applicants: booking.visa.applicants });
+  // Move to the next incomplete applicant
+  const apps = booking.visa.applicants;
+  const next = apps.findIndex((x, i) => !x.complete && i > currentApplicantIdx);
+  if (next !== -1) currentApplicantIdx = next;
+  else {
+    const earlier = apps.findIndex(x => !x.complete);
+    if (earlier !== -1) currentApplicantIdx = earlier;
+  }
+  render();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function handleSubmit(){
+  const f = applicant().formData;
+  if (!f.contactEmail || !f.contactPhone){
+    alert('Please fill the Contact Information (email and phone) on the Flight step before submitting.');
+    return;
+  }
+  // Defensive: re-check the 3 declaration checkboxes
+  if (!(f.declareAccurate && f.declareNoFalse && f.declareConsent)){
+    alert('Please tick all 3 declaration statements before submitting.');
+    return;
+  }
+  // Note: Terms & Conditions consent is captured on the checkout/pax page
+  // before payment, so it's no longer gated here.
+  if (!isApplicantReady(applicant())){
+    alert('This applicant is missing required fields or documents. Please go back and complete the previous steps.');
+    return;
+  }
+  applicant().complete = true;
+  // Ensure ALL applicants are complete before submitting (Item 17 gate)
+  const apps = booking.visa.applicants;
+  const stillIncomplete = apps.filter(x => !x.complete);
+  if (stillIncomplete.length){
+    alert(`${stillIncomplete.length} other applicant${stillIncomplete.length > 1 ? 's' : ''} still need to be completed before submission. We'll move you to the next.`);
+    UmrahPortal.updateVisa(bookingId, { applicants: apps });
+    currentApplicantIdx = apps.findIndex(x => !x.complete);
+    render();
+    return;
+  }
+  // Show loading spinner on the in-step Submit button
+  const btn = document.getElementById('submitAppBtn');
+  if (btn){ btn.classList.add('loading'); btn.disabled = true; }
+  // Generate a deterministic-looking application reference
+  const submittedAt = new Date().toISOString();
+  const applicationId = 'WK-VISA-' + Date.now().toString(36).toUpperCase();
+  UmrahPortal.updateVisa(bookingId, {
+    applicants: apps,
+    submissionStatus: 'submitted',
+    progress: 100,
+    submittedAt: submittedAt,
+    applicationId: applicationId
+  });
+  UmrahPortal.updateBooking(bookingId, { bookingStatus: 'visa_submitted' });
+  // Brief delay so the spinner is visible, then navigate to the confirmation page
+  setTimeout(() => {
+    location.href = 'umrah-application-submitted.html?bookingId=' + bookingId;
+  }, 700);
+}
+
+function isApplicantReady(a){
+  const f = a.formData || {};
+  const required = [
+    'title','firstName','lastName','gender','dob','marital','nationality','birthCountry','applyingFrom','email','mobile',
+    'passportNo','issueCountry','issueDate','expiryDate','passportType',
+    'arrival','departure','prevUmrah','pastVisaYN','saudiRejected',
+    // Step 4 — Visa questionnaire (4 sub-steps)
+    'familyKsaYN','residesAbroad',
+    'secPrison','secDeported','secTerror','secSmuggling',
+    'milService','milMedia','milAffiliate',
+    'hltDisability','hltVaccinated','hltAgreeCert',
+    'passportRestrictions','recentTravelYN',
+    // Step 5 — Flight + Contact
+    'flightBooked','contactEmail','contactPhone',
+    // Step 6 — Travel Services Y/N gates
+    'hotelBooked','transferBooked','groundBooked'
+  ];
+  if (!required.every(k => !!f[k])) return false;
+  // Conditional requirements
+  if (f.residesAbroad === 'Yes' && (!f.permitNumber || !f.permitExpiry)) return false;
+  if (f.familyKsaYN === 'Yes' && (!f.familyKsaName || !f.familyKsaRelation)) return false;
+  if (f.recentTravelYN === 'Yes' && (f.recentTravel || []).length === 0) return false;
+  if (f.pastVisaYN === 'Yes' && (f.pastVisa || []).length === 0) return false;
+  // "Provide more information" required when any disclosure Y/N is "Yes"
+  const ynDetails = ['secPrison','secDeported','secTerror','secSmuggling',
+                     'milService','milMedia','milAffiliate',
+                     'hltDisability','hltVaccinated','hltAgreeCert',
+                     'passportRestrictions'];
+  for (const k of ynDetails){
+    if (f[k] === 'Yes' && !(f[k + 'Details'] || '').trim()) return false;
+  }
+  // Step 5 — Flight: when "Yes", an inbound + outbound must be selected
+  if (f.flightBooked === 'Yes' && (!f.inboundFlight || !f.outboundFlight)) return false;
+  // Step 6 — Travel Services: when "Yes", required fields per section
+  if (f.hotelBooked === 'Yes'){
+    if (!f.hotelProvider || !f.hotelCheckin || !f.hotelCheckout || !f.hotelPrice || !f.hotelReservationNo) return false;
+  }
+  if (f.transferBooked === 'Yes'){
+    if (!f.transferProvider || !f.transferTripNo || !f.transferTripDate || !f.transferTripPrice ||
+        !f.transferTripCategory || !f.transferVehicleMake || !f.transferVehicleType || !f.transferBookingId) return false;
+  }
+  if (f.groundBooked === 'Yes'){
+    if (!f.groundOperator || !f.groundServiceCategory || !f.groundServiceCode || !f.groundPrice) return false;
+  }
+  // Documents: passport bio is auto-completed; only the photograph is required.
+  if (!(a.documents || []).includes('photo')) return false;
+  // Step 9 — Declaration: all 3 checkboxes ticked
+  if (!(f.declareAccurate && f.declareNoFalse && f.declareConsent)) return false;
+  return true;
+}
+
+function saveAndExit(){
+  // Auto-save already on blur/input — just navigate home. The user can return
+  // anytime via Manage Application (umrah-signin.html) using their Booking ID.
+  location.href = 'saudi-packages.html';
+}
+
+function escapeHtml(s){
+  return String(s == null ? '' : s).replace(/[&<>"']/g, ch => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));
+}
+</script>
+</body>
+</html>

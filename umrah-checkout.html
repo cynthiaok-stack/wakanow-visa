@@ -1,0 +1,1059 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Checkout — Wakanow Umrah</title>
+<link href="https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Rubik',system-ui,sans-serif;font-size:16px;color:#1E3138;line-height:1.55;background:#F5F7FA;min-height:100vh}
+h1,h2,h3,h4{font-family:'Rubik',system-ui,sans-serif;font-weight:700;line-height:1.2}
+button{cursor:pointer;font-family:inherit;border:none;background:none;color:inherit}
+a{text-decoration:none;color:inherit}
+input,select{font-family:inherit;font-size:13px}
+
+:root{
+  --primary:#08A5E3; --primary-dark:#0789BF; --primary-light:#E8F6FD;
+  --navy:#0F2A33;
+  --orange:#F58220; --orange-dark:#E07318;
+  --green:#27AE60;
+  --gray-50:#F9FAFB; --gray-100:#F2F3F5; --gray-200:#E5E7EB; --gray-300:#D1D5DB; --gray-400:#9CA3AF; --gray-500:#6B7280; --gray-600:#4B5563;
+  --radius-lg:14px;
+  --shadow-sm:0 1px 3px rgba(0,0,0,.06);
+  --ease:.22s cubic-bezier(.4,0,.2,1);
+}
+
+.site-header{background:#fff;padding:14px 40px;display:flex;align-items:center;gap:20px;box-shadow:0 1px 0 rgba(15,42,51,.06)}
+.site-header .manage-app-link{margin-left:auto;font-size:13px;color:#0F2A33;font-weight:600;display:inline-flex;align-items:center;gap:6px;padding:8px 14px;border-radius:8px;transition:.18s;cursor:pointer}
+.site-header .manage-app-link:hover{background:#F2F3F5;color:#0789BF}
+.site-header .manage-app-link i{width:14px;height:14px}
+@media(max-width:720px){ .site-header .manage-app-link{font-size:12.5px;padding:7px 10px} .site-header .manage-app-link span{display:none} }
+.site-header .logo{height:32px}
+
+.step-header{background:var(--navy);color:#fff;padding:16px 40px;display:flex;align-items:center;gap:24px;flex-wrap:wrap}
+.step-header .title{font-size:16px;font-weight:700}
+.steps{margin-left:auto;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.step{display:inline-flex;align-items:center;gap:8px;color:rgba(255,255,255,.55);font-size:13px;white-space:nowrap}
+.step-num{width:22px;height:22px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;background:rgba(255,255,255,.18)}
+.step.done .step-num{background:#fff;color:var(--navy)}
+.step.on{color:#fff}
+.step.on .step-num{background:var(--primary);color:#fff}
+.step-dash{color:rgba(255,255,255,.25);letter-spacing:2px}
+@media(max-width:720px){ .step-header{padding:14px 20px} .steps{display:none} .site-header{padding:12px 20px} }
+
+.shell{max-width:1100px;margin:0 auto;padding:28px 40px 60px;display:grid;grid-template-columns:1fr 340px;gap:24px;align-items:start}
+@media(max-width:960px){ .shell{grid-template-columns:1fr;padding:24px 20px 40px} }
+
+.quality-bar{background:#E7F6EE;border:1px solid #B6E1C6;color:#1F6E3D;padding:12px 18px;border-radius:10px;display:flex;align-items:center;gap:10px;font-size:13px;margin-bottom:16px}
+.quality-bar i{width:18px;height:18px;color:var(--green)}
+.quality-bar strong{font-weight:700}
+
+.section-card{background:#fff;border-radius:var(--radius-lg);padding:22px 26px;box-shadow:var(--shadow-sm);margin-bottom:16px}
+.section-card h3{font-size:15px;color:var(--navy);margin-bottom:16px;display:flex;align-items:center;gap:8px}
+.section-card h3 i{width:17px;height:17px;color:var(--primary)}
+
+.form-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
+@media(max-width:640px){ .form-grid{grid-template-columns:1fr} }
+.field{display:flex;flex-direction:column;gap:6px}
+.field.full{grid-column:1/-1}
+.field label{font-size:12px;color:var(--navy);font-weight:500}
+.field label .req{color:#DC2626;margin-left:2px}
+.field input,.field select{padding:11px 13px;border:1px solid var(--gray-200);border-radius:8px;background:#fff;color:var(--navy);transition:var(--ease)}
+.field input:focus,.field select:focus{outline:none;border-color:var(--primary);box-shadow:0 0 0 3px rgba(8,165,227,.14)}
+.field .err{font-size:11px;color:#DC2626;display:none}
+.field.invalid input,.field.invalid select{border-color:#DC2626}
+.field.invalid .err{display:block}
+
+.upload-row{border:1.5px dashed var(--gray-300);border-radius:10px;padding:16px;text-align:center;color:var(--gray-500);cursor:pointer;transition:var(--ease)}
+.upload-row:hover{border-color:var(--primary);color:var(--primary);background:var(--gray-50)}
+.upload-row i{width:24px;height:24px;margin-bottom:6px}
+.upload-row.ok{border-color:var(--green);color:var(--green);background:#F0FAF4}
+.upload-row small{display:block;font-size:11px;color:var(--gray-500);margin-top:4px}
+
+/* Per-traveller passport bio-page upload (with-visa flow) — stacked at top */
+.passport-upload-list{display:flex;flex-direction:column;gap:10px}
+.pax-passport-upload{display:flex;align-items:center;gap:12px;padding:14px 16px;border:1.5px dashed var(--primary);background:var(--primary-light);border-radius:10px;cursor:pointer;transition:var(--ease)}
+.pax-passport-upload:hover{background:#D8EEFC;border-color:var(--primary-dark)}
+.pax-passport-upload i{width:20px;height:20px;color:var(--primary);flex-shrink:0}
+.pax-passport-upload .lbl{flex:1;font-size:13px;color:var(--navy);font-weight:600;line-height:1.35}
+.pax-passport-upload .lbl small{display:block;font-size:11px;color:var(--gray-500);font-weight:400;margin-top:2px}
+.pax-passport-upload .hint-pill{flex-shrink:0;font-size:10.5px;color:var(--primary);background:#fff;border:1px solid #BFE4F7;padding:4px 8px;border-radius:99px;font-weight:600}
+.pax-passport-upload.ok{border-color:var(--green);background:#F0FAF4;border-style:solid}
+.pax-passport-upload.ok i{color:var(--green)}
+.pax-passport-upload.ok .lbl{color:#1F6E3D}
+.pax-passport-upload.ok .hint-pill{color:#1F6E3D;background:#fff;border-color:#B6E1C6}
+@media(max-width:560px){
+  .pax-passport-upload{flex-wrap:wrap}
+  .pax-passport-upload .hint-pill{margin-left:auto}
+}
+
+.pax-block{border:1px solid var(--gray-200);border-radius:12px;padding:18px;margin-bottom:14px;background:#fff;transition:var(--ease)}
+.pax-block:hover{border-color:#D6DCE5}
+.pax-block .pax-head{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:14px;padding-bottom:12px;border-bottom:1px dashed var(--gray-200)}
+.pax-block .pax-head .who{display:flex;align-items:center;gap:10px;flex:1;min-width:0}
+.pax-block .pax-num{width:28px;height:28px;border-radius:50%;background:var(--primary-light);color:var(--primary);font-size:12px;font-weight:700;display:inline-flex;align-items:center;justify-content:center;flex-shrink:0}
+.pax-block .pax-head h4{font-size:14px;color:var(--navy);font-weight:700;line-height:1.2}
+.pax-block .pax-head .role{font-size:11px;color:var(--gray-500);font-weight:500;margin-top:1px}
+.pax-block .remove-pax{font-size:12px;color:#DC2626;cursor:pointer;font-weight:600;padding:5px 9px;border-radius:6px;transition:var(--ease);display:inline-flex;align-items:center;gap:4px}
+.pax-block .remove-pax:hover{background:#FEE2E2}
+.pax-block .remove-pax i{width:12px;height:12px}
+.pax-block .pax-section-head{font-size:11px;text-transform:uppercase;letter-spacing:.06em;color:var(--gray-500);font-weight:700;margin:18px 0 10px;display:flex;align-items:center;gap:6px;padding-top:14px;border-top:1px solid var(--gray-100)}
+.pax-block .pax-section-head:first-of-type{margin-top:2px;padding-top:0;border-top:none}
+.pax-block .pax-section-head i{width:14px;height:14px;color:var(--primary)}
+.pax-block .title-row{display:grid;grid-template-columns:88px 1fr;gap:8px}
+.pax-block .phone-row{display:grid;grid-template-columns:96px 1fr;gap:8px}
+.field .hint{font-size:11px;color:var(--gray-500);margin-top:1px}
+.add-pax{background:var(--primary-light);color:var(--primary);font-weight:600;font-size:13px;padding:12px 18px;border-radius:10px;display:inline-flex;align-items:center;justify-content:center;gap:6px;margin-top:8px;width:100%;border:1.5px dashed rgba(8,165,227,.45);transition:var(--ease)}
+.add-pax:hover{background:#D8EEFA;border-style:solid}
+.add-pax i{width:14px;height:14px}
+@media(min-width:641px){
+  .add-pax{width:auto}
+}
+
+/* ── Pax accordion ── */
+.pax-block .pax-head{cursor:pointer;user-select:none}
+.pax-block.collapsed .pax-head{margin-bottom:0;padding-bottom:0;border-bottom:none}
+.pax-block.collapsed .pax-body{display:none}
+.pax-block .pax-head-right{display:flex;align-items:center;gap:6px;flex-shrink:0}
+.pax-block .pax-status{font-size:11px;color:var(--gray-500);font-weight:500;margin-top:2px;line-height:1.2}
+.pax-block .pax-status.ready{color:var(--green)}
+.pax-block .pax-status.ready::before{content:'✓ ';font-weight:700}
+.pax-block .chev{width:30px;height:30px;border-radius:50%;background:var(--gray-100);color:var(--gray-600);border:none;display:inline-flex;align-items:center;justify-content:center;cursor:pointer;transition:var(--ease)}
+.pax-block .chev i{width:16px;height:16px;transition:transform .22s ease}
+.pax-block:not(.collapsed) .chev i{transform:rotate(180deg)}
+.pax-block .chev:hover{background:var(--gray-200);color:var(--navy)}
+.pax-block .pax-body{margin-top:0}
+
+/* ── Per-pax passport upload (drag-drop on desktop, tap on mobile) ── */
+.pax-passport-section{margin-top:18px;padding-top:14px;border-top:1px dashed var(--gray-200)}
+.pax-passport-zone{border:1.5px dashed var(--primary);border-radius:10px;background:var(--primary-light);padding:18px 16px;display:flex;flex-direction:column;align-items:center;gap:6px;cursor:pointer;transition:var(--ease);text-align:center}
+.pax-passport-zone:hover,.pax-passport-zone.drag{background:#D8EEFC;border-color:var(--primary-dark)}
+.pax-passport-zone i{width:28px;height:28px;color:var(--primary)}
+.pax-passport-zone .t{font-size:13px;color:var(--navy);font-weight:600}
+.pax-passport-zone .s{font-size:11px;color:var(--gray-500)}
+.pax-passport-zone input[type=file]{display:none}
+
+.pax-passport-preview{display:flex;align-items:center;gap:12px;background:#F0FAF4;border:1px solid #B6E1C6;border-radius:10px;padding:10px 12px}
+.pax-passport-preview .thumb{width:46px;height:46px;border-radius:6px;background:#fff;border:1px solid #DEE3EC;display:inline-flex;align-items:center;justify-content:center;overflow:hidden;flex-shrink:0}
+.pax-passport-preview .thumb img{width:100%;height:100%;object-fit:cover}
+.pax-passport-preview .thumb i{width:22px;height:22px;color:var(--primary)}
+.pax-passport-preview .meta{flex:1;min-width:0}
+.pax-passport-preview .meta .n{font-size:13px;font-weight:600;color:#1F6E3D;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.pax-passport-preview .meta .s{font-size:11px;color:var(--gray-600);margin-top:1px}
+.pax-passport-preview .rm{background:none;border:none;color:#DC2626;font-size:12px;font-weight:600;cursor:pointer;padding:5px 8px;border-radius:6px;display:inline-flex;align-items:center;gap:4px;flex-shrink:0}
+.pax-passport-preview .rm:hover{background:#FEE2E2}
+.pax-passport-preview .rm i{width:12px;height:12px}
+.pax-passport-err{font-size:11px;color:#DC2626;margin-top:6px;text-align:center}
+
+/* ── Per-pax passport card (lives at the top of each accordion body) ── */
+.pax-passport-card{margin-bottom:18px}
+.pax-passport-card .pax-passport-head{display:flex;align-items:center;gap:10px;margin-bottom:6px;flex-wrap:wrap}
+.pax-passport-card .pax-passport-head .title{font-family:var(--font-display,'Syne'),sans-serif;font-size:14.5px;font-weight:700;color:var(--navy);display:flex;align-items:center;gap:8px}
+.pax-passport-card .pax-passport-head .title i{width:18px;height:18px;color:var(--primary)}
+.pax-passport-card .pax-passport-head .ocr-pill{font-size:10px;font-weight:700;color:var(--primary);background:var(--primary-light);padding:3px 9px;border-radius:99px;letter-spacing:.06em;text-transform:uppercase}
+.pax-passport-card p.hint{font-size:12px;color:var(--gray-600);margin:0 0 12px;line-height:1.55}
+.pax-passport-card .pax-passport-zone{padding:24px 16px}
+.pax-passport-card .pax-passport-zone i{width:30px;height:30px}
+.pax-passport-card .pax-passport-zone .t{font-size:13.5px}
+
+/* ── Confirm modal ── */
+.confirm-modal{position:fixed;inset:0;z-index:9998;display:none;align-items:center;justify-content:center;padding:20px;background:rgba(15,42,51,.55);backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px)}
+.confirm-modal.open{display:flex}
+.confirm-card{background:#fff;border-radius:14px;padding:24px;max-width:380px;width:100%;box-shadow:0 24px 60px rgba(15,42,51,.3);animation:confirmPop .2s cubic-bezier(.4,0,.2,1)}
+@keyframes confirmPop{from{transform:scale(.95) translateY(8px);opacity:0}to{transform:scale(1) translateY(0);opacity:1}}
+.confirm-card .icon{width:44px;height:44px;border-radius:50%;background:#FEE2E2;color:#DC2626;display:inline-flex;align-items:center;justify-content:center;margin-bottom:12px}
+.confirm-card .icon i{width:22px;height:22px}
+.confirm-card h4{font-family:var(--font-display,'Syne'),sans-serif;font-size:18px;font-weight:700;color:var(--navy);margin:0 0 6px}
+.confirm-card p{font-size:13.5px;color:var(--gray-600);line-height:1.55;margin:0 0 20px}
+.confirm-actions{display:flex;gap:10px;justify-content:flex-end}
+.confirm-actions button{padding:11px 20px;border-radius:10px;font-size:14px;font-weight:600;cursor:pointer;border:none;font-family:inherit;transition:var(--ease);min-height:42px}
+.confirm-actions .cancel{background:var(--gray-100);color:var(--navy)}
+.confirm-actions .cancel:hover{background:var(--gray-200)}
+.confirm-actions .confirm{background:#DC2626;color:#fff}
+.confirm-actions .confirm:hover{background:#B91C1C}
+@media(max-width:520px){
+  .confirm-actions{flex-direction:column-reverse}
+  .confirm-actions button{width:100%}
+}
+
+.pay-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+@media(max-width:640px){ .pay-grid{grid-template-columns:1fr} }
+.pay-opt{border:1.5px solid var(--gray-200);border-radius:10px;padding:12px;display:flex;align-items:center;gap:10px;cursor:pointer;transition:var(--ease)}
+.pay-opt:hover{border-color:var(--gray-300)}
+.pay-opt.on{border-color:var(--primary);background:var(--primary-light)}
+.pay-opt .icon{width:32px;height:32px;border-radius:6px;background:#fff;display:inline-flex;align-items:center;justify-content:center;color:var(--primary)}
+.pay-opt .icon i{width:18px;height:18px}
+.pay-opt .lbl{font-size:13px;color:var(--navy);font-weight:600}
+
+.terms-row{display:flex;gap:10px;align-items:flex-start;margin-top:10px;font-size:12px;color:var(--gray-600)}
+.terms-row input{margin-top:2px}
+.terms-row a{color:var(--primary);text-decoration:underline}
+
+/* Sidebar / order summary — Item 6 */
+.side{display:flex;flex-direction:column;gap:16px}
+@media(min-width:980px){ .side{position:sticky;top:20px} }
+
+.summary{background:#fff;border-radius:var(--radius-lg);padding:22px 24px;box-shadow:var(--shadow-sm);border:1px solid #EEF1F5}
+.summary h3{font-size:15px;color:var(--navy);margin:0 0 14px;display:flex;align-items:center;gap:8px;font-weight:700}
+.summary h3 i{width:16px;height:16px;color:var(--primary)}
+.summary .pkg{margin-bottom:14px;padding-bottom:14px;border-bottom:1px solid #EEF1F5}
+.summary .pkg .n{font-size:14px;font-weight:700;color:var(--navy);line-height:1.35;margin-bottom:3px}
+.summary .pkg .d{font-size:12px;color:var(--gray-500);display:inline-flex;align-items:center;gap:5px}
+.summary .pkg .d i{width:12px;height:12px}
+
+.cost-group{display:flex;flex-direction:column;gap:2px}
+.cost-row{display:flex;justify-content:space-between;align-items:baseline;padding:7px 0;font-size:13px;color:var(--gray-600);gap:12px}
+.cost-row .l{flex:1;line-height:1.4}
+.cost-row .l .sub{display:block;font-size:11px;color:var(--gray-500);margin-top:1px}
+.cost-row .v{color:var(--navy);font-weight:600;font-variant-numeric:tabular-nums;text-align:right;white-space:nowrap}
+.cost-row.muted .v{color:var(--green);font-weight:500;font-size:12px}
+.cost-divider{height:1px;background:#EEF1F5;margin:6px 0}
+
+.cost-total{display:flex;justify-content:space-between;align-items:flex-end;margin-top:14px;padding-top:14px;border-top:1.5px solid #DEE3EC;gap:12px}
+.cost-total .l{font-size:14px;font-weight:700;color:var(--navy)}
+.cost-total .l small{display:block;font-size:11px;font-weight:500;color:var(--gray-500);margin-top:2px}
+.cost-total .amt{font-size:24px;font-weight:800;color:var(--orange);font-variant-numeric:tabular-nums;letter-spacing:-.01em;text-align:right;line-height:1}
+
+.btn-pay{width:100%;margin-top:16px;padding:14px;background:var(--orange);color:#fff;font-weight:600;font-size:15px;border-radius:12px;display:flex;align-items:center;justify-content:center;gap:8px;transition:var(--ease);border:none;cursor:pointer}
+.btn-pay:hover:not(:disabled){background:var(--orange-dark);box-shadow:0 8px 20px rgba(245,130,32,.32)}
+.btn-pay:disabled{background:var(--gray-300);cursor:not-allowed}
+.btn-pay i{width:16px;height:16px}
+
+/* Mobile sticky pay bar */
+.mobile-pay-bar{display:none;position:fixed;left:0;right:0;bottom:0;background:#fff;border-top:1px solid #DEE3EC;box-shadow:0 -10px 28px rgba(15,42,51,.10);padding:12px 16px env(safe-area-inset-bottom);z-index:50;align-items:center;gap:12px}
+.mobile-pay-bar .total-mini{flex:0 0 auto;display:flex;flex-direction:column;line-height:1.1;min-width:90px}
+.mobile-pay-bar .total-mini .l{font-size:11px;color:var(--gray-500);text-transform:uppercase;letter-spacing:.04em;font-weight:600}
+.mobile-pay-bar .total-mini .a{font-size:20px;font-weight:800;color:var(--navy);font-variant-numeric:tabular-nums;letter-spacing:-.01em}
+.mobile-pay-bar .btn-pay-mobile{flex:1;background:var(--orange);color:#fff;font-weight:700;font-size:15px;padding:14px 18px;border-radius:12px;border:none;display:inline-flex;align-items:center;justify-content:center;gap:8px;cursor:pointer;min-height:48px}
+.mobile-pay-bar .btn-pay-mobile:disabled{background:var(--gray-300);cursor:not-allowed}
+.mobile-pay-bar .btn-pay-mobile i{width:14px;height:14px}
+
+@media(max-width:760px){
+  .mobile-pay-bar{display:flex}
+  body.has-mobile-pay-bar{padding-bottom:88px}
+  /* Hide duplicate side-panel Total + CTA — the floating pay bar already shows both */
+  .summary .cost-total,
+  .summary .btn-pay{display:none}
+}
+
+/* Terms & Conditions consent — gates Continue to Payment */
+.tc-consent{display:flex;align-items:flex-start;gap:12px;padding:14px 16px;border:1.5px solid #DEE3EC;border-radius:12px;background:#fff;cursor:pointer;transition:var(--ease);user-select:none}
+.tc-consent:hover{border-color:#B7C2CE}
+.tc-consent.checked{border-color:var(--green);background:#F2FAF5}
+.tc-consent input[type="checkbox"]{flex-shrink:0;width:18px;height:18px;margin-top:2px;accent-color:var(--green);cursor:pointer}
+.tc-consent .tc-copy{font-size:13.5px;color:var(--navy);line-height:1.55}
+.tc-consent .tc-copy a{color:var(--primary);font-weight:600;text-decoration:underline;text-underline-offset:2px}
+.tc-consent .tc-copy a:hover{color:var(--primary-dark)}
+.tc-consent .req{color:var(--orange);font-weight:700}
+
+.not-found{background:#fff;border-radius:var(--radius-lg);padding:60px 20px;text-align:center;color:var(--gray-500)}
+</style>
+<link rel="stylesheet" href="umrah-theme.css">
+</head>
+<body>
+
+<header class="site-header">
+  <a href="saudi-packages.html"><img src="wakanow-logo.svg" alt="Wakanow" class="logo"></a>
+  <a href="umrah-signin.html" class="manage-app-link" title="Continue an existing visa application">
+    <i data-lucide="user-check"></i><span>Manage Application</span>
+  </a>
+</header>
+
+<div class="step-header" id="stepHeader"></div>
+
+<div class="shell" id="shell"></div>
+
+<script src="umrah-portal-data.js"></script>
+<script src="umrah-contact.js" defer></script>
+<script>
+lucide.createIcons();
+
+const params = new URLSearchParams(location.search);
+const id = params.get('id');
+const pkg = UmrahPortal.findPackage(id);
+let store = UmrahPortal.load();
+const shell = document.getElementById('shell');
+const stepHeader = document.getElementById('stepHeader');
+
+if (!pkg){
+  document.body.innerHTML = '<div class="not-found"><h2>Package not found</h2></div>';
+} else {
+  renderStepHeader();
+  renderCheckout();
+}
+
+function renderStepHeader(){
+  const withVisa = pkg.type === 'with_visa';
+  stepHeader.innerHTML = `
+    <div class="title">Umrah Booking</div>
+    <div class="steps">
+      <div class="step done"><span class="step-num">1</span> Select Package</div>
+      <span class="step-dash">——</span>
+      ${withVisa ? `
+        <div class="step on"><span class="step-num">2</span> PAX & Payment</div>
+        <span class="step-dash">——</span>
+        <div class="step"><span class="step-num">3</span> Pre-Qualification</div>
+        <span class="step-dash">——</span>
+        <div class="step"><span class="step-num">4</span> Visa Application</div>
+      ` : `
+        <div class="step on"><span class="step-num">2</span> Traveller info</div>
+        <span class="step-dash">——</span>
+        <div class="step"><span class="step-num">3</span> Payment</div>
+        <span class="step-dash">——</span>
+        <div class="step"><span class="step-num">4</span> Confirmation</div>
+      `}
+    </div>
+  `;
+}
+
+function renderCheckout(){
+  // Refresh from localStorage so add/remove pax (which save then re-render)
+  // always reflect the latest quantity. Without this the in-memory `store`
+  // stays at its page-load snapshot and removed pax cards keep rendering.
+  store = UmrahPortal.load();
+  const q = store.cart.quantity || 1;
+  const withVisa = pkg.type === 'with_visa';
+  shell.innerHTML = `
+    <main>
+      ${withVisa ? `
+        <div class="quality-bar">
+          <i data-lucide="shield-check"></i>
+          <div><strong>Pre-qualification runs after payment</strong> · We'll quickly verify your visa eligibility on the next page once your booking is confirmed.</div>
+        </div>
+      ` : ''}
+
+      <div class="section-card">
+        <h3><i data-lucide="users"></i> Traveller information (${q} ${q === 1 ? 'person' : 'people'})</h3>
+        <div id="paxList"></div>
+      </div>
+
+      <div class="section-card">
+        <h3><i data-lucide="user"></i> Contact details</h3>
+        <p style="font-size:12px;color:var(--gray-500);margin:-8px 0 14px">We'll send your booking confirmation, e-tickets, and visa updates here.</p>
+        <div class="form-grid">
+          <div class="field">
+            <label>Email <span class="req">*</span></label>
+            <input type="email" id="email" autocomplete="email" inputmode="email" value="${(store.user && store.user.email) || ''}" placeholder="you@email.com">
+            <span class="err">Enter a valid email</span>
+          </div>
+          <div class="field">
+            <label>Phone <span class="req">*</span></label>
+            <input type="tel" id="phone" autocomplete="tel" inputmode="tel" placeholder="+234 801 234 5678">
+            <span class="err">Enter a valid phone (with country code)</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="section-card">
+        <h3><i data-lucide="file-check-2"></i> Terms &amp; Conditions</h3>
+        <label class="tc-consent${store.cart.tcAgreed ? ' checked' : ''}" id="tcConsent" for="tcAgree">
+          <input type="checkbox" id="tcAgree"${store.cart.tcAgreed ? ' checked' : ''} onchange="onTcChange(this)">
+          <span class="tc-copy">
+            I have read and agreed to the <a href="terms.html" target="_blank" rel="noopener">Terms &amp; Conditions</a>, <a href="privacy.html" target="_blank" rel="noopener">Privacy Policy</a>, and the visa-processing &amp; refund rules. <span class="req">*</span>
+          </span>
+        </label>
+      </div>
+    </main>
+
+    <aside class="side">
+      <div class="summary">
+        <h3>Cost Summary</h3>
+        <div class="pkg">
+          <div>
+            <div class="n">${pkg.name}</div>
+            <div class="d"><i data-lucide="clock"></i> Processing Time : 3 days</div>
+          </div>
+        </div>
+        <div class="cost-group" id="costRows"></div>
+        <div class="cost-total">
+          <span class="l">Total<small>VAT included</small></span>
+          <span class="amt" id="costTotal">—</span>
+        </div>
+        <button class="btn-pay" id="payBtn" onclick="continueToPayment()"${store.cart.tcAgreed ? '' : ' disabled'}>
+          Continue to Payment <i data-lucide="arrow-right"></i>
+        </button>
+      </div>
+    </aside>
+  `;
+  lucide.createIcons();
+  renderPaxList(q, withVisa);
+  renderCost();
+  ensureMobilePayBar();
+}
+
+function renderPaxList(q, withVisa){
+  // For package-only bookings, omit visa-only fields. Airlines still need
+  // basic identity + passport for the ticket, so we keep title/name/phone/
+  // email/dob/gender/nationality/passportNo/expiry — but drop applying-from,
+  // marital status, birth country, passport issue country/date, passport type.
+  const list = document.getElementById('paxList');
+  const blocks = [];
+  for (let i = 0; i < q; i++){
+    const isLead = i === 0;
+    const collapsed = !isLead; // Pax 1 expanded by default; others collapsed
+    blocks.push(`
+      <div class="pax-block ${collapsed ? 'collapsed' : ''}" id="paxBlock-${i}" data-i="${i}">
+        <div class="pax-head" onclick="togglePax(${i}, event)">
+          <div class="who">
+            <span class="pax-num">${i + 1}</span>
+            <div>
+              <h4>Passenger ${i + 1}</h4>
+              <div class="pax-status">${isLead ? 'Lead traveller · receives all updates' : 'Not completed'}</div>
+            </div>
+          </div>
+          <div class="pax-head-right">
+            ${!isLead ? `<button type="button" class="remove-pax" onclick="event.stopPropagation();removePax(${i})"><i data-lucide="trash-2"></i> Remove</button>` : ''}
+            <button type="button" class="chev" aria-label="Toggle" onclick="event.stopPropagation();togglePax(${i})"><i data-lucide="chevron-down"></i></button>
+          </div>
+        </div>
+        <div class="pax-body">
+
+        <!-- Each pax owns its own passport upload (independent of other pax) -->
+        <div class="pax-passport-card">
+          <div class="pax-passport-head">
+            <div class="title"><i data-lucide="upload-cloud"></i> Upload your passport</div>
+            <span class="ocr-pill">Auto-fill</span>
+          </div>
+          <p class="hint">Drop your passport bio-page and we'll read the details — your traveller form below pre-fills automatically. Saves about 2 minutes of typing.</p>
+          <div id="paxPassportSlot-${i}">${renderPassportZoneHTML(i)}</div>
+        </div>
+
+        <div class="pax-section-head"><i data-lucide="user"></i> ${withVisa ? 'Applicant details' : 'Traveller details'}</div>
+        <div class="form-grid">
+          <div class="field">
+            <label>First name <span class="req">*</span></label>
+            <div class="title-row">
+              <select class="pax-title" data-i="${i}">
+                <option value="">Title</option>
+                ${['Mr','Mrs','Miss','Ms','Dr','Mx'].map(t => `<option>${t}</option>`).join('')}
+              </select>
+              <input type="text" class="pax-first" data-i="${i}" autocomplete="given-name" placeholder="First name">
+            </div>
+            <span class="err">First name is required</span>
+          </div>
+          <div class="field">
+            <label>Last name <span class="req">*</span></label>
+            <input type="text" class="pax-last" data-i="${i}" autocomplete="family-name" placeholder="Last name">
+            <span class="err">Last name is required</span>
+          </div>
+          <div class="field">
+            <label>Middle name</label>
+            <input type="text" class="pax-middle" data-i="${i}" placeholder="Enter middle name">
+          </div>
+          <div class="field">
+            <label>Phone number <span class="req">*</span></label>
+            <div class="phone-row">
+              <input type="text" class="pax-phonecc" data-i="${i}" placeholder="+234" inputmode="tel" autocomplete="tel-country-code">
+              <input type="tel" class="pax-phone" data-i="${i}" inputmode="tel" autocomplete="tel-national" placeholder="Enter Phone number">
+            </div>
+            <span class="err">Phone number is required</span>
+          </div>
+          <div class="field">
+            <label>Email address <span class="req">*</span></label>
+            <input type="email" class="pax-email" data-i="${i}" inputmode="email" autocomplete="email" placeholder="Enter email address">
+            <span class="err">Valid email is required</span>
+          </div>
+          ${withVisa ? `
+          <div class="field">
+            <label>Applying from <span class="req">*</span></label>
+            <select class="pax-applying" data-i="${i}">
+              <option value="">-Select-</option>
+              ${['Nigeria','Saudi Arabia','United Kingdom','United States','UAE','South Africa','Ghana','Kenya','Egypt','India','Pakistan','Indonesia','Malaysia','Other'].map(c => `<option>${c}</option>`).join('')}
+            </select>
+            <span class="err">Select where you're applying from</span>
+          </div>
+          ` : ''}
+          <div class="field">
+            <label>Date of birth <span class="req">*</span></label>
+            <input type="date" class="pax-dob" data-i="${i}" autocomplete="bday">
+            <span class="err">Select a valid date of birth</span>
+          </div>
+          <div class="field">
+            <label>Gender <span class="req">*</span></label>
+            <select class="pax-gender" data-i="${i}">
+              <option value="">-Select-</option>
+              <option>Male</option>
+              <option>Female</option>
+            </select>
+            <span class="err">Select a gender</span>
+          </div>
+          ${withVisa ? `
+          <div class="field">
+            <label>Marital status <span class="req">*</span></label>
+            <select class="pax-marital" data-i="${i}">
+              <option value="">-Select-</option>
+              ${['Single','Married','Divorced','Widowed'].map(o => `<option>${o}</option>`).join('')}
+            </select>
+            <span class="err">Select marital status</span>
+          </div>
+          ` : ''}
+          <div class="field">
+            <label>Nationality <span class="req">*</span></label>
+            <select class="pax-nat" data-i="${i}">
+              <option value="">-Select-</option>
+              ${['Nigeria','Ghana','United Kingdom','United States','UAE','South Africa','Kenya','Egypt','India','Pakistan','Indonesia','Malaysia','Other'].map(c => `<option>${c}</option>`).join('')}
+            </select>
+            <span class="err">Select a nationality</span>
+          </div>
+          ${withVisa ? `
+          <div class="field">
+            <label>Birth country <span class="req">*</span></label>
+            <select class="pax-birthcountry" data-i="${i}">
+              <option value="">-Select-</option>
+              ${['Nigeria','Ghana','United Kingdom','United States','UAE','South Africa','Kenya','Egypt','India','Pakistan','Indonesia','Malaysia','Other'].map(c => `<option>${c}</option>`).join('')}
+            </select>
+            <span class="err">Select birth country</span>
+          </div>
+          ` : ''}
+        </div>
+
+        <div class="pax-section-head"><i data-lucide="book-open"></i> Passport details</div>
+        <div class="form-grid">
+          <div class="field">
+            <label>Passport number <span class="req">*</span></label>
+            <input type="text" class="pax-passport" data-i="${i}" placeholder="A12345678" autocapitalize="characters" spellcheck="false" maxlength="20">
+            <span class="err">Passport number is required</span>
+          </div>
+          ${withVisa ? `
+          <div class="field">
+            <label>Passport issuing country <span class="req">*</span></label>
+            <select class="pax-issuec" data-i="${i}">
+              <option value="">-Select-</option>
+              ${['Nigeria','Saudi Arabia','United Kingdom','United States','UAE','Ghana','Kenya','South Africa','Egypt','Other'].map(c => `<option>${c}</option>`).join('')}
+            </select>
+            <span class="err">Select issuing country</span>
+          </div>
+          <div class="field">
+            <label>Passport issue date <span class="req">*</span></label>
+            <input type="date" class="pax-issued" data-i="${i}">
+            <span class="err">Select issue date</span>
+          </div>
+          ` : ''}
+          <div class="field">
+            <label>Passport expiry <span class="req">*</span></label>
+            <input type="date" class="pax-exp" data-i="${i}">
+            <span class="hint">Must be valid for ≥6 months after travel.</span>
+            <span class="err">Select an expiry date</span>
+          </div>
+          ${withVisa ? `
+          <div class="field">
+            <label>Passport type <span class="req">*</span></label>
+            <select class="pax-ptype" data-i="${i}">
+              <option value="">-Select-</option>
+              ${['Regular','Diplomatic','Service','Official','Emergency'].map(t => `<option>${t}</option>`).join('')}
+            </select>
+            <span class="err">Select passport type</span>
+          </div>
+          ` : ''}
+        </div>
+
+        </div><!-- /pax-body -->
+      </div>
+    `);
+  }
+  const addBtn = `<button class="add-pax" type="button" onclick="addPax()"><i data-lucide="user-plus"></i> Add Passenger</button>`;
+  list.innerHTML = blocks.join('') + addBtn;
+  lucide.createIcons();
+  // Wire each pax's passport drop-zone (drag-drop + tap) — independent per pax
+  for (let i = 0; i < q; i++) wirePassportZone(i);
+  // Update header status text on every input change
+  document.querySelectorAll('#paxList input, #paxList select').forEach(el => {
+    el.addEventListener('input', refreshPaxStatus);
+    el.addEventListener('change', refreshPaxStatus);
+  });
+}
+
+function setQty(delta){
+  // Backwards compat — preserves any external caller. Prefer addPax/removePax.
+  if (delta > 0) addPax();
+  else if (delta < 0){
+    const q = (UmrahPortal.load().cart.quantity) || 1;
+    if (q > 1) removePax(q - 1, true /* skip confirm */);
+  }
+}
+
+// ─── Per-pax data cache (in memory only — not persisted) ──────────────────
+// Maintains form values + uploaded passport file across re-renders triggered
+// by Add/Remove. Without this, snapshotting would lose all unsaved input.
+let _paxCache = [];
+
+function snapshotPax(){
+  const q = (UmrahPortal.load().cart.quantity) || 1;
+  const arr = [];
+  const fields = ['title','first','last','middle','phonecc','phone','email',
+    'applying','dob','gender','marital','nat','birthcountry',
+    'passport','issuec','issued','exp','ptype'];
+  for (let i = 0; i < q; i++){
+    const obj = {};
+    fields.forEach(k => {
+      const el = document.querySelector(`.pax-${k}[data-i="${i}"]`);
+      obj[k] = el ? el.value : '';
+    });
+    obj.file = (_paxCache[i] && _paxCache[i].file) || null;
+    obj.expanded = !document.getElementById('paxBlock-' + i)?.classList.contains('collapsed');
+    arr.push(obj);
+  }
+  return arr;
+}
+
+function applyPax(arr){
+  const fields = ['title','first','last','middle','phonecc','phone','email',
+    'applying','dob','gender','marital','nat','birthcountry',
+    'passport','issuec','issued','exp','ptype'];
+  arr.forEach((p, i) => {
+    fields.forEach(k => {
+      if (p[k] === undefined || p[k] === null || p[k] === '') return;
+      const el = document.querySelector(`.pax-${k}[data-i="${i}"]`);
+      if (el) el.value = p[k];
+    });
+    if (p.file) showPassportPreview(i, p.file);
+  });
+  _paxCache = arr.map(p => ({ file: p.file || null }));
+  refreshPaxStatus();
+}
+
+// ─── Accordion ────────────────────────────────────────────────────────────
+function togglePax(i, e){
+  if (e && e.target && e.target.closest('.remove-pax, .chev, button')) {
+    // Clicks on chev / remove already handled by their own onclick. The chev
+    // ALSO calls togglePax — that explicit call should still work, so this
+    // guard only blocks bubbling from the head clicks themselves.
+    if (!e.currentTarget || !e.currentTarget.classList.contains('pax-head')) return;
+  }
+  const target = document.getElementById('paxBlock-' + i);
+  if (!target) return;
+  const isCollapsed = target.classList.contains('collapsed');
+  // Strict accordion (mobile-friendly): collapse all others when expanding one
+  if (isCollapsed){
+    document.querySelectorAll('.pax-block').forEach(b => b.classList.add('collapsed'));
+    target.classList.remove('collapsed');
+  } else {
+    target.classList.add('collapsed');
+  }
+  refreshPaxStatus();
+}
+
+function refreshPaxStatus(){
+  document.querySelectorAll('.pax-block').forEach(block => {
+    const i = parseInt(block.dataset.i, 10);
+    const status = block.querySelector('.pax-status');
+    if (!status) return;
+    if (i === 0){
+      status.textContent = 'Lead traveller · receives all updates';
+      status.classList.remove('ready');
+      return;
+    }
+    const first = (block.querySelector('.pax-first') || {}).value;
+    const last = (block.querySelector('.pax-last') || {}).value;
+    const passport = (block.querySelector('.pax-passport') || {}).value;
+    const ready = first && last && passport;
+    status.textContent = ready ? 'Ready' : 'Not completed';
+    status.classList.toggle('ready', !!ready);
+  });
+}
+
+// ─── Add / Remove ─────────────────────────────────────────────────────────
+function addPax(){
+  const s = UmrahPortal.load();
+  const q = s.cart.quantity || 1;
+  if (q >= 10) return;
+  const arr = snapshotPax();
+  arr.push({});
+  s.cart.quantity = q + 1;
+  UmrahPortal.save(s);
+  renderCheckout();
+  applyPax(arr);
+  // Auto-expand the newly added pax (last index)
+  document.querySelectorAll('.pax-block').forEach(b => b.classList.add('collapsed'));
+  const last = document.getElementById('paxBlock-' + (arr.length - 1));
+  if (last){
+    last.classList.remove('collapsed');
+    last.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }
+  refreshPaxStatus();
+}
+
+function removePax(i, skipConfirm){
+  if (i === 0) return;
+  if (skipConfirm){ _doRemovePax(i); return; }
+  // Custom confirmation modal — replaces native confirm() so the experience
+  // matches the Wakanow design system (branded, themed, accessible).
+  showConfirm({
+    title: `Remove Passenger ${i + 1}?`,
+    body: 'Their details will be cleared and your total cost will update. You can add them back later.',
+    confirmLabel: 'Remove passenger',
+    onConfirm: () => _doRemovePax(i)
+  });
+}
+
+function _doRemovePax(i){
+  const arr = snapshotPax();
+  arr.splice(i, 1);
+  const s = UmrahPortal.load();
+  s.cart.quantity = Math.max(1, (s.cart.quantity || 1) - 1);
+  UmrahPortal.save(s);
+  renderCheckout();
+  applyPax(arr);
+  // After remove, expand pax 0 by default (clean re-orient)
+  document.querySelectorAll('.pax-block').forEach(b => b.classList.add('collapsed'));
+  const first = document.getElementById('paxBlock-0');
+  if (first) first.classList.remove('collapsed');
+  refreshPaxStatus();
+}
+
+// ─── Confirm modal ────────────────────────────────────────────────────────
+function showConfirm({ title, body, confirmLabel, onConfirm }){
+  const modal = document.getElementById('confirmModal');
+  if (!modal) return;
+  document.getElementById('confirmTitle').textContent = title || 'Are you sure?';
+  document.getElementById('confirmBody').textContent  = body  || '';
+  const btn = document.getElementById('confirmOk');
+  btn.textContent = confirmLabel || 'Confirm';
+  btn.onclick = () => { closeConfirm(); onConfirm && onConfirm(); };
+  modal.classList.add('open');
+  if (typeof lucide !== 'undefined') lucide.createIcons();
+}
+function closeConfirm(){
+  const modal = document.getElementById('confirmModal');
+  if (modal) modal.classList.remove('open');
+}
+
+// ─── Mock OCR profiles ────────────────────────────────────────────────────
+// Prototype-only stand-in for real passport-MRZ parsing. Each pax index gets
+// a distinct realistic identity so the auto-fill feedback is visible per-card
+// and pax cards never collide on identical data.
+const _MOCK_PASSPORTS = [
+  { title:'Mr',   first:'Adebayo',   middle:'Chinedu',  last:'Okonkwo',  dob:'1985-04-12', gender:'Male',   nat:'Nigeria', birthcountry:'Nigeria', marital:'Married', applying:'Nigeria', passport:'A09876543', issuec:'Nigeria', issued:'2020-08-15', exp:'2030-08-14', ptype:'Regular' },
+  { title:'Mrs',  first:'Aisha',     middle:'Yemisi',   last:'Bello',    dob:'1988-09-23', gender:'Female', nat:'Nigeria', birthcountry:'Nigeria', marital:'Married', applying:'Nigeria', passport:'A07412589', issuec:'Nigeria', issued:'2021-03-04', exp:'2031-03-03', ptype:'Regular' },
+  { title:'Mr',   first:'Yusuf',     middle:'Ibrahim',  last:'Musa',     dob:'1979-11-30', gender:'Male',   nat:'Nigeria', birthcountry:'Nigeria', marital:'Married', applying:'Nigeria', passport:'A05236981', issuec:'Nigeria', issued:'2019-06-21', exp:'2029-06-20', ptype:'Regular' },
+  { title:'Miss', first:'Halima',    middle:'Sade',     last:'Adeyemi',  dob:'2002-02-17', gender:'Female', nat:'Nigeria', birthcountry:'Nigeria', marital:'Single',  applying:'Nigeria', passport:'A08125476', issuec:'Nigeria', issued:'2022-01-12', exp:'2032-01-11', ptype:'Regular' },
+  { title:'Mr',   first:'Ibrahim',   middle:'Tunde',    last:'Sanni',    dob:'1992-07-08', gender:'Male',   nat:'Nigeria', birthcountry:'Nigeria', marital:'Single',  applying:'Nigeria', passport:'A09634127', issuec:'Nigeria', issued:'2023-05-19', exp:'2033-05-18', ptype:'Regular' },
+  { title:'Mrs',  first:'Fatima',    middle:'Aminat',   last:'Olawale',  dob:'1983-12-05', gender:'Female', nat:'Nigeria', birthcountry:'Nigeria', marital:'Married', applying:'Nigeria', passport:'A07398512', issuec:'Nigeria', issued:'2020-10-30', exp:'2030-10-29', ptype:'Regular' },
+  { title:'Mr',   first:'Olumide',   middle:'Babatunde',last:'Akinwale', dob:'1976-05-21', gender:'Male',   nat:'Nigeria', birthcountry:'Nigeria', marital:'Married', applying:'Nigeria', passport:'A06824519', issuec:'Nigeria', issued:'2018-09-14', exp:'2028-09-13', ptype:'Regular' },
+  { title:'Miss', first:'Zainab',    middle:'Ngozi',    last:'Eze',      dob:'1995-08-19', gender:'Female', nat:'Nigeria', birthcountry:'Nigeria', marital:'Single',  applying:'Nigeria', passport:'A08571236', issuec:'Nigeria', issued:'2021-11-08', exp:'2031-11-07', ptype:'Regular' }
+];
+
+function autoFillPaxFromPassport(i){
+  const profile = _MOCK_PASSPORTS[i % _MOCK_PASSPORTS.length];
+  if (!profile) return;
+  Object.entries(profile).forEach(([k, v]) => {
+    const node = document.querySelector(`.pax-${k}[data-i="${i}"]`);
+    if (node && !node.value) node.value = v;
+  });
+  // Mirror into the in-memory cache so the populated values survive re-renders
+  _paxCache[i] = _paxCache[i] || {};
+  Object.entries(profile).forEach(([k, v]) => {
+    if (!_paxCache[i][k]) _paxCache[i][k] = v;
+  });
+}
+
+// ─── Per-pax passport upload (drag-drop + tap) ─────────────────────────────
+function renderPassportZoneHTML(i){
+  return `
+    <div class="pax-passport-zone" id="paxPassportZone-${i}">
+      <i data-lucide="upload-cloud"></i>
+      <div class="t">Drop passport bio-page or tap to upload</div>
+      <div class="s">JPG, PNG, PDF · Max 5MB</div>
+      <input type="file" id="paxPassportFile-${i}" accept="image/jpeg,image/png,image/jpg,application/pdf">
+    </div>
+  `;
+}
+
+function wirePassportZone(i){
+  const zone = document.getElementById('paxPassportZone-' + i);
+  const input = document.getElementById('paxPassportFile-' + i);
+  if (!zone || !input) return;
+  zone.addEventListener('click', (e) => {
+    // Don't re-trigger if click came from the file input bubbling up
+    if (e.target.tagName === 'INPUT') return;
+    input.click();
+  });
+  zone.addEventListener('dragover', (e) => { e.preventDefault(); zone.classList.add('drag'); });
+  zone.addEventListener('dragleave', () => zone.classList.remove('drag'));
+  zone.addEventListener('drop', (e) => {
+    e.preventDefault();
+    zone.classList.remove('drag');
+    const f = e.dataTransfer && e.dataTransfer.files && e.dataTransfer.files[0];
+    if (f) handlePassportFile(i, f);
+  });
+  input.addEventListener('change', (e) => {
+    const f = e.target.files && e.target.files[0];
+    if (f) handlePassportFile(i, f);
+  });
+}
+
+function handlePassportFile(i, file){
+  const allowed = ['image/jpeg','image/png','image/jpg','application/pdf'];
+  if (!allowed.includes(file.type)){
+    showPassportError(i, 'Use JPG, PNG, or PDF');
+    return;
+  }
+  if (file.size > 5 * 1024 * 1024){
+    showPassportError(i, 'File too large — max 5MB');
+    return;
+  }
+  const reader = new FileReader();
+  reader.onload = (e) => {
+    const fileObj = { name: file.name, size: file.size, type: file.type, dataUrl: e.target.result };
+    _paxCache[i] = _paxCache[i] || {};
+    _paxCache[i].file = fileObj;
+    showPassportPreview(i, fileObj);
+    // Mock OCR — in production this would call a real passport-MRZ parsing API.
+    // Each pax index gets its own profile so uploads are fully independent.
+    autoFillPaxFromPassport(i);
+    refreshPaxStatus();
+  };
+  reader.readAsDataURL(file);
+}
+
+function showPassportPreview(i, file){
+  const wrap = document.getElementById('paxPassportSlot-' + i);
+  if (!wrap) return;
+  const isImage = file.type && file.type.startsWith('image/');
+  const sizeStr = (file.size / (1024 * 1024)).toFixed(2) + ' MB';
+  wrap.innerHTML = `
+    <div class="pax-passport-preview">
+      <div class="thumb">${isImage ? `<img src="${file.dataUrl}" alt="Passport preview">` : `<i data-lucide="file-text"></i>`}</div>
+      <div class="meta">
+        <div class="n">${file.name}</div>
+        <div class="s">${sizeStr} · uploaded</div>
+      </div>
+      <button type="button" class="rm" onclick="removePassport(${i})"><i data-lucide="x"></i> Remove</button>
+    </div>
+  `;
+  lucide.createIcons();
+}
+
+function showPassportError(i, msg){
+  const wrap = document.getElementById('paxPassportSlot-' + i);
+  if (!wrap) return;
+  let err = wrap.querySelector('.pax-passport-err');
+  if (!err){
+    err = document.createElement('div');
+    err.className = 'pax-passport-err';
+    wrap.appendChild(err);
+  }
+  err.textContent = msg;
+  setTimeout(() => { if (err) err.remove(); }, 3500);
+}
+
+function removePassport(i){
+  if (_paxCache[i]) _paxCache[i].file = null;
+  const wrap = document.getElementById('paxPassportSlot-' + i);
+  if (!wrap) return;
+  wrap.innerHTML = renderPassportZoneHTML(i);
+  wirePassportZone(i);
+  lucide.createIcons();
+  refreshPaxStatus();
+}
+
+function renderCost(){
+  const s = UmrahPortal.load();
+  const q = s.cart.quantity || 1;
+  const rows = [];
+  rows.push(`<div class="cost-row"><span class="l">Package base price <span class="sub">${UmrahPortal.ngn(pkg.price)} × ${q}</span></span><span class="v">${UmrahPortal.ngn(pkg.price * q)}</span></div>`);
+  if (s.cart.upgrade && pkg.upgrade){
+    rows.push(`<div class="cost-row"><span class="l">${pkg.upgrade.name} upgrade <span class="sub">${UmrahPortal.ngn(pkg.upgrade.price)} × ${q}</span></span><span class="v">${UmrahPortal.ngn(pkg.upgrade.price * q)}</span></div>`);
+  }
+  if (Array.isArray(s.cart.addOns) && s.cart.addOns.length && Array.isArray(pkg.addOns)){
+    s.cart.addOns.forEach(aId => {
+      const a = pkg.addOns.find(x => x.id === aId);
+      if (a) rows.push(`<div class="cost-row"><span class="l">${a.label}</span><span class="v">${UmrahPortal.ngn(a.price * q)}</span></div>`);
+    });
+  }
+  rows.push(`<div class="cost-divider"></div>`);
+  rows.push(`<div class="cost-row muted"><span class="l">Service fee</span><span class="v">Included</span></div>`);
+  rows.push(`<div class="cost-row muted"><span class="l">Taxes &amp; VAT</span><span class="v">Included</span></div>`);
+  document.getElementById('costRows').innerHTML = rows.join('');
+  const total = UmrahPortal.ngn(UmrahPortal.cartTotal(s, pkg));
+  document.getElementById('costTotal').textContent = total;
+  const mTotal = document.getElementById('costTotalMobile');
+  if (mTotal) mTotal.textContent = total;
+}
+
+function ensureMobilePayBar(){
+  if (document.getElementById('mobilePayBar')) return;
+  const tcAgreed = !!(UmrahPortal.load().cart || {}).tcAgreed;
+  const bar = document.createElement('div');
+  bar.id = 'mobilePayBar';
+  bar.className = 'mobile-pay-bar';
+  bar.innerHTML = `
+    <div class="total-mini">
+      <span class="l">Total</span>
+      <span class="a" id="costTotalMobile">—</span>
+    </div>
+    <button class="btn-pay-mobile" id="payBtnMobile" onclick="continueToPayment()"${tcAgreed ? '' : ' disabled'}>
+      Continue <i data-lucide="arrow-right"></i>
+    </button>
+  `;
+  document.body.appendChild(bar);
+  document.body.classList.add('has-mobile-pay-bar');
+  lucide.createIcons();
+}
+
+/* Terms & Conditions consent — gates Continue to Payment */
+function onTcChange(cb){
+  const checked = !!cb.checked;
+  const s = UmrahPortal.load();
+  s.cart.tcAgreed = checked;
+  UmrahPortal.save(s);
+  const wrap = document.getElementById('tcConsent');
+  if (wrap) wrap.classList.toggle('checked', checked);
+  const payBtn = document.getElementById('payBtn');
+  if (payBtn) payBtn.disabled = !checked;
+  const payBtnMobile = document.getElementById('payBtnMobile');
+  if (payBtnMobile) payBtnMobile.disabled = !checked;
+}
+
+function fakeUpload(){
+  const el = document.getElementById('passportUpload');
+  el.classList.add('ok');
+  el.innerHTML = '<i data-lucide="check-circle"></i><div>Passport uploaded · PACS fields pre-populated</div>';
+  lucide.createIcons();
+}
+
+/* Per-traveller passport bio-page upload (with-visa flow) — fakes auto-fill */
+function paxUpload(i){
+  const el = document.getElementById('paxUpload-' + i);
+  if (!el || el.classList.contains('ok')) return;
+  el.classList.add('ok');
+  el.innerHTML = `
+    <i data-lucide="check-circle"></i>
+    <div class="lbl">Passport uploaded — fields pre-filled. <small>You can still edit any field below.</small></div>
+    <span class="hint-pill">Re-upload</span>
+  `;
+  // Demo auto-fill — replace with real OCR result wiring later.
+  const set = (cls, v) => {
+    const node = document.querySelector(`.pax-${cls}[data-i="${i}"]`);
+    if (node && !node.value) node.value = v;
+  };
+  set('passport', 'A0' + (1234567 + i));
+  set('issuec', 'Nigeria');
+  set('ptype', 'Regular');
+  lucide.createIcons();
+}
+
+function validate(){
+  let ok = true;
+  const email = document.getElementById('email');
+  const phone = document.getElementById('phone');
+  const emailField = email.closest('.field');
+  const phoneField = phone.closest('.field');
+  emailField.classList.toggle('invalid', !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.value.trim()));
+  phoneField.classList.toggle('invalid', !/^[+]?[\d\s\-()]{8,}$/.test(phone.value.trim()));
+  if (emailField.classList.contains('invalid') || phoneField.classList.contains('invalid')) ok = false;
+
+  // Required fields per traveller. With-visa mirrors wizard step 1 + 2.
+  // Package-only drops the visa-specific fields (applying-from, marital,
+  // birth-country, passport issue country/date, passport type) — only basic
+  // identity + nationality + passport number/expiry are needed for the ticket.
+  const withVisa = pkg.type === 'with_visa';
+  const q = UmrahPortal.load().cart.quantity || 1;
+  const baseRequired = ['title','first','last','phonecc','phone','email','dob','gender','nat','passport','exp'];
+  const visaRequired = ['applying','marital','birthcountry','issuec','issued','ptype'];
+  const required = withVisa ? baseRequired.concat(visaRequired) : baseRequired;
+  for (let i = 0; i < q; i++){
+    required.forEach(k => {
+      const el = document.querySelector(`.pax-${k}[data-i="${i}"]`);
+      if (!el) return;
+      const wrapper = el.closest('.field');
+      const empty = !el.value;
+      if (wrapper) wrapper.classList.toggle('invalid', empty);
+      if (empty) ok = false;
+    });
+    // Email format
+    const emailEl = document.querySelector(`.pax-email[data-i="${i}"]`);
+    if (emailEl && emailEl.value && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailEl.value.trim())){
+      const wrapper = emailEl.closest('.field');
+      if (wrapper) wrapper.classList.add('invalid');
+      ok = false;
+    }
+  }
+  return ok;
+}
+
+function continueToPayment(){
+  // Gate on Terms & Conditions consent — required before payment
+  const tcAgreed = !!(UmrahPortal.load().cart || {}).tcAgreed;
+  if (!tcAgreed){
+    alert('Please agree to the Terms & Conditions before continuing to payment.');
+    const wrap = document.getElementById('tcConsent');
+    if (wrap){
+      wrap.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      const cb = document.getElementById('tcAgree');
+      if (cb) cb.focus({ preventScroll: true });
+    }
+    return;
+  }
+  if (!validate()){
+    // Expand any collapsed pax block that contains invalid fields, otherwise
+    // the error styling is hidden inside a closed accordion and the user can't
+    // see what to fix.
+    document.querySelectorAll('.pax-block').forEach(block => {
+      if (block.querySelector('.field.invalid')) block.classList.remove('collapsed');
+    });
+    refreshPaxStatus();
+    const firstInvalid = document.querySelector('.field.invalid');
+    if (firstInvalid){
+      firstInvalid.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      const focusable = firstInvalid.querySelector('input, select, textarea');
+      if (focusable) focusable.focus({ preventScroll: true });
+    }
+    return;
+  }
+  const s = UmrahPortal.load();
+  const q = s.cart.quantity || 1;
+  s.cart.contact = {
+    email: document.getElementById('email').value.trim(),
+    phone: document.getElementById('phone').value.trim()
+  };
+  const v = (k, i) => {
+    const el = document.querySelector(`.pax-${k}[data-i="${i}"]`);
+    return el ? el.value.trim() : '';
+  };
+  s.cart.passengers = [];
+  for (let i = 0; i < q; i++){
+    s.cart.passengers.push({
+      // Applicant details — match wizard step 1
+      title:        v('title', i),
+      firstName:    v('first', i),
+      lastName:     v('last', i),
+      middleName:   v('middle', i),
+      mobileCC:     v('phonecc', i),
+      mobile:       v('phone', i),
+      email:        v('email', i),
+      applyingFrom: v('applying', i),
+      dob:          v('dob', i),
+      gender:       v('gender', i),
+      marital:      v('marital', i),
+      nationality:  v('nat', i),
+      birthCountry: v('birthcountry', i),
+      // Passport details — match wizard step 2
+      passport:      v('passport', i),
+      issueCountry:  v('issuec', i),
+      issueDate:     v('issued', i),
+      expiry:        v('exp', i),
+      passportType:  v('ptype', i)
+    });
+  }
+  UmrahPortal.save(s);
+  location.href = 'umrah-pay.html?id=' + encodeURIComponent(pkg.id);
+}
+</script>
+
+<!-- Confirmation modal (replaces native confirm() for branded UX) -->
+<div class="confirm-modal" id="confirmModal" role="dialog" aria-modal="true" aria-labelledby="confirmTitle">
+  <div class="confirm-card">
+    <div class="icon"><i data-lucide="alert-triangle"></i></div>
+    <h4 id="confirmTitle">Are you sure?</h4>
+    <p id="confirmBody"></p>
+    <div class="confirm-actions">
+      <button class="cancel" type="button" onclick="closeConfirm()">Cancel</button>
+      <button class="confirm" id="confirmOk" type="button">Confirm</button>
+    </div>
+  </div>
+</div>
+</body>
+</html>

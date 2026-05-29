@@ -1,0 +1,1125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pre-Qualification — Wakanow Umrah</title>
+<link href="https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Rubik',system-ui,sans-serif;font-size:16px;color:#1E3138;line-height:1.55;background:#F5F7FA;min-height:100vh;display:flex;flex-direction:column}
+h1,h2,h3{font-family:'Rubik',system-ui,sans-serif;font-weight:700;line-height:1.25}
+button{cursor:pointer;font-family:inherit;border:none;background:none;color:inherit}
+a{text-decoration:none;color:inherit}
+
+:root{
+  --primary:#08A5E3; --primary-dark:#0789BF; --primary-light:#E8F6FD;
+  --navy:#0F2A33;
+  --orange:#F58220; --orange-dark:#E07318;
+  --green:#27AE60; --green-light:#E7F8EF;
+  --red:#DC2626; --red-light:#FEF2F2;
+  --amber:#B45309; --amber-light:#FEF3C7;
+  --gray-100:#F2F3F5; --gray-200:#E5E7EB; --gray-300:#D1D5DB; --gray-400:#9CA3AF; --gray-500:#6B7280; --gray-600:#4B5563;
+  --radius:10px; --radius-lg:14px;
+  --shadow-sm:0 1px 3px rgba(0,0,0,.06);
+  --shadow-md:0 4px 20px rgba(0,0,0,.08);
+  --ease:.22s cubic-bezier(.4,0,.2,1);
+}
+
+.site-header{background:#fff;padding:14px 40px;display:flex;align-items:center;gap:20px;box-shadow:0 1px 0 rgba(15,42,51,.06)}
+.site-header .logo{height:32px}
+.site-header .manage-app-link{margin-left:auto;font-size:13px;color:var(--navy);font-weight:600;display:inline-flex;align-items:center;gap:6px;padding:8px 14px;border-radius:8px;transition:.18s;cursor:pointer}
+.site-header .manage-app-link:hover{background:#F2F3F5;color:var(--primary-dark)}
+.site-header .manage-app-link i{width:14px;height:14px}
+@media(max-width:720px){ .site-header .manage-app-link{font-size:12.5px;padding:7px 10px} .site-header .manage-app-link span{display:none} }
+
+/* Step header */
+.step-header{background:var(--navy);color:#fff;padding:16px 40px;display:flex;align-items:center;gap:24px;flex-wrap:wrap}
+.step-header .title{font-size:16px;font-weight:700}
+.steps{margin-left:auto;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.step{display:inline-flex;align-items:center;gap:8px;color:rgba(255,255,255,.55);font-size:13px;white-space:nowrap}
+.step-num{width:22px;height:22px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;background:rgba(255,255,255,.18)}
+.step.done .step-num{background:#fff;color:var(--navy)}
+.step.on{color:#fff}
+.step.on .step-num{background:var(--primary);color:#fff}
+.step-dash{color:rgba(255,255,255,.25);letter-spacing:2px}
+@media(max-width:720px){ .step-header{padding:14px 20px} .steps{display:none} .site-header{padding:12px 20px} }
+
+.shell{max-width:640px;margin:32px auto;padding:0 20px;flex:1;width:100%}
+
+/* Pax progress (multi-pax sequential) */
+.pax-bar{background:linear-gradient(135deg,var(--primary-light) 0%, #fff 100%);border:1px solid #D7EFFB;border-radius:var(--radius-lg);padding:14px 18px;box-shadow:var(--shadow-sm);margin-bottom:18px;display:flex;align-items:center;gap:14px;font-size:13.5px}
+.pax-bar .who{font-weight:500;color:var(--navy);min-width:0;flex:1}
+.pax-bar .who strong{font-weight:700;color:var(--primary-dark);margin-right:4px}
+.pax-bar .who small{display:block;font-weight:500;color:var(--gray-500);font-size:11.5px;margin-top:3px}
+.pax-bar .of{margin-left:auto;color:var(--primary-dark);font-size:12px;font-weight:700;background:#fff;padding:5px 12px;border-radius:99px;border:1px solid #C7E5F8;font-variant-numeric:tabular-nums;white-space:nowrap;flex-shrink:0}
+.pax-bar .ico{width:38px;height:38px;border-radius:10px;background:var(--primary);color:#fff;display:inline-flex;align-items:center;justify-content:center;flex-shrink:0}
+.pax-bar .ico i{width:20px;height:20px}
+@media(max-width:520px){
+  .pax-bar{padding:12px 14px;gap:10px;font-size:13px}
+  .pax-bar .ico{width:34px;height:34px}
+  .pax-bar .of{padding:4px 10px;font-size:11.5px}
+}
+
+.card{background:#fff;border-radius:var(--radius-lg);padding:36px 32px;box-shadow:var(--shadow-sm)}
+@media(max-width:600px){ .card{padding:28px 22px} }
+.card.center{text-align:center}
+
+.icon-wrap{width:72px;height:72px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;margin:0 auto 18px}
+.icon-wrap.success{background:var(--green-light);color:var(--green)}
+.icon-wrap.primary{background:var(--primary-light);color:var(--primary)}
+.icon-wrap.warning{background:var(--amber-light);color:var(--amber)}
+.icon-wrap.danger{background:var(--red-light);color:var(--red)}
+.icon-wrap i{width:34px;height:34px}
+
+.card h1{font-size:22px;color:var(--navy);margin-bottom:10px}
+.card .lede{font-size:13.5px;color:var(--gray-600);margin-bottom:22px;max-width:520px;margin-left:auto;margin-right:auto;line-height:1.6}
+.card.center .lede{text-align:center}
+
+/* Group success roster */
+.roster{text-align:left;background:var(--gray-100);border-radius:10px;padding:14px 18px;max-width:480px;margin:0 auto 22px}
+.roster-head{font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--gray-500);margin-bottom:10px}
+.roster-item{display:flex;align-items:center;gap:10px;padding:6px 0;font-size:13.5px;color:var(--navy);font-weight:500}
+.roster-item i{width:16px;height:16px;color:var(--green);flex-shrink:0}
+.roster-item .nat{margin-left:auto;font-size:11.5px;color:var(--gray-500);font-weight:500}
+
+.actions{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:8px}
+.btn{padding:13px 24px;border-radius:10px;font-size:13.5px;font-weight:600;transition:var(--ease);display:inline-flex;align-items:center;gap:8px;border:none;cursor:pointer}
+.btn i{width:14px;height:14px}
+.btn-primary{background:var(--orange);color:#fff}
+.btn-primary:hover{background:var(--orange-dark);box-shadow:0 6px 16px rgba(245,130,32,.28)}
+.btn-primary:disabled{background:#E5C6AA;cursor:not-allowed;box-shadow:none}
+.btn-ghost{background:var(--gray-100);color:var(--navy)}
+.btn-ghost:hover{background:var(--gray-200)}
+.btn-link{font-size:12.5px;color:var(--primary-dark);font-weight:600;text-decoration:underline;background:none;padding:8px 4px}
+.btn-link:hover{color:var(--primary)}
+
+/* Tier 2 question — full-width tappable cards (legacy single-column variant) */
+.choice-stack{display:flex;flex-direction:column;gap:12px;margin:8px 0 22px}
+.choice{display:flex;align-items:center;gap:14px;padding:18px 20px;border:1.5px solid var(--gray-200);border-radius:12px;background:#fff;cursor:pointer;transition:var(--ease);text-align:left;width:100%;font-family:inherit;color:inherit}
+.choice:hover{border-color:var(--primary);background:var(--primary-light);transform:translateY(-1px);box-shadow:0 6px 18px rgba(8,165,227,.14)}
+.choice .ic{width:40px;height:40px;border-radius:10px;background:var(--primary-light);color:var(--primary-dark);display:inline-flex;align-items:center;justify-content:center;flex-shrink:0}
+.choice .ic i{width:20px;height:20px}
+.choice .body{flex:1}
+.choice .body .t{font-size:14.5px;font-weight:700;color:var(--navy);line-height:1.3}
+.choice .body .s{font-size:12.5px;color:var(--gray-600);margin-top:3px}
+.choice .arrow{color:var(--gray-400);flex-shrink:0;transition:var(--ease)}
+.choice:hover .arrow{color:var(--primary);transform:translateX(3px)}
+.choice .arrow i{width:18px;height:18px}
+
+/* Tier 2 strengthener — two-up card selector (visa OR PR) */
+.strengthener-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:8px 0 18px}
+.strengthener-card{position:relative;display:flex;flex-direction:column;gap:10px;padding:22px 20px 20px;border:1.5px solid var(--gray-200);border-radius:14px;background:#fff;cursor:pointer;transition:var(--ease);text-align:left;font-family:inherit;color:inherit;width:100%}
+.strengthener-card:hover{border-color:var(--primary);background:var(--primary-light);transform:translateY(-1px);box-shadow:0 6px 18px rgba(8,165,227,.14)}
+.strengthener-card:focus-visible{outline:2px solid var(--primary);outline-offset:3px}
+.strengthener-card .ic{width:44px;height:44px;border-radius:12px;background:var(--primary-light);color:var(--primary-dark);display:inline-flex;align-items:center;justify-content:center;flex-shrink:0}
+.strengthener-card .ic i{width:22px;height:22px}
+.strengthener-card .t{font-size:15px;font-weight:700;color:var(--navy);line-height:1.3}
+.strengthener-card .s{font-size:12.5px;color:var(--gray-600);line-height:1.5}
+.strengthener-card .check{position:absolute;top:14px;right:14px;width:22px;height:22px;border-radius:50%;background:#fff;border:1.5px solid var(--gray-200);display:inline-flex;align-items:center;justify-content:center;color:#fff;transition:var(--ease)}
+.strengthener-card .check i{width:13px;height:13px;opacity:0;transition:var(--ease)}
+.strengthener-card.selected{border-color:var(--primary);background:var(--primary-light);box-shadow:0 6px 18px rgba(8,165,227,.16)}
+.strengthener-card.selected .check{background:var(--primary);border-color:var(--primary)}
+.strengthener-card.selected .check i{opacity:1}
+.strengthener-card.selected .ic{background:#fff;color:var(--primary)}
+
+/* PR / visa informational note */
+.pr-note{display:flex;align-items:flex-start;gap:10px;padding:12px 14px;background:var(--primary-light);border:1px solid #C7E9F7;border-radius:10px;margin-bottom:14px}
+.pr-note i{width:18px;height:18px;color:var(--primary-dark);flex-shrink:0;margin-top:1px}
+.pr-note .txt{font-size:12.5px;color:var(--navy);line-height:1.55}
+.pr-note .txt strong{color:var(--primary-dark);font-weight:700}
+
+/* Inline type toggle on upload page (PR ↔ Visa) */
+.type-toggle{display:grid;grid-template-columns:1fr 1fr;gap:6px;background:var(--gray-100);border:1px solid var(--gray-200);border-radius:12px;padding:5px;margin:6px 0 18px}
+.type-toggle button{padding:10px 14px;border-radius:9px;background:transparent;border:none;font-family:inherit;font-size:13px;font-weight:600;color:var(--gray-600);cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:6px;transition:var(--ease);width:100%}
+.type-toggle button i{width:15px;height:15px}
+.type-toggle button:hover{color:var(--primary-dark)}
+.type-toggle button.active{background:#fff;color:var(--primary-dark);box-shadow:0 1px 4px rgba(14,45,92,.08)}
+.type-toggle button.active i{color:var(--primary)}
+@media(max-width:520px){
+  .type-toggle button{font-size:12.5px;padding:9px 10px}
+}
+
+@media(max-width:640px){
+  .strengthener-grid{grid-template-columns:1fr;gap:10px;margin-bottom:14px}
+  .strengthener-card{padding:18px 16px}
+  .actions{flex-direction:column-reverse;gap:10px}
+  .actions .btn{width:100%;justify-content:center}
+}
+
+/* Upload slots */
+.upload-slot{border:1.5px dashed var(--gray-300);border-radius:12px;padding:18px;background:#fff;transition:var(--ease);position:relative;margin-bottom:14px}
+.upload-slot.empty{cursor:pointer}
+.upload-slot.empty:hover{border-color:var(--primary);background:var(--primary-light)}
+.upload-slot.uploading{border-color:var(--primary);border-style:solid;background:#fff}
+.upload-slot.verified{border-color:var(--green);border-style:solid;background:var(--green-light)}
+.upload-slot.failed{border-color:var(--red);border-style:solid;background:var(--red-light)}
+
+.slot-header{display:flex;align-items:center;gap:12px;margin-bottom:8px}
+.slot-header .label{flex:1}
+.slot-header .label .t{font-size:13.5px;color:var(--navy);font-weight:700;display:flex;align-items:center;gap:6px}
+.slot-header .label .s{font-size:11.5px;color:var(--gray-500);margin-top:2px;font-weight:500}
+.slot-header .pill{font-size:10px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;padding:3px 8px;border-radius:99px;background:var(--gray-100);color:var(--gray-600)}
+.slot-header .pill.req{background:#FEE2E2;color:var(--red)}
+.slot-header .pill.opt{background:var(--gray-100);color:var(--gray-500)}
+
+.slot-body{padding-top:6px}
+.slot-empty-cta{display:flex;align-items:center;gap:10px;font-size:12.5px;color:var(--primary-dark);font-weight:600;padding:6px 0}
+.slot-empty-cta i{width:16px;height:16px}
+
+.slot-file{display:flex;align-items:center;gap:12px;padding:10px 12px;background:#fff;border-radius:10px;border:1px solid var(--gray-200)}
+.slot-file .file-ico{width:32px;height:32px;border-radius:8px;background:var(--primary-light);color:var(--primary);display:inline-flex;align-items:center;justify-content:center;flex-shrink:0}
+.slot-file .file-ico i{width:16px;height:16px}
+.slot-file .file-name{flex:1;font-size:12.5px;color:var(--navy);font-weight:600;word-break:break-all;line-height:1.3}
+.slot-file .file-name small{display:block;font-size:11px;color:var(--gray-500);margin-top:2px;font-weight:500}
+.slot-file .file-status{flex-shrink:0;display:inline-flex;align-items:center;gap:4px;font-size:11.5px;font-weight:600;padding:3px 8px;border-radius:99px}
+.slot-file .file-status.verifying{background:var(--primary-light);color:var(--primary-dark)}
+.slot-file .file-status.verified{background:var(--green-light);color:var(--green)}
+.slot-file .file-status.failed{background:#FEE2E2;color:var(--red)}
+.slot-file .file-status i{width:11px;height:11px}
+.slot-file .remove{width:28px;height:28px;border-radius:50%;background:transparent;color:var(--gray-500);display:inline-flex;align-items:center;justify-content:center;flex-shrink:0;cursor:pointer;border:none;transition:var(--ease)}
+.slot-file .remove:hover{background:#FEE2E2;color:var(--red)}
+.slot-file .remove i{width:14px;height:14px}
+
+.slot-error{display:flex;align-items:flex-start;gap:8px;font-size:12px;color:var(--red);font-weight:500;padding:10px 12px;margin-top:8px;background:#FEE2E2;border-radius:8px;line-height:1.5}
+.slot-error i{width:14px;height:14px;flex-shrink:0;margin-top:2px}
+/* Non-blocking heads-up under a verified upload (e.g. payslip cross-checks) */
+.slot-warning{display:flex;align-items:flex-start;gap:8px;font-size:12px;color:#92400E;font-weight:500;padding:10px 12px;margin-top:8px;background:#FEF3C7;border:1px solid #FDE68A;border-radius:8px;line-height:1.5}
+.slot-warning + .slot-warning{margin-top:6px}
+.slot-warning i{width:14px;height:14px;flex-shrink:0;margin-top:2px;color:#B45309}
+
+.format-hint{font-size:11px;color:var(--gray-500);margin-top:6px}
+
+/* "Other" doc text input */
+.other-desc{margin-top:8px}
+.other-desc input{width:100%;padding:9px 12px;border:1px solid var(--gray-200);border-radius:8px;font-family:inherit;font-size:12.5px;background:#fff}
+.other-desc input:focus{outline:none;border-color:var(--primary)}
+
+/* Verifying spinner inline */
+.verify-msg{display:flex;align-items:center;justify-content:center;gap:10px;padding:14px;color:var(--gray-600);font-size:13px;font-weight:500}
+.verify-msg .spin{width:18px;height:18px;border:2px solid var(--gray-200);border-top-color:var(--primary);border-radius:50%;animation:spin .8s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* Section sub-head inside cards */
+.sub-head{font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--gray-500);margin:18px 0 10px}
+
+/* Tier 3 progress bar */
+.minreq{font-size:12px;color:var(--gray-600);background:var(--gray-100);border-radius:8px;padding:10px 14px;margin-bottom:16px;display:flex;align-items:center;gap:8px}
+.minreq.met{background:var(--green-light);color:#1F6E3D}
+.minreq i{width:14px;height:14px;flex-shrink:0}
+
+/* Support card */
+.support-card{display:flex;flex-direction:column;gap:10px;margin:18px 0;padding:16px;background:var(--gray-100);border-radius:12px}
+.support-row{display:flex;align-items:center;gap:12px;padding:10px 12px;background:#fff;border-radius:10px;border:1px solid var(--gray-200);transition:var(--ease);cursor:pointer;text-decoration:none;color:inherit}
+.support-row:hover{border-color:var(--primary);transform:translateX(2px)}
+.support-row .ic{width:40px;height:40px;border-radius:10px;display:inline-flex;align-items:center;justify-content:center;flex-shrink:0}
+.support-row.email .ic{background:var(--primary-light);color:var(--primary-dark)}
+.support-row.phone .ic{background:#FEF3E8;color:var(--orange-dark)}
+.support-row.whatsapp .ic{background:#DCF8E6;color:#128C7E}
+.support-row .ic i{width:18px;height:18px}
+.support-row .body{flex:1}
+.support-row .body .l{font-size:11.5px;color:var(--gray-500);font-weight:600;text-transform:uppercase;letter-spacing:.04em}
+.support-row .body .v{font-size:13.5px;color:var(--navy);font-weight:700;word-break:break-all;margin-top:2px}
+.support-row .arr{color:var(--gray-400)}
+.support-row .arr i{width:16px;height:16px}
+
+.booking-ref{background:var(--primary-light);border:1px solid #C7E9F7;border-radius:10px;padding:14px 18px;margin:18px 0;text-align:center}
+.booking-ref .l{font-size:11px;color:var(--gray-600);font-weight:600;text-transform:uppercase;letter-spacing:.06em;margin-bottom:4px}
+.booking-ref .v{font-size:16px;color:var(--navy);font-weight:700;font-variant-numeric:tabular-nums}
+
+/* Summary view (multi-pax) */
+.summary-list{display:flex;flex-direction:column;gap:10px;margin:18px 0;text-align:left}
+.summary-row{display:flex;align-items:center;gap:12px;padding:14px;background:#fff;border:1px solid var(--gray-200);border-radius:12px}
+.summary-row .ic{width:36px;height:36px;border-radius:10px;display:inline-flex;align-items:center;justify-content:center;flex-shrink:0}
+.summary-row .ic.passed{background:var(--green-light);color:var(--green)}
+.summary-row .ic.pending{background:var(--amber-light);color:var(--amber)}
+.summary-row .ic.failed{background:var(--red-light);color:var(--red)}
+.summary-row .ic i{width:18px;height:18px}
+.summary-row .body{flex:1}
+.summary-row .body .n{font-size:13.5px;color:var(--navy);font-weight:700}
+.summary-row .body .s{font-size:11.5px;color:var(--gray-500);margin-top:2px;font-weight:500}
+.summary-row .badge{font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:.04em;padding:4px 10px;border-radius:99px}
+.summary-row .badge.passed{background:var(--green-light);color:var(--green)}
+.summary-row .badge.pending{background:var(--amber-light);color:var(--amber)}
+.summary-row .badge.failed{background:#FEE2E2;color:var(--red)}
+
+/* Hidden file input */
+input[type="file"]{position:absolute;left:-9999px;opacity:0}
+</style>
+<link rel="stylesheet" href="umrah-theme.css">
+</head>
+<body>
+
+<header class="site-header">
+  <a href="saudi-packages.html"><img src="wakanow-logo.svg" alt="Wakanow" class="logo"></a>
+  <a href="umrah-signin.html" class="manage-app-link" title="Continue an existing visa application">
+    <i data-lucide="user-check"></i><span>Manage Application</span>
+  </a>
+</header>
+
+<div class="step-header">
+  <div class="title">Umrah Booking</div>
+  <div class="steps">
+    <div class="step done"><span class="step-num">1</span> Select Package</div>
+    <span class="step-dash">——</span>
+    <div class="step done"><span class="step-num">2</span> PAX &amp; Payment</div>
+    <span class="step-dash">——</span>
+    <div class="step on"><span class="step-num">3</span> Pre-Qualification</div>
+    <span class="step-dash">——</span>
+    <div class="step"><span class="step-num">4</span> Visa Application</div>
+  </div>
+</div>
+
+<div class="shell">
+  <div id="paxBar"></div>
+  <div class="card" id="card">
+    <div class="verify-msg"><span class="spin"></span> Loading…</div>
+  </div>
+</div>
+
+<script src="umrah-portal-data.js"></script>
+<script src="umrah-contact.js" defer></script>
+<script>
+'use strict';
+lucide.createIcons();
+
+// ─── Boot ────────────────────────────────────────────────────────────────
+const params  = new URLSearchParams(location.search);
+const bookingId = params.get('bookingId');
+const card    = document.getElementById('card');
+const paxBar  = document.getElementById('paxBar');
+
+let booking = bookingId ? UmrahPortal.findBooking(bookingId) : null;
+if (!booking) {
+  card.innerHTML = `
+    <div class="icon-wrap warning"><i data-lucide="alert-triangle"></i></div>
+    <h1 style="text-align:center">Booking not found</h1>
+    <p class="lede">We couldn't find that booking. Please return to the home page and try again.</p>
+    <div class="actions"><a class="btn btn-primary" href="saudi-packages.html"><i data-lucide="home"></i> Back to home</a></div>
+  `;
+  lucide.createIcons();
+} else {
+  // Initialize / read pre-qualification state on the booking
+  let pq = booking.preQualification || UmrahPortal.initPreQualification(bookingId);
+  // Refresh the booking reference to pick up the freshly-initialized record
+  booking = UmrahPortal.findBooking(bookingId);
+  pq = booking.preQualification;
+  render();
+}
+
+// ─── Render dispatcher ───────────────────────────────────────────────────
+function render() {
+  booking = UmrahPortal.findBooking(bookingId);
+  const pq = booking.preQualification;
+
+  // Step 1: family eligibility group success → render once for the whole group
+  if (pq.groupAutoEligible && pq.status === 'passed') {
+    paxBar.innerHTML = '';
+    return renderGroupSuccess();
+  }
+
+  // Step 2: any passenger failed → "You're Not Eligible" result screen
+  // (with "Go Back" to retry, per spec — uploads are preserved).
+  if (pq.status === 'failed') {
+    paxBar.innerHTML = '';
+    return renderVerificationResult();
+  }
+
+  // Step 3: all passed → "You're Eligible" result screen
+  if (pq.status === 'passed') {
+    paxBar.innerHTML = '';
+    return renderVerificationResult();
+  }
+
+  // Step 4: in_progress — drive the current passenger's tier flow
+  const pax = pq.passengers[pq.currentPaxIndex];
+  if (!pax) return renderVerificationResult();
+
+  renderPaxBar(pax);
+
+  // Tier 1 → instant success → advance
+  if (pax.tier === 1) {
+    return renderTier1Success(pax);
+  }
+  // Tier 2 → unified upload page (PR ↔ Visa selected via inline pill toggle).
+  // Any transitional/legacy step ('pending', 'visa_question') is normalized
+  // to 'visa_upload' on first render. We default strengthenerType to 'pr'
+  // so the page has a sensible initial state — the user can flip the pill
+  // toggle to "Valid US, UK or Schengen Visa" if they prefer.
+  if (pax.currentTier === 2) {
+    if (!pax.step || pax.step === 'pending' || pax.step === 'visa_question' || !pax.strengthenerType) {
+      const next = {};
+      if (!pax.step || pax.step === 'pending' || pax.step === 'visa_question') next.step = 'visa_upload';
+      if (!pax.strengthenerType) next.strengthenerType = 'pr';
+      UmrahPortal.updatePreQualPassenger(bookingId, pax.index, next);
+      Object.assign(pax, next);
+    }
+    return renderTier2Upload(pax);
+  }
+  if (pax.currentTier === 3 || pax.step === 'docs') {
+    return renderTier3Docs(pax);
+  }
+
+  // Default fallback
+  return renderTier2Upload(pax);
+}
+
+// ─── Pax bar (multi-pax sequential) ──────────────────────────────────────
+// Hidden on single-pax bookings. Multi-pax shows a full-width banner
+// reading "Passenger X of [total]: [Name]" with the nationality below.
+function renderPaxBar(pax) {
+  const pq = booking.preQualification;
+  if (pq.passengers.length < 2) { paxBar.innerHTML = ''; return; }
+  const fullName = `${pax.firstName || ''} ${pax.lastName || ''}`.trim() || 'Traveller';
+  paxBar.innerHTML = `
+    <div class="pax-bar">
+      <span class="ico"><i data-lucide="user-round"></i></span>
+      <div class="who">
+        <strong>Passenger ${pq.currentPaxIndex + 1} of ${pq.passengers.length}:</strong> ${escapeHtml(fullName)}
+        <small>${escapeHtml(pax.nationality || 'Nationality not set')}</small>
+      </div>
+      <span class="of">${pq.currentPaxIndex + 1} / ${pq.passengers.length}</span>
+    </div>
+  `;
+  lucide.createIcons();
+}
+
+// ─── TIER 1 — instant success ────────────────────────────────────────────
+function renderTier1Success(pax) {
+  const pq = booking.preQualification;
+  const isGroup = pq.passengers.length === 1;
+  const ctaLabel = isGroup ? 'Continue to Visa Application' : 'Continue';
+  card.classList.add('center');
+  card.innerHTML = `
+    <div class="icon-wrap success"><i data-lucide="check-circle"></i></div>
+    <h1>You're Eligible</h1>
+    <p class="lede">Based on your nationality, you qualify for streamlined visa processing. No additional documents are required.</p>
+    <div class="actions">
+      <button class="btn btn-primary" id="t1Continue">${ctaLabel} <i data-lucide="arrow-right"></i></button>
+    </div>
+  `;
+  lucide.createIcons();
+  document.getElementById('t1Continue').onclick = () => advancePaxOrFinish('passed');
+}
+
+// ─── Group success (family rule applied) ─────────────────────────────────
+function renderGroupSuccess() {
+  const pq = booking.preQualification;
+  card.classList.add('center');
+  const rosterHtml = pq.passengers.map(p => `
+    <div class="roster-item">
+      <i data-lucide="check"></i>
+      <span>${escapeHtml(p.firstName)} ${escapeHtml(p.lastName)}</span>
+      <span class="nat">${escapeHtml(p.nationality || '')}</span>
+    </div>
+  `).join('');
+  card.innerHTML = `
+    <div class="icon-wrap success"><i data-lucide="users"></i></div>
+    <h1>All travellers in your booking are eligible</h1>
+    <p class="lede">You all share a surname and at least one traveller holds a Tier 1 nationality, so your group qualifies for streamlined visa processing. No additional documents are required.</p>
+
+    <div class="roster">
+      <div class="roster-head">Eligible travellers</div>
+      ${rosterHtml}
+    </div>
+
+    <div class="actions">
+      <button class="btn btn-primary" id="grpContinue">Continue to Visa Application <i data-lucide="arrow-right"></i></button>
+    </div>
+  `;
+  lucide.createIcons();
+  document.getElementById('grpContinue').onclick = () => goToWizard();
+}
+
+// ─── TIER 2 — Strengthener upload + validation ───────────────────────────
+// Unified upload page that accepts EITHER a Permanent Residency card OR a
+// valid US, UK or Schengen visa. The user picks which they're uploading
+// via an inline pill toggle at the top of the page — no need to go back
+// to the type selector. Toggling clears any previous upload (you can't
+// keep an upload meant for one type and switch to the other).
+//
+// pax.strengthenerType ∈ { 'pr', 'visa' } drives the slot title and the
+// informational note shown below the toggle. Both branches share the
+// same upload mechanics, validation simulation, and Tier-3 fallback.
+function renderTier2Upload(pax) {
+  card.classList.remove('center');
+  // Default to 'visa' if state is missing (e.g. user reached this page
+  // directly via deep link without going through the selector first).
+  const isPR = pax.strengthenerType === 'pr';
+  const slot = pax.visaUpload;
+
+  const copy = isPR ? {
+    slotTitle: 'Permanent residency document',
+    slotSub: 'Clear photo or scan of both sides if applicable'
+  } : {
+    slotTitle: 'Valid US, UK or Schengen visa',
+    slotSub: 'Clear photo or scan of the visa page'
+  };
+
+  const slotHtml = renderUploadSlotHTML('visaSlot', slot, {
+    title: copy.slotTitle,
+    sub: copy.slotSub,
+    pill: 'REQUIRED',
+    pillCls: 'req'
+  });
+
+  // Informational note — different copy for PR vs visa, both surface the
+  // accepted regions/types so the user knows what counts before uploading.
+  const note = isPR ? `
+    <div class="pr-note">
+      <i data-lucide="info"></i>
+      <div class="txt">
+        <strong>Accepted regions:</strong> United States, United Kingdom, and EU member states. We'll detect the issuing region from your document automatically — no need to choose.
+      </div>
+    </div>
+  ` : `
+    <div class="pr-note">
+      <i data-lucide="info"></i>
+      <div class="txt">
+        <strong>Accepted visas:</strong> tourist or business visa issued by the United States, United Kingdom, or any Schengen-area country. Must be unexpired and previously used at least once.
+      </div>
+    </div>
+  `;
+
+  card.innerHTML = `
+    <div class="icon-wrap primary" style="display:block;margin-bottom:16px"><i data-lucide="upload-cloud"></i></div>
+    <h1>Upload Permanent Residency or Valid Visa</h1>
+    <p class="lede" style="margin-left:0">Choose the document you're uploading. We accept a permanent residency card, or a valid US, UK or Schengen visa, and we'll verify it before you continue.</p>
+
+    <div class="type-toggle" role="tablist" aria-label="Document type">
+      <button id="ttPR" type="button" role="tab" aria-selected="${isPR}" class="${isPR ? 'active' : ''}">
+        <i data-lucide="id-card"></i> Permanent Residency
+      </button>
+      <button id="ttVisa" type="button" role="tab" aria-selected="${!isPR}" class="${!isPR ? 'active' : ''}">
+        <i data-lucide="badge-check"></i> Valid US, UK or Schengen Visa
+      </button>
+    </div>
+
+    ${note}
+    ${slotHtml}
+    <div class="format-hint">Accepted: JPG, PNG, PDF · Max 10 MB</div>
+
+    <div class="actions" style="margin-top:22px;justify-content:flex-end">
+      <button class="btn btn-primary" id="t2Submit" ${(!slot || slot.status !== 'verified') ? 'disabled' : ''}>
+        Continue to Visa Application <i data-lucide="arrow-right"></i>
+      </button>
+    </div>
+
+    <div style="text-align:center;margin-top:18px">
+      <button class="btn-link" id="t2Fallback" type="button">I don't have either of these — continue with alternative documents →</button>
+    </div>
+  `;
+  lucide.createIcons();
+
+  // Inline type toggle — switching clears any previous upload so the user
+  // can't accidentally submit a PR when "Visa" is selected (or vice versa).
+  function switchType(nextType) {
+    if ((nextType === 'pr') === isPR) return; // already on this type
+    UmrahPortal.updatePreQualPassenger(bookingId, pax.index, {
+      strengthenerType: nextType,
+      visaUpload: null
+    });
+    render();
+  }
+  document.getElementById('ttPR').onclick = () => switchType('pr');
+  document.getElementById('ttVisa').onclick = () => switchType('visa');
+  wireUploadSlot('visaSlot', pax, 'visaUpload', () => {
+    // After upload completes, validate. We reuse the visa validator for
+    // the prototype — in production the PR variant would call a separate
+    // PR-specific validator that detects region (US / UK / EU).
+    setTimeout(() => {
+      const fresh = UmrahPortal.findBooking(bookingId).preQualification.passengers[pax.index];
+      if (!fresh.visaUpload) return;
+      const cust = (booking.passengers && booking.passengers[pax.index]) || {};
+      const customerName = ((cust.firstName || '') + ' ' + (cust.lastName || '')).trim();
+      const result = UmrahPortal.simulateVisaUploadValidation(fresh.visaUpload.fileName, customerName);
+      if (result.ok) {
+        UmrahPortal.updatePreQualPassenger(bookingId, pax.index, {
+          visaUpload: Object.assign({}, fresh.visaUpload, { status: 'verified' }),
+          step: 'visa_verified',
+          result: 'passed'
+        });
+      } else {
+        UmrahPortal.updatePreQualPassenger(bookingId, pax.index, {
+          visaUpload: Object.assign({}, fresh.visaUpload, {
+            status: 'failed',
+            errorCode: result.code,
+            errorMeta: { expiry: result.expiry }
+          })
+        });
+      }
+      render();
+    }, 1300);
+  });
+
+  const submit = document.getElementById('t2Submit');
+  if (submit) submit.onclick = () => {
+    if (!pax.visaUpload || pax.visaUpload.status !== 'verified') return;
+    advancePaxOrFinish('passed');
+  };
+  const fallback = document.getElementById('t2Fallback');
+  if (fallback) fallback.onclick = () => {
+    UmrahPortal.updatePreQualPassenger(bookingId, pax.index, {
+      currentTier: 3,
+      step: 'docs',
+      strengthenerType: null,
+      visaUpload: null
+    });
+    render();
+  };
+}
+
+// ─── TIER 3 — Alternative supporting documents ───────────────────────────
+function renderTier3Docs(pax) {
+  card.classList.remove('center');
+  const docs = pax.docs || {};
+  const bsVerified = docs.bankStatement && docs.bankStatement.status === 'verified';
+  // payslip is treated like the other optional docs — it counts toward the
+  // "at least 1 additional document" minimum if verified.
+  const otherCount = ['employmentLetter','payslip','cac','reference','other']
+    .filter(k => docs[k] && docs[k].status === 'verified').length;
+  const minMet = bsVerified && otherCount >= 1;
+
+  const minReqCls = minMet ? 'minreq met' : 'minreq';
+  const minReqIcon = minMet ? 'check-circle' : 'info';
+  const minReqText = minMet
+    ? 'Minimum requirements met — bank statement + ' + otherCount + ' supporting document' + (otherCount > 1 ? 's' : '')
+    : 'Minimum: bank statement (verified) + at least 1 additional document';
+
+  card.innerHTML = `
+    <div class="icon-wrap primary" style="display:block;margin-bottom:16px"><i data-lucide="folder-open"></i></div>
+    <h1>Upload Supporting Documents</h1>
+    <p class="lede" style="margin-left:0">To strengthen your visa application, please upload the following. A bank statement is required, plus at least one additional document.</p>
+
+    <div class="${minReqCls}"><i data-lucide="${minReqIcon}"></i> ${minReqText}</div>
+
+    <div class="sub-head">Required</div>
+    ${renderUploadSlotHTML('docBank', docs.bankStatement, {
+      title: 'Six-Month Bank Statement',
+      sub: 'Statement covering the last 6 months · name match + closing balance ≥ $1,000 USD',
+      pill: 'REQUIRED', pillCls: 'req'
+    })}
+
+    <div class="sub-head">Supporting (any one or more)</div>
+    ${renderUploadSlotHTML('docEmp', docs.employmentLetter, {
+      title: 'Employment Letter', sub: 'On company letterhead, signed by HR',
+      pill: 'OPTIONAL', pillCls: 'opt'
+    })}
+    ${renderUploadSlotHTML('docPay', docs.payslip, {
+      title: 'Payslips (3 months)',
+      sub: 'Last 3 consecutive months · name must match your booking',
+      pill: 'OPTIONAL', pillCls: 'opt',
+      warnings: (docs.payslip && docs.payslip.warnings) || []
+    })}
+    ${renderUploadSlotHTML('docCac', docs.cac, {
+      title: 'CAC / Business Registration', sub: 'Corporate Affairs Commission certificate',
+      pill: 'OPTIONAL', pillCls: 'opt'
+    })}
+    ${renderUploadSlotHTML('docRef', docs.reference, {
+      title: 'Reference Letter', sub: 'From a sponsor, employer or community leader',
+      pill: 'OPTIONAL', pillCls: 'opt'
+    })}
+    ${renderUploadSlotHTML('docOther', docs.other, {
+      title: 'Other Supporting Document', sub: 'Tell us what it is',
+      pill: 'OPTIONAL', pillCls: 'opt',
+      otherDesc: docs.other && docs.other.description ? docs.other.description : ''
+    })}
+
+    <div class="format-hint">Accepted: JPG, PNG, PDF · Max 10 MB per file</div>
+
+    <div class="actions" style="margin-top:22px;justify-content:space-between">
+      <button class="btn btn-ghost" id="t3Back">← Back</button>
+      <button class="btn btn-primary" id="t3Submit">
+        Submit Documents <i data-lucide="arrow-right"></i>
+      </button>
+    </div>
+  `;
+  lucide.createIcons();
+
+  // Wire the bank statement (with deterministic validation)
+  wireUploadSlot('docBank', pax, 'docs.bankStatement', () => {
+    setTimeout(() => {
+      const fresh = UmrahPortal.findBooking(bookingId).preQualification.passengers[pax.index];
+      if (!fresh.docs.bankStatement) return;
+      const cust = (booking.passengers && booking.passengers[pax.index]) || {};
+      const customerName = ((cust.firstName || '') + ' ' + (cust.lastName || '')).trim();
+      const result = UmrahPortal.simulateBankStatementValidation(fresh.docs.bankStatement.fileName, customerName);
+      const newDocs = Object.assign({}, fresh.docs);
+      if (result.ok) {
+        newDocs.bankStatement = Object.assign({}, fresh.docs.bankStatement, { status: 'verified' });
+      } else {
+        newDocs.bankStatement = Object.assign({}, fresh.docs.bankStatement, {
+          status: 'failed', errorCode: result.code, errorMeta: { balance: result.balance }
+        });
+      }
+      UmrahPortal.updatePreQualPassenger(bookingId, pax.index, { docs: newDocs });
+      render();
+    }, 1300);
+  });
+
+  // Optional docs auto-pass (payslip handled separately below — it has its
+  // own deterministic validator + cross-checks against employment letter
+  // and bank statement).
+  ['docEmp:employmentLetter','docCac:cac','docRef:reference','docOther:other'].forEach(spec => {
+    const [slotId, key] = spec.split(':');
+    wireUploadSlot(slotId, pax, 'docs.' + key, () => {
+      setTimeout(() => {
+        const fresh = UmrahPortal.findBooking(bookingId).preQualification.passengers[pax.index];
+        const newDocs = Object.assign({}, fresh.docs);
+        if (newDocs[key]) newDocs[key] = Object.assign({}, newDocs[key], { status: 'verified' });
+        UmrahPortal.updatePreQualPassenger(bookingId, pax.index, { docs: newDocs });
+        render();
+      }, 800);
+    });
+  });
+
+  // Payslip — deterministic validation + cross-checks
+  wireUploadSlot('docPay', pax, 'docs.payslip', () => {
+    setTimeout(() => {
+      const fresh = UmrahPortal.findBooking(bookingId).preQualification.passengers[pax.index];
+      if (!fresh.docs.payslip) return;
+      const cust = (booking.passengers && booking.passengers[pax.index]) || {};
+      const customerName = ((cust.firstName || '') + ' ' + (cust.lastName || '')).trim();
+      const result = UmrahPortal.simulatePayslipValidation(fresh.docs.payslip.fileName, customerName);
+      const newDocs = Object.assign({}, fresh.docs);
+      if (result.ok) {
+        // Conditional cross-checks — only flag if the *other* doc is verified.
+        // These are non-blocking warnings (upload still accepted).
+        const warnings = (result.warnings || []).slice();
+        const hasEmpVerified = newDocs.employmentLetter && newDocs.employmentLetter.status === 'verified';
+        const hasBankVerified = newDocs.bankStatement && newDocs.bankStatement.status === 'verified';
+        // Strip warnings whose cross-check companion isn't even uploaded yet.
+        const filtered = warnings.filter(w => {
+          if (w === 'employer_mismatch' && !hasEmpVerified) return false;
+          if (w === 'salary_mismatch'   && !hasBankVerified) return false;
+          return true;
+        });
+        newDocs.payslip = Object.assign({}, fresh.docs.payslip, {
+          status: 'verified',
+          warnings: filtered
+        });
+      } else {
+        newDocs.payslip = Object.assign({}, fresh.docs.payslip, {
+          status: 'failed',
+          errorCode: result.code
+        });
+      }
+      UmrahPortal.updatePreQualPassenger(bookingId, pax.index, { docs: newDocs });
+      render();
+    }, 1100);
+  });
+
+  // "Other" description input
+  const otherDescInput = document.querySelector('#docOther-desc input');
+  if (otherDescInput) {
+    otherDescInput.oninput = (e) => {
+      const fresh = UmrahPortal.findBooking(bookingId).preQualification.passengers[pax.index];
+      if (!fresh.docs.other) return;
+      const newDocs = Object.assign({}, fresh.docs);
+      newDocs.other = Object.assign({}, fresh.docs.other, { description: e.target.value });
+      UmrahPortal.updatePreQualPassenger(bookingId, pax.index, { docs: newDocs });
+    };
+  }
+
+  // Back: if originally Tier 2, go back to the upload page; else back to confirmation
+  document.getElementById('t3Back').onclick = () => {
+    if (pax.tier === 2) {
+      UmrahPortal.updatePreQualPassenger(bookingId, pax.index, { currentTier: 2, step: 'visa_upload' });
+      render();
+    } else {
+      location.href = 'umrah-thanks.html?bookingId=' + bookingId;
+    }
+  };
+  // Submit
+  // NOTE: Validation relaxed for testing — Submit is always clickable.
+  // If minimum docs aren't met, mark this pax as failed and route to the
+  // support page (renderSupport) via advancePaxOrFinish('failed').
+  const submit = document.getElementById('t3Submit');
+  if (submit) submit.onclick = () => {
+    if (!minMet) {
+      UmrahPortal.updatePreQualPassenger(bookingId, pax.index, { step: 'failed', result: 'failed' });
+      advancePaxOrFinish('failed');
+      return;
+    }
+    UmrahPortal.updatePreQualPassenger(bookingId, pax.index, { step: 'docs_verified', result: 'passed' });
+    advancePaxOrFinish('passed');
+  };
+}
+
+// ─── Failed pre-qualification — Support page ─────────────────────────────
+function renderSupport() {
+  card.classList.add('center');
+  card.innerHTML = `
+    <div class="icon-wrap warning"><i data-lucide="life-buoy"></i></div>
+    <h1>Your Application Requires Further Review</h1>
+    <p class="lede">Based on the documents provided, we're unable to automatically process your visa application at this time. Our support team can help with next steps.</p>
+
+    <div class="booking-ref">
+      <div class="l">Please reference your Booking ID</div>
+      <div class="v">${booking.id}</div>
+    </div>
+
+    <div class="support-card">
+      <a class="support-row email" href="mailto:umrah@wakanow.com?subject=Visa%20Application%20Review%20-%20${encodeURIComponent(booking.id)}">
+        <span class="ic"><i data-lucide="mail"></i></span>
+        <span class="body"><span class="l">Email</span><span class="v">umrah@wakanow.com</span></span>
+        <span class="arr"><i data-lucide="arrow-right"></i></span>
+      </a>
+      <a class="support-row phone" href="tel:+2348001234567">
+        <span class="ic"><i data-lucide="phone"></i></span>
+        <span class="body"><span class="l">Phone</span><span class="v">+234 800 123 4567</span></span>
+        <span class="arr"><i data-lucide="arrow-right"></i></span>
+      </a>
+      <a class="support-row whatsapp" href="https://wa.me/2348001234567?text=Hi,%20I%20need%20help%20with%20booking%20${encodeURIComponent(booking.id)}" target="_blank" rel="noopener">
+        <span class="ic"><i data-lucide="message-circle"></i></span>
+        <span class="body"><span class="l">WhatsApp</span><span class="v">+234 800 123 4567</span></span>
+        <span class="arr"><i data-lucide="arrow-right"></i></span>
+      </a>
+    </div>
+
+    <div class="actions">
+      <a class="btn btn-ghost" href="saudi-packages.html"><i data-lucide="home"></i> Return to home</a>
+    </div>
+  `;
+  // Persist support state
+  UmrahPortal.updatePreQualification(bookingId, { status: 'failed', currentStep: 'support', completedAt: new Date().toISOString() });
+  lucide.createIcons();
+}
+
+// ─── Verification Result screen ──────────────────────────────────────────
+// Shown after Tier 2/3 prequalification completes (Tier-1-only single-pax
+// flows skip this and go straight to the wizard via goToWizard()). For
+// multi-pax bookings we render a per-passenger summary above the verdict.
+//
+// Two states:
+//   • Eligible      → green check, "Proceed to Visa Application" CTA
+//   • Not Eligible  → amber warning, "Go Back" CTA that restores the
+//                     failed passenger's upload page with their files intact
+function renderVerificationResult() {
+  card.classList.add('center');
+  paxBar.innerHTML = '';
+  const pq = booking.preQualification;
+  const passengers = pq.passengers;
+  const multi = passengers.length > 1;
+  const allPassed = passengers.every(p => p.result === 'passed');
+  const failedPassengers = passengers.filter(p => p.result === 'failed');
+
+  // Per-passenger summary (multi-pax only — single pax doesn't need the row)
+  const summaryHtml = multi ? `
+    <div class="summary-list">
+      ${passengers.map(p => {
+        const ok = p.result === 'passed';
+        const status = ok ? 'passed' : 'failed';
+        const tierLabel = p.tier === 1
+          ? 'Auto-eligible'
+          : (p.currentTier === 3
+              ? 'Supporting documents'
+              : (p.strengthenerType === 'pr' ? 'Permanent residency' : 'US/UK/Schengen visa'));
+        const reason = !ok ? failureReason(p) : '';
+        return `
+          <div class="summary-row">
+            <span class="ic ${status}"><i data-lucide="${ok ? 'check' : 'alert-triangle'}"></i></span>
+            <div class="body">
+              <div class="n">Passenger ${p.index + 1}: ${escapeHtml(p.firstName)} ${escapeHtml(p.lastName)}</div>
+              <div class="s">${tierLabel}${reason ? ' · ' + escapeHtml(reason) : ''}</div>
+            </div>
+            <span class="badge ${status}">${ok ? 'Eligible' : 'Not Eligible'}</span>
+          </div>
+        `;
+      }).join('')}
+    </div>
+  ` : '';
+
+  if (allPassed) {
+    card.innerHTML = `
+      <div class="icon-wrap success"><i data-lucide="check-circle"></i></div>
+      <h1>You're Eligible</h1>
+      <p class="lede">${multi
+        ? `All travellers on this booking have passed prequalification. You can now proceed to the Umrah visa application.`
+        : `Congratulations! You've passed prequalification and can now proceed to your Umrah visa application.`}</p>
+      ${summaryHtml}
+      <div class="actions">
+        <button class="btn btn-primary" id="resultProceed">Proceed to Visa Application <i data-lucide="arrow-right"></i></button>
+      </div>
+    `;
+    lucide.createIcons();
+    document.getElementById('resultProceed').onclick = () => goToWizard();
+    return;
+  }
+
+  // Not eligible — at least one passenger failed.
+  const firstFailed = failedPassengers[0];
+  const goBackLabel = multi
+    ? `Go Back to ${escapeHtml(firstFailed.firstName)}'s Documents`
+    : `Go Back`;
+  const lede = multi
+    ? `One or more travellers on this booking could not be approved based on the documents provided. You can go back and add or replace documents for those travellers — the eligible travellers stay verified.`
+    : `Unfortunately, your application could not be approved based on the documents you provided. You can go back and try again with different or additional documents.`;
+
+  card.innerHTML = `
+    <div class="icon-wrap warning"><i data-lucide="alert-triangle"></i></div>
+    <h1>You're Not Eligible</h1>
+    <p class="lede">${lede}</p>
+    ${summaryHtml}
+    <div class="actions">
+      <button class="btn btn-primary" id="resultBack"><i data-lucide="arrow-left"></i> ${goBackLabel}</button>
+    </div>
+  `;
+  lucide.createIcons();
+  document.getElementById('resultBack').onclick = () => {
+    // Restore the failed pax's upload page WITHOUT clearing their docs —
+    // the spec requires uploads to be preserved so they can add to them.
+    // We reset just the result + step so the dispatcher routes them back
+    // to the appropriate upload page (Tier 2 visa upload or Tier 3 docs).
+    const target = firstFailed;
+    const patch = { result: null };
+    if (target.currentTier === 3) {
+      patch.step = 'docs';
+    } else if (target.currentTier === 2) {
+      patch.step = 'visa_upload';
+    }
+    UmrahPortal.updatePreQualPassenger(bookingId, target.index, patch);
+    UmrahPortal.updatePreQualification(bookingId, {
+      status: 'in_progress',
+      currentPaxIndex: target.index,
+      completedAt: null
+    });
+    booking = UmrahPortal.findBooking(bookingId);
+    render();
+  };
+}
+
+// Best-effort short reason string for the per-pax summary on the result page.
+function failureReason(p) {
+  if (p.currentTier === 3) {
+    const docs = p.docs || {};
+    const bs = docs.bankStatement;
+    if (!bs || bs.status !== 'verified') return 'Bank statement missing or rejected';
+    return 'Minimum supporting documents not met';
+  }
+  if (p.currentTier === 2) {
+    const v = p.visaUpload;
+    if (v && v.errorCode === 'expired') return 'Document expired';
+    if (v && v.errorCode === 'name_mismatch') return 'Name on document doesn\'t match';
+    return 'Document could not be verified';
+  }
+  return 'Document review failed';
+}
+
+// ─── Helpers ─────────────────────────────────────────────────────────────
+function renderUploadSlotHTML(slotId, slot, opts) {
+  const cls = !slot ? 'empty' : (slot.status === 'verified' ? 'verified' : (slot.status === 'failed' ? 'failed' : 'uploading'));
+  const headerPill = `<span class="pill ${opts.pillCls || 'opt'}">${opts.pill || ''}</span>`;
+  const otherDescBlock = (slotId === 'docOther') ? `
+    <div class="other-desc" id="docOther-desc">
+      <input type="text" placeholder="What is this document?" value="${escapeHtml(opts.otherDesc || '')}" maxlength="80">
+    </div>
+  ` : '';
+
+  let body = '';
+  if (!slot) {
+    body = `
+      <div class="slot-empty-cta">
+        <i data-lucide="upload"></i>
+        <span>Tap to upload (JPG, PNG, PDF · 10 MB max)</span>
+      </div>
+    `;
+  } else {
+    const statusBlock = slot.status === 'verifying' ? `
+      <span class="file-status verifying"><i data-lucide="loader"></i> Verifying…</span>
+    ` : slot.status === 'verified' ? `
+      <span class="file-status verified"><i data-lucide="check"></i> Verified</span>
+    ` : slot.status === 'failed' ? `
+      <span class="file-status failed"><i data-lucide="x"></i> Failed</span>
+    ` : '';
+    // Non-blocking warnings (e.g. payslip cross-checks). Only render when
+    // the slot itself is verified — a failed upload uses the error block.
+    const warningsList = (opts.warnings && Array.isArray(opts.warnings)) ? opts.warnings : (slot.warnings || []);
+    const warningsHtml = (slot.status === 'verified' && warningsList.length) ? warningsList.map(w => `
+      <div class="slot-warning">
+        <i data-lucide="info"></i>
+        <span>${escapeHtml(slotWarningMessage(slotId, w))}</span>
+      </div>
+    `).join('') : '';
+
+    body = `
+      <div class="slot-file">
+        <span class="file-ico"><i data-lucide="file-text"></i></span>
+        <div class="file-name">${escapeHtml(slot.fileName)}<small>${slot.fileSize ? humanFileSize(slot.fileSize) : ''}</small></div>
+        ${statusBlock}
+        <button class="remove" data-slot="${slotId}" type="button" aria-label="Remove"><i data-lucide="x"></i></button>
+      </div>
+      ${slot.status === 'verifying' ? '<div class="verify-msg" style="padding:8px 0 4px"><span class="spin"></span> Verifying your document…</div>' : ''}
+      ${slot.status === 'failed' ? `
+        <div class="slot-error">
+          <i data-lucide="alert-triangle"></i>
+          <span>${slotErrorMessage(slotId, slot)}</span>
+        </div>
+      ` : ''}
+      ${warningsHtml}
+    `;
+  }
+
+  return `
+    <div class="upload-slot ${cls}" id="${slotId}" ${!slot ? `onclick="document.getElementById('${slotId}-input').click()"` : ''}>
+      <input type="file" id="${slotId}-input" accept=".jpg,.jpeg,.png,.pdf,image/*,application/pdf">
+      <div class="slot-header">
+        <div class="label">
+          <div class="t">${escapeHtml(opts.title)}</div>
+          <div class="s">${escapeHtml(opts.sub)}</div>
+        </div>
+        ${headerPill}
+      </div>
+      <div class="slot-body">${body}</div>
+      ${otherDescBlock}
+    </div>
+  `;
+}
+
+function slotErrorMessage(slotId, slot) {
+  const code = slot.errorCode;
+  if (slotId === 'visaSlot') {
+    if (code === 'expired') {
+      const d = (slot.errorMeta && slot.errorMeta.expiry) ? new Date(slot.errorMeta.expiry).toLocaleDateString('en-GB',{day:'2-digit',month:'short',year:'numeric'}) : 'an earlier date';
+      return `This visa appears to have expired on ${d}. A valid, unexpired visa is required.`;
+    }
+    if (code === 'name_mismatch') return `The name on this document doesn't match your booking details. Please check and re-upload, or continue with alternative documents.`;
+    if (code === 'not_recognised') return `We couldn't identify this as a US, UK or Schengen visa (or PR document). Please upload a clear image of the document showing your details.`;
+  }
+  if (slotId === 'docBank') {
+    if (code === 'name_mismatch') {
+      const cust = (booking.passengers && booking.passengers[booking.preQualification.currentPaxIndex]) || {};
+      const customerName = ((cust.firstName || '') + ' ' + (cust.lastName || '')).trim();
+      return `The name on this statement doesn't match your booking details${customerName ? ' (' + escapeHtml(customerName) + ')' : ''}. Please upload a statement in your name.`;
+    }
+    if (code === 'low_balance') {
+      const bal = (slot.errorMeta && slot.errorMeta.balance) ? slot.errorMeta.balance : 'below the required minimum';
+      return `The closing balance on this statement is ${bal}, below the required minimum of $1,000 USD. Please upload a statement that meets this requirement.`;
+    }
+  }
+  if (slotId === 'docPay') {
+    if (code === 'unreadable') return `We couldn't read this file. It may be corrupt or in an unsupported format. Please re-upload a clear PDF or image.`;
+    if (code === 'insufficient_months') return `Please upload at least 3 consecutive months of payslips.`;
+    if (code === 'name_mismatch') return `The name on your payslip does not match your booking details.`;
+  }
+  return 'Validation failed. Please upload a different file.';
+}
+
+// Heads-up messages for non-blocking warnings (currently payslip cross-checks)
+function slotWarningMessage(slotId, code) {
+  if (code === 'employer_mismatch') return `Heads up — the employer on these payslips doesn't match your employment letter. Our team may follow up to confirm.`;
+  if (code === 'salary_mismatch')   return `Heads up — the net pay on these payslips doesn't match the salary credits in your bank statement. Our team may follow up to confirm.`;
+  return 'Heads up — please double-check this document.';
+}
+
+function wireUploadSlot(slotId, pax, fieldPath, onProcessed) {
+  const input = document.getElementById(slotId + '-input');
+  const slot  = document.getElementById(slotId);
+  if (!input || !slot) return;
+
+  // Remove button
+  const removeBtn = slot.querySelector('.remove');
+  if (removeBtn) {
+    removeBtn.onclick = (e) => {
+      e.stopPropagation();
+      writeField(pax.index, fieldPath, null);
+      render();
+    };
+  }
+
+  input.onchange = (e) => {
+    const f = e.target.files && e.target.files[0];
+    if (!f) return;
+    if (f.size > 10 * 1024 * 1024) { alert('File too large. Max 10 MB.'); return; }
+    writeField(pax.index, fieldPath, {
+      fileName: f.name,
+      fileSize: f.size,
+      status: 'verifying',
+      uploadedAt: new Date().toISOString()
+    });
+    render();
+    if (onProcessed) onProcessed();
+  };
+}
+
+// fieldPath like 'visaUpload' or 'docs.bankStatement'
+function writeField(paxIndex, fieldPath, value) {
+  const fresh = UmrahPortal.findBooking(bookingId).preQualification.passengers[paxIndex];
+  if (fieldPath.startsWith('docs.')) {
+    const key = fieldPath.split('.')[1];
+    const newDocs = Object.assign({}, fresh.docs);
+    newDocs[key] = value;
+    UmrahPortal.updatePreQualPassenger(bookingId, paxIndex, { docs: newDocs });
+  } else {
+    const patch = {};
+    patch[fieldPath] = value;
+    UmrahPortal.updatePreQualPassenger(bookingId, paxIndex, patch);
+  }
+}
+
+function humanFileSize(bytes) {
+  if (bytes < 1024) return bytes + ' B';
+  if (bytes < 1024 * 1024) return (bytes / 1024).toFixed(1) + ' KB';
+  return (bytes / (1024 * 1024)).toFixed(1) + ' MB';
+}
+
+function escapeHtml(s) {
+  return String(s == null ? '' : s).replace(/[&<>"']/g, ch => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));
+}
+
+// ─── Pax flow advance ────────────────────────────────────────────────────
+function advancePaxOrFinish(result) {
+  const pq = booking.preQualification;
+  const pax = pq.passengers[pq.currentPaxIndex];
+  // Persist this passenger's result if not already
+  UmrahPortal.updatePreQualPassenger(bookingId, pax.index, { result });
+  // Move to next pax, or finish
+  const nextIdx = pq.currentPaxIndex + 1;
+  if (nextIdx < pq.passengers.length) {
+    UmrahPortal.updatePreQualification(bookingId, { currentPaxIndex: nextIdx });
+    booking = UmrahPortal.findBooking(bookingId);
+    render();
+  } else {
+    UmrahPortal.rollUpPreQualStatus(bookingId);
+    booking = UmrahPortal.findBooking(bookingId);
+    if (booking.preQualification.status === 'failed') {
+      // At least one pax couldn't be approved → result screen handles
+      // the "Not Eligible" verdict (with per-pax summary for multi-pax).
+      renderVerificationResult();
+      return;
+    }
+    // All passed. Per spec, Tier-1 single-pax bookings skip the result
+    // screen and go straight to the wizard. Any other shape (multi-pax,
+    // or Tier 2/3 single-pax) shows the explicit "You're Eligible"
+    // confirmation first.
+    const allTier1 = booking.preQualification.passengers.every(p => p.tier === 1);
+    if (booking.preQualification.passengers.length === 1 && allTier1) {
+      goToWizard();
+    } else {
+      renderVerificationResult();
+    }
+  }
+}
+
+function goToWizard() {
+  UmrahPortal.setSessionAuth(booking.id);
+  location.href = 'umrah-visa-wizard.html?bookingId=' + booking.id;
+}
+
+// ─── Dev helper: trigger failed-flow if all docs failed validation ───────
+// Tier 3 final submit triggers Failed only when bank statement isn't verified
+// and the user explicitly hits the support flow via a "report" path. For our
+// prototype, the support page is reached:
+//   1. Naturally — if a passenger's docs fail and no fallback is possible.
+//   2. Programmatically — if you set ?fail=1 we mark the current pax failed.
+if (params.get('fail') === '1' && booking) {
+  const idx = booking.preQualification.currentPaxIndex || 0;
+  UmrahPortal.updatePreQualPassenger(bookingId, idx, { result: 'failed', step: 'failed' });
+  UmrahPortal.rollUpPreQualStatus(bookingId);
+  booking = UmrahPortal.findBooking(bookingId);
+  render();
+}
+</script>
+</body>
+</html>

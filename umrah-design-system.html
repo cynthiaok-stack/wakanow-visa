@@ -1,0 +1,768 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Wakanow Umrah — Design System</title>
+<link href="https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+
+:root{
+  /* Brand — interactive accent (CTAs, links, focus) */
+  --primary:#08A5E3;
+  --primary-600:#0792C9;
+  --primary-700:#0680B3;
+  --primary-soft:#E6F6FD;
+  --primary-tint:#F2FAFE;
+
+  /* Brand — structural deep blue (header, footer, headings, dark surfaces) */
+  --brand-blue:#0E2D5C;
+  --brand-blue-700:#0A2148;
+  --brand-blue-800:#07193A;
+  --brand-blue-soft:#EBF0F8;
+  --brand-blue-tint:#F4F7FB;
+
+  /* Legacy navy kept for ink-style backgrounds (status pills, etc.) */
+  --navy:#1E3138;
+  --navy-700:#16252B;
+  --navy-soft:#EEF2F4;
+
+  /* Orange — refined warmer hue */
+  --orange:#F58220;
+  --orange-600:#E5731A;
+  --orange-dark:#C25E0C;
+  --orange-soft:#FFF1E2;
+
+  /* Surface — cooler, blue-tinted neutrals */
+  --bg:#F4F6FA;
+  --bg-2:#EEF1F7;
+  --surface:#FFFFFF;
+  --surface-soft:#FAFBFD;
+  --line:#DEE3EC;
+  --line-soft:#ECEFF5;
+  --line-strong:#C7CFDB;
+
+  /* Text */
+  --ink:#0B1B2D;
+  --ink-2:#243446;
+  --muted:#56657A;
+  --muted-2:#8593A6;
+
+  /* Semantic */
+  --success:#15A45A;
+  --success-soft:#E4F5EC;
+  --danger:#E03946;
+  --danger-soft:#FCEAEC;
+  --warn:#F0AD00;
+  --warn-soft:#FEF6DD;
+
+  /* Geometry */
+  --radius-sm:8px;
+  --radius:12px;
+  --radius-lg:20px;
+  --radius-xl:28px;
+  --radius-pill:999px;
+
+  /* Shadow — blue-tinted for cohesion with brand chrome */
+  --shadow-sm:0 1px 2px rgba(14,45,92,.06);
+  --shadow:0 8px 22px rgba(14,45,92,.08);
+  --shadow-lg:0 22px 48px rgba(14,45,92,.14);
+  --shadow-glow-primary:0 10px 26px rgba(8,165,227,.30);
+  --shadow-glow-orange:0 10px 26px rgba(245,130,32,.28);
+
+  /* Type */
+  --font-display:'Rubik',system-ui,-apple-system,sans-serif;
+  --font-body:'Rubik',system-ui,-apple-system,sans-serif;
+
+  /* Easing */
+  --ease-out:cubic-bezier(.2,.8,.25,1);
+  --ease-in-out:cubic-bezier(.4,0,.2,1);
+}
+
+html,body{font-family:var(--font-body);font-size:16px;color:var(--ink);background:var(--bg);line-height:1.55;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}
+h1,h2,h3,h4{font-family:var(--font-display);color:var(--brand-blue);letter-spacing:-.02em;line-height:1.15}
+h1{font-size:38px;font-weight:800}
+h2{font-size:28px;font-weight:800}
+h3{font-size:20px;font-weight:700}
+h4{font-size:16px;font-weight:700}
+a{color:var(--primary);text-decoration:none}
+code{font-family:'SF Mono','Menlo','Consolas',monospace;font-size:13px;background:var(--brand-blue-soft);color:var(--brand-blue);padding:2px 7px;border-radius:5px}
+
+/* ── Page chrome ───────────────────────────────────────────── */
+.ds-header{background:var(--brand-blue);color:#fff;padding:48px 40px 38px}
+.ds-header .inner{max-width:1180px;margin:0 auto}
+.ds-eyebrow{font-size:11px;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:rgba(255,255,255,.65);margin-bottom:14px}
+.ds-header h1{color:#fff;font-size:42px;letter-spacing:-.025em;margin-bottom:10px}
+.ds-header p{color:rgba(255,255,255,.78);font-size:15px;max-width:640px}
+.ds-header .meta{display:flex;gap:20px;flex-wrap:wrap;margin-top:22px}
+.ds-header .meta-pill{font-size:12px;color:rgba(255,255,255,.85);background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.18);padding:6px 14px;border-radius:999px;display:inline-flex;align-items:center;gap:6px}
+.ds-header .meta-pill i{width:13px;height:13px}
+
+main{max-width:1180px;margin:0 auto;padding:48px 40px 80px}
+.ds-section{margin-bottom:64px}
+.ds-section-head{display:flex;align-items:flex-end;justify-content:space-between;gap:24px;flex-wrap:wrap;padding-bottom:16px;border-bottom:1px solid var(--line);margin-bottom:24px}
+.ds-section-head h2{font-size:24px}
+.ds-section-head .num{font-size:12px;color:var(--muted-2);font-weight:600;letter-spacing:.12em;text-transform:uppercase;margin-bottom:6px}
+.ds-section-head .right{font-size:13px;color:var(--muted)}
+
+/* ── Color swatches ───────────────────────────────────────── */
+.swatch-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:14px}
+.swatch{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow-sm);transition:transform .18s var(--ease-out),box-shadow .18s var(--ease-out)}
+.swatch:hover{transform:translateY(-2px);box-shadow:var(--shadow)}
+.swatch .chip{height:96px;display:flex;align-items:flex-end;padding:12px 14px}
+.swatch .chip.dark .ratio{color:rgba(255,255,255,.85)}
+.swatch .chip.light .ratio{color:rgba(11,27,45,.60)}
+.swatch .ratio{font-size:10.5px;font-weight:600;letter-spacing:.06em;text-transform:uppercase}
+.swatch .meta{padding:11px 14px}
+.swatch .name{font-size:13px;font-weight:600;color:var(--ink);margin-bottom:2px}
+.swatch .hex{font-family:'SF Mono','Menlo',monospace;font-size:12px;color:var(--muted);font-weight:500}
+.swatch .var{font-family:'SF Mono','Menlo',monospace;font-size:11px;color:var(--muted-2);margin-top:2px}
+
+.color-section-title{font-size:13px;font-weight:700;color:var(--ink-2);margin:24px 0 12px;letter-spacing:.02em;display:flex;align-items:center;gap:8px}
+.color-section-title:first-of-type{margin-top:0}
+.color-section-title::before{content:'';width:3px;height:14px;background:var(--primary);border-radius:2px}
+
+/* ── Typography ───────────────────────────────────────────── */
+.type-grid{display:grid;grid-template-columns:1fr 280px;gap:16px;align-items:center;padding:18px 20px;border-bottom:1px dashed var(--line);background:var(--surface);border-radius:var(--radius);box-shadow:var(--shadow-sm);margin-bottom:10px}
+.type-grid:last-child{border-bottom:none}
+.type-grid .specimen{color:var(--brand-blue);min-width:0}
+.type-grid .specimen.body{color:var(--ink)}
+.type-grid .specimen.muted{color:var(--muted)}
+.type-grid .specs{display:flex;flex-direction:column;gap:4px;font-size:12px;color:var(--muted);font-family:'SF Mono','Menlo',monospace}
+.type-grid .specs strong{color:var(--ink-2);font-family:var(--font-body);font-weight:600;font-size:11px;letter-spacing:.06em;text-transform:uppercase}
+.eyebrow-sample{font-size:11px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--primary)}
+
+/* ── Spacing / radius / shadow ────────────────────────────── */
+.token-row{display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:14px}
+.token-card{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:18px;text-align:center}
+.token-card .vis{display:flex;align-items:center;justify-content:center;min-height:78px;margin-bottom:12px}
+.token-card .name{font-size:12px;font-weight:600;color:var(--ink-2)}
+.token-card .val{font-size:11.5px;color:var(--muted);font-family:'SF Mono','Menlo',monospace;margin-top:2px}
+.spacing-bar{height:18px;background:var(--primary-soft);border:1px solid var(--primary);border-radius:3px}
+.radius-box{width:80px;height:80px;background:linear-gradient(135deg,var(--primary) 0%,var(--brand-blue) 100%)}
+.shadow-box{width:90px;height:62px;background:#fff;border:1px solid var(--line-soft);border-radius:var(--radius)}
+
+/* ── Buttons ───────────────────────────────────────────────── */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:12px 24px;border-radius:var(--radius);font-family:var(--font-body);font-size:14px;font-weight:600;border:none;cursor:pointer;transition:all .22s var(--ease-out);min-height:44px}
+.btn i{width:16px;height:16px}
+.btn-primary{background:linear-gradient(180deg,#15B4F0 0%,#0792C9 100%);color:#fff;box-shadow:0 1px 0 rgba(255,255,255,.18) inset,0 6px 16px rgba(8,165,227,.26)}
+.btn-primary:hover{box-shadow:0 1px 0 rgba(255,255,255,.18) inset,0 12px 26px rgba(8,165,227,.34)}
+.btn-orange{background:linear-gradient(180deg,#F89045 0%,#E5731A 100%);color:#fff;box-shadow:0 1px 0 rgba(255,255,255,.2) inset,0 6px 16px rgba(245,130,32,.26)}
+.btn-orange:hover{background:linear-gradient(180deg,#FA9938 0%,#D26414 100%)}
+.btn-brand{background:linear-gradient(180deg,#16407A 0%,#0E2D5C 100%);color:#fff;box-shadow:0 1px 0 rgba(255,255,255,.12) inset,0 6px 16px rgba(14,45,92,.28)}
+.btn-brand:hover{background:linear-gradient(180deg,#1A4A8A 0%,#0A2148 100%)}
+.btn-outline{background:transparent;color:var(--brand-blue);border:1.5px solid var(--line-strong)}
+.btn-outline:hover{border-color:var(--brand-blue);background:var(--brand-blue-tint);color:var(--brand-blue)}
+.btn-ghost{background:transparent;color:var(--ink-2);border:none}
+.btn-ghost:hover{background:var(--brand-blue-soft);color:var(--brand-blue)}
+.btn-sm{padding:9px 18px;font-size:13px;border-radius:10px;min-height:38px}
+.btn-lg{padding:15px 36px;font-size:15px;min-height:52px}
+.btn-disabled,.btn:disabled{background:#D1D5DB;color:#fff;cursor:not-allowed;box-shadow:none}
+
+.btn-row{display:flex;flex-wrap:wrap;gap:12px;align-items:center;padding:18px;background:var(--surface);border-radius:var(--radius);border:1px solid var(--line);margin-bottom:10px}
+.btn-row .label{flex:0 0 130px;font-size:12px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.06em}
+
+/* ── Forms ─────────────────────────────────────────────────── */
+.form-card{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:24px;display:grid;gap:14px;grid-template-columns:1fr 1fr}
+.form-card .full{grid-column:1/-1}
+.field{display:flex;flex-direction:column;gap:6px}
+.field label{font-size:12px;font-weight:600;color:var(--ink-2)}
+.field label .req{color:var(--danger);margin-left:2px}
+.field input,.field select,.field textarea{font-family:var(--font-body);font-size:14px;border-radius:var(--radius);border:1.5px solid var(--line);padding:11px 14px;color:var(--ink);background:#fff;transition:.18s var(--ease-out)}
+.field input:hover,.field select:hover{border-color:var(--line-strong)}
+.field input:focus,.field select:focus,.field textarea:focus{outline:none;border-color:var(--primary);box-shadow:0 0 0 4px rgba(8,165,227,.14)}
+.field input::placeholder{color:var(--muted-2)}
+.field .hint{font-size:11.5px;color:var(--muted);margin-top:2px}
+.field .err{font-size:11.5px;color:var(--danger);display:flex;align-items:center;gap:5px;margin-top:2px}
+.field .err i{width:13px;height:13px}
+
+.yn{display:inline-flex;border:1.5px solid var(--line);border-radius:10px;overflow:hidden;align-self:start}
+.yn button{background:#fff;color:var(--muted);padding:9px 22px;font-size:13px;font-weight:600;font-family:var(--font-body);border:none;cursor:pointer}
+.yn button.on{background:var(--primary);color:#fff}
+.yn button + button{border-left:1.5px solid var(--line)}
+
+.checkbox-row{display:flex;gap:12px;align-items:flex-start;padding:12px 0;cursor:pointer}
+.checkbox-row + .checkbox-row{border-top:1px solid var(--line-soft)}
+.checkbox-row input[type=checkbox]{width:18px;height:18px;margin-top:2px;accent-color:var(--primary);flex-shrink:0;cursor:pointer}
+.checkbox-row .t{font-size:14px;color:var(--ink-2);line-height:1.55}
+
+/* ── Cards & badges ───────────────────────────────────────── */
+.card{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:20px;box-shadow:var(--shadow-sm)}
+.card-locked{background:var(--surface-soft);border:1.5px dashed var(--line-strong)}
+.demo-grid-2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+
+.badge{display:inline-flex;align-items:center;gap:5px;padding:4px 10px;border-radius:999px;font-size:11.5px;font-weight:600;letter-spacing:.02em}
+.badge i{width:12px;height:12px}
+.badge-success{background:var(--success-soft);color:var(--success)}
+.badge-warn{background:var(--warn-soft);color:#B07900}
+.badge-danger{background:var(--danger-soft);color:var(--danger)}
+.badge-info{background:var(--primary-soft);color:var(--primary-700)}
+.badge-neutral{background:var(--brand-blue-soft);color:var(--brand-blue)}
+.badge-orange{background:var(--orange-soft);color:var(--orange-dark)}
+
+.banner{display:flex;align-items:flex-start;gap:12px;padding:14px 18px;border-radius:var(--radius);font-size:13.5px;line-height:1.5}
+.banner i{width:18px;height:18px;flex-shrink:0;margin-top:1px}
+.banner-info{background:var(--primary-soft);color:var(--primary-700);border:1px solid #B6E4F6}
+.banner-success{background:var(--success-soft);color:var(--success);border:1px solid #BFE8CF}
+.banner-warn{background:var(--warn-soft);color:#8C6300;border:1px solid #F2D88A}
+.banner-danger{background:var(--danger-soft);color:var(--danger);border:1px solid #F4BAC0}
+
+/* ── Sub-step progress bar (4 segments — used in Visa Questionnaire Step 4) ── */
+.disc-progress{display:flex;gap:10px;align-items:center;padding:0;margin-top:18px}
+.disc-progress .seg{flex:1;display:flex;flex-direction:column;gap:7px;opacity:.55}
+.disc-progress .seg.reachable{opacity:1}
+.disc-progress .seg .bar{height:4px;border-radius:99px;background:var(--line)}
+.disc-progress .seg.done .bar{background:var(--success)}
+.disc-progress .seg.on .bar{background:var(--primary)}
+.disc-progress .seg .num{display:flex;align-items:center;gap:8px;font-size:12px;font-weight:600;color:var(--muted)}
+.disc-progress .seg .num span{width:18px;height:18px;border-radius:50%;background:var(--line);color:var(--muted);display:inline-flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;flex-shrink:0}
+.disc-progress .seg.on .num span{background:var(--primary);color:#fff}
+.disc-progress .seg.done .num span{background:var(--success);color:#fff}
+.disc-progress .seg.on .num{color:var(--primary)}
+.disc-progress .seg.done .num{color:var(--success)}
+
+/* ── Document upload row ──────────────────────────────────── */
+.doc-label{font-size:13px;font-weight:700;color:var(--brand-blue);margin-bottom:8px;display:flex;align-items:center;gap:8px}
+.doc-row{border:1.5px dashed var(--line-strong);border-radius:var(--radius);padding:24px;display:flex;flex-direction:column;align-items:center;gap:6px;text-align:center;background:var(--surface-soft);color:var(--muted)}
+.doc-row.filled{flex-direction:row;text-align:left;border-style:solid;border-color:var(--success);background:var(--success-soft);align-items:center;padding:14px}
+.doc-row .doc-thumb{width:48px;height:48px;border-radius:10px;background:#fff;display:flex;align-items:center;justify-content:center;color:var(--success);flex-shrink:0}
+.doc-row .doc-thumb i{width:22px;height:22px}
+.doc-row .doc-info{flex:1;min-width:0}
+.doc-row .doc-info .n{font-size:13.5px;font-weight:600;color:var(--ink)}
+.doc-row .doc-info .meta{font-size:11.5px;color:var(--muted);margin-top:2px}
+.doc-row .doc-remove{background:#fff;border:1px solid var(--line);width:32px;height:32px;border-radius:8px;display:inline-flex;align-items:center;justify-content:center;color:var(--danger);cursor:pointer}
+.doc-row > i{width:30px;height:30px;color:var(--primary)}
+
+/* ── Submission success card (Document Submitted pattern) ── */
+.success-card{background:#fff;border:1px solid var(--line-soft);border-radius:var(--radius);box-shadow:var(--shadow-sm);overflow:hidden;text-align:center}
+.success-card .body{padding:36px 28px 30px}
+.success-ring{width:84px;height:84px;border-radius:50%;background:var(--success-soft);color:var(--success);display:inline-flex;align-items:center;justify-content:center;margin:0 auto 18px}
+.success-ring i{width:42px;height:42px;stroke-width:3}
+.success-card h3{color:var(--success);font-size:24px;margin-bottom:14px}
+.success-card .lede{font-size:13.5px;color:var(--muted);max-width:480px;margin:0 auto;line-height:1.65}
+.success-band{height:6px;background:var(--primary)}
+.success-meta{display:grid;grid-template-columns:1fr 1fr 1fr;padding:22px 28px;gap:14px}
+.success-meta .cell:nth-child(1){text-align:left}
+.success-meta .cell:nth-child(2){text-align:center}
+.success-meta .cell:nth-child(3){text-align:right}
+.success-meta .l{font-size:10.5px;color:var(--muted);font-weight:600;text-transform:uppercase;letter-spacing:.08em;margin-bottom:5px}
+.success-meta .v{font-size:15px;color:var(--brand-blue);font-weight:700;letter-spacing:-.005em}
+
+/* ── Wizard sidebar step item (locked / active / done) ───── */
+.step-list{display:flex;flex-direction:column;gap:0;background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:16px;width:280px}
+.step-item{display:flex;align-items:center;gap:12px;padding:8px 0;font-size:13px;color:var(--muted);position:relative}
+.step-item .dot{width:24px;height:24px;border-radius:50%;background:var(--line);color:var(--muted);font-size:11px;font-weight:700;display:inline-flex;align-items:center;justify-content:center;flex-shrink:0}
+.step-item.done .dot{background:var(--success);color:#fff}
+.step-item.on .dot{background:var(--primary);color:#fff;box-shadow:0 0 0 4px rgba(8,165,227,.18)}
+.step-item .meta{display:flex;flex-direction:column}
+.step-item .meta .n{font-size:13px;font-weight:600;color:var(--ink)}
+.step-item.done .meta .n{color:var(--ink)}
+.step-item.on .meta .n{color:var(--primary)}
+.step-item .meta .sub{font-size:11px;color:var(--muted);margin-top:1px}
+.step-item .dot i{width:13px;height:13px}
+.step-item + .step-item::before{content:'';position:absolute;top:-4px;left:11px;width:2px;height:8px;background:var(--line)}
+.step-item.done + .step-item::before{background:var(--success)}
+
+/* ── Token table ──────────────────────────────────────────── */
+table.token-table{width:100%;border-collapse:collapse;background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);overflow:hidden}
+table.token-table th{font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;text-align:left;padding:12px 16px;background:var(--bg-2);border-bottom:1px solid var(--line)}
+table.token-table td{padding:12px 16px;font-size:13px;color:var(--ink-2);border-bottom:1px solid var(--line-soft)}
+table.token-table tr:last-child td{border-bottom:none}
+table.token-table code{font-size:12px}
+
+/* ── Footer ───────────────────────────────────────────────── */
+.ds-foot{padding:32px 40px 60px;text-align:center;color:var(--muted);font-size:12.5px}
+.ds-foot strong{color:var(--ink-2)}
+
+/* Responsive */
+@media(max-width:768px){
+  .ds-header{padding:32px 22px 28px}
+  .ds-header h1{font-size:30px}
+  main{padding:32px 22px 60px}
+  .form-card{grid-template-columns:1fr}
+  .demo-grid-2{grid-template-columns:1fr}
+  .success-meta{grid-template-columns:1fr;text-align:center !important}
+  .success-meta .cell:nth-child(1),.success-meta .cell:nth-child(2),.success-meta .cell:nth-child(3){text-align:center}
+  .btn-row .label{flex:1 1 100%}
+}
+
+/* ── Print / PDF (download document) ─────────────────────────
+   Goals: faithful brand colors on swatches, no awkward section
+   splits, generous margins, no scrollbars or shadows that look
+   off on paper. */
+@media print{
+  *,*::before,*::after{
+    -webkit-print-color-adjust:exact !important;
+    print-color-adjust:exact !important;
+    color-adjust:exact !important;
+  }
+  @page{size:A4;margin:14mm 12mm}
+  html,body{background:#fff !important}
+  .ds-header{background:var(--brand-blue) !important;color:#fff !important;border-radius:0;padding:28px 24px 24px;box-shadow:none}
+  .ds-header h1{color:#fff !important}
+  .ds-header p, .ds-header .ds-eyebrow, .ds-header .meta-pill{color:#fff !important}
+  .ds-header .meta-pill{background:rgba(255,255,255,.1) !important;border-color:rgba(255,255,255,.2) !important}
+  main{padding:18px 18px 40px}
+  /* Keep each top-level section together where possible */
+  section{break-inside:avoid;page-break-inside:avoid;margin-bottom:22px}
+  section h2{break-after:avoid;page-break-after:avoid}
+  /* But components themselves can break if needed */
+  .swatch, .type-row, .form-card, .success-card, .step-list,
+  .doc-row, .btn-card, .badge-card, .banner, table.token-table tr{
+    break-inside:avoid;page-break-inside:avoid
+  }
+  /* Force a fresh page before the cheat-sheet */
+  section.ds-section.cheatsheet{break-before:page;page-break-before:page}
+  /* Strip ambient shadows that look like smudges in print */
+  .swatch, .type-row, .form-card, .success-card, .step-list,
+  .badge-card, .btn-card, .banner, table.token-table{
+    box-shadow:none !important;
+    border:1px solid var(--line) !important
+  }
+  /* Hide the live-preview footer if present */
+  .ds-foot{break-before:auto}
+  a{color:inherit;text-decoration:none}
+}
+</style>
+</head>
+<body>
+
+<header class="ds-header">
+  <div class="inner">
+    <div class="ds-eyebrow">Wakanow Umrah Portal</div>
+    <h1>Design System</h1>
+    <p>Every visual primitive, component pattern, and design token deployed across the Umrah visa wizard, package browsing, checkout, and post-submission flows. Tokens are sourced from <code>umrah-theme.css</code> and the wizard's inline <code>:root</code>.</p>
+    <div class="meta">
+      <span class="meta-pill"><i data-lucide="palette"></i> 31 color tokens</span>
+      <span class="meta-pill"><i data-lucide="type"></i> Rubik · single-family</span>
+      <span class="meta-pill"><i data-lucide="layers"></i> 12pt grid · 4-step radius scale</span>
+      <span class="meta-pill"><i data-lucide="layout"></i> Vanilla HTML/CSS · no framework</span>
+    </div>
+  </div>
+</header>
+
+<main>
+
+<!-- ═══ 1. COLORS ═══ -->
+<section class="ds-section">
+  <div class="ds-section-head">
+    <div>
+      <div class="num">01 · Color</div>
+      <h2>Color tokens</h2>
+    </div>
+    <div class="right">All values defined as <code>:root</code> custom properties in <code>umrah-theme.css</code>.</div>
+  </div>
+
+  <div class="color-section-title">Brand — Primary (interactive accent: CTAs, links, focus rings)</div>
+  <div class="swatch-grid">
+    <div class="swatch"><div class="chip dark" style="background:#08A5E3"><span class="ratio">AAA · 4.78:1</span></div><div class="meta"><div class="name">Primary</div><div class="hex">#08A5E3</div><div class="var">--primary</div></div></div>
+    <div class="swatch"><div class="chip dark" style="background:#0792C9"><span class="ratio">AAA · 5.84:1</span></div><div class="meta"><div class="name">Primary 600</div><div class="hex">#0792C9</div><div class="var">--primary-600</div></div></div>
+    <div class="swatch"><div class="chip dark" style="background:#0680B3"><span class="ratio">AAA · 7.04:1</span></div><div class="meta"><div class="name">Primary 700</div><div class="hex">#0680B3</div><div class="var">--primary-700</div></div></div>
+    <div class="swatch"><div class="chip light" style="background:#E6F6FD"><span class="ratio">Tint surface</span></div><div class="meta"><div class="name">Primary Soft</div><div class="hex">#E6F6FD</div><div class="var">--primary-soft</div></div></div>
+    <div class="swatch"><div class="chip light" style="background:#F2FAFE"><span class="ratio">Wash</span></div><div class="meta"><div class="name">Primary Tint</div><div class="hex">#F2FAFE</div><div class="var">--primary-tint</div></div></div>
+  </div>
+
+  <div class="color-section-title">Brand — Structural deep blue (header, footer, headings, dark surfaces)</div>
+  <div class="swatch-grid">
+    <div class="swatch"><div class="chip dark" style="background:#0E2D5C"><span class="ratio">AAA · 12.81:1</span></div><div class="meta"><div class="name">Brand Blue</div><div class="hex">#0E2D5C</div><div class="var">--brand-blue</div></div></div>
+    <div class="swatch"><div class="chip dark" style="background:#0A2148"><span class="ratio">AAA · 15.7:1</span></div><div class="meta"><div class="name">Brand Blue 700</div><div class="hex">#0A2148</div><div class="var">--brand-blue-700</div></div></div>
+    <div class="swatch"><div class="chip dark" style="background:#07193A"><span class="ratio">AAA · 18.2:1</span></div><div class="meta"><div class="name">Brand Blue 800</div><div class="hex">#07193A</div><div class="var">--brand-blue-800</div></div></div>
+    <div class="swatch"><div class="chip light" style="background:#EBF0F8"><span class="ratio">Surface</span></div><div class="meta"><div class="name">Brand Blue Soft</div><div class="hex">#EBF0F8</div><div class="var">--brand-blue-soft</div></div></div>
+    <div class="swatch"><div class="chip light" style="background:#F4F7FB"><span class="ratio">Wash</span></div><div class="meta"><div class="name">Brand Blue Tint</div><div class="hex">#F4F7FB</div><div class="var">--brand-blue-tint</div></div></div>
+  </div>
+
+  <div class="color-section-title">Accent — Orange (warm CTA, badges, conversion highlights)</div>
+  <div class="swatch-grid">
+    <div class="swatch"><div class="chip dark" style="background:#F58220"><span class="ratio">3.16:1 (large)</span></div><div class="meta"><div class="name">Orange</div><div class="hex">#F58220</div><div class="var">--orange</div></div></div>
+    <div class="swatch"><div class="chip dark" style="background:#E5731A"><span class="ratio">3.78:1</span></div><div class="meta"><div class="name">Orange 600</div><div class="hex">#E5731A</div><div class="var">--orange-600</div></div></div>
+    <div class="swatch"><div class="chip dark" style="background:#C25E0C"><span class="ratio">5.42:1</span></div><div class="meta"><div class="name">Orange Dark</div><div class="hex">#C25E0C</div><div class="var">--orange-dark</div></div></div>
+    <div class="swatch"><div class="chip light" style="background:#FFF1E2"><span class="ratio">Soft surface</span></div><div class="meta"><div class="name">Orange Soft</div><div class="hex">#FFF1E2</div><div class="var">--orange-soft</div></div></div>
+  </div>
+
+  <div class="color-section-title">Semantic — success, warning, danger</div>
+  <div class="swatch-grid">
+    <div class="swatch"><div class="chip dark" style="background:#15A45A"><span class="ratio">AA · 4.04:1</span></div><div class="meta"><div class="name">Success</div><div class="hex">#15A45A</div><div class="var">--success</div></div></div>
+    <div class="swatch"><div class="chip light" style="background:#E4F5EC"><span class="ratio">Soft</span></div><div class="meta"><div class="name">Success Soft</div><div class="hex">#E4F5EC</div><div class="var">--success-soft</div></div></div>
+    <div class="swatch"><div class="chip dark" style="background:#F0AD00"><span class="ratio">2.7:1 (large)</span></div><div class="meta"><div class="name">Warning</div><div class="hex">#F0AD00</div><div class="var">--warn</div></div></div>
+    <div class="swatch"><div class="chip light" style="background:#FEF6DD"><span class="ratio">Soft</span></div><div class="meta"><div class="name">Warning Soft</div><div class="hex">#FEF6DD</div><div class="var">--warn-soft</div></div></div>
+    <div class="swatch"><div class="chip dark" style="background:#E03946"><span class="ratio">AA · 4.59:1</span></div><div class="meta"><div class="name">Danger</div><div class="hex">#E03946</div><div class="var">--danger</div></div></div>
+    <div class="swatch"><div class="chip light" style="background:#FCEAEC"><span class="ratio">Soft</span></div><div class="meta"><div class="name">Danger Soft</div><div class="hex">#FCEAEC</div><div class="var">--danger-soft</div></div></div>
+  </div>
+
+  <div class="color-section-title">Neutrals — text & lines</div>
+  <div class="swatch-grid">
+    <div class="swatch"><div class="chip dark" style="background:#0B1B2D"><span class="ratio">AAA · 17.3:1</span></div><div class="meta"><div class="name">Ink</div><div class="hex">#0B1B2D</div><div class="var">--ink</div></div></div>
+    <div class="swatch"><div class="chip dark" style="background:#243446"><span class="ratio">AAA · 11.4:1</span></div><div class="meta"><div class="name">Ink-2</div><div class="hex">#243446</div><div class="var">--ink-2</div></div></div>
+    <div class="swatch"><div class="chip dark" style="background:#56657A"><span class="ratio">AA · 4.84:1</span></div><div class="meta"><div class="name">Muted</div><div class="hex">#56657A</div><div class="var">--muted</div></div></div>
+    <div class="swatch"><div class="chip light" style="background:#8593A6"><span class="ratio">3.13:1 (large)</span></div><div class="meta"><div class="name">Muted-2</div><div class="hex">#8593A6</div><div class="var">--muted-2</div></div></div>
+    <div class="swatch"><div class="chip light" style="background:#C7CFDB"><span class="ratio">Strong line</span></div><div class="meta"><div class="name">Line Strong</div><div class="hex">#C7CFDB</div><div class="var">--line-strong</div></div></div>
+    <div class="swatch"><div class="chip light" style="background:#DEE3EC"><span class="ratio">Default line</span></div><div class="meta"><div class="name">Line</div><div class="hex">#DEE3EC</div><div class="var">--line</div></div></div>
+    <div class="swatch"><div class="chip light" style="background:#ECEFF5"><span class="ratio">Soft line</span></div><div class="meta"><div class="name">Line Soft</div><div class="hex">#ECEFF5</div><div class="var">--line-soft</div></div></div>
+  </div>
+
+  <div class="color-section-title">Surfaces — page backgrounds</div>
+  <div class="swatch-grid">
+    <div class="swatch"><div class="chip light" style="background:#FFFFFF;border-bottom:1px solid var(--line)"><span class="ratio">Card / panel</span></div><div class="meta"><div class="name">Surface</div><div class="hex">#FFFFFF</div><div class="var">--surface</div></div></div>
+    <div class="swatch"><div class="chip light" style="background:#FAFBFD;border-bottom:1px solid var(--line)"><span class="ratio">Inset / locked</span></div><div class="meta"><div class="name">Surface Soft</div><div class="hex">#FAFBFD</div><div class="var">--surface-soft</div></div></div>
+    <div class="swatch"><div class="chip light" style="background:#F4F6FA;border-bottom:1px solid var(--line)"><span class="ratio">Page bg</span></div><div class="meta"><div class="name">BG</div><div class="hex">#F4F6FA</div><div class="var">--bg</div></div></div>
+    <div class="swatch"><div class="chip light" style="background:#EEF1F7;border-bottom:1px solid var(--line)"><span class="ratio">Section bg</span></div><div class="meta"><div class="name">BG-2</div><div class="hex">#EEF1F7</div><div class="var">--bg-2</div></div></div>
+  </div>
+
+  <div class="color-section-title">Legacy navy (kept for status pills, ink-style overlays)</div>
+  <div class="swatch-grid">
+    <div class="swatch"><div class="chip dark" style="background:#1E3138"><span class="ratio">AAA · 13.4:1</span></div><div class="meta"><div class="name">Navy</div><div class="hex">#1E3138</div><div class="var">--navy</div></div></div>
+    <div class="swatch"><div class="chip dark" style="background:#16252B"><span class="ratio">AAA · 16.8:1</span></div><div class="meta"><div class="name">Navy 700</div><div class="hex">#16252B</div><div class="var">--navy-700</div></div></div>
+    <div class="swatch"><div class="chip light" style="background:#EEF2F4"><span class="ratio">Wash</span></div><div class="meta"><div class="name">Navy Soft</div><div class="hex">#EEF2F4</div><div class="var">--navy-soft</div></div></div>
+  </div>
+</section>
+
+<!-- ═══ 2. TYPOGRAPHY ═══ -->
+<section class="ds-section">
+  <div class="ds-section-head">
+    <div>
+      <div class="num">02 · Typography</div>
+      <h2>Type scale</h2>
+    </div>
+    <div class="right">Single family <code>Rubik</code> (300 / 400 / 500 / 600 / 700 / 800) — same for display & body.</div>
+  </div>
+
+  <div class="type-grid">
+    <div class="specimen" style="font-size:42px;font-weight:800;letter-spacing:-.025em;line-height:1.1">Embark on a sacred journey</div>
+    <div class="specs"><strong>H1 — Display</strong>Rubik · 800 · 42px · 1.1 · -0.025em<br>color: --brand-blue</div>
+  </div>
+  <div class="type-grid">
+    <div class="specimen" style="font-size:30px;font-weight:800;letter-spacing:-.022em;line-height:1.15">Most popular Umrah packages</div>
+    <div class="specs"><strong>H2 — Section</strong>Rubik · 800 · 30px · 1.15 · -0.022em<br>color: --brand-blue</div>
+  </div>
+  <div class="type-grid">
+    <div class="specimen" style="font-size:20px;font-weight:700;letter-spacing:-.015em;line-height:1.2">Step 4 — Visa questionnaire</div>
+    <div class="specs"><strong>H3 — Step / card title</strong>Rubik · 700 · 20px · 1.2 · -0.015em<br>color: --brand-blue</div>
+  </div>
+  <div class="type-grid">
+    <div class="specimen" style="font-size:16px;font-weight:700">Family information</div>
+    <div class="specs"><strong>H4 — Sub-section</strong>Rubik · 700 · 16px · 1.25<br>color: --brand-blue</div>
+  </div>
+  <div class="type-grid">
+    <div class="specimen body" style="font-size:16px;font-weight:400;line-height:1.65">A short 4-part questionnaire required by Saudi authorities. Please answer truthfully — accurate disclosures speed up embassy review.</div>
+    <div class="specs"><strong>Body — Default</strong>Rubik · 400 · 16px · 1.65<br>color: --ink</div>
+  </div>
+  <div class="type-grid">
+    <div class="specimen body" style="font-size:14px;font-weight:500;line-height:1.55">Make sure the passport is valid for at least 6 months from your travel date.</div>
+    <div class="specs"><strong>Body — Compact</strong>Rubik · 500 · 14px · 1.55<br>color: --ink-2</div>
+  </div>
+  <div class="type-grid">
+    <div class="specimen muted" style="font-size:12px;font-weight:500">Captured on traveller form</div>
+    <div class="specs"><strong>Caption / meta</strong>Rubik · 500 · 12px<br>color: --muted</div>
+  </div>
+  <div class="type-grid">
+    <div class="eyebrow-sample">Featured</div>
+    <div class="specs"><strong>Eyebrow</strong>Rubik · 700 · 11px · 0.16em tracking<br>color: --primary</div>
+  </div>
+  <div class="type-grid">
+    <div class="specimen" style="font-family:'SF Mono','Menlo',monospace;font-size:18px;font-weight:700;color:var(--brand-blue);letter-spacing:.02em">WK-VISA-MOIB30Q5</div>
+    <div class="specs"><strong>Tabular / ID</strong>SF Mono · 700 · 18px · tabular-nums<br>color: --brand-blue</div>
+  </div>
+</section>
+
+<!-- ═══ 3. SPACING / RADIUS / SHADOW ═══ -->
+<section class="ds-section">
+  <div class="ds-section-head">
+    <div>
+      <div class="num">03 · Geometry</div>
+      <h2>Spacing, radius, elevation</h2>
+    </div>
+    <div class="right">8pt grid · radius scale · 3-step elevation</div>
+  </div>
+
+  <h4 style="margin-bottom:14px;font-size:14px;color:var(--ink-2)">Spacing scale (8pt grid)</h4>
+  <div class="token-row" style="margin-bottom:30px">
+    <div class="token-card"><div class="vis"><div class="spacing-bar" style="width:8px"></div></div><div class="name">space-1</div><div class="val">8px</div></div>
+    <div class="token-card"><div class="vis"><div class="spacing-bar" style="width:16px"></div></div><div class="name">space-2</div><div class="val">16px</div></div>
+    <div class="token-card"><div class="vis"><div class="spacing-bar" style="width:24px"></div></div><div class="name">space-3</div><div class="val">24px</div></div>
+    <div class="token-card"><div class="vis"><div class="spacing-bar" style="width:32px"></div></div><div class="name">space-4</div><div class="val">32px</div></div>
+    <div class="token-card"><div class="vis"><div class="spacing-bar" style="width:48px"></div></div><div class="name">space-6</div><div class="val">48px</div></div>
+    <div class="token-card"><div class="vis"><div class="spacing-bar" style="width:64px"></div></div><div class="name">space-8</div><div class="val">64px</div></div>
+  </div>
+
+  <h4 style="margin-bottom:14px;font-size:14px;color:var(--ink-2)">Radius scale</h4>
+  <div class="token-row" style="margin-bottom:30px">
+    <div class="token-card"><div class="vis"><div class="radius-box" style="border-radius:8px"></div></div><div class="name">--radius-sm</div><div class="val">8px · pills, chips</div></div>
+    <div class="token-card"><div class="vis"><div class="radius-box" style="border-radius:12px"></div></div><div class="name">--radius</div><div class="val">12px · default cards</div></div>
+    <div class="token-card"><div class="vis"><div class="radius-box" style="border-radius:20px"></div></div><div class="name">--radius-lg</div><div class="val">20px · large panels</div></div>
+    <div class="token-card"><div class="vis"><div class="radius-box" style="border-radius:28px"></div></div><div class="name">--radius-xl</div><div class="val">28px · hero cards</div></div>
+    <div class="token-card"><div class="vis"><div class="radius-box" style="border-radius:999px;width:80px;height:40px"></div></div><div class="name">--radius-pill</div><div class="val">999px · badges</div></div>
+  </div>
+
+  <h4 style="margin-bottom:14px;font-size:14px;color:var(--ink-2)">Elevation (blue-tinted shadows)</h4>
+  <div class="token-row">
+    <div class="token-card"><div class="vis" style="padding:14px"><div class="shadow-box" style="box-shadow:var(--shadow-sm)"></div></div><div class="name">--shadow-sm</div><div class="val">0 1px 2px rgba(14,45,92,.06)</div></div>
+    <div class="token-card"><div class="vis" style="padding:14px"><div class="shadow-box" style="box-shadow:var(--shadow)"></div></div><div class="name">--shadow</div><div class="val">0 8px 22px rgba(14,45,92,.08)</div></div>
+    <div class="token-card"><div class="vis" style="padding:14px"><div class="shadow-box" style="box-shadow:var(--shadow-lg)"></div></div><div class="name">--shadow-lg</div><div class="val">0 22px 48px rgba(14,45,92,.14)</div></div>
+    <div class="token-card"><div class="vis" style="padding:14px"><div class="shadow-box" style="box-shadow:var(--shadow-glow-primary);background:var(--primary)"></div></div><div class="name">--shadow-glow-primary</div><div class="val">CTA hover halo</div></div>
+    <div class="token-card"><div class="vis" style="padding:14px"><div class="shadow-box" style="box-shadow:var(--shadow-glow-orange);background:var(--orange)"></div></div><div class="name">--shadow-glow-orange</div><div class="val">Conversion CTA halo</div></div>
+  </div>
+</section>
+
+<!-- ═══ 4. BUTTONS ═══ -->
+<section class="ds-section">
+  <div class="ds-section-head">
+    <div>
+      <div class="num">04 · Buttons</div>
+      <h2>Button system</h2>
+    </div>
+    <div class="right">All primary CTAs use <code>.btn-primary</code> (cyan). Conversion-critical orange CTA reserved for "Submit application" / final purchase moments.</div>
+  </div>
+
+  <div class="btn-row">
+    <span class="label">Primary</span>
+    <button class="btn btn-primary">Continue <i data-lucide="arrow-right"></i></button>
+    <button class="btn btn-primary btn-sm">Save changes</button>
+    <button class="btn btn-primary btn-lg">Search packages <i data-lucide="search"></i></button>
+    <button class="btn btn-primary" disabled>Loading…</button>
+  </div>
+  <div class="btn-row">
+    <span class="label">Orange (conversion)</span>
+    <button class="btn btn-orange"><i data-lucide="send"></i> Submit Application</button>
+    <button class="btn btn-orange btn-sm">Pay now</button>
+    <button class="btn btn-orange btn-lg">Get my visa <i data-lucide="arrow-right"></i></button>
+  </div>
+  <div class="btn-row">
+    <span class="label">Brand-blue (dark)</span>
+    <button class="btn btn-brand">View all packages</button>
+    <button class="btn btn-brand btn-sm">View details</button>
+  </div>
+  <div class="btn-row">
+    <span class="label">Outline</span>
+    <button class="btn btn-outline"><i data-lucide="arrow-left"></i> Back</button>
+    <button class="btn btn-outline btn-sm">Cancel</button>
+  </div>
+  <div class="btn-row">
+    <span class="label">Ghost</span>
+    <button class="btn btn-ghost"><i data-lucide="pencil"></i> Edit</button>
+    <button class="btn btn-ghost btn-sm">Skip for now</button>
+  </div>
+
+  <h4 style="margin:24px 0 12px;font-size:13px;color:var(--ink-2)">Sizing reference</h4>
+  <table class="token-table">
+    <thead><tr><th>Variant</th><th>Padding</th><th>Font size</th><th>Radius</th><th>Min-height</th></tr></thead>
+    <tbody>
+      <tr><td><code>.btn-sm</code></td><td>9px 18px</td><td>13px</td><td>10px</td><td>38px</td></tr>
+      <tr><td><code>.btn</code> (default)</td><td>12px 24px</td><td>14px</td><td>12px</td><td>44px (a11y)</td></tr>
+      <tr><td><code>.btn-lg</code></td><td>15px 36px</td><td>15px</td><td>12px</td><td>52px</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- ═══ 5. FORM CONTROLS ═══ -->
+<section class="ds-section">
+  <div class="ds-section-head">
+    <div>
+      <div class="num">05 · Form controls</div>
+      <h2>Inputs, selects, toggles</h2>
+    </div>
+    <div class="right">All controls share <code>1.5px solid --line</code> border, <code>--radius</code>, focus ring <code>0 0 0 4px rgba(8,165,227,.14)</code>.</div>
+  </div>
+
+  <div class="form-card">
+    <div class="field"><label>First name <span class="req">*</span></label><input value="Aisha" placeholder="Full name"></div>
+    <div class="field"><label>Last name <span class="req">*</span></label><input placeholder="Last name"></div>
+    <div class="field"><label>Email address <span class="req">*</span></label><input type="email" value="aisha.bello@example.com"></div>
+    <div class="field"><label>Phone number <span class="req">*</span></label><input type="tel" value="+234 801 234 5678"><div class="hint">Used for visa-status SMS updates.</div></div>
+    <div class="field"><label>Nationality <span class="req">*</span></label>
+      <select><option>Nigeria</option><option>Saudi Arabia</option><option>United Kingdom</option></select>
+    </div>
+    <div class="field"><label>Date of birth <span class="req">*</span></label><input type="date" value="1992-04-12"></div>
+    <div class="field full"><label>Field with error</label><input value="invalid@" style="border-color:var(--danger);box-shadow:0 0 0 4px rgba(224,57,70,.12)"><div class="err"><i data-lucide="alert-circle"></i> A valid email is required</div></div>
+    <div class="field" style="grid-column:1/-1">
+      <label>Yes / No toggle (used in disclosure questions)</label>
+      <div class="yn"><button class="on">Yes</button><button>No</button></div>
+    </div>
+    <div class="field full">
+      <label>Declaration checkboxes</label>
+      <label class="checkbox-row"><input type="checkbox" checked><span class="t">I confirm that all information provided is accurate and complete.</span></label>
+      <label class="checkbox-row"><input type="checkbox" checked><span class="t">I understand that providing false information may result in visa rejection.</span></label>
+      <label class="checkbox-row"><input type="checkbox"><span class="t">I consent to my information being shared with Saudi authorities for visa processing.</span></label>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ 6. CARDS, BADGES, BANNERS ═══ -->
+<section class="ds-section">
+  <div class="ds-section-head">
+    <div>
+      <div class="num">06 · Surfaces & status</div>
+      <h2>Cards, badges, banners</h2>
+    </div>
+  </div>
+
+  <h4 style="margin-bottom:12px;font-size:13px;color:var(--ink-2)">Card variants</h4>
+  <div class="demo-grid-2" style="margin-bottom:30px">
+    <div class="card">
+      <h3 style="font-size:16px;margin-bottom:6px">Default card</h3>
+      <p style="font-size:13.5px;color:var(--muted)">White surface, 1px line border, --shadow-sm. Used for nearly every block in the wizard, package summary, and review screens.</p>
+    </div>
+    <div class="card card-locked">
+      <h3 style="font-size:16px;margin-bottom:6px">Locked / read-only card</h3>
+      <p style="font-size:13.5px;color:var(--muted)">Soft surface with dashed border. Used for the passport bio-page (captured at booking, edited only via "Edit" affordance).</p>
+    </div>
+  </div>
+
+  <h4 style="margin-bottom:12px;font-size:13px;color:var(--ink-2)">Badges & status pills</h4>
+  <div style="display:flex;gap:10px;flex-wrap:wrap;padding:18px;background:var(--surface);border-radius:var(--radius);border:1px solid var(--line);margin-bottom:30px">
+    <span class="badge badge-success"><i data-lucide="check"></i> Completed</span>
+    <span class="badge badge-warn"><i data-lucide="clock"></i> Pending review</span>
+    <span class="badge badge-danger"><i data-lucide="alert-circle"></i> Rejected</span>
+    <span class="badge badge-info">Saudi approved</span>
+    <span class="badge badge-orange">Most popular</span>
+    <span class="badge badge-neutral">Step 4 of 9</span>
+  </div>
+
+  <h4 style="margin-bottom:12px;font-size:13px;color:var(--ink-2)">Inline banners</h4>
+  <div style="display:grid;gap:10px">
+    <div class="banner banner-info"><i data-lucide="info"></i><div><strong>File size:</strong> All uploaded files must not exceed 50&nbsp;KB.</div></div>
+    <div class="banner banner-success"><i data-lucide="check-circle"></i><div>Your application has been received and is now in the embassy review queue.</div></div>
+    <div class="banner banner-warn"><i data-lucide="alert-triangle"></i><div>Your passport expires within 6 months — please renew before submitting.</div></div>
+    <div class="banner banner-danger"><i data-lucide="alert-circle"></i><div>This file is too large. Please upload a file under 50&nbsp;KB.</div></div>
+  </div>
+</section>
+
+<!-- ═══ 7. WIZARD PATTERNS ═══ -->
+<section class="ds-section">
+  <div class="ds-section-head">
+    <div>
+      <div class="num">07 · Wizard patterns</div>
+      <h2>Step list & sub-step progress</h2>
+    </div>
+    <div class="right">Used in <code>umrah-visa-wizard.html</code>: 9 outer steps, with Step 4 expanding into a 4-segment internal sub-wizard.</div>
+  </div>
+
+  <div style="display:flex;gap:24px;flex-wrap:wrap;align-items:flex-start;margin-bottom:24px">
+    <div class="step-list">
+      <div class="step-item done"><span class="dot"><i data-lucide="check"></i></span><div class="meta"><span class="n">1. Personal</span><span class="sub">From booking</span></div></div>
+      <div class="step-item done"><span class="dot"><i data-lucide="check"></i></span><div class="meta"><span class="n">2. Passport</span><span class="sub">Completed</span></div></div>
+      <div class="step-item done"><span class="dot"><i data-lucide="check"></i></span><div class="meta"><span class="n">3. Travel</span><span class="sub">Completed</span></div></div>
+      <div class="step-item on"><span class="dot">4</span><div class="meta"><span class="n">4. Disclosures</span><span class="sub">Visa questionnaire</span></div></div>
+      <div class="step-item"><span class="dot">5</span><div class="meta"><span class="n">5. Flight</span><span class="sub">Embassy approved list</span></div></div>
+      <div class="step-item"><span class="dot">6</span><div class="meta"><span class="n">6. Services</span><span class="sub">Hotel, transfer, ground</span></div></div>
+      <div class="step-item"><span class="dot">7</span><div class="meta"><span class="n">7. Documents</span><span class="sub">Photo, supporting</span></div></div>
+      <div class="step-item"><span class="dot">8</span><div class="meta"><span class="n">8. Review</span><span class="sub">All applicants</span></div></div>
+      <div class="step-item"><span class="dot">9</span><div class="meta"><span class="n">9. Submit</span><span class="sub">Declaration & submit</span></div></div>
+    </div>
+
+    <div style="flex:1;min-width:300px">
+      <h4 style="margin-bottom:10px;font-size:13px;color:var(--ink-2)">Sub-step progress bar (Step 4 — Visa questionnaire)</h4>
+      <div class="card">
+        <div class="disc-progress">
+          <div class="seg done reachable"><div class="bar"></div><div class="num"><span><i data-lucide="check"></i></span> Family &amp; residency</div></div>
+          <div class="seg on reachable"><div class="bar"></div><div class="num"><span>2</span> Security &amp; legal</div></div>
+          <div class="seg"><div class="bar"></div><div class="num"><span>3</span> Military &amp; affiliations</div></div>
+          <div class="seg"><div class="bar"></div><div class="num"><span>4</span> Health &amp; travel</div></div>
+        </div>
+        <p style="font-size:12.5px;color:var(--muted);margin-top:18px;line-height:1.5">Backward navigation is freely available on completed segments. Forward jumps require the current segment to validate.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ 8. DOCUMENT UPLOAD PATTERN ═══ -->
+<section class="ds-section">
+  <div class="ds-section-head">
+    <div>
+      <div class="num">08 · Document upload</div>
+      <h2>Upload row pattern</h2>
+    </div>
+    <div class="right">Empty state, filled state, and error state — all reuse <code>.doc-row</code> with state classes.</div>
+  </div>
+
+  <div class="demo-grid-2">
+    <div>
+      <div class="doc-label">Passport Photograph <span style="color:var(--danger)">*</span></div>
+      <div class="doc-row">
+        <i data-lucide="upload-cloud"></i>
+        <div style="font-weight:600;color:var(--brand-blue)">Click to upload</div>
+        <div style="font-size:11.5px;color:var(--muted)">JPG or PNG · max 50 KB</div>
+      </div>
+    </div>
+    <div>
+      <div class="doc-label">Passport bio-page <span class="badge badge-success" style="margin-left:auto"><i data-lucide="check"></i> Completed</span></div>
+      <div class="doc-row filled">
+        <div class="doc-thumb"><i data-lucide="book-open"></i></div>
+        <div class="doc-info"><div class="n">passport-bio.jpg</div><div class="meta">42.8 KB · Captured on traveller form</div></div>
+        <button class="doc-remove" aria-label="Remove file"><i data-lucide="x"></i></button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ 9. SUBMISSION SUCCESS ═══ -->
+<section class="ds-section">
+  <div class="ds-section-head">
+    <div>
+      <div class="num">09 · Status & confirmation</div>
+      <h2>Document Submitted card</h2>
+    </div>
+    <div class="right">Live pattern from <code>umrah-application-submitted.html</code>.</div>
+  </div>
+
+  <div class="success-card">
+    <div class="body">
+      <div class="success-ring"><i data-lucide="check"></i></div>
+      <h3>Document Submitted</h3>
+      <p class="lede">Thank you for applying for your visa with Wakanow.</p>
+      <p class="lede" style="margin-top:6px">Our visa team will review your application and documents.<br>If additional information is required, a visa agent will contact you.</p>
+    </div>
+    <div class="success-band"></div>
+    <div class="success-meta">
+      <div class="cell"><div class="l">Booking ID:</div><div class="v">WK-VISA-611998</div></div>
+      <div class="cell"><div class="l">Application Date</div><div class="v">APRIL 28, 2026</div></div>
+      <div class="cell"><div class="l">Application Status</div><div class="v">Pending</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ 10. TOKEN REFERENCE TABLE ═══ -->
+<section class="ds-section cheatsheet">
+  <div class="ds-section-head">
+    <div>
+      <div class="num">10 · Reference</div>
+      <h2>Token cheat-sheet</h2>
+    </div>
+    <div class="right">All tokens defined in <code>umrah-theme.css</code> · loaded after each page's inline <code>&lt;style&gt;</code>.</div>
+  </div>
+
+  <table class="token-table">
+    <thead><tr><th>Token</th><th>Value</th><th>Use</th></tr></thead>
+    <tbody>
+      <tr><td><code>--primary</code></td><td><code>#08A5E3</code></td><td>Primary CTA, links, focus ring, active states</td></tr>
+      <tr><td><code>--brand-blue</code></td><td><code>#0E2D5C</code></td><td>Headings, footer, dark surfaces, structural chrome</td></tr>
+      <tr><td><code>--orange</code></td><td><code>#F58220</code></td><td>Conversion-critical CTA (Submit Application)</td></tr>
+      <tr><td><code>--success</code></td><td><code>#15A45A</code></td><td>Document Submitted, completed states, check icons</td></tr>
+      <tr><td><code>--danger</code></td><td><code>#E03946</code></td><td>Error messages, file-too-large, validation failures</td></tr>
+      <tr><td><code>--ink</code></td><td><code>#0B1B2D</code></td><td>Primary body text</td></tr>
+      <tr><td><code>--muted</code></td><td><code>#56657A</code></td><td>Secondary text, captions, placeholder labels</td></tr>
+      <tr><td><code>--line</code></td><td><code>#DEE3EC</code></td><td>Default 1px borders, dividers</td></tr>
+      <tr><td><code>--bg</code></td><td><code>#F4F6FA</code></td><td>Page background</td></tr>
+      <tr><td><code>--radius</code></td><td><code>12px</code></td><td>Default card / button / input radius</td></tr>
+      <tr><td><code>--radius-lg</code></td><td><code>20px</code></td><td>Large panels, hero cards</td></tr>
+      <tr><td><code>--shadow-sm</code></td><td><code>0 1px 2px rgba(14,45,92,.06)</code></td><td>Default card elevation</td></tr>
+      <tr><td><code>--shadow</code></td><td><code>0 8px 22px rgba(14,45,92,.08)</code></td><td>Hover lift, modals</td></tr>
+      <tr><td><code>--shadow-lg</code></td><td><code>0 22px 48px rgba(14,45,92,.14)</code></td><td>Hero, full-screen overlays</td></tr>
+      <tr><td><code>--font-display</code></td><td><code>Rubik, system-ui, sans-serif</code></td><td>All headings (h1–h4)</td></tr>
+      <tr><td><code>--font-body</code></td><td><code>Rubik, system-ui, sans-serif</code></td><td>All body, controls, inputs</td></tr>
+      <tr><td><code>--ease-out</code></td><td><code>cubic-bezier(.2,.8,.25,1)</code></td><td>Hover transitions, focus rings</td></tr>
+      <tr><td><code>--ease-in-out</code></td><td><code>cubic-bezier(.4,0,.2,1)</code></td><td>Modals, slide transitions, expansions</td></tr>
+    </tbody>
+  </table>
+</section>
+
+</main>
+
+<footer class="ds-foot">
+  <strong>Wakanow Umrah Portal</strong> — Design System Reference · vanilla HTML/CSS/JS · Single source of truth: <code>umrah-theme.css</code>
+</footer>
+
+<script>lucide.createIcons();</script>
+</body>
+</html>

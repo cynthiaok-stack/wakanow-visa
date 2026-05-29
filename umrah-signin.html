@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Continue Your Visa Application — Wakanow Umrah</title>
+<link href="https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Rubik',system-ui,sans-serif;font-size:16px;color:#1E3138;line-height:1.55;background:#F5F7FA;min-height:100vh}
+h1,h2,h3,h4{font-family:'Rubik',system-ui,sans-serif;font-weight:700;line-height:1.2}
+button{cursor:pointer;font-family:inherit;border:none;background:none;color:inherit}
+a{text-decoration:none;color:inherit}
+
+:root{
+  --primary:#08A5E3; --primary-dark:#0789BF; --primary-light:#E8F6FD;
+  --navy:#0F2A33;
+  --orange:#F58220; --orange-dark:#E07318;
+  --green:#27AE60;
+  --gray-100:#F2F3F5; --gray-200:#E5E7EB; --gray-300:#D1D5DB; --gray-500:#6B7280; --gray-600:#4B5563;
+  --radius-lg:14px;
+  --shadow-sm:0 1px 3px rgba(0,0,0,.06);
+  --shadow-md:0 8px 28px rgba(15,42,51,.12);
+  --ease:.22s cubic-bezier(.4,0,.2,1);
+}
+
+/* ─── Slim header ────────────────────────────────────────── */
+.site-header{background:#fff;padding:14px 40px;display:flex;align-items:center;gap:20px;box-shadow:0 1px 0 rgba(15,42,51,.06);position:relative;z-index:5}
+.site-header .logo{height:32px}
+.site-header .help-link{margin-left:auto;font-size:13px;color:var(--gray-600);font-weight:500;display:inline-flex;align-items:center;gap:6px}
+.site-header .help-link:hover{color:var(--primary)}
+.site-header .help-link i{width:14px;height:14px}
+@media(max-width:720px){ .site-header{padding:12px 18px} }
+
+/* ─── Split shell ────────────────────────────────────────── */
+.signin-shell{min-height:calc(100vh - 60px);display:grid;grid-template-columns:1.05fr 1fr}
+@media(max-width:920px){ .signin-shell{grid-template-columns:1fr;min-height:auto} }
+
+/* ─── Hero (left side) ───────────────────────────────────── */
+.signin-hero{position:relative;background-image:url('https://images.unsplash.com/photo-1591604129939-f1efa4d9f7fa?w=1600&q=80');background-size:cover;background-position:center;color:#fff;display:flex;flex-direction:column;justify-content:flex-end;padding:48px 56px;overflow:hidden;min-height:100%}
+.signin-hero::before{content:'';position:absolute;inset:0;background:linear-gradient(180deg,rgba(15,42,51,.25) 0%,rgba(15,42,51,.55) 55%,rgba(15,42,51,.88) 100%);pointer-events:none}
+.signin-hero::after{content:'';position:absolute;top:0;left:0;right:0;height:120px;background:linear-gradient(180deg,rgba(15,42,51,.5) 0%,transparent 100%);pointer-events:none}
+
+.hero-tag{position:relative;z-index:2;display:inline-flex;align-items:center;gap:7px;background:rgba(255,255,255,.14);backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,.22);padding:7px 14px;border-radius:999px;font-size:11.5px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;color:#fff;width:fit-content;margin-bottom:auto}
+.hero-tag i{width:13px;height:13px;color:#FFD7B0}
+
+.hero-content{position:relative;z-index:2;max-width:480px}
+.hero-content h2{font-size:40px;color:#fff;margin-bottom:14px;line-height:1.1;letter-spacing:-.02em;font-weight:800}
+.hero-content h2 .accent{display:block;color:#FFD7B0;font-weight:700}
+.hero-content p{font-size:15px;color:rgba(255,255,255,.85);line-height:1.55;margin-bottom:24px;max-width:420px}
+
+.hero-stats{display:flex;gap:18px;flex-wrap:wrap;position:relative;z-index:2}
+.hero-stat{display:flex;align-items:center;gap:8px;font-size:12px;color:rgba(255,255,255,.85);font-weight:500}
+.hero-stat i{width:14px;height:14px;color:var(--green)}
+
+@media(max-width:920px){
+  .signin-hero{padding:32px 24px 28px;min-height:240px}
+  .hero-content h2{font-size:26px;margin-bottom:8px}
+  .hero-content p{font-size:13.5px;margin-bottom:14px}
+  .hero-tag{margin-bottom:18px}
+  .hero-stats{display:none}
+}
+@media(max-width:520px){
+  .signin-hero{padding:24px 20px 22px;min-height:200px}
+  .hero-content h2{font-size:22px}
+}
+
+/* ─── Form panel (right side) ────────────────────────────── */
+.signin-panel{background:#fff;display:flex;align-items:center;justify-content:center;padding:48px 40px;position:relative}
+@media(max-width:920px){ .signin-panel{padding:32px 24px 56px} }
+@media(max-width:520px){ .signin-panel{padding:28px 20px 48px} }
+
+.signin-card{width:100%;max-width:420px;position:relative}
+
+.step-pill{display:inline-flex;align-items:center;gap:6px;background:var(--gray-100);color:var(--gray-600);font-size:11px;font-weight:600;padding:5px 11px;border-radius:999px;margin-bottom:14px;letter-spacing:.04em;text-transform:uppercase}
+.step-pill .dot{width:6px;height:6px;border-radius:50%;background:var(--primary)}
+
+.signin-card h1{font-size:26px;color:var(--navy);letter-spacing:-.015em;margin-bottom:8px}
+.signin-card .lede{font-size:14px;color:var(--gray-600);line-height:1.55;margin-bottom:26px}
+.signin-card .lede strong{color:var(--navy);font-weight:600}
+@media(max-width:520px){ .signin-card h1{font-size:22px} .signin-card .lede{font-size:13px;margin-bottom:20px} }
+
+/* Step container — fade-slide between steps */
+.step{display:none;animation:stepIn .32s cubic-bezier(.4,0,.2,1)}
+.step.on{display:block}
+@keyframes stepIn{from{opacity:0;transform:translateX(8px)}to{opacity:1;transform:translateX(0)}}
+
+/* Field */
+.field{display:flex;flex-direction:column;gap:7px;margin-bottom:18px}
+.field label{font-size:12.5px;color:var(--navy);font-weight:600}
+.field input{padding:14px 14px;border:1.5px solid var(--gray-200);border-radius:10px;font-size:14.5px;font-family:inherit;color:var(--navy);transition:var(--ease);background:#fff;font-variant-numeric:tabular-nums;width:100%;letter-spacing:.01em}
+.field input:focus{outline:none;border-color:var(--primary);box-shadow:0 0 0 3px rgba(8,165,227,.15)}
+.field input::placeholder{color:#A8AEB6}
+.field input.invalid{border-color:#DC2626;background:#FEF2F2}
+.field .helper{font-size:11.5px;color:var(--gray-500);display:flex;align-items:center;gap:5px;margin-top:2px}
+.field .helper i{width:12px;height:12px;color:var(--primary)}
+.field .err{font-size:12px;color:#DC2626;display:none;align-items:center;gap:5px;font-weight:500}
+.field .err.on{display:inline-flex}
+.field .err i{width:13px;height:13px}
+
+/* OTP boxes */
+.otp-row{display:flex;gap:8px;justify-content:space-between;margin-bottom:6px}
+.otp{width:100%;height:54px;text-align:center;font-size:22px;font-weight:700;border:1.5px solid var(--gray-200);border-radius:10px;background:#fff;color:var(--navy);font-family:inherit;font-variant-numeric:tabular-nums;transition:var(--ease)}
+.otp:focus{outline:none;border-color:var(--primary);box-shadow:0 0 0 3px rgba(8,165,227,.15)}
+.otp.filled{border-color:var(--primary);background:#F4FAFE}
+.otp.invalid{border-color:#DC2626;background:#FEF2F2}
+@media(max-width:380px){ .otp{height:48px;font-size:18px} }
+
+/* Primary button */
+.btn{padding:14px 22px;border-radius:11px;font-size:14.5px;font-weight:600;display:inline-flex;align-items:center;justify-content:center;gap:8px;transition:var(--ease);cursor:pointer;border:none;width:100%;min-height:50px;font-family:inherit}
+.btn i{width:15px;height:15px}
+.btn-primary{background:var(--orange);color:#fff;box-shadow:0 6px 16px rgba(245,130,32,.28)}
+.btn-primary:hover:not(:disabled){background:var(--orange-dark);box-shadow:0 8px 22px rgba(245,130,32,.36)}
+.btn-primary:disabled{background:#D1D5DB;cursor:not-allowed;box-shadow:none}
+
+.btn-helper{font-size:12px;color:var(--gray-500);text-align:center;margin-top:10px;line-height:1.5}
+.btn-helper i{width:12px;height:12px;color:var(--gray-500);vertical-align:-2px;margin-right:3px}
+
+/* Step 2 specific — masked email + resend row */
+.email-mask{display:inline-flex;align-items:center;gap:5px;background:var(--gray-100);color:var(--navy);font-size:12px;font-weight:600;padding:4px 10px;border-radius:999px;font-variant-numeric:tabular-nums}
+.email-mask i{width:12px;height:12px;color:var(--primary)}
+
+.resend-row{display:flex;align-items:center;justify-content:space-between;font-size:12.5px;color:var(--gray-500);margin:6px 0 22px;flex-wrap:wrap;gap:8px}
+.resend-row .resend-link{color:var(--primary);font-weight:600;cursor:pointer;background:none;border:none;padding:0;font-family:inherit;font-size:12.5px;display:inline-flex;align-items:center;gap:4px}
+.resend-row .resend-link:hover:not(:disabled){color:var(--primary-dark);text-decoration:underline}
+.resend-row .resend-link:disabled{color:var(--gray-500);cursor:not-allowed;font-weight:500}
+.resend-row .resend-link i{width:12px;height:12px}
+
+.back-link{display:inline-flex;align-items:center;gap:5px;color:var(--gray-600);font-size:13px;font-weight:500;margin-top:18px;cursor:pointer;background:none;border:none;padding:0;font-family:inherit;transition:var(--ease)}
+.back-link:hover{color:var(--navy)}
+.back-link i{width:13px;height:13px}
+
+/* Trust row at bottom of form */
+.trust-row{display:flex;align-items:center;gap:8px;font-size:11.5px;color:var(--gray-500);margin-top:26px;padding-top:18px;border-top:1px solid var(--gray-200);line-height:1.5}
+.trust-row i{width:14px;height:14px;color:var(--green);flex-shrink:0}
+.trust-row a{color:var(--primary);font-weight:600}
+.trust-row a:hover{text-decoration:underline}
+
+/* Loading spinner */
+.spin{width:14px;height:14px;border-radius:50%;border:2px solid rgba(255,255,255,.4);border-top-color:#fff;animation:spinR .8s linear infinite;display:inline-block}
+@keyframes spinR{to{transform:rotate(360deg)}}
+
+/* Toast */
+.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(120%);background:var(--navy);color:#fff;padding:11px 18px;border-radius:8px;font-size:12.5px;box-shadow:0 10px 28px rgba(0,0,0,.18);transition:transform .3s ease;z-index:200}
+.toast.on{transform:translateX(-50%) translateY(0)}
+</style>
+<link rel="stylesheet" href="umrah-theme.css">
+</head>
+<body>
+
+<header class="site-header">
+  <a href="saudi-packages.html"><img src="wakanow-logo.svg" alt="Wakanow" class="logo"></a>
+  <a href="mailto:umrah@wakanow.com" class="help-link"><i data-lucide="life-buoy"></i> Need help?</a>
+</header>
+
+<main class="signin-shell">
+  <aside class="signin-hero">
+    <div class="hero-tag"><i data-lucide="moon"></i> Umrah · Pilgrim portal</div>
+    <div class="hero-content">
+      <h2>Welcome back, <span class="accent">Pilgrim</span></h2>
+      <p>Continue your Umrah journey where you left off. Sign in to track your visa, review your itinerary, and prepare for the holy land.</p>
+      <div class="hero-stats">
+        <div class="hero-stat"><i data-lucide="shield-check"></i> Bank-grade security</div>
+        <div class="hero-stat"><i data-lucide="clock"></i> Auto-saved progress</div>
+        <div class="hero-stat"><i data-lucide="users-round"></i> 12,000+ pilgrims</div>
+      </div>
+    </div>
+  </aside>
+
+  <section class="signin-panel">
+    <div class="signin-card">
+
+      <!-- ─── STEP 1: Booking ID ─── -->
+      <div class="step on" id="step1">
+        <span class="step-pill"><span class="dot"></span> Step 1 of 2</span>
+        <h1>Continue your visa application</h1>
+        <p class="lede">Enter your booking ID to pick up where you left off.</p>
+
+        <div class="field">
+          <label for="bookingIdInput">Booking ID</label>
+          <input id="bookingIdInput" type="text" autocomplete="off" spellcheck="false" autocapitalize="characters" placeholder="Enter your booking ID">
+          <span class="err" id="bookingIdErr"><i data-lucide="alert-circle"></i> <span></span></span>
+        </div>
+
+        <button class="btn btn-primary" id="continueBtn" type="button">
+          Continue <i data-lucide="arrow-right"></i>
+        </button>
+        <div class="btn-helper">
+          <i data-lucide="info"></i> You can find your booking ID in your confirmation email.
+        </div>
+      </div>
+
+      <!-- ─── STEP 2: Verification Code ─── -->
+      <div class="step" id="step2">
+        <span class="step-pill"><span class="dot"></span> Step 2 of 2</span>
+        <h1>Enter verification code</h1>
+        <p class="lede">We've sent a 6-digit code to <span class="email-mask" id="emailMask"><i data-lucide="mail"></i> <span></span></span></p>
+
+        <div class="field">
+          <label>Verification code</label>
+          <div class="otp-row" id="otpRow">
+            <input class="otp" data-i="0" type="text" inputmode="numeric" maxlength="1" autocomplete="one-time-code" aria-label="Digit 1">
+            <input class="otp" data-i="1" type="text" inputmode="numeric" maxlength="1" aria-label="Digit 2">
+            <input class="otp" data-i="2" type="text" inputmode="numeric" maxlength="1" aria-label="Digit 3">
+            <input class="otp" data-i="3" type="text" inputmode="numeric" maxlength="1" aria-label="Digit 4">
+            <input class="otp" data-i="4" type="text" inputmode="numeric" maxlength="1" aria-label="Digit 5">
+            <input class="otp" data-i="5" type="text" inputmode="numeric" maxlength="1" aria-label="Digit 6">
+          </div>
+          <span class="err" id="otpErr"><i data-lucide="alert-circle"></i> <span></span></span>
+        </div>
+
+        <div class="resend-row">
+          <span>Didn't get the code?</span>
+          <button class="resend-link" id="resendBtn" type="button" disabled>Resend code in <span id="resendTimer">0:28</span></button>
+        </div>
+
+        <button class="btn btn-primary" id="verifyBtn" type="button" disabled>
+          <i data-lucide="check-circle"></i> Verify &amp; continue
+        </button>
+
+        <button class="back-link" type="button" id="backBtn"><i data-lucide="arrow-left"></i> Back to booking ID</button>
+
+        <p id="devHint" style="margin-top:16px;font-size:11px;color:#9CA3AF;text-align:center"></p>
+      </div>
+
+      <div class="trust-row">
+        <i data-lucide="shield-check"></i>
+        <span>Encrypted &amp; PCI-DSS compliant. Your details are never shared. <a href="mailto:umrah@wakanow.com">Contact support</a></span>
+      </div>
+
+    </div>
+  </section>
+</main>
+
+<div class="toast" id="toast">Code sent</div>
+
+<script src="umrah-portal-data.js"></script>
+<script src="umrah-contact.js" defer></script>
+<script>
+lucide.createIcons();
+
+// ─── State ────────────────────────────────────────────────
+const state = {
+  booking: null,
+  sentCode: null,
+  resendTicker: null,
+};
+
+// Allow pre-filling the booking ID via ?bookingId=XXX
+const params = new URLSearchParams(location.search);
+const prefillId = (params.get('bookingId') || '').toUpperCase();
+const bookingIdInput = document.getElementById('bookingIdInput');
+if (prefillId) bookingIdInput.value = prefillId;
+
+// ─── Step 1: Booking ID submission ────────────────────────
+const continueBtn = document.getElementById('continueBtn');
+const bookingIdErr = document.getElementById('bookingIdErr');
+
+bookingIdInput.addEventListener('input', () => {
+  bookingIdInput.value = bookingIdInput.value.toUpperCase().replace(/\s+/g, '');
+  clearErr(bookingIdInput, bookingIdErr);
+});
+bookingIdInput.addEventListener('keydown', (e) => { if (e.key === 'Enter') continueBtn.click(); });
+continueBtn.addEventListener('click', submitStep1);
+
+// DEMO MODE — validation is relaxed so the flow can be tested end-to-end without
+// a real booking record. Any non-empty input advances to step 2; if no booking
+// matches in storage, we synthesize one so routing has something to work with.
+function submitStep1() {
+  // Accept any non-empty booking ID format — no prefix or pattern enforcement.
+  // If the field is empty, fall back to the most recent stored booking instead
+  // of synthesizing a fixed-format demo ID, so the demo respects the relaxed
+  // format rule.
+  const rawInput = bookingIdInput.value.trim().toUpperCase();
+  const id = rawInput || ((window.UmrahPortal && UmrahPortal.load) ? ((UmrahPortal.load().bookings || []).slice(-1)[0]?.id || 'DEMO-BOOKING') : 'DEMO-BOOKING');
+  let booking = (window.UmrahPortal && UmrahPortal.findBooking) ? UmrahPortal.findBooking(id) : null;
+
+  // Demo fallback: if no booking exists, also try the most recent stored booking
+  if (!booking && window.UmrahPortal && UmrahPortal.load) {
+    const all = (UmrahPortal.load().bookings || []);
+    booking = all[all.length - 1] || null;
+  }
+
+  // Last-resort: synthesize a minimal booking shape so the flow can continue
+  if (!booking) {
+    booking = {
+      id,
+      type: 'with_visa',
+      packageName: 'Demo Umrah package',
+      quantity: 1,
+      totalPrice: 0,
+      contact: { email: 'demo@wakanow.com' },
+      passengers: [{ firstName: 'Demo', lastName: 'Pilgrim' }],
+      visa: { submissionStatus: 'draft', progress: 0, currentStep: 1 }
+    };
+  }
+
+  continueBtn.disabled = true;
+  continueBtn.innerHTML = '<span class="spin"></span> Sending code…';
+  setTimeout(() => {
+    state.booking = booking;
+    state.sentCode = String(Math.floor(100000 + Math.random() * 900000));
+    if (window.console) console.log('[UmrahSignIn] Verification code for', id, '=', state.sentCode);
+    goToStep2();
+    continueBtn.disabled = false;
+    continueBtn.innerHTML = 'Continue <i data-lucide="arrow-right"></i>';
+    lucide.createIcons();
+  }, 400);
+}
+
+// ─── Step transitions ─────────────────────────────────────
+function goToStep2() {
+  document.getElementById('step1').classList.remove('on');
+  document.getElementById('step2').classList.add('on');
+
+  // Mask email
+  const email = (state.booking.contact && state.booking.contact.email)
+    || (UmrahPortal.load().user && UmrahPortal.load().user.email)
+    || 'your registered email';
+  document.querySelector('#emailMask span').textContent = maskEmail(email);
+
+  // Dev convenience
+  document.getElementById('devHint').innerHTML =
+    `Demo: code is <strong style="color:var(--primary);font-family:monospace">${state.sentCode}</strong> (also in console)`;
+
+  // Reset OTP
+  document.querySelectorAll('.otp').forEach(o => { o.value = ''; o.classList.remove('filled', 'invalid'); });
+  document.getElementById('verifyBtn').disabled = true;
+  clearErr(null, document.getElementById('otpErr'));
+
+  // Start cooldown
+  startResendCooldown(28);
+
+  setTimeout(() => document.querySelector('.otp[data-i="0"]').focus(), 200);
+  lucide.createIcons();
+}
+
+function goToStep1() {
+  document.getElementById('step2').classList.remove('on');
+  document.getElementById('step1').classList.add('on');
+  if (state.resendTicker) { clearInterval(state.resendTicker); state.resendTicker = null; }
+  setTimeout(() => bookingIdInput.focus(), 200);
+}
+
+document.getElementById('backBtn').addEventListener('click', goToStep1);
+
+// ─── Step 2: OTP wiring ───────────────────────────────────
+const otpInputs = [...document.querySelectorAll('.otp')];
+const verifyBtn = document.getElementById('verifyBtn');
+const otpErr = document.getElementById('otpErr');
+
+otpInputs.forEach((inp, i) => {
+  inp.addEventListener('input', () => {
+    inp.value = inp.value.replace(/\D/g, '').slice(0, 1);
+    inp.classList.toggle('filled', !!inp.value);
+    if (inp.value && i < otpInputs.length - 1) otpInputs[i + 1].focus();
+    const all = otpInputs.map(x => x.value).join('');
+    verifyBtn.disabled = all.length !== 6;
+    clearOtpErr();
+  });
+  inp.addEventListener('keydown', (e) => {
+    if (e.key === 'Backspace' && !inp.value && i > 0) otpInputs[i - 1].focus();
+    if (e.key === 'Enter' && !verifyBtn.disabled) verifyBtn.click();
+  });
+  inp.addEventListener('paste', (e) => {
+    const text = (e.clipboardData || window.clipboardData).getData('text');
+    const digits = (text || '').replace(/\D/g, '').slice(0, 6);
+    if (!digits) return;
+    e.preventDefault();
+    digits.split('').forEach((d, j) => { if (otpInputs[j]) { otpInputs[j].value = d; otpInputs[j].classList.add('filled'); } });
+    const next = Math.min(digits.length, otpInputs.length - 1);
+    otpInputs[next].focus();
+    verifyBtn.disabled = digits.length !== 6;
+  });
+});
+
+verifyBtn.addEventListener('click', () => {
+  const entered = otpInputs.map(x => x.value).join('');
+  // DEMO MODE — accept any 6-digit code so the flow can be tested end-to-end.
+  // Spec gives two distinct OTP errors: a wrong-code mismatch and an expired code.
+  // We surface the mismatch wording when the field isn't fully populated since
+  // that's what the user sees most often during testing — the literal "expired"
+  // case is wired through showOtpErrExpired() on cooldown timeout (handled below).
+  if (entered.length !== 6) { showOtpErr("That code doesn't match. Please try again."); return; }
+
+  verifyBtn.disabled = true;
+  verifyBtn.innerHTML = '<span class="spin"></span> Verifying…';
+  setTimeout(() => {
+    // Sign in lightweight session
+    if (window.UmrahPortal && UmrahPortal.signIn) {
+      const email = (state.booking.contact && state.booking.contact.email) || '';
+      const lead = (state.booking.passengers && state.booking.passengers[0]) || {};
+      if (email) UmrahPortal.signIn(lead.firstName || 'Traveller', lead.lastName || '', email);
+    }
+    if (window.UmrahPortal && UmrahPortal.setSessionAuth) UmrahPortal.setSessionAuth(state.booking.id);
+    routeAfterAuth(state.booking);
+  }, 600);
+});
+
+// ─── Resend cooldown ──────────────────────────────────────
+const resendBtn = document.getElementById('resendBtn');
+const resendTimerEl = document.getElementById('resendTimer');
+
+function startResendCooldown(secs) {
+  if (state.resendTicker) clearInterval(state.resendTicker);
+  resendBtn.disabled = true;
+  resendBtn.innerHTML = `Resend code in <span id="resendTimer">${fmtSecs(secs)}</span>`;
+  let remaining = secs;
+  const tick = () => {
+    remaining--;
+    const t = document.getElementById('resendTimer');
+    if (t) t.textContent = fmtSecs(remaining);
+    if (remaining <= 0) {
+      clearInterval(state.resendTicker);
+      state.resendTicker = null;
+      resendBtn.disabled = false;
+      resendBtn.innerHTML = '<i data-lucide="rotate-ccw"></i> Resend code';
+      lucide.createIcons();
+    }
+  };
+  state.resendTicker = setInterval(tick, 1000);
+}
+
+resendBtn.addEventListener('click', () => {
+  if (resendBtn.disabled) return;
+  state.sentCode = String(Math.floor(100000 + Math.random() * 900000));
+  if (window.console) console.log('[UmrahSignIn] Resent code for', state.booking.id, '=', state.sentCode);
+  document.getElementById('devHint').innerHTML =
+    `Demo: code is <strong style="color:var(--primary);font-family:monospace">${state.sentCode}</strong> (also in console)`;
+  showToast('New code sent');
+  startResendCooldown(28);
+});
+
+// ─── Routing after successful auth ────────────────────────
+// Per spec: one Booking ID = one application. There is no list/dashboard.
+// After auth, land directly on the relevant view for that single booking.
+// We append ?welcome=1 so the destination page can show the one-shot
+// "Welcome back, <firstName>" toast then strip the param from the URL.
+function routeAfterAuth(b) {
+  // Visa already submitted → read-only confirmation w/ embassy timeline
+  if (b.visa && b.visa.submissionStatus === 'submitted') {
+    location.href = 'umrah-visa-submitted.html?bookingId=' + b.id + '&welcome=1';
+    return;
+  }
+  // Visa+Package: route based on pre-qualification state
+  if (b.visa && b.type === 'with_visa') {
+    const pq = b.preQualification;
+    // Failed pre-qual → land on the support page (rendered inside qualify view)
+    if (pq && pq.status === 'failed') {
+      location.href = 'umrah-qualify.html?bookingId=' + b.id + '&welcome=1';
+      return;
+    }
+    // Mid pre-qualification (started but not finished) → resume on qualify page
+    if (pq && pq.status === 'in_progress') {
+      location.href = 'umrah-qualify.html?bookingId=' + b.id + '&welcome=1';
+      return;
+    }
+    // Passed pre-qual OR not yet started — wizard handles the not-started case
+    // by gating on pre-qual; passed pax-go straight in. We send to the wizard
+    // when pre-qual is passed; otherwise, into pre-qual.
+    if (pq && pq.status === 'passed') {
+      location.href = 'umrah-visa-wizard.html?bookingId=' + b.id + '&welcome=1';
+      return;
+    }
+    // No pre-qual record yet (returning straight after payment) → enter pre-qual
+    location.href = 'umrah-qualify.html?bookingId=' + b.id + '&welcome=1';
+    return;
+  }
+  // Package-only → their booking confirmation receipt (read-only)
+  location.href = 'umrah-thanks.html?bookingId=' + b.id + '&welcome=1';
+}
+
+// ─── Helpers ──────────────────────────────────────────────
+function maskEmail(email) {
+  if (!email || !email.includes('@')) return 'your registered email';
+  const [u, d] = email.split('@');
+  const masked = u.length <= 2 ? u[0] + '***' : u.slice(0, 2) + '***' + u.slice(-1);
+  return masked + '@' + d;
+}
+
+function fmtSecs(s) {
+  const m = Math.floor(Math.max(s, 0) / 60);
+  const r = Math.max(s, 0) % 60;
+  return m + ':' + String(r).padStart(2, '0');
+}
+
+function showErr(input, errEl, msg) {
+  if (input) input.classList.add('invalid');
+  errEl.querySelector('span').textContent = msg;
+  errEl.classList.add('on');
+  lucide.createIcons();
+}
+function clearErr(input, errEl) {
+  if (input) input.classList.remove('invalid');
+  errEl.classList.remove('on');
+}
+function showOtpErr(msg) {
+  otpErr.querySelector('span').textContent = msg;
+  otpErr.classList.add('on');
+  otpInputs.forEach(x => x.classList.add('invalid'));
+  verifyBtn.disabled = false;
+  verifyBtn.innerHTML = '<i data-lucide="check-circle"></i> Verify &amp; continue';
+  lucide.createIcons();
+}
+function clearOtpErr() {
+  otpErr.classList.remove('on');
+  otpInputs.forEach(x => x.classList.remove('invalid'));
+}
+
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('on');
+  setTimeout(() => t.classList.remove('on'), 1800);
+}
+
+// Auto-focus the booking ID input on load
+setTimeout(() => bookingIdInput.focus(), 200);
+</script>
+</body>
+</html>

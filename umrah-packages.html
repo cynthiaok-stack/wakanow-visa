@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Select Visa Plan — Umrah | Wakanow</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Rubik',system-ui,sans-serif;font-size:16px;color:#1E3138;line-height:1.55;background:#EEF2F4;min-height:100vh}
+h1,h2,h3,h4{font-family:'Rubik',system-ui,sans-serif;font-weight:700;line-height:1.25}
+button{cursor:pointer;font-family:inherit;border:none;background:none;color:inherit}
+a{text-decoration:none;color:inherit}
+
+:root{
+  --primary:#08A5E3; --primary-dark:#0789BF; --primary-light:#E8F6FD;
+  --navy:#0F2A33; --navy-deep:#0B3A52;
+  --orange:#F58220; --orange-dark:#E07318;
+  --green:#27AE60; --whatsapp:#25D366;
+  --gray-100:#F2F3F5; --gray-200:#E5E7EB; --gray-300:#D1D5DB; --gray-400:#9CA3AF; --gray-500:#6B7280; --gray-600:#4B5563;
+  --radius:10px; --radius-lg:14px;
+  --shadow-sm:0 1px 3px rgba(0,0,0,.06);
+  --shadow-md:0 4px 20px rgba(0,0,0,.08);
+  --ease:.22s cubic-bezier(.4,0,.2,1);
+}
+
+/* ── Dark header bar ── */
+.topbar{background:var(--navy);color:#fff;padding:16px 40px;display:flex;align-items:center;gap:24px}
+.go-back{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.12);color:#fff;font-size:13px;font-weight:500;padding:8px 14px;border-radius:8px;display:inline-flex;align-items:center;gap:6px;cursor:pointer;transition:var(--ease)}
+.go-back:hover{background:rgba(255,255,255,.18)}
+.go-back i{width:14px;height:14px}
+.topbar h1{font-size:22px;font-weight:700;color:#fff;margin-left:4px}
+.steps{margin-left:auto;display:flex;align-items:center;gap:14px}
+.step{display:inline-flex;align-items:center;gap:8px;color:rgba(255,255,255,.55);font-size:13px;font-weight:500;white-space:nowrap}
+.step-num{width:22px;height:22px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;background:rgba(255,255,255,.18);color:rgba(255,255,255,.65)}
+.step.done .step-num{background:rgba(255,255,255,.85);color:var(--navy)}
+.step.on{color:#fff}
+.step.on .step-num{background:var(--primary);color:#fff}
+.step-dash{color:rgba(255,255,255,.25);letter-spacing:2px}
+
+/* ── Page shell ── */
+.shell{padding:22px 40px 60px;display:grid;grid-template-columns:1fr 340px;gap:22px;align-items:start}
+@media(max-width:1024px){ .shell{grid-template-columns:1fr;padding:20px 20px 40px} }
+
+/* ── Welcome card ── */
+.welcome{background:#fff;border-radius:var(--radius-lg);padding:20px 28px;box-shadow:var(--shadow-sm);margin-bottom:16px;display:flex;justify-content:space-between;align-items:flex-start;gap:20px;flex-wrap:wrap}
+.welcome h2{font-size:18px;color:var(--navy);margin-bottom:2px}
+.welcome .sub{font-size:13px;color:var(--gray-500)}
+.btn-build{background:var(--orange);color:#fff;font-weight:600;font-size:13px;padding:11px 20px;border-radius:8px;display:inline-flex;align-items:center;gap:8px;transition:var(--ease);white-space:nowrap}
+.btn-build:hover{background:var(--orange-dark);box-shadow:0 6px 16px rgba(245,130,32,.28)}
+.btn-build i{width:15px;height:15px}
+
+/* ── Package card ── */
+.pkg-list{display:flex;flex-direction:column;gap:16px}
+.pkg-card{background:#fff;border-radius:var(--radius-lg);overflow:hidden;box-shadow:var(--shadow-sm);transition:var(--ease);border:2px solid transparent}
+.pkg-card:hover{box-shadow:var(--shadow-md)}
+.pkg-card.selected{border-color:var(--primary)}
+.pkg-inner{display:grid;grid-template-columns:260px 1fr;gap:0}
+@media(max-width:720px){ .pkg-inner{grid-template-columns:1fr} }
+.pkg-image{background-size:cover;background-position:center;min-height:220px;border-radius:10px;margin:14px 0 14px 14px;position:relative}
+@media(max-width:720px){ .pkg-image{margin:14px 14px 0 14px;min-height:160px} }
+.pkg-body{padding:20px 24px 16px 20px}
+.pkg-title{font-size:18px;font-weight:700;color:var(--navy);margin-bottom:4px}
+.pkg-dates{font-size:13px;color:var(--gray-500);margin-bottom:10px}
+.pkg-desc{font-size:13px;color:var(--gray-600);line-height:1.6;margin-bottom:12px}
+.inclusions-box{border:1px solid #FDD7B0;background:#FFF8F0;border-radius:10px;padding:10px 14px;margin-bottom:12px}
+.inclusions-label{font-size:12px;font-weight:600;color:var(--navy);margin-bottom:6px}
+.inclusions-row{display:flex;gap:22px;flex-wrap:wrap}
+.inclusion{display:inline-flex;align-items:center;gap:6px;font-size:13px;color:var(--orange);font-weight:500}
+.inclusion i{width:14px;height:14px}
+.highlights-label{font-size:13px;font-weight:700;color:var(--navy);margin-bottom:6px}
+.highlights-list{display:flex;gap:28px;flex-wrap:wrap;font-size:13px;color:var(--gray-600)}
+.highlights-list li{list-style:disc inside}
+
+.pkg-foot{border-top:1px dashed var(--gray-200);padding:14px 20px 16px;display:flex;justify-content:space-between;align-items:center;gap:20px;flex-wrap:wrap}
+.pkg-price .from{font-size:12px;color:var(--gray-500);font-weight:500}
+.pkg-price .amt{font-size:22px;color:var(--orange);font-weight:700;font-variant-numeric:tabular-nums}
+.pkg-price .per{font-size:12px;color:var(--gray-500);margin-left:2px}
+.pkg-meta{display:flex;gap:16px;align-items:center;font-size:13px;color:var(--gray-600)}
+.pkg-meta .bar{width:1px;height:18px;background:var(--gray-200)}
+.pkg-meta strong{color:var(--navy);font-weight:700}
+.pkg-actions{display:flex;align-items:center;gap:18px;margin-left:auto}
+.link-view{color:var(--primary);font-size:13px;font-weight:500;text-decoration:underline;cursor:pointer}
+.link-view:hover{color:var(--primary-dark)}
+.btn-select{background:var(--orange);color:#fff;font-weight:600;font-size:13px;padding:11px 28px;border-radius:8px;transition:var(--ease)}
+.btn-select:hover{background:var(--orange-dark);box-shadow:0 6px 16px rgba(245,130,32,.28)}
+.btn-select.selected{background:var(--green)}
+
+/* ── Cost summary card ── */
+.side{display:flex;flex-direction:column;gap:16px;position:sticky;top:20px}
+.cost-card{background:#fff;border-radius:var(--radius-lg);padding:22px 24px;box-shadow:var(--shadow-sm)}
+.cost-card h3{font-size:17px;color:var(--navy);margin-bottom:16px}
+.cost-row{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:10px 0;border-top:1px solid var(--gray-200)}
+.cost-row:first-of-type{border-top:none}
+.cost-row .l{display:inline-flex;align-items:center;gap:10px;font-size:13px;color:var(--navy);font-weight:500}
+.flag-dot{width:28px;height:28px;border-radius:50%;background:var(--green);color:#fff;display:inline-flex;align-items:center;justify-content:center;font-size:15px;font-weight:700;overflow:hidden}
+.visa-badge{border:1.5px solid var(--primary);color:var(--primary);font-size:11px;font-weight:600;padding:4px 10px;border-radius:6px}
+.cost-total{display:flex;justify-content:space-between;align-items:center;padding-top:12px;margin-top:6px;border-top:1.5px solid var(--gray-200)}
+.cost-total .l{font-size:13px;font-weight:700;color:var(--navy)}
+.cost-total .amt{font-size:18px;font-weight:700;color:var(--orange);font-variant-numeric:tabular-nums}
+.cost-empty{font-size:12px;color:var(--gray-500);font-style:italic}
+.btn-continue{width:100%;margin-top:14px;padding:13px;background:var(--orange);color:#fff;font-size:13px;font-weight:600;border-radius:10px;display:flex;align-items:center;justify-content:center;gap:8px;transition:var(--ease)}
+.btn-continue:hover:not(:disabled){background:var(--orange-dark);box-shadow:0 6px 16px rgba(245,130,32,.28)}
+.btn-continue:disabled{background:var(--gray-300);color:#fff;cursor:not-allowed}
+.btn-continue i{width:15px;height:15px}
+
+.help-card{background:#fff;border-radius:var(--radius-lg);padding:18px 22px;box-shadow:var(--shadow-sm);display:flex;align-items:center;gap:14px}
+.help-text{flex:1}
+.help-text .t{font-size:14px;font-weight:700;color:var(--navy);margin-bottom:3px}
+.help-text .d{font-size:12px;color:var(--gray-600);line-height:1.45}
+.help-wave{font-size:22px}
+.help-btn{width:44px;height:44px;border-radius:50%;background:var(--whatsapp);color:#fff;display:inline-flex;align-items:center;justify-content:center;cursor:pointer;transition:var(--ease);box-shadow:0 2px 8px rgba(37,211,102,.4)}
+.help-btn:hover{background:#1eb855}
+.help-btn i{width:20px;height:20px}
+
+/* ── Modal ── */
+.modal-backdrop{position:fixed;inset:0;background:rgba(15,42,51,.55);display:none;align-items:center;justify-content:center;z-index:100;padding:24px}
+.modal-backdrop.open{display:flex}
+.modal{background:#fff;border-radius:var(--radius-lg);max-width:640px;width:100%;max-height:85vh;overflow-y:auto;box-shadow:var(--shadow-md)}
+.modal-head{padding:20px 24px;border-bottom:1px solid var(--gray-200);display:flex;justify-content:space-between;align-items:center}
+.modal-head h3{font-size:17px;color:var(--navy)}
+.modal-close{color:var(--gray-500);cursor:pointer}
+.modal-close i{width:20px;height:20px}
+.modal-body{padding:20px 24px;font-size:13px;color:var(--gray-600);line-height:1.65}
+.modal-body h4{font-size:13px;color:var(--navy);margin:14px 0 6px}
+.modal-body ul{padding-left:18px;margin:6px 0}
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <button class="go-back" onclick="location.href='dashboard.html'">
+    <i data-lucide="arrow-left"></i> Go Back
+  </button>
+  <h1>Select Visa Plan</h1>
+  <div class="steps">
+    <div class="step done"><span class="step-num">1</span> Select Traveller</div>
+    <span class="step-dash">——</span>
+    <div class="step on"><span class="step-num">2</span> Select Visa Plan</div>
+    <span class="step-dash">——</span>
+    <div class="step"><span class="step-num">3</span> Applicant Details</div>
+    <span class="step-dash">——</span>
+    <div class="step"><span class="step-num">4</span> Make Payment</div>
+  </div>
+</header>
+
+<div class="shell">
+  <main>
+    <div class="welcome">
+      <div>
+        <h2>Welcome AISHATU</h2>
+        <p class="sub">Choose a predefined package — or build your own Umrah trip from scratch.</p>
+      </div>
+      <button class="btn-build" onclick="goToBuilder()">
+        <i data-lucide="wrench"></i> Build Your Own Package
+      </button>
+    </div>
+
+    <div class="pkg-list" id="pkgList"></div>
+  </main>
+
+  <aside class="side">
+    <div class="cost-card">
+      <h3>Cost Summary</h3>
+      <div class="cost-row">
+        <div class="l">
+          <span class="flag-dot">🇸🇦</span>
+          <span>Saudi Umrah/Hajj</span>
+        </div>
+        <span class="visa-badge">E-Visa</span>
+      </div>
+      <div id="costSelection"></div>
+      <div class="cost-total">
+        <span class="l">Trip Total</span>
+        <span class="amt" id="costTotal">—</span>
+      </div>
+      <button class="btn-continue" id="continueBtn" onclick="goContinue()" disabled>
+        <span>Continue</span> <i data-lucide="arrow-right"></i>
+      </button>
+    </div>
+
+    <div class="help-card">
+      <span class="help-wave">👋🏽</span>
+      <div class="help-text">
+        <div class="t">Need help?</div>
+        <div class="d">Click here to contact an agent now</div>
+      </div>
+      <button class="help-btn" title="Talk to an agent"><i data-lucide="headphones"></i></button>
+    </div>
+  </aside>
+</div>
+
+<!-- Package detail modal -->
+<div class="modal-backdrop" id="pkgModal">
+  <div class="modal">
+    <div class="modal-head">
+      <h3 id="modalTitle">Package details</h3>
+      <span class="modal-close" onclick="closeModal()"><i data-lucide="x"></i></span>
+    </div>
+    <div class="modal-body" id="modalBody"></div>
+  </div>
+</div>
+
+<script src="umrah-data.js"></script>
+<script>
+lucide.createIcons();
+
+const cart = UmrahData.getCart();
+
+function renderPackages() {
+  const list = document.getElementById('pkgList');
+  list.innerHTML = UmrahData.PACKAGES.map(p => {
+    const selected = cart.mode === 'predefined' && cart.packageId === p.id;
+    return `
+      <article class="pkg-card ${selected ? 'selected' : ''}" id="pkg-${p.id}">
+        <div class="pkg-inner">
+          <div class="pkg-image" style="background-image:url('${p.image}')"></div>
+          <div class="pkg-body">
+            <div class="pkg-title">${p.title}</div>
+            <div class="pkg-dates">${p.dates}</div>
+            <p class="pkg-desc">${p.description.slice(0, 200)}${p.description.length > 200 ? '…' : ''}</p>
+
+            <div class="inclusions-box">
+              <div class="inclusions-label">Inclusions:</div>
+              <div class="inclusions-row">
+                ${p.inclusions.map(inc => `
+                  <span class="inclusion">
+                    <i data-lucide="${inclusionIcon(inc)}"></i> ${inc}
+                  </span>
+                `).join('')}
+              </div>
+            </div>
+
+            <div class="highlights-label">Highlights:</div>
+            <ul class="highlights-list">
+              ${p.highlights.map(h => `<li>${h}</li>`).join('')}
+            </ul>
+          </div>
+        </div>
+        <div class="pkg-foot">
+          <div class="pkg-price">
+            <div class="from">Starting from</div>
+            <span class="amt">${UmrahData.ngn(p.startFrom)}</span>
+            <span class="per">/Person</span>
+          </div>
+          <div class="pkg-meta">
+            <span>Available: <strong>${p.available}</strong></span>
+            <span class="bar"></span>
+            <span>Type: <strong>${p.type}</strong></span>
+          </div>
+          <div class="pkg-actions">
+            <span class="link-view" onclick="openModal('${p.id}')">View More</span>
+            <button class="btn-select ${selected ? 'selected' : ''}" onclick="selectPackage('${p.id}')">
+              ${selected ? 'Selected' : 'Select'}
+            </button>
+          </div>
+        </div>
+      </article>
+    `;
+  }).join('');
+  lucide.createIcons();
+}
+
+function inclusionIcon(name) {
+  const map = { Flight:'plane', Visa:'stamp', Hotel:'building-2', Transport:'car', Meals:'utensils', 'Scholar Guide':'book-open' };
+  return map[name] || 'check';
+}
+
+function selectPackage(id) {
+  cart.mode = 'predefined';
+  cart.packageId = id;
+  // Second package card ("10 Days - Classic Umrah Package") defaults to a
+  // 2-passenger booking so the multi-passenger pre-qualification flow can
+  // be demoed end-to-end. The user can still change the count on checkout.
+  if (id === 'umrah-10d-classic') {
+    cart.pax = 2;
+  }
+  UmrahData.saveCart(cart);
+  renderPackages();
+  renderCost();
+}
+
+function renderCost() {
+  const box = document.getElementById('costSelection');
+  const total = document.getElementById('costTotal');
+  const btn = document.getElementById('continueBtn');
+
+  if (cart.mode === 'predefined' && cart.packageId) {
+    const p = UmrahData.findPackage(cart.packageId);
+    box.innerHTML = `
+      <div class="cost-row">
+        <div class="l"><i data-lucide="package" style="width:16px;height:16px;color:var(--gray-500)"></i> ${p.title}</div>
+        <span style="font-weight:600">${UmrahData.ngn(p.startFrom)}</span>
+      </div>
+      <div class="cost-row">
+        <div class="l" style="color:var(--gray-500);font-size:12px">Pax × ${cart.pax}</div>
+      </div>
+    `;
+    total.textContent = UmrahData.ngn(UmrahData.cartTotal(cart));
+    btn.disabled = false;
+  } else {
+    box.innerHTML = `<div class="cost-row"><span class="cost-empty">Select a package or build your own to see pricing.</span></div>`;
+    total.textContent = '—';
+    btn.disabled = true;
+  }
+  lucide.createIcons();
+}
+
+function openModal(id) {
+  const p = UmrahData.findPackage(id);
+  document.getElementById('modalTitle').textContent = p.title;
+  document.getElementById('modalBody').innerHTML = `
+    <p><strong>Dates:</strong> ${p.dates}</p>
+    <p style="margin-top:8px">${p.description}</p>
+    <h4>Inclusions</h4>
+    <ul>${p.inclusions.map(i => `<li>${i}</li>`).join('')}</ul>
+    <h4>Highlights</h4>
+    <ul>${p.highlights.map(h => `<li>${h}</li>`).join('')}</ul>
+    <h4>Availability</h4>
+    <p>${p.available} slots remaining · Type: ${p.type}</p>
+  `;
+  document.getElementById('pkgModal').classList.add('open');
+}
+function closeModal() { document.getElementById('pkgModal').classList.remove('open'); }
+document.getElementById('pkgModal').addEventListener('click', (e) => {
+  if (e.target.id === 'pkgModal') closeModal();
+});
+
+function goContinue() {
+  if (cart.mode === 'predefined' && cart.packageId) {
+    location.href = 'umrah-review.html';
+  }
+}
+
+function goToBuilder() {
+  UmrahData.resetCart();
+  const fresh = UmrahData.getCart();
+  fresh.mode = 'custom';
+  UmrahData.saveCart(fresh);
+  location.href = 'umrah-builder.html';
+}
+
+renderPackages();
+renderCost();
+</script>
+</body>
+</html>

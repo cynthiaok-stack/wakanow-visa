@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Payment — Umrah | Wakanow</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Rubik',system-ui,sans-serif;font-size:16px;color:#1E3138;background:#EEF2F4;min-height:100vh;line-height:1.55}
+h1,h2,h3,h4{font-family:'Rubik',system-ui,sans-serif;font-weight:700;line-height:1.25}
+button{cursor:pointer;font-family:inherit;border:none;background:none;color:inherit}
+input{font-family:inherit;outline:none}
+:root{--primary:#08A5E3;--primary-dark:#0789BF;--primary-light:#E8F6FD;--navy:#0F2A33;--orange:#F58220;--orange-dark:#E07318;--green:#27AE60;--red:#E74C3C;--gray-100:#F2F3F5;--gray-200:#E5E7EB;--gray-300:#D1D5DB;--gray-400:#9CA3AF;--gray-500:#6B7280;--gray-600:#4B5563;--radius:10px;--radius-lg:14px;--shadow-sm:0 1px 3px rgba(0,0,0,.06);--shadow-md:0 4px 20px rgba(0,0,0,.08);--ease:.22s cubic-bezier(.4,0,.2,1)}
+
+.topbar{background:var(--navy);color:#fff;padding:16px 40px;display:flex;align-items:center;gap:24px;flex-wrap:wrap}
+.go-back{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.12);color:#fff;font-size:13px;padding:8px 14px;border-radius:8px;display:inline-flex;align-items:center;gap:6px;cursor:pointer;transition:var(--ease)}
+.go-back:hover{background:rgba(255,255,255,.18)}
+.go-back i{width:14px;height:14px}
+.topbar h1{font-size:22px;color:#fff}
+.steps{margin-left:auto;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.step{display:inline-flex;align-items:center;gap:6px;color:rgba(255,255,255,.55);font-size:12px;white-space:nowrap}
+.step-num{width:22px;height:22px;border-radius:50%;background:rgba(255,255,255,.18);color:rgba(255,255,255,.65);display:inline-flex;align-items:center;justify-content:center;font-size:11px;font-weight:700}
+.step.done .step-num{background:rgba(255,255,255,.85);color:var(--navy)}
+.step.on{color:#fff;font-weight:600}
+.step.on .step-num{background:var(--primary);color:#fff}
+.step-dash{color:rgba(255,255,255,.25)}
+
+.shell{padding:22px 40px 60px;display:grid;grid-template-columns:1fr 360px;gap:22px;align-items:start;max-width:1240px;margin:0 auto}
+@media(max-width:1024px){ .shell{grid-template-columns:1fr;padding:20px} }
+
+.section{background:#fff;border-radius:var(--radius-lg);padding:22px 26px;box-shadow:var(--shadow-sm);margin-bottom:14px}
+.section h3{font-size:15px;color:var(--navy);margin-bottom:14px;display:flex;align-items:center;gap:8px}
+.section h3 i{width:16px;height:16px;color:var(--primary)}
+
+.valid{background:#F0FDF4;border:1px solid #BBF7D0;color:#166534;padding:12px 16px;border-radius:10px;font-size:13px;display:flex;align-items:flex-start;gap:10px;margin-bottom:14px}
+.valid i{width:16px;height:16px;color:var(--green);flex-shrink:0;margin-top:2px}
+.valid strong{display:block;margin-bottom:2px}
+
+.methods{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+@media(max-width:720px){ .methods{grid-template-columns:repeat(2,1fr)} }
+.method{padding:14px 12px;border:2px solid var(--gray-200);border-radius:10px;text-align:center;cursor:pointer;transition:var(--ease);background:#fff}
+.method:hover{border-color:var(--gray-300)}
+.method.on{border-color:var(--primary);background:var(--primary-light)}
+.method i{width:22px;height:22px;color:var(--gray-600);margin-bottom:6px}
+.method.on i{color:var(--primary)}
+.method .n{font-size:12px;color:var(--navy);font-weight:600}
+
+.fgrid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px 14px;margin-top:14px}
+.field{display:flex;flex-direction:column}
+.field.span-2{grid-column:span 2}
+.field label{font-size:12px;color:var(--gray-600);margin-bottom:5px;font-weight:500}
+.field input{height:42px;padding:0 12px;border:1px solid var(--gray-200);border-radius:8px;background:#fff;font-size:13px;color:var(--navy);transition:var(--ease)}
+.field input:focus{border-color:var(--primary);box-shadow:0 0 0 3px rgba(8,165,227,.12)}
+
+.side{position:sticky;top:20px;display:flex;flex-direction:column;gap:14px}
+.sum-card{background:#fff;border-radius:var(--radius-lg);padding:22px 24px;box-shadow:var(--shadow-sm)}
+.sum-card h3{font-size:17px;color:var(--navy);margin-bottom:12px}
+.sum-row{display:flex;justify-content:space-between;padding:7px 0;font-size:13px;color:var(--gray-600);border-bottom:1px solid var(--gray-200)}
+.sum-row:last-of-type{border-bottom:none}
+.sum-row strong{color:var(--navy);font-weight:600;font-variant-numeric:tabular-nums}
+.sum-total{display:flex;justify-content:space-between;padding-top:14px;margin-top:6px;border-top:1.5px solid var(--gray-200);align-items:center}
+.sum-total .l{font-size:14px;font-weight:700;color:var(--navy)}
+.sum-total .amt{font-size:22px;font-weight:700;color:var(--orange);font-variant-numeric:tabular-nums}
+
+.btn-pay{width:100%;margin-top:14px;padding:15px;background:var(--orange);color:#fff;font-size:14px;font-weight:700;border-radius:10px;display:flex;align-items:center;justify-content:center;gap:8px;transition:var(--ease)}
+.btn-pay:hover:not(:disabled){background:var(--orange-dark);box-shadow:0 6px 16px rgba(245,130,32,.28)}
+.btn-pay:disabled{background:var(--gray-300);cursor:not-allowed}
+.btn-pay i{width:16px;height:16px}
+
+.secure{font-size:11px;color:var(--gray-500);text-align:center;margin-top:10px;display:flex;align-items:center;justify-content:center;gap:5px}
+.secure i{width:12px;height:12px;color:var(--green)}
+
+.processing{display:none;padding:20px 0;text-align:center}
+.processing.on{display:block}
+.spinner{width:44px;height:44px;border:3px solid var(--gray-200);border-top-color:var(--primary);border-radius:50%;margin:0 auto 14px;animation:spin 1s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.processing .t{font-size:14px;color:var(--navy);font-weight:600;margin-bottom:4px}
+.processing .d{font-size:12px;color:var(--gray-500)}
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <button class="go-back" onclick="location.href='umrah-review.html'">
+    <i data-lucide="arrow-left"></i> Go Back
+  </button>
+  <h1>Make Payment</h1>
+  <div class="steps" id="steps"></div>
+</header>
+
+<div class="shell">
+  <main>
+    <div class="section">
+      <div class="valid">
+        <i data-lucide="shield-check"></i>
+        <div><strong>Final validation passed</strong>Prices and inventory confirmed. Booking ID will be issued once you click Pay.</div>
+      </div>
+    </div>
+
+    <div class="section">
+      <h3><i data-lucide="credit-card"></i> Choose a payment method</h3>
+      <div class="methods" id="methods">
+        <div class="method on" data-m="card"><i data-lucide="credit-card"></i><div class="n">Card</div></div>
+        <div class="method" data-m="bank"><i data-lucide="landmark"></i><div class="n">Bank Transfer</div></div>
+        <div class="method" data-m="wallet"><i data-lucide="wallet"></i><div class="n">Wakanow Wallet</div></div>
+        <div class="method" data-m="ussd"><i data-lucide="smartphone"></i><div class="n">USSD</div></div>
+      </div>
+    </div>
+
+    <div class="section" id="cardForm">
+      <h3><i data-lucide="lock"></i> Card details</h3>
+      <div class="fgrid">
+        <div class="field span-2"><label>Card number</label><input placeholder="4242 4242 4242 4242"></div>
+        <div class="field"><label>Expiry</label><input placeholder="MM / YY"></div>
+        <div class="field"><label>CVV</label><input placeholder="123"></div>
+        <div class="field span-2"><label>Name on card</label><input placeholder="Aishatu Bala"></div>
+      </div>
+    </div>
+
+    <div class="section">
+      <h3><i data-lucide="user"></i> Billing contact</h3>
+      <div class="fgrid">
+        <div class="field"><label>Email</label><input value="aishatu.bala@email.com"></div>
+        <div class="field"><label>Phone</label><input value="+234 801 234 5678"></div>
+      </div>
+    </div>
+  </main>
+
+  <aside class="side">
+    <div class="sum-card">
+      <h3>Order summary</h3>
+      <div id="sumLines"></div>
+      <div class="sum-total">
+        <span class="l">Amount to pay</span>
+        <span class="amt" id="sumTotal">₦0</span>
+      </div>
+      <button class="btn-pay" id="payBtn" onclick="pay()">
+        <i data-lucide="lock"></i> Pay <span id="payAmt">—</span> securely
+      </button>
+      <div class="secure"><i data-lucide="shield-check"></i> SSL-encrypted · PCI compliant</div>
+
+      <div class="processing" id="proc">
+        <div class="spinner"></div>
+        <div class="t">Processing your payment…</div>
+        <div class="d">Please do not close this page.</div>
+      </div>
+    </div>
+  </aside>
+</div>
+
+<script src="umrah-data.js"></script>
+<script>
+lucide.createIcons();
+const cart = UmrahData.getCart();
+
+function renderSteps() {
+  const isCustom = cart.mode === 'custom';
+  document.getElementById('steps').innerHTML = isCustom ? `
+    <div class="step done"><span class="step-num">✓</span> Review</div>
+    <span class="step-dash">—</span>
+    <div class="step on"><span class="step-num">7</span> Pay</div>
+  ` : `
+    <div class="step done"><span class="step-num">✓</span> Review</div>
+    <span class="step-dash">—</span>
+    <div class="step on"><span class="step-num">4</span> Make Payment</div>
+  `;
+}
+
+function renderSummary() {
+  const pax = cart.pax || 1;
+  const lines = [];
+  if (cart.mode === 'predefined' && cart.packageId) {
+    const p = UmrahData.findPackage(cart.packageId);
+    lines.push(`<div class="sum-row"><span>${p.title}</span><strong>${UmrahData.ngn(p.startFrom * pax)}</strong></div>`);
+  }
+  if (cart.flightId) {
+    const f = UmrahData.findFlight(cart.flightId);
+    lines.push(`<div class="sum-row"><span>Flight: ${f.airline}</span><strong>${UmrahData.ngn(f.price * pax)}</strong></div>`);
+  }
+  const hotels = (cart.hotelIds || []).map(UmrahData.findHotel).filter(Boolean);
+  if (hotels.length) {
+    const total = hotels.reduce((s,h)=>s+h.pricePerNight*5*pax,0);
+    lines.push(`<div class="sum-row"><span>Hotels × ${hotels.length}</span><strong>${UmrahData.ngn(total)}</strong></div>`);
+  }
+  const grounds = (cart.groundIds || []).map(UmrahData.findGround).filter(Boolean);
+  if (grounds.length) {
+    const total = grounds.reduce((s,g)=>s+g.price*pax,0);
+    lines.push(`<div class="sum-row"><span>Ground services × ${grounds.length}</span><strong>${UmrahData.ngn(total)}</strong></div>`);
+  }
+  const addons = (cart.addonIds || []).map(UmrahData.findAddon).filter(Boolean);
+  if (addons.length) {
+    const total = addons.reduce((s,a)=>s+a.price*pax,0);
+    lines.push(`<div class="sum-row"><span>Add-ons × ${addons.length}</span><strong>${UmrahData.ngn(total)}</strong></div>`);
+  }
+  document.getElementById('sumLines').innerHTML = lines.join('') || '<div class="sum-row"><span>Empty cart</span><strong>—</strong></div>';
+  const total = UmrahData.cartTotal(cart);
+  document.getElementById('sumTotal').textContent = UmrahData.ngn(total);
+  document.getElementById('payAmt').textContent = UmrahData.ngn(total);
+}
+
+// Method selection
+document.getElementById('methods').addEventListener('click', e => {
+  const m = e.target.closest('.method');
+  if (!m) return;
+  document.querySelectorAll('.method').forEach(x => x.classList.remove('on'));
+  m.classList.add('on');
+  document.getElementById('cardForm').style.display = (m.dataset.m === 'card') ? 'block' : 'none';
+});
+
+function pay() {
+  const payBtn = document.getElementById('payBtn');
+  payBtn.disabled = true;
+  payBtn.style.display = 'none';
+  document.getElementById('proc').classList.add('on');
+
+  // simulate processing + generate booking ref
+  setTimeout(() => {
+    cart.bookingRef = UmrahData.generateBookingRef();
+    cart.paymentStatus = 'success';
+    UmrahData.saveCart(cart);
+    location.href = 'umrah-confirmation.html';
+  }, 1800);
+}
+
+renderSteps();
+renderSummary();
+</script>
+</body>
+</html>

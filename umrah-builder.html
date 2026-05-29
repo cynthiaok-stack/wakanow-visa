@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Build Your Own Umrah — Wakanow</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Rubik',system-ui,sans-serif;font-size:16px;color:#1E3138;background:#EEF2F4;min-height:100vh;line-height:1.55}
+h1,h2,h3,h4{font-family:'Rubik',system-ui,sans-serif;font-weight:700;line-height:1.25}
+button{cursor:pointer;font-family:inherit;border:none;background:none;color:inherit}
+a{text-decoration:none;color:inherit}
+:root{--primary:#08A5E3;--primary-dark:#0789BF;--primary-light:#E8F6FD;--navy:#0F2A33;--orange:#F58220;--orange-dark:#E07318;--green:#27AE60;--green-light:#E7F8EF;--amber-lt:#FFF8F0;--amber:#F59E0B;--gray-100:#F2F3F5;--gray-200:#E5E7EB;--gray-300:#D1D5DB;--gray-400:#9CA3AF;--gray-500:#6B7280;--gray-600:#4B5563;--radius:10px;--radius-lg:14px;--shadow-sm:0 1px 3px rgba(0,0,0,.06);--shadow-md:0 4px 20px rgba(0,0,0,.08);--ease:.22s cubic-bezier(.4,0,.2,1)}
+
+.topbar{background:var(--navy);color:#fff;padding:16px 40px;display:flex;align-items:center;gap:24px;flex-wrap:wrap}
+.go-back{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.12);color:#fff;font-size:13px;padding:8px 14px;border-radius:8px;display:inline-flex;align-items:center;gap:6px;cursor:pointer;transition:var(--ease)}
+.go-back:hover{background:rgba(255,255,255,.18)}
+.go-back i{width:14px;height:14px}
+.topbar h1{font-size:22px;color:#fff}
+.steps{margin-left:auto;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.step{display:inline-flex;align-items:center;gap:8px;color:rgba(255,255,255,.55);font-size:12px;font-weight:500;white-space:nowrap}
+.step-num{width:22px;height:22px;border-radius:50%;background:rgba(255,255,255,.18);color:rgba(255,255,255,.65);display:inline-flex;align-items:center;justify-content:center;font-size:11px;font-weight:700}
+.step.done .step-num{background:rgba(255,255,255,.85);color:var(--navy)}
+.step.on{color:#fff}
+.step.on .step-num{background:var(--primary);color:#fff}
+.step-dash{color:rgba(255,255,255,.25)}
+
+.shell{max-width:1080px;margin:0 auto;padding:30px 32px 60px}
+
+.intro{background:#fff;border-radius:var(--radius-lg);padding:24px 28px;box-shadow:var(--shadow-sm);margin-bottom:22px}
+.intro .eyebrow{font-size:11px;color:var(--orange);font-weight:700;text-transform:uppercase;letter-spacing:.1em;margin-bottom:6px}
+.intro h2{font-size:22px;color:var(--navy);margin-bottom:6px}
+.intro p{color:var(--gray-600);font-size:13px;line-height:1.6;max-width:620px}
+
+.section-label{font-size:12px;font-weight:700;color:var(--gray-500);text-transform:uppercase;letter-spacing:.08em;margin:0 4px 10px}
+
+.options{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin-bottom:26px}
+@media(max-width:720px){ .options{grid-template-columns:1fr} }
+.opt{background:#fff;border-radius:var(--radius-lg);padding:22px 24px;box-shadow:var(--shadow-sm);cursor:pointer;transition:var(--ease);border:2px solid transparent;position:relative}
+.opt:hover{box-shadow:var(--shadow-md)}
+.opt.on{border-color:var(--primary);background:#F7FCFE}
+.opt .radio{position:absolute;top:20px;right:20px;width:20px;height:20px;border-radius:50%;border:2px solid var(--gray-300);background:#fff;transition:var(--ease)}
+.opt.on .radio{border-color:var(--primary);background:var(--primary);box-shadow:inset 0 0 0 4px #fff}
+.opt .head{display:flex;align-items:center;gap:12px;margin-bottom:12px}
+.opt .ico{width:42px;height:42px;border-radius:12px;background:var(--primary-light);color:var(--primary);display:inline-flex;align-items:center;justify-content:center}
+.opt .ico i{width:22px;height:22px}
+.opt.plus .ico{background:#FFF2E6;color:var(--orange)}
+.opt .title{font-size:16px;color:var(--navy);font-weight:700}
+.opt .badge{display:inline-block;font-size:10px;font-weight:700;color:var(--orange-dark);background:#FEEAD2;padding:2px 8px;border-radius:4px;margin-left:8px;text-transform:uppercase;letter-spacing:.06em;vertical-align:2px}
+.opt p{font-size:13px;color:var(--gray-600);line-height:1.55;margin-bottom:12px}
+.opt ul{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:6px}
+.opt li{font-size:12px;color:var(--gray-600);display:flex;align-items:center;gap:6px}
+.opt li i{width:13px;height:13px;color:var(--green);flex-shrink:0}
+.opt.plus .pin{margin-top:12px;padding:8px 10px;background:var(--amber-lt);border:1px solid #FDD7B0;border-radius:8px;font-size:12px;color:#8A4B0C;display:flex;align-items:flex-start;gap:6px}
+.opt.plus .pin i{width:13px;height:13px;color:var(--orange);flex-shrink:0;margin-top:2px}
+
+.gate{background:#fff;border-radius:var(--radius-lg);padding:18px 22px;box-shadow:var(--shadow-sm);display:flex;justify-content:space-between;align-items:center;gap:14px;flex-wrap:wrap}
+.gate-note{font-size:13px;color:var(--gray-500);display:flex;align-items:center;gap:8px}
+.gate-note i{width:15px;height:15px;color:var(--gray-400)}
+.gate-note.active{color:var(--green)}
+.gate-note.active i{color:var(--green)}
+.btn-continue{background:var(--orange);color:#fff;font-weight:600;font-size:14px;padding:13px 28px;border-radius:10px;display:inline-flex;align-items:center;gap:8px;transition:var(--ease)}
+.btn-continue:hover:not(:disabled){background:var(--orange-dark);box-shadow:0 6px 16px rgba(245,130,32,.28)}
+.btn-continue:disabled{background:var(--gray-300);cursor:not-allowed}
+.btn-continue i{width:16px;height:16px}
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <button class="go-back" onclick="location.href='umrah-packages.html'">
+    <i data-lucide="arrow-left"></i> Go Back
+  </button>
+  <h1>Build Your Own Package</h1>
+  <div class="steps">
+    <div class="step on"><span class="step-num">1</span> Start</div>
+    <span class="step-dash">—</span>
+    <div class="step"><span class="step-num">2</span> Flight</div>
+    <span class="step-dash">—</span>
+    <div class="step"><span class="step-num">3</span> Hotel</div>
+    <span class="step-dash">—</span>
+    <div class="step"><span class="step-num">4</span> Ground</div>
+    <span class="step-dash">—</span>
+    <div class="step"><span class="step-num">5</span> Add-ons</div>
+    <span class="step-dash">—</span>
+    <div class="step"><span class="step-num">6</span> Review</div>
+    <span class="step-dash">—</span>
+    <div class="step"><span class="step-num">7</span> Pay</div>
+  </div>
+</header>
+
+<div class="shell">
+  <div class="intro">
+    <div class="eyebrow">Build Your Own Umrah Package</div>
+    <h2>Welcome AISHATU — let's put your trip together</h2>
+    <p>Pick how the pilgrim wants to travel. Once you continue, you'll search for flights, choose hotels and add ground services and optional extras step by step.</p>
+  </div>
+
+  <div class="section-label">Choose your Umrah type</div>
+  <div class="options">
+    <div class="opt" data-type="basic" onclick="pickType('basic')">
+      <span class="radio"></span>
+      <div class="head">
+        <div class="ico"><i data-lucide="moon-star"></i></div>
+        <div class="title">Umrah</div>
+      </div>
+      <p>Standard Umrah itinerary. Pilgrim chooses their own hotel stays and nights across Makkah and Madinah.</p>
+      <ul>
+        <li><i data-lucide="check"></i> Full flexibility on hotel nights</li>
+        <li><i data-lucide="check"></i> Mandatory ground services included</li>
+        <li><i data-lucide="check"></i> Saudi e-Visa processing</li>
+      </ul>
+    </div>
+
+    <div class="opt plus" data-type="plus" onclick="pickType('plus')">
+      <span class="radio"></span>
+      <div class="head">
+        <div class="ico"><i data-lucide="sparkles"></i></div>
+        <div class="title">Umrah Plus <span class="badge">Recommended</span></div>
+      </div>
+      <p>Enhanced Umrah with a compulsory one-night stay in Makkah auto-added to the cart.</p>
+      <ul>
+        <li><i data-lucide="check"></i> Guaranteed Makkah stay on arrival night</li>
+        <li><i data-lucide="check"></i> Priority Haram-area check-in</li>
+        <li><i data-lucide="check"></i> Mandatory ground services included</li>
+      </ul>
+      <div class="pin"><i data-lucide="pin"></i><span>Automatically adds 1 compulsory night at a Makkah hotel.</span></div>
+    </div>
+  </div>
+
+  <div class="gate">
+    <span class="gate-note" id="gateNote"><i data-lucide="info"></i>Select an Umrah type above to continue.</span>
+    <button class="btn-continue" id="continueBtn" onclick="goNext()" disabled>
+      Continue to flight search <i data-lucide="arrow-right"></i>
+    </button>
+  </div>
+</div>
+
+<script src="umrah-data.js"></script>
+<script>
+lucide.createIcons();
+const cart = UmrahData.getCart();
+if (cart.mode !== 'custom') { cart.mode = 'custom'; UmrahData.saveCart(cart); }
+
+if (cart.umrahType) {
+  document.querySelector(`.opt[data-type="${cart.umrahType}"]`)?.classList.add('on');
+  enableContinue();
+}
+
+function pickType(type) {
+  cart.umrahType = type;
+  UmrahData.saveCart(cart);
+  document.querySelectorAll('.opt').forEach(o => o.classList.toggle('on', o.dataset.type === type));
+  enableContinue();
+}
+
+function enableContinue() {
+  document.getElementById('continueBtn').disabled = false;
+  const note = document.getElementById('gateNote');
+  note.innerHTML = cart.umrahType === 'plus'
+    ? '<i data-lucide="check-circle-2"></i>Umrah Plus selected — 1 compulsory Makkah night will be auto-added.'
+    : '<i data-lucide="check-circle-2"></i>Umrah selected — choose your own stay durations in the next steps.';
+  note.classList.add('active');
+  lucide.createIcons();
+}
+
+function goNext() {
+  if (!cart.umrahType) return;
+  location.href = 'umrah-flight-search.html';
+}
+</script>
+</body>
+</html>

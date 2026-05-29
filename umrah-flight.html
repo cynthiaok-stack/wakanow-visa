@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Flight Results — Umrah | Wakanow</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Rubik',system-ui,sans-serif;font-size:16px;color:#1E3138;background:#EEF2F4;min-height:100vh;line-height:1.55}
+h1,h2,h3,h4{font-family:'Rubik',system-ui,sans-serif;font-weight:700;line-height:1.25}
+button{cursor:pointer;font-family:inherit;border:none;background:none;color:inherit}
+input{font-family:inherit;outline:none}
+a{text-decoration:none;color:inherit}
+:root{
+  /* Wakanow brand palette */
+  --wk-orange:#F26522;--wk-orange-dark:#D85614;--wk-orange-light:#FFE9D9;
+  --wk-blue:#0B5ED7;--wk-blue-dark:#084EB2;--wk-blue-light:#E6EEFB;
+  --wk-navy:#1A2332;--wk-navy-darker:#0E1522;
+  --wk-green:#1FA864;--wk-green-light:#E3F5EC;
+  --wk-ink:#1B1F2A;--wk-body:#4A5464;--wk-muted:#7E8693;
+  --wk-surface:#FFFFFF;--wk-bg:#F4F6FA;--wk-line:#E3E7ED;
+  --wk-promo:#FFF4E5;--wk-promo-ink:#B5621A;
+
+  --primary:var(--wk-blue);--primary-dark:var(--wk-blue-dark);--primary-light:var(--wk-blue-light);
+  --navy:var(--wk-navy);--orange:var(--wk-orange);--orange-dark:var(--wk-orange-dark);
+  --green:var(--wk-green);--green-light:var(--wk-green-light);
+  --gray-100:#F2F3F5;--gray-200:var(--wk-line);--gray-300:#D1D5DB;--gray-400:#9CA3AF;--gray-500:var(--wk-muted);--gray-600:var(--wk-body);
+  --radius:10px;--radius-lg:14px;--shadow-sm:0 1px 3px rgba(15,22,40,.06);--shadow-md:0 6px 24px rgba(15,22,40,.08);--ease:.22s cubic-bezier(.4,0,.2,1)
+}
+body{background:var(--wk-bg)}
+
+.topbar{background:var(--navy);color:#fff;padding:16px 40px;display:flex;align-items:center;gap:24px;flex-wrap:wrap}
+.go-back{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.12);color:#fff;font-size:13px;padding:8px 14px;border-radius:8px;display:inline-flex;align-items:center;gap:6px;cursor:pointer;transition:var(--ease)}
+.go-back:hover{background:rgba(255,255,255,.18)}
+.go-back i{width:14px;height:14px}
+.topbar h1{font-size:22px;color:#fff}
+.steps{margin-left:auto;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.step{display:inline-flex;align-items:center;gap:6px;color:rgba(255,255,255,.55);font-size:12px;white-space:nowrap}
+.step-num{width:22px;height:22px;border-radius:50%;background:rgba(255,255,255,.18);color:rgba(255,255,255,.65);display:inline-flex;align-items:center;justify-content:center;font-size:11px;font-weight:700}
+.step.done .step-num{background:rgba(255,255,255,.85);color:var(--navy)}
+.step.on{color:#fff;font-weight:600}
+.step.on .step-num{background:var(--primary);color:#fff}
+.step-dash{color:rgba(255,255,255,.25)}
+
+/* --- Search summary bar --- */
+.sum-bar{background:var(--wk-navy-darker);color:#fff;padding:14px 40px;display:flex;align-items:center;gap:16px;flex-wrap:wrap;border-bottom:3px solid var(--wk-orange)}
+.sum-route{font-size:15px;font-weight:700;display:inline-flex;align-items:center;gap:10px}
+.sum-route i{width:16px;height:16px;color:var(--wk-orange)}
+.sum-meta{display:inline-flex;gap:18px;flex-wrap:wrap;color:rgba(255,255,255,.75);font-size:13px}
+.sum-meta span{display:inline-flex;align-items:center;gap:6px}
+.sum-meta i{width:13px;height:13px;color:rgba(255,255,255,.45)}
+.sum-edit{margin-left:auto;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.15);color:#fff;font-size:12px;padding:7px 14px;border-radius:8px;font-weight:600;display:inline-flex;align-items:center;gap:6px;transition:var(--ease)}
+.sum-edit:hover{background:rgba(255,255,255,.18)}
+.sum-edit i{width:13px;height:13px}
+
+/* --- Fare calendar strip --- */
+.cal-strip{background:#fff;padding:10px 40px;display:flex;gap:6px;overflow-x:auto;border-bottom:1px solid var(--gray-200)}
+.cal-day{min-width:92px;padding:10px 12px;border-radius:10px;text-align:center;cursor:pointer;border:1px solid transparent;transition:var(--ease);flex-shrink:0}
+.cal-day:hover{background:var(--gray-100)}
+.cal-day.active{background:var(--primary-light);border-color:var(--primary);color:var(--primary-dark)}
+.cal-day.cheapest{background:var(--green-light);border-color:var(--green)}
+.cal-day .dow{font-size:11px;color:var(--gray-500);font-weight:600;text-transform:uppercase;letter-spacing:.05em}
+.cal-day.active .dow{color:var(--primary-dark)}
+.cal-day.cheapest .dow{color:var(--green)}
+.cal-day .date{font-size:14px;font-weight:700;color:var(--navy);margin:2px 0}
+.cal-day .price{font-size:12px;font-weight:700;color:var(--orange);font-variant-numeric:tabular-nums}
+.cal-day .tag{font-size:9px;font-weight:700;color:var(--green);text-transform:uppercase;letter-spacing:.05em;margin-top:2px}
+.cal-day.active .tag{color:var(--primary)}
+
+/* --- Stats row --- */
+.stats{background:#fff;padding:14px 40px;display:flex;gap:22px;align-items:center;border-bottom:1px solid var(--gray-200);flex-wrap:wrap}
+.stats .stat{display:inline-flex;gap:10px;align-items:center}
+.stats .stat .label{font-size:10px;color:var(--gray-500);font-weight:700;text-transform:uppercase;letter-spacing:.08em;display:block}
+.stats .stat .val{font-size:14px;font-weight:700;color:var(--navy);font-variant-numeric:tabular-nums}
+.stats .count{margin-left:auto;font-size:12px;color:var(--gray-600);display:inline-flex;align-items:center;gap:6px}
+.stats .count strong{color:var(--navy);font-weight:700}
+.sort-bar{display:inline-flex;gap:6px;background:var(--gray-100);padding:3px;border-radius:8px}
+.sort-bar button{padding:6px 12px;font-size:11px;font-weight:600;color:var(--gray-600);border-radius:6px;transition:var(--ease)}
+.sort-bar button.on{background:#fff;color:var(--navy);box-shadow:var(--shadow-sm)}
+
+/* --- Main layout --- */
+.shell{padding:18px 40px 60px;display:grid;grid-template-columns:260px 1fr 340px;gap:20px;align-items:start}
+@media(max-width:1180px){ .shell{grid-template-columns:1fr 340px} .filters{display:none} }
+@media(max-width:860px){ .shell{grid-template-columns:1fr;padding:16px} }
+
+/* --- Filters sidebar --- */
+.filters{background:#fff;border-radius:var(--radius-lg);padding:18px 20px;box-shadow:var(--shadow-sm);position:sticky;top:18px}
+.filters h3{font-size:15px;color:var(--navy);margin-bottom:14px;display:flex;align-items:center;gap:8px;padding-bottom:10px;border-bottom:1px solid var(--gray-200)}
+.filters h3 i{width:15px;height:15px;color:var(--primary)}
+.filters h3 .reset{margin-left:auto;font-size:11px;font-weight:500;color:var(--primary);cursor:pointer}
+.fgroup{padding:10px 0;border-bottom:1px solid var(--gray-100)}
+.fgroup:last-of-type{border-bottom:none}
+.fgroup .flabel{font-size:11px;font-weight:700;color:var(--navy);text-transform:uppercase;letter-spacing:.06em;margin-bottom:8px}
+.fopt{display:flex;justify-content:space-between;align-items:center;padding:5px 0;font-size:13px;color:var(--gray-600);cursor:pointer}
+.fopt:hover{color:var(--navy)}
+.fopt label{display:inline-flex;align-items:center;gap:8px;cursor:pointer;flex:1}
+.fopt input[type="checkbox"]{accent-color:var(--primary)}
+.fopt .emoji{font-size:15px}
+.fopt .ct{font-size:11px;color:var(--gray-400)}
+.price-range{display:flex;justify-content:space-between;font-size:11px;color:var(--gray-500);margin-top:6px;font-variant-numeric:tabular-nums}
+input[type="range"]{width:100%;accent-color:var(--primary)}
+.switch{display:flex;justify-content:space-between;align-items:center;padding:6px 0;font-size:13px;color:var(--gray-600)}
+.switch .tgl{width:34px;height:20px;background:var(--gray-300);border-radius:20px;position:relative;cursor:pointer;transition:var(--ease)}
+.switch .tgl::before{content:'';position:absolute;width:14px;height:14px;background:#fff;border-radius:50%;top:3px;left:3px;transition:var(--ease)}
+.switch.on .tgl{background:var(--primary)}
+.switch.on .tgl::before{left:17px}
+
+/* --- Flight cards --- */
+.flt-list{display:flex;flex-direction:column;gap:12px}
+.flt-card{background:#fff;border-radius:var(--radius-lg);box-shadow:var(--shadow-sm);overflow:hidden;border:2px solid transparent;transition:var(--ease)}
+.flt-card:hover{box-shadow:var(--shadow-md)}
+.flt-card.selected{border-color:var(--primary)}
+.flt-top{padding:16px 20px;display:grid;grid-template-columns:1fr auto;gap:16px}
+.flt-ribbon{background:var(--wk-promo);color:var(--wk-promo-ink);padding:6px 14px;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;display:flex;align-items:center;gap:6px;border-bottom:1px solid #F4D7B3}
+.flt-ribbon i{width:12px;height:12px;color:var(--wk-orange)}
+.flt-main{display:grid;grid-template-columns:auto 1fr auto 1fr;gap:18px;align-items:center}
+@media(max-width:720px){ .flt-main{grid-template-columns:1fr} .flt-top{grid-template-columns:1fr} }
+.flt-airline{display:flex;align-items:center;gap:10px}
+.flt-logo{width:42px;height:42px;border-radius:10px;background:var(--gray-100);display:inline-flex;align-items:center;justify-content:center;font-size:22px}
+.flt-airline .name{font-size:13px;font-weight:700;color:var(--navy);line-height:1.2}
+.flt-airline .code{font-size:11px;color:var(--gray-500)}
+.flt-time{text-align:left}
+.flt-time .t{font-size:20px;font-weight:700;color:var(--navy);font-variant-numeric:tabular-nums;line-height:1.1}
+.flt-time .a{font-size:11px;color:var(--gray-500);margin-top:2px}
+.flt-dur{text-align:center;position:relative;min-width:100px}
+.flt-dur .d{font-size:11px;color:var(--gray-500);margin-bottom:4px;font-weight:600}
+.flt-dur .plane-line{height:1px;background:var(--gray-300);position:relative;margin:0 6px}
+.flt-dur .plane-line::before{content:'✈';position:absolute;right:-2px;top:-9px;color:var(--primary);font-size:12px}
+.flt-dur .s{font-size:11px;color:var(--green);margin-top:4px;font-weight:600}
+.flt-dur .s.stops{color:var(--orange)}
+.flt-right{text-align:right;display:flex;flex-direction:column;align-items:flex-end;gap:6px}
+.flt-price-tag{display:flex;flex-direction:column;align-items:flex-end}
+.flt-price-tag small{font-size:10px;color:var(--gray-500);font-weight:500}
+.flt-price-tag .amt{font-size:22px;font-weight:700;color:var(--orange);font-variant-numeric:tabular-nums;line-height:1.1}
+.flt-price-tag .per{font-size:10px;color:var(--gray-500);margin-top:1px}
+
+.flt-foot{padding:10px 20px;background:var(--gray-100);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;font-size:12px;color:var(--gray-600);border-top:1px solid var(--gray-200)}
+.flt-amen{display:inline-flex;gap:14px;flex-wrap:wrap}
+.flt-amen span{display:inline-flex;align-items:center;gap:4px}
+.flt-amen i{width:12px;height:12px;color:var(--green)}
+.flt-foot .actions{display:inline-flex;gap:8px}
+.btn-details{background:#fff;border:1px solid var(--gray-300);color:var(--navy);font-size:12px;font-weight:600;padding:7px 14px;border-radius:8px;transition:var(--ease)}
+.btn-details:hover{border-color:var(--primary);color:var(--primary)}
+.btn-book{background:var(--orange);border:1.5px solid var(--orange);color:#fff;font-size:12px;font-weight:700;padding:7px 20px;border-radius:8px;transition:var(--ease)}
+.btn-book:hover{background:var(--orange-dark);border-color:var(--orange-dark)}
+.btn-book.on{background:var(--green);border-color:var(--green)}
+
+.pay-tabs{display:inline-flex;background:var(--gray-100);padding:3px;border-radius:8px;margin-top:4px;border:1px solid var(--wk-line)}
+.pay-tabs button{padding:5px 12px;font-size:10px;font-weight:700;color:var(--gray-500);border-radius:6px;transition:var(--ease);letter-spacing:.02em}
+.pay-tabs button.on{background:#fff;color:var(--navy);box-shadow:var(--shadow-sm)}
+.pay-tabs button.small{color:var(--wk-orange);background:var(--wk-orange-light)}
+.pay-tabs button.small.on{background:var(--wk-orange);color:#fff}
+
+/* --- Sticky cart --- */
+.side{display:flex;flex-direction:column;gap:16px;position:sticky;top:18px}
+.cart-card{background:#fff;border-radius:var(--radius-lg);padding:22px 24px;box-shadow:var(--shadow-sm)}
+.cart-card h3{font-size:16px;color:var(--navy);margin-bottom:12px}
+.cart-section{padding:10px 0;border-bottom:1px solid var(--gray-200)}
+.cart-section:last-of-type{border-bottom:none}
+.cart-label{font-size:12px;color:var(--gray-500);font-weight:600;text-transform:uppercase;letter-spacing:.04em;margin-bottom:4px}
+.cart-item{display:flex;justify-content:space-between;gap:8px;font-size:13px;color:var(--navy);padding:3px 0}
+.cart-item .amt{font-weight:600;font-variant-numeric:tabular-nums}
+.cart-item.muted{color:var(--gray-500);font-style:italic;font-size:12px}
+.cart-total{display:flex;justify-content:space-between;padding-top:12px;margin-top:8px;border-top:1.5px solid var(--gray-200)}
+.cart-total .l{font-size:13px;font-weight:700;color:var(--navy)}
+.cart-total .amt{font-size:18px;font-weight:700;color:var(--orange);font-variant-numeric:tabular-nums}
+.btn-continue{width:100%;margin-top:14px;padding:13px;background:var(--orange);color:#fff;font-size:13px;font-weight:600;border-radius:10px;display:flex;align-items:center;justify-content:center;gap:8px;transition:var(--ease)}
+.btn-continue:hover:not(:disabled){background:var(--orange-dark);box-shadow:0 6px 16px rgba(245,130,32,.28)}
+.btn-continue:disabled{background:var(--gray-300);cursor:not-allowed}
+.btn-continue i{width:15px;height:15px}
+.empty-msg{background:#fff;border-radius:var(--radius-lg);padding:40px 20px;text-align:center;color:var(--gray-500);font-size:13px}
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <button class="go-back" onclick="location.href='umrah-flight-search.html'">
+    <i data-lucide="arrow-left"></i> Go Back
+  </button>
+  <h1>Flight Results</h1>
+  <div class="steps">
+    <div class="step done"><span class="step-num">✓</span> Start</div>
+    <span class="step-dash">—</span>
+    <div class="step on"><span class="step-num">2</span> Flight</div>
+    <span class="step-dash">—</span>
+    <div class="step"><span class="step-num">3</span> Hotel</div>
+    <span class="step-dash">—</span>
+    <div class="step"><span class="step-num">4</span> Ground</div>
+    <span class="step-dash">—</span>
+    <div class="step"><span class="step-num">5</span> Add-ons</div>
+    <span class="step-dash">—</span>
+    <div class="step"><span class="step-num">6</span> Review</div>
+  </div>
+</header>
+
+<div class="sum-bar">
+  <div class="sum-route"><i data-lucide="plane"></i><span id="sumRoute">LOS → JED</span></div>
+  <div class="sum-meta">
+    <span><i data-lucide="calendar"></i><span id="sumDates">—</span></span>
+    <span><i data-lucide="users"></i><span id="sumPax">1 Passenger</span></span>
+    <span><i data-lucide="briefcase"></i><span id="sumCabin">Economy</span></span>
+  </div>
+  <button class="sum-edit" onclick="location.href='umrah-flight-search.html'">
+    <i data-lucide="edit-3"></i> Edit search
+  </button>
+</div>
+
+<div class="cal-strip" id="calStrip"></div>
+
+<div class="stats">
+  <div class="stat">
+    <span>
+      <span class="label">Best</span>
+      <span class="val" id="stBest">—</span>
+    </span>
+  </div>
+  <div class="stat">
+    <span>
+      <span class="label">Cheapest</span>
+      <span class="val" id="stCheap">—</span>
+    </span>
+  </div>
+  <div class="stat">
+    <span>
+      <span class="label">Fastest</span>
+      <span class="val" id="stFast">—</span>
+    </span>
+  </div>
+  <div class="stat">
+    <span>
+      <span class="label">Earliest</span>
+      <span class="val" id="stEarly">—</span>
+    </span>
+  </div>
+  <span class="count"><strong id="stCount">0</strong>&nbsp;flights found</span>
+  <div class="sort-bar">
+    <button class="on" data-sort="best" onclick="setSort('best')">Best</button>
+    <button data-sort="cheap" onclick="setSort('cheap')">Cheapest</button>
+    <button data-sort="fast" onclick="setSort('fast')">Fastest</button>
+  </div>
+</div>
+
+<div class="shell">
+  <aside class="filters">
+    <h3><i data-lucide="sliders-horizontal"></i> Filters <span class="reset" onclick="resetFilters()">Reset</span></h3>
+
+    <div class="fgroup">
+      <div class="flabel">Stops</div>
+      <div class="fopt"><label><input type="checkbox" data-filter="stops" value="0">Non-stop</label><span class="ct" id="ctNonstop">0</span></div>
+      <div class="fopt"><label><input type="checkbox" data-filter="stops" value="1">1 stop</label><span class="ct" id="ctOne">0</span></div>
+      <div class="fopt"><label><input type="checkbox" data-filter="stops" value="2">2+ stops</label><span class="ct">0</span></div>
+    </div>
+
+    <div class="fgroup">
+      <div class="flabel">Price range</div>
+      <input type="range" id="priceRange" min="800000" max="1500000" step="10000" value="1500000" oninput="applyFilters()">
+      <div class="price-range"><span>₦800k</span><span id="priceMax">₦1.5m</span></div>
+    </div>
+
+    <div class="fgroup">
+      <div class="flabel">Departure time</div>
+      <div class="fopt"><label><span class="emoji">🌅</span><input type="checkbox" data-filter="time" value="morning">Morning (6-12)</label></div>
+      <div class="fopt"><label><span class="emoji">☀️</span><input type="checkbox" data-filter="time" value="afternoon">Afternoon (12-18)</label></div>
+      <div class="fopt"><label><span class="emoji">🌆</span><input type="checkbox" data-filter="time" value="evening">Evening (18-22)</label></div>
+      <div class="fopt"><label><span class="emoji">🌙</span><input type="checkbox" data-filter="time" value="night">Night (22-6)</label></div>
+    </div>
+
+    <div class="fgroup">
+      <div class="flabel">Airlines</div>
+      <div id="airlineList"></div>
+    </div>
+
+    <div class="fgroup">
+      <div class="flabel">Options</div>
+      <div class="switch" id="swRefund" onclick="toggleSwitch(this)">Refundable only<div class="tgl"></div></div>
+      <div class="switch" id="swBags" onclick="toggleSwitch(this)">Checked bags included<div class="tgl"></div></div>
+    </div>
+  </aside>
+
+  <main>
+    <div class="flt-list" id="fltList"></div>
+  </main>
+
+  <aside class="side">
+    <div class="cart-card">
+      <h3>Your Cart</h3>
+      <div class="cart-section">
+        <div class="cart-label">Flight</div>
+        <div id="cartFlight"><div class="cart-item muted">No flight selected</div></div>
+      </div>
+      <div class="cart-section">
+        <div class="cart-label">Hotel</div>
+        <div class="cart-item muted">Select in next step</div>
+      </div>
+      <div class="cart-section">
+        <div class="cart-label">Ground services</div>
+        <div class="cart-item muted">Select in next step</div>
+      </div>
+      <div class="cart-total">
+        <span class="l">Trip Total</span>
+        <span class="amt" id="cartTotal">₦0</span>
+      </div>
+      <button class="btn-continue" id="continueBtn" onclick="goNext()" disabled>
+        Continue to Hotel <i data-lucide="arrow-right"></i>
+      </button>
+    </div>
+  </aside>
+</div>
+
+<script src="umrah-data.js"></script>
+<script>
+lucide.createIcons();
+const cart = UmrahData.getCart();
+if (cart.mode !== 'custom') { cart.mode = 'custom'; UmrahData.saveCart(cart); }
+
+const CITY_NAMES = { LOS:'Lagos', ABV:'Abuja', KAN:'Kano', PHC:'Port Harcourt', JED:'Jeddah', MED:'Madinah', CAI:'Cairo', ADD:'Addis Ababa' };
+const CABIN_NAMES = { economy:'Economy', premium:'Premium Economy', business:'Business', first:'First Class' };
+
+let activeSort = 'best';
+let filters = { stops:new Set(), time:new Set(), airline:new Set(), refund:false, bags:false, priceMax:1500000 };
+
+// --- Header summary ---
+function fmtDate(iso) {
+  if (!iso) return '';
+  const d = new Date(iso + 'T00:00:00');
+  return d.toLocaleDateString('en-GB', { day:'numeric', month:'short', year:'numeric' });
+}
+function renderSummary() {
+  const s = cart.search || {};
+  const from = s.from || 'LOS';
+  const to = s.to || 'JED';
+  document.getElementById('sumRoute').textContent = `${from} (${CITY_NAMES[from]||from}) → ${to} (${CITY_NAMES[to]||to})`;
+  document.getElementById('sumDates').textContent = s.return
+    ? `${fmtDate(s.depart)} – ${fmtDate(s.return)}`
+    : `${fmtDate(s.depart)} · One way`;
+  document.getElementById('sumPax').textContent = `${s.pax || 1} Passenger${(s.pax||1)>1?'s':''}`;
+  document.getElementById('sumCabin').textContent = CABIN_NAMES[s.cabin || 'economy'];
+}
+
+// --- Fare calendar ---
+function renderCalendar() {
+  const box = document.getElementById('calStrip');
+  const base = (cart.search && cart.search.depart) ? new Date(cart.search.depart + 'T00:00:00') : new Date();
+  const cheapestPrice = Math.min(...UmrahData.FLIGHTS.map(f => f.price));
+  const html = [];
+  for (let i = -3; i <= 3; i++) {
+    const d = new Date(base);
+    d.setDate(d.getDate() + i);
+    const dow = d.toLocaleDateString('en-GB', { weekday:'short' });
+    const date = d.toLocaleDateString('en-GB', { day:'numeric', month:'short' });
+    // Synthetic prices: +/- 8% around the base
+    const jitter = 1 + (Math.sin(i * 2.4) * 0.12);
+    const price = Math.round(cheapestPrice * jitter / 10000) * 10000;
+    const isActive = i === 0;
+    const isCheapest = i === -2;
+    const cls = isActive ? 'active' : (isCheapest ? 'cheapest' : '');
+    const tag = isCheapest ? '<div class="tag">Cheapest</div>' : '';
+    html.push(`<div class="cal-day ${cls}"><div class="dow">${dow}</div><div class="date">${date}</div><div class="price">${UmrahData.ngn(price)}</div>${tag}</div>`);
+  }
+  box.innerHTML = html.join('');
+}
+
+// --- Stats ---
+function renderStats(list) {
+  if (!list.length) {
+    ['stBest','stCheap','stFast','stEarly'].forEach(id => document.getElementById(id).textContent = '—');
+    document.getElementById('stCount').textContent = '0';
+    return;
+  }
+  const sorted = [...list];
+  const cheap = sorted.slice().sort((a,b) => a.price - b.price)[0];
+  const fast = sorted.slice().sort((a,b) => parseDur(a.duration) - parseDur(b.duration))[0];
+  const early = sorted.slice().sort((a,b) => parseTime(a.depart) - parseTime(b.depart))[0];
+  document.getElementById('stBest').textContent  = UmrahData.ngn(cheap.price);
+  document.getElementById('stCheap').textContent = UmrahData.ngn(cheap.price);
+  document.getElementById('stFast').textContent  = fast.duration;
+  document.getElementById('stEarly').textContent = early.depart;
+  document.getElementById('stCount').textContent = list.length;
+}
+function parseDur(s) {
+  const m = s.match(/(\d+)h\s*(\d+)?m?/);
+  return m ? parseInt(m[1])*60 + parseInt(m[2]||0) : 0;
+}
+function parseTime(t) {
+  const [h,m] = t.replace('+1','').split(':').map(n => parseInt(n));
+  return h*60 + m;
+}
+
+// --- Filters ---
+function renderAirlineFilter() {
+  const by = {};
+  UmrahData.FLIGHTS.forEach(f => { by[f.airline] = (by[f.airline]||0) + 1; });
+  document.getElementById('airlineList').innerHTML = Object.keys(by).map(a => `
+    <div class="fopt"><label><input type="checkbox" data-filter="airline" value="${a}">${a}</label><span class="ct">${by[a]}</span></div>
+  `).join('');
+  document.querySelectorAll('.filters input[type="checkbox"]').forEach(cb => cb.addEventListener('change', applyFilters));
+}
+function toggleSwitch(el) {
+  el.classList.toggle('on');
+  const isRefund = el.id === 'swRefund';
+  if (isRefund) filters.refund = el.classList.contains('on');
+  else filters.bags = el.classList.contains('on');
+  applyFilters();
+}
+function applyFilters() {
+  filters.stops = new Set([...document.querySelectorAll('input[data-filter="stops"]:checked')].map(c => c.value));
+  filters.time = new Set([...document.querySelectorAll('input[data-filter="time"]:checked')].map(c => c.value));
+  filters.airline = new Set([...document.querySelectorAll('input[data-filter="airline"]:checked')].map(c => c.value));
+  filters.priceMax = parseInt(document.getElementById('priceRange').value, 10);
+  document.getElementById('priceMax').textContent = '₦' + (filters.priceMax/1000).toFixed(0) + 'k';
+  renderFlights();
+}
+function resetFilters() {
+  document.querySelectorAll('.filters input[type="checkbox"]').forEach(c => c.checked = false);
+  document.getElementById('priceRange').value = 1500000;
+  ['swRefund','swBags'].forEach(id => document.getElementById(id).classList.remove('on'));
+  filters = { stops:new Set(), time:new Set(), airline:new Set(), refund:false, bags:false, priceMax:1500000 };
+  applyFilters();
+}
+function setSort(s) {
+  activeSort = s;
+  document.querySelectorAll('.sort-bar button').forEach(b => b.classList.toggle('on', b.dataset.sort === s));
+  renderFlights();
+}
+
+// --- Card rendering ---
+function timeBucket(depart) {
+  const h = parseInt(depart.split(':')[0],10);
+  if (h >= 6 && h < 12) return 'morning';
+  if (h >= 12 && h < 18) return 'afternoon';
+  if (h >= 18 && h < 22) return 'evening';
+  return 'night';
+}
+function filterList() {
+  return UmrahData.FLIGHTS.filter(f => {
+    const stopCount = f.stops.includes('Non-stop') ? '0' : (f.stops.match(/^\d+/) ? f.stops.match(/^\d+/)[0] : '1');
+    if (filters.stops.size && !filters.stops.has(stopCount === '0' ? '0' : (parseInt(stopCount) >= 2 ? '2' : '1'))) return false;
+    if (filters.time.size && !filters.time.has(timeBucket(f.depart))) return false;
+    if (filters.airline.size && !filters.airline.has(f.airline)) return false;
+    if (f.price > filters.priceMax) return false;
+    return true;
+  });
+}
+function sortList(list) {
+  const arr = [...list];
+  if (activeSort === 'cheap') arr.sort((a,b) => a.price - b.price);
+  else if (activeSort === 'fast') arr.sort((a,b) => parseDur(a.duration) - parseDur(b.duration));
+  else arr.sort((a,b) => a.price + parseDur(a.duration)*200 - (b.price + parseDur(b.duration)*200));
+  return arr;
+}
+function renderFlights() {
+  const list = sortList(filterList());
+  renderStats(list);
+  const box = document.getElementById('fltList');
+  if (!list.length) {
+    box.innerHTML = '<div class="empty-msg">No flights match your filters. Try resetting or expanding the price range.</div>';
+    return;
+  }
+  const cheapestId = list.slice().sort((a,b)=>a.price-b.price)[0].id;
+  box.innerHTML = list.map(f => {
+    const on = cart.flightId === f.id;
+    const isCheapest = f.id === cheapestId;
+    const stopCls = f.stops.includes('Non-stop') ? '' : 'stops';
+    const ribbon = isCheapest
+      ? `<div class="flt-ribbon"><i data-lucide="flame"></i>Cheapest · Best value</div>`
+      : '';
+    return `
+      <article class="flt-card ${on ? 'selected' : ''}">
+        ${ribbon}
+        <div class="flt-top">
+          <div class="flt-main">
+            <div class="flt-airline">
+              <div class="flt-logo">${f.logo}</div>
+              <div>
+                <div class="name">${f.airline}</div>
+                <div class="code">${f.code}</div>
+              </div>
+            </div>
+            <div class="flt-time">
+              <div class="t">${f.depart}</div>
+              <div class="a">${f.from} · ${f.fromCity}</div>
+            </div>
+            <div class="flt-dur">
+              <div class="d">${f.duration}</div>
+              <div class="plane-line"></div>
+              <div class="s ${stopCls}">${f.stops}</div>
+            </div>
+            <div class="flt-time">
+              <div class="t">${f.arrive}</div>
+              <div class="a">${f.to} · ${f.toCity}</div>
+            </div>
+          </div>
+          <div class="flt-right">
+            <div class="pay-tabs">
+              <button class="on">Full Pay</button>
+              <button class="small">Pay Small Small</button>
+            </div>
+            <div class="flt-price-tag">
+              <small>From</small>
+              <span class="amt">${UmrahData.ngn(f.price)}</span>
+              <span class="per">per adult</span>
+            </div>
+          </div>
+        </div>
+        <div class="flt-foot">
+          <div class="flt-amen">
+            <span><i data-lucide="check"></i>23kg checked bag</span>
+            <span><i data-lucide="check"></i>Meal included</span>
+            <span><i data-lucide="check"></i>Refundable fare</span>
+          </div>
+          <div class="actions">
+            <button class="btn-details" onclick="viewDetails('${f.id}')"><i data-lucide="info"></i> Details</button>
+            <button class="btn-book ${on ? 'on' : ''}" onclick="pick('${f.id}')">${on ? 'Selected · Review →' : 'Book now'}</button>
+          </div>
+        </div>
+      </article>`;
+  }).join('');
+  lucide.createIcons();
+}
+
+function pick(id) {
+  // Selecting a flight stores it and opens the details/review page
+  cart.flightId = id;
+  UmrahData.saveCart(cart);
+  location.href = 'umrah-flight-details.html';
+}
+function viewDetails(id) {
+  cart.flightId = id;
+  UmrahData.saveCart(cart);
+  location.href = 'umrah-flight-details.html';
+}
+
+function renderCart() {
+  const box = document.getElementById('cartFlight');
+  if (cart.flightId) {
+    const f = UmrahData.findFlight(cart.flightId);
+    box.innerHTML = `<div class="cart-item"><span>${f.airline} ${f.code}</span><span class="amt">${UmrahData.ngn(f.price)}</span></div>
+                     <div class="cart-item muted" style="font-size:11px">${f.from} → ${f.to} · ${f.stops}</div>`;
+  } else {
+    box.innerHTML = `<div class="cart-item muted">No flight selected</div>`;
+  }
+  document.getElementById('cartTotal').textContent = UmrahData.ngn(UmrahData.cartTotal(cart));
+  document.getElementById('continueBtn').disabled = !cart.flightId;
+}
+
+function goNext() {
+  if (cart.flightId) location.href = 'umrah-hotel.html';
+}
+
+renderSummary();
+renderCalendar();
+renderAirlineFilter();
+renderFlights();
+renderCart();
+</script>
+</body>
+</html>

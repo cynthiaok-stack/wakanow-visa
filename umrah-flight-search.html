@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Flight Search — Umrah | Wakanow</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Rubik',system-ui,sans-serif;font-size:16px;color:#1E3138;background:#EEF2F4;min-height:100vh;line-height:1.55}
+h1,h2,h3,h4{font-family:'Rubik',system-ui,sans-serif;font-weight:700;line-height:1.25}
+button{cursor:pointer;font-family:inherit;border:none;background:none;color:inherit}
+input,select{font-family:inherit;outline:none}
+a{text-decoration:none;color:inherit}
+:root{--primary:#08A5E3;--primary-dark:#0789BF;--primary-light:#E8F6FD;--navy:#0F2A33;--orange:#F58220;--orange-dark:#E07318;--green:#27AE60;--gray-100:#F2F3F5;--gray-200:#E5E7EB;--gray-300:#D1D5DB;--gray-400:#9CA3AF;--gray-500:#6B7280;--gray-600:#4B5563;--radius:10px;--radius-lg:14px;--shadow-sm:0 1px 3px rgba(0,0,0,.06);--shadow-md:0 4px 20px rgba(0,0,0,.08);--ease:.22s cubic-bezier(.4,0,.2,1)}
+
+.topbar{background:var(--navy);color:#fff;padding:16px 40px;display:flex;align-items:center;gap:24px;flex-wrap:wrap}
+.go-back{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.12);color:#fff;font-size:13px;padding:8px 14px;border-radius:8px;display:inline-flex;align-items:center;gap:6px;cursor:pointer;transition:var(--ease)}
+.go-back:hover{background:rgba(255,255,255,.18)}
+.go-back i{width:14px;height:14px}
+.topbar h1{font-size:22px;color:#fff}
+.steps{margin-left:auto;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.step{display:inline-flex;align-items:center;gap:8px;color:rgba(255,255,255,.55);font-size:12px;font-weight:500;white-space:nowrap}
+.step-num{width:22px;height:22px;border-radius:50%;background:rgba(255,255,255,.18);color:rgba(255,255,255,.65);display:inline-flex;align-items:center;justify-content:center;font-size:11px;font-weight:700}
+.step.done .step-num{background:rgba(255,255,255,.85);color:var(--navy)}
+.step.on{color:#fff}
+.step.on .step-num{background:var(--primary);color:#fff}
+.step-dash{color:rgba(255,255,255,.25)}
+
+.shell{max-width:1080px;margin:0 auto;padding:30px 32px 60px}
+
+.hero{background:linear-gradient(135deg,#0F2A33 0%,#164055 100%);color:#fff;border-radius:var(--radius-lg);padding:28px 32px;margin-bottom:18px;display:flex;gap:18px;align-items:center;position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;right:-40px;top:-30px;width:200px;height:200px;background:radial-gradient(circle,rgba(8,165,227,.2),transparent 60%);pointer-events:none}
+.hero .p-ico{width:52px;height:52px;border-radius:14px;background:rgba(255,255,255,.14);display:inline-flex;align-items:center;justify-content:center;flex-shrink:0;position:relative}
+.hero .p-ico i{width:24px;height:24px;color:#fff}
+.hero h2{font-size:20px;color:#fff;margin-bottom:4px;position:relative}
+.hero p{font-size:13px;color:rgba(255,255,255,.78);position:relative;max-width:620px}
+.hero .chip{display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,.16);color:#fff;font-size:11px;font-weight:700;padding:4px 10px;border-radius:20px;margin-top:8px;position:relative;text-transform:uppercase;letter-spacing:.05em}
+
+.search{background:#fff;border-radius:var(--radius-lg);padding:24px 26px;box-shadow:var(--shadow-sm)}
+.search h3{font-size:16px;color:var(--navy);margin-bottom:4px;display:flex;align-items:center;gap:8px}
+.search h3 i{width:17px;height:17px;color:var(--primary)}
+.search .sub{font-size:12px;color:var(--gray-500);margin-bottom:16px}
+
+.tripType{display:inline-flex;background:var(--gray-100);border-radius:8px;padding:3px;gap:3px;margin-bottom:14px}
+.tripType button{padding:7px 14px;font-size:12px;font-weight:600;color:var(--gray-600);border-radius:6px;transition:var(--ease)}
+.tripType button.on{background:#fff;color:var(--navy);box-shadow:var(--shadow-sm)}
+
+.fgrid{display:grid;grid-template-columns:1.2fr 1.2fr 1fr 1fr .8fr .8fr;gap:10px;align-items:end}
+@media(max-width:960px){ .fgrid{grid-template-columns:1fr 1fr;gap:12px} }
+@media(max-width:520px){ .fgrid{grid-template-columns:1fr} }
+.field{display:flex;flex-direction:column}
+.field label{font-size:11px;font-weight:600;color:var(--gray-500);text-transform:uppercase;letter-spacing:.06em;margin-bottom:5px}
+.field select,.field input{height:52px;padding:0 14px;border:1px solid var(--gray-200);border-radius:10px;background:#fff;font-size:14px;color:var(--navy);width:100%;transition:var(--ease)}
+.field select:focus,.field input:focus{border-color:var(--primary);box-shadow:0 0 0 3px rgba(8,165,227,.12)}
+
+.search-foot{display:flex;justify-content:space-between;align-items:center;gap:14px;margin-top:18px;padding-top:16px;border-top:1px dashed var(--gray-200);flex-wrap:wrap}
+.foot-note{font-size:12px;color:var(--gray-500);display:flex;align-items:center;gap:6px}
+.foot-note i{width:13px;height:13px}
+.btn-search{background:var(--orange);color:#fff;font-weight:600;font-size:14px;padding:13px 28px;border-radius:10px;display:inline-flex;align-items:center;gap:8px;transition:var(--ease)}
+.btn-search:hover{background:var(--orange-dark);box-shadow:0 6px 16px rgba(245,130,32,.28)}
+.btn-search i{width:16px;height:16px}
+
+.recent{margin-top:22px;background:#fff;border-radius:var(--radius-lg);padding:18px 22px;box-shadow:var(--shadow-sm)}
+.recent h3{font-size:14px;color:var(--navy);margin-bottom:10px;display:flex;align-items:center;gap:8px}
+.recent h3 i{width:14px;height:14px;color:var(--gray-400)}
+.recent-list{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+@media(max-width:720px){ .recent-list{grid-template-columns:1fr} }
+.recent-item{border:1px dashed var(--gray-200);border-radius:10px;padding:12px 14px;cursor:pointer;transition:var(--ease)}
+.recent-item:hover{border-color:var(--primary);background:var(--primary-light)}
+.recent-item .route{font-size:13px;font-weight:700;color:var(--navy);margin-bottom:2px}
+.recent-item .meta{font-size:11px;color:var(--gray-500)}
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <button class="go-back" onclick="location.href='umrah-builder.html'">
+    <i data-lucide="arrow-left"></i> Go Back
+  </button>
+  <h1>Flight Search</h1>
+  <div class="steps">
+    <div class="step done"><span class="step-num">✓</span> Start</div>
+    <span class="step-dash">—</span>
+    <div class="step on"><span class="step-num">2</span> Flight</div>
+    <span class="step-dash">—</span>
+    <div class="step"><span class="step-num">3</span> Hotel</div>
+    <span class="step-dash">—</span>
+    <div class="step"><span class="step-num">4</span> Ground</div>
+    <span class="step-dash">—</span>
+    <div class="step"><span class="step-num">5</span> Add-ons</div>
+    <span class="step-dash">—</span>
+    <div class="step"><span class="step-num">6</span> Review</div>
+    <span class="step-dash">—</span>
+    <div class="step"><span class="step-num">7</span> Pay</div>
+  </div>
+</header>
+
+<div class="shell">
+  <div class="hero">
+    <div class="p-ico"><i data-lucide="plane-takeoff"></i></div>
+    <div>
+      <h2>Find your Umrah flight</h2>
+      <p>Saudi-approved carriers from Nigerian airports to Jeddah (JED) or Madinah (MED). Prices are per passenger, including taxes.</p>
+      <span class="chip" id="typeChip">Umrah selected</span>
+    </div>
+  </div>
+
+  <div class="search">
+    <h3><i data-lucide="search"></i> Where are you flying?</h3>
+    <p class="sub">Fill out the form to see available flights.</p>
+
+    <div class="tripType">
+      <button class="on" data-trip="return">Return</button>
+      <button data-trip="oneway">One way</button>
+      <button data-trip="multi" disabled style="opacity:.5;cursor:not-allowed">Multi-city</button>
+    </div>
+
+    <div class="fgrid">
+      <div class="field">
+        <label>From</label>
+        <select id="fFrom">
+          <option value="LOS">Lagos (LOS)</option>
+          <option value="ABV">Abuja (ABV)</option>
+          <option value="KAN">Kano (KAN)</option>
+          <option value="PHC">Port Harcourt (PHC)</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>To</label>
+        <select id="fTo">
+          <option value="JED">Jeddah (JED)</option>
+          <option value="MED">Madinah (MED)</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>Departure</label>
+        <input type="date" id="fDepart">
+      </div>
+      <div class="field" id="returnField">
+        <label>Return</label>
+        <input type="date" id="fReturn">
+      </div>
+      <div class="field">
+        <label>Travellers</label>
+        <select id="fPax">
+          <option value="1">1 Adult</option>
+          <option value="2">2 Adults</option>
+          <option value="3">3 Adults</option>
+          <option value="4">4 Adults</option>
+          <option value="5">5 Adults</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>Class</label>
+        <select id="fClass">
+          <option value="economy">Economy</option>
+          <option value="premium">Premium Economy</option>
+          <option value="business">Business</option>
+          <option value="first">First Class</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="search-foot">
+      <span class="foot-note"><i data-lucide="shield-check"></i> Prices include taxes and Umrah visa fees where applicable.</span>
+      <button class="btn-search" onclick="searchFlights()">
+        <i data-lucide="search"></i> Search flights
+      </button>
+    </div>
+  </div>
+
+  <div class="recent">
+    <h3><i data-lucide="history"></i> Popular Umrah routes</h3>
+    <div class="recent-list">
+      <div class="recent-item" onclick="quick('LOS','JED')">
+        <div class="route">Lagos → Jeddah</div>
+        <div class="meta">Non-stop · from ₦1,185,000</div>
+      </div>
+      <div class="recent-item" onclick="quick('LOS','MED')">
+        <div class="route">Lagos → Madinah</div>
+        <div class="meta">From ₦1,048,000</div>
+      </div>
+      <div class="recent-item" onclick="quick('ABV','JED')">
+        <div class="route">Abuja → Jeddah</div>
+        <div class="meta">Via Cairo · from ₦965,000</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="umrah-data.js"></script>
+<script>
+lucide.createIcons();
+const cart = UmrahData.getCart();
+if (cart.mode !== 'custom') { cart.mode = 'custom'; UmrahData.saveCart(cart); }
+if (!cart.umrahType) {
+  // No type chosen — send back to builder
+  location.href = 'umrah-builder.html';
+}
+
+let tripType = 'return';
+
+document.getElementById('typeChip').textContent =
+  cart.umrahType === 'plus' ? 'Umrah Plus selected' : 'Umrah selected';
+
+// Seed dates (30 days out, 10-day trip)
+(function seedDates(){
+  const d1 = new Date(); d1.setDate(d1.getDate() + 30);
+  const d2 = new Date(d1); d2.setDate(d2.getDate() + 10);
+  const pad = n => String(n).padStart(2,'0');
+  const fmt = d => `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}`;
+  document.getElementById('fDepart').value = fmt(d1);
+  document.getElementById('fReturn').value = fmt(d2);
+})();
+
+// Rehydrate from cart
+if (cart.search) {
+  if (cart.search.from) document.getElementById('fFrom').value = cart.search.from;
+  if (cart.search.to) document.getElementById('fTo').value = cart.search.to;
+  if (cart.search.depart) document.getElementById('fDepart').value = cart.search.depart;
+  if (cart.search.return) document.getElementById('fReturn').value = cart.search.return;
+  if (cart.search.pax) document.getElementById('fPax').value = String(cart.search.pax);
+  if (cart.search.cabin) document.getElementById('fClass').value = cart.search.cabin;
+  if (cart.search.tripType === 'oneway') {
+    document.querySelector('.tripType button[data-trip="oneway"]').click();
+  }
+}
+
+document.querySelectorAll('.tripType button').forEach(btn => {
+  btn.addEventListener('click', () => {
+    if (btn.disabled) return;
+    document.querySelectorAll('.tripType button').forEach(b => b.classList.remove('on'));
+    btn.classList.add('on');
+    tripType = btn.dataset.trip;
+    document.getElementById('returnField').style.display = (tripType === 'oneway') ? 'none' : 'flex';
+  });
+});
+
+function quick(from, to) {
+  document.getElementById('fFrom').value = from;
+  document.getElementById('fTo').value = to;
+  searchFlights();
+}
+
+function searchFlights() {
+  cart.pax = parseInt(document.getElementById('fPax').value, 10) || 1;
+  cart.search = {
+    from: document.getElementById('fFrom').value,
+    to: document.getElementById('fTo').value,
+    depart: document.getElementById('fDepart').value,
+    return: (tripType === 'oneway') ? null : document.getElementById('fReturn').value,
+    pax: cart.pax,
+    cabin: document.getElementById('fClass').value,
+    tripType
+  };
+  UmrahData.saveCart(cart);
+  location.href = 'umrah-flight.html';
+}
+</script>
+</body>
+</html>

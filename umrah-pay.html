@@ -1,0 +1,690 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Payment — Wakanow Umrah</title>
+<link href="https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Rubik',system-ui,sans-serif;font-size:16px;color:#1E3138;line-height:1.55;background:#F5F7FA;min-height:100vh}
+h1,h2,h3{font-family:'Rubik',system-ui,sans-serif;font-weight:700;line-height:1.2}
+button{cursor:pointer;font-family:inherit;border:none;background:none;color:inherit}
+a{text-decoration:none;color:inherit}
+input,select{font-family:inherit;font-size:13px}
+
+:root{
+  --primary:#08A5E3; --primary-dark:#0789BF; --primary-light:#E8F6FD;
+  --navy:#0F2A33;
+  --orange:#F58220; --orange-dark:#E07318;
+  --green:#27AE60;
+  --gray-50:#F8F9FB; --gray-100:#F2F3F5; --gray-200:#E5E7EB; --gray-300:#D1D5DB; --gray-500:#6B7280; --gray-600:#4B5563;
+  --panel-bg:#EEF2F8;
+  --radius-lg:14px;
+  --shadow-sm:0 1px 3px rgba(0,0,0,.06);
+  --shadow-md:0 6px 22px rgba(15,42,51,.08);
+  --ease:.22s cubic-bezier(.4,0,.2,1);
+}
+
+.site-header{background:#fff;padding:14px 40px;display:flex;align-items:center;gap:20px;box-shadow:0 1px 0 rgba(15,42,51,.06)}
+.site-header .logo{height:32px}
+.secure-pill{margin-left:auto;font-size:12px;color:var(--green);display:inline-flex;align-items:center;gap:6px;background:#E7F6EE;padding:6px 12px;border-radius:999px}
+.secure-pill i{width:14px;height:14px}
+.site-header .manage-app-link{font-size:13px;color:var(--navy);font-weight:600;display:inline-flex;align-items:center;gap:6px;padding:8px 14px;border-radius:8px;transition:.18s;cursor:pointer}
+.site-header .manage-app-link:hover{background:#F2F3F5;color:var(--primary-dark)}
+.site-header .manage-app-link i{width:14px;height:14px}
+@media(max-width:720px){ .site-header .manage-app-link{font-size:12.5px;padding:7px 10px} .site-header .manage-app-link span{display:none} .secure-pill span{display:none} }
+
+.step-header{background:var(--navy);color:#fff;padding:16px 40px;display:flex;align-items:center;gap:24px;flex-wrap:wrap}
+.step-header .title{font-size:16px;font-weight:700}
+.steps{margin-left:auto;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.step{display:inline-flex;align-items:center;gap:8px;color:rgba(255,255,255,.55);font-size:13px;white-space:nowrap}
+.step-num{width:22px;height:22px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;background:rgba(255,255,255,.18)}
+.step.done .step-num{background:#fff;color:var(--navy)}
+.step.on{color:#fff}
+.step.on .step-num{background:var(--primary);color:#fff}
+.step-dash{color:rgba(255,255,255,.25);letter-spacing:2px}
+@media(max-width:720px){ .step-header{padding:14px 20px} .steps{display:none} .site-header{padding:12px 20px} }
+
+.shell{max-width:1200px;margin:0 auto;padding:28px 40px 60px;display:grid;grid-template-columns:1fr 380px;gap:28px;align-items:start}
+@media(max-width:1000px){ .shell{grid-template-columns:1fr;padding:24px 20px 40px} }
+
+.back-link{display:inline-flex;align-items:center;gap:6px;font-size:13px;color:var(--gray-600);font-weight:500;margin-bottom:16px}
+.back-link:hover{color:var(--primary)}
+.back-link i{width:14px;height:14px}
+
+/* ==== Page title ==== */
+.pay-title{font-size:22px;color:var(--navy);font-weight:700;margin-bottom:18px;letter-spacing:-.005em}
+@media(max-width:600px){ .pay-title{font-size:18px;margin-bottom:14px} }
+
+/* ==== "100% protected" header card ==== */
+.pp-card{background:#fff;border:1px solid #E1E5EC;border-radius:14px;padding:22px 26px;box-shadow:0 1px 3px rgba(15,42,51,.04);margin-bottom:22px}
+.pp-top{display:flex;align-items:center;justify-content:space-between;gap:18px;flex-wrap:wrap;padding-bottom:18px;border-bottom:1px solid #EEF1F5}
+.pp-left{display:inline-flex;align-items:center;gap:10px;font-size:13.5px;color:var(--navy);font-weight:600}
+.pp-left i{width:17px;height:17px;color:var(--navy)}
+.pp-right{display:inline-flex;align-items:center;gap:22px;flex-wrap:wrap}
+.pp-checks{display:inline-flex;align-items:center;gap:7px;font-size:13px;color:var(--gray-600);font-weight:500}
+.pp-checks i{width:15px;height:15px;color:var(--green);stroke-width:2.5}
+.pp-bottom{display:flex;align-items:center;justify-content:space-between;gap:18px;padding-top:20px;flex-wrap:wrap}
+.pp-amount{font-size:36px;font-weight:800;color:var(--navy);letter-spacing:-.015em;font-variant-numeric:tabular-nums;line-height:1}
+@media(max-width:600px){ .pp-amount{font-size:28px} }
+.btn-currency{background:var(--orange);color:#fff;font-weight:600;font-size:13.5px;padding:13px 22px;border-radius:10px;display:inline-flex;align-items:center;gap:6px;transition:var(--ease);box-shadow:0 4px 12px rgba(245,130,32,.22)}
+.btn-currency:hover{background:var(--orange-dark);box-shadow:0 8px 18px rgba(245,130,32,.32)}
+
+/* ==== Methods panel ==== */
+.methods-panel{background:var(--panel-bg);border-radius:14px;padding:24px 24px;border:1px solid #DCE2EC}
+.methods-panel h3{font-size:14.5px;color:var(--navy);font-weight:700;margin-bottom:14px}
+@media(max-width:600px){ .methods-panel{padding:18px 16px} }
+
+.method-list{display:flex;flex-direction:column;gap:10px}
+.method-row{background:#fff;border-radius:10px;border:1px solid #E5EAF0;overflow:hidden;transition:var(--ease)}
+.method-row:hover{border-color:#CFD8E3}
+.method-row.on{border-color:var(--primary);box-shadow:0 0 0 3px rgba(8,165,227,.10)}
+.method-head{display:flex;align-items:center;gap:14px;padding:16px 18px;cursor:pointer;user-select:none}
+.method-head .ico{width:36px;height:36px;border-radius:8px;background:var(--primary-light);color:var(--primary);display:inline-flex;align-items:center;justify-content:center;flex-shrink:0}
+.method-head .ico i{width:18px;height:18px}
+.method-head .lbl{flex:1;min-width:0;font-size:14px;color:var(--navy);font-weight:600}
+.method-head .chev{color:var(--gray-500);transition:transform .25s ease;flex-shrink:0}
+.method-head .chev i{width:18px;height:18px}
+.method-row.on .method-head .chev{transform:rotate(180deg)}
+.method-body{display:none;padding:0 18px 18px;border-top:1px solid var(--gray-100);background:var(--gray-50)}
+.method-row.on .method-body{display:block;padding-top:18px}
+
+/* Form fields inside accordion */
+.form-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
+@media(max-width:640px){ .form-grid{grid-template-columns:1fr} }
+.field{display:flex;flex-direction:column;gap:6px}
+.field.full{grid-column:1/-1}
+.field label{font-size:12px;color:var(--navy);font-weight:600}
+.field label .req{color:#DC2626;margin-left:2px}
+.field input,.field select{padding:12px 14px;border:1px solid var(--gray-200);border-radius:8px;background:#fff;color:var(--navy);transition:var(--ease);font-variant-numeric:tabular-nums}
+.field input:focus,.field select:focus{outline:none;border-color:var(--primary);box-shadow:0 0 0 3px rgba(8,165,227,.14)}
+.field.invalid input,.field.invalid select{border-color:#DC2626}
+.field .err{font-size:11px;color:#DC2626;display:none}
+.field.invalid .err{display:block}
+
+/* Card brand strip */
+.pay-secure-row{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;margin-bottom:14px;font-size:11px;color:var(--gray-500)}
+.pay-secure-row .secure{display:inline-flex;align-items:center;gap:6px;color:var(--green);font-weight:600}
+.pay-secure-row .secure i{width:13px;height:13px}
+.pay-secure-row .brands{display:inline-flex;gap:6px}
+.pay-brand{display:inline-flex;align-items:center;justify-content:center;height:22px;padding:0 8px;border:1px solid var(--gray-200);border-radius:5px;font-size:10px;font-weight:700;color:var(--gray-600);background:#fff;letter-spacing:.04em;font-family:'Rubik',sans-serif}
+.pay-brand.visa{color:#1A1F71}
+.pay-brand.mc{color:#EB001B}
+.pay-brand.verve{color:#0061A4}
+.pay-brand.amex{color:#2E77BC}
+
+.field-with-icon{position:relative}
+.field-with-icon input{padding-right:60px}
+.field-with-icon .card-brand{position:absolute;right:10px;top:50%;transform:translateY(-50%);font-size:10px;font-weight:700;padding:3px 8px;border-radius:4px;background:var(--gray-100);color:var(--gray-500);letter-spacing:.04em;transition:var(--ease);min-width:46px;text-align:center;font-family:'Rubik',sans-serif}
+.field-with-icon[data-brand="visa"] .card-brand{background:#EEF1FB;color:#1A1F71}
+.field-with-icon[data-brand="mc"] .card-brand{background:#FEE7E5;color:#EB001B}
+.field-with-icon[data-brand="verve"] .card-brand{background:#E1EEF7;color:#0061A4}
+.field-with-icon[data-brand="amex"] .card-brand{background:#E0EDF8;color:#2E77BC}
+.cvv-hint{display:inline-flex;align-items:center;gap:4px;font-size:11px;color:var(--gray-500);font-weight:500;margin-left:6px}
+.cvv-hint i{width:12px;height:12px}
+
+.bank-info{background:#fff;border:1px solid var(--gray-200);border-radius:10px;padding:16px 18px}
+.bank-info h4{font-size:13px;color:var(--navy);margin-bottom:10px}
+.bank-row{display:flex;justify-content:space-between;padding:6px 0;font-size:13px;color:var(--gray-600);border-bottom:1px dashed var(--gray-200)}
+.bank-row:last-child{border-bottom:none}
+.bank-row .v{color:var(--navy);font-weight:600;font-variant-numeric:tabular-nums}
+.bank-row .copy{margin-left:8px;color:var(--primary);font-size:11px;cursor:pointer}
+
+.wallet-balance{background:linear-gradient(135deg,#0B3A52,#124865);color:#fff;border-radius:10px;padding:18px 20px;margin-bottom:14px;display:flex;justify-content:space-between;align-items:center}
+.wallet-balance .lbl{font-size:12px;color:rgba(255,255,255,.7);margin-bottom:4px}
+.wallet-balance .val{font-size:24px;font-weight:700;color:#fff;font-variant-numeric:tabular-nums}
+
+/* Installment plan */
+.installment-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:14px}
+@media(max-width:640px){ .installment-grid{grid-template-columns:1fr} }
+.installment-opt{border:1.5px solid var(--gray-200);border-radius:10px;padding:14px;background:#fff;cursor:pointer;transition:var(--ease);text-align:center}
+.installment-opt:hover{border-color:var(--gray-300)}
+.installment-opt.on{border-color:var(--primary);background:var(--primary-light)}
+.installment-opt .n{font-size:14px;font-weight:700;color:var(--navy);margin-bottom:2px}
+.installment-opt .d{font-size:11px;color:var(--gray-500)}
+
+/* Direct debit */
+.dd-info{background:#fff;border:1px solid var(--gray-200);border-radius:10px;padding:14px 16px;font-size:12.5px;color:var(--gray-600);line-height:1.6}
+.dd-info i{display:inline-block;vertical-align:-3px;width:14px;height:14px;margin-right:5px;color:var(--primary)}
+
+/* Continue button */
+.btn-continue{margin-top:20px;background:var(--orange);color:#fff;font-weight:600;font-size:14.5px;padding:13px 28px;border-radius:10px;display:inline-flex;align-items:center;gap:8px;transition:var(--ease);box-shadow:0 4px 12px rgba(245,130,32,.22)}
+.btn-continue:hover:not(:disabled){background:var(--orange-dark);box-shadow:0 8px 20px rgba(245,130,32,.32)}
+.btn-continue:disabled{background:var(--gray-300);cursor:not-allowed;box-shadow:none}
+.btn-continue i{width:15px;height:15px}
+
+.terms-row{display:flex;gap:10px;align-items:flex-start;margin-top:16px;padding:14px;background:#fff;border:1px solid var(--gray-200);border-radius:10px;font-size:12px;color:var(--gray-600)}
+.terms-row input{margin-top:2px}
+.terms-row a{color:var(--primary);text-decoration:underline}
+
+/* ==== Cost Summary ==== */
+.side{display:flex;flex-direction:column;gap:16px}
+@media(min-width:1001px){ .side{position:sticky;top:20px} }
+
+.cost-summary{background:#fff;border-radius:14px;padding:22px 22px;box-shadow:var(--shadow-md);border:1px solid #EEF1F5}
+.cost-summary h3{font-size:16px;color:var(--navy);margin-bottom:14px;font-weight:700;letter-spacing:-.005em}
+
+.cs-dest{display:flex;align-items:center;gap:12px;padding-bottom:16px;border-bottom:1px solid #EEF1F5;margin-bottom:14px}
+.cs-flag{width:38px;height:38px;border-radius:50%;background:#0B6E4F;color:#fff;display:inline-flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0;overflow:hidden;line-height:1}
+.cs-dest-info{flex:1;min-width:0}
+.cs-dest-info strong{display:block;font-size:14px;color:var(--navy);font-weight:700;line-height:1.25}
+.cs-dest-info small{display:block;font-size:11.5px;color:var(--gray-500);margin-top:2px}
+.cs-pill{flex-shrink:0;background:#FEEAD8;color:var(--orange-dark);font-size:11px;font-weight:600;padding:5px 10px;border-radius:999px;letter-spacing:.01em}
+
+.cs-rows{display:flex;flex-direction:column;gap:2px}
+.cs-row{display:flex;justify-content:space-between;align-items:baseline;padding:8px 0;font-size:13px;color:var(--gray-600);gap:12px}
+.cs-row .l{flex:1;line-height:1.4}
+.cs-row .l .sub{display:block;font-size:11px;color:var(--gray-500);margin-top:1px}
+.cs-row .v{color:var(--navy);font-weight:600;font-variant-numeric:tabular-nums;text-align:right;white-space:nowrap}
+.cs-row.muted .v{color:var(--green);font-weight:500;font-size:12px}
+.cs-divider{height:1px;background:#EEF1F5;margin:6px 0}
+
+.cs-total{display:flex;justify-content:space-between;align-items:baseline;margin-top:14px;padding-top:14px;border-top:1.5px solid #DEE3EC;gap:12px}
+.cs-total .l{font-size:14px;font-weight:600;color:var(--navy)}
+.cs-total .amt{font-size:18px;font-weight:800;color:var(--navy);font-variant-numeric:tabular-nums;letter-spacing:-.01em}
+
+.btn-pay{width:100%;margin-top:16px;padding:14px;background:var(--orange);color:#fff;font-weight:600;font-size:14.5px;border-radius:10px;display:flex;align-items:center;justify-content:center;gap:8px;transition:var(--ease);border:none;cursor:pointer;box-shadow:0 4px 12px rgba(245,130,32,.22)}
+.btn-pay:hover:not(:disabled){background:var(--orange-dark);box-shadow:0 8px 20px rgba(245,130,32,.32)}
+.btn-pay:disabled{background:var(--gray-300);cursor:not-allowed;box-shadow:none}
+.btn-pay i{width:16px;height:16px}
+
+/* Processing overlay */
+.pay-processing{position:fixed;inset:0;background:rgba(15,42,51,.55);backdrop-filter:blur(4px);z-index:999;display:none;align-items:center;justify-content:center;padding:20px}
+.pay-processing.on{display:flex}
+.pay-processing .card{background:#fff;border-radius:14px;padding:30px 28px;max-width:340px;width:100%;text-align:center;box-shadow:0 24px 60px rgba(15,42,51,.32)}
+.pay-processing .spinner{width:48px;height:48px;border-radius:50%;border:3px solid var(--gray-200);border-top-color:var(--primary);margin:0 auto 16px;animation:wkSpin 1s linear infinite}
+.pay-processing h4{font-size:15px;color:var(--navy);margin-bottom:6px;font-weight:700}
+.pay-processing p{font-size:12px;color:var(--gray-500)}
+@keyframes wkSpin{to{transform:rotate(360deg)}}
+
+/* Mobile sticky pay bar */
+.mobile-pay-bar{display:none;position:fixed;left:0;right:0;bottom:0;background:#fff;border-top:1px solid #DEE3EC;box-shadow:0 -10px 28px rgba(15,42,51,.10);padding:12px 16px env(safe-area-inset-bottom);z-index:50;align-items:center;gap:12px}
+.mobile-pay-bar .total-mini{flex:0 0 auto;display:flex;flex-direction:column;line-height:1.1;min-width:90px}
+.mobile-pay-bar .total-mini .l{font-size:11px;color:var(--gray-500);text-transform:uppercase;letter-spacing:.04em;font-weight:600}
+.mobile-pay-bar .total-mini .a{font-size:20px;font-weight:800;color:var(--navy);font-variant-numeric:tabular-nums;letter-spacing:-.01em}
+.mobile-pay-bar .btn-pay-mobile{flex:1;background:var(--orange);color:#fff;font-weight:700;font-size:15px;padding:14px 18px;border-radius:12px;border:none;display:inline-flex;align-items:center;justify-content:center;gap:8px;cursor:pointer;min-height:48px}
+.mobile-pay-bar .btn-pay-mobile:disabled{background:var(--gray-300);cursor:not-allowed}
+.mobile-pay-bar .btn-pay-mobile i{width:14px;height:14px}
+
+@media(max-width:760px){
+  .mobile-pay-bar{display:flex}
+  body.has-mobile-pay-bar{padding-bottom:88px}
+  .cost-summary .btn-pay{display:none}
+  /* Hide the inline "Continue to Payment" CTA on mobile so the pinned
+     sticky pay bar is the single active CTA (no duplicate user actions). */
+  .btn-continue{display:none}
+}
+
+.not-found{background:#fff;border-radius:var(--radius-lg);padding:60px 20px;text-align:center;color:var(--gray-500)}
+</style>
+<link rel="stylesheet" href="umrah-theme.css">
+</head>
+<body>
+
+<header class="site-header">
+  <a href="saudi-packages.html"><img src="wakanow-logo.svg" alt="Wakanow" class="logo"></a>
+  <span class="secure-pill"><i data-lucide="lock"></i> Secure payment via Wakanow WPS</span>
+  <a href="umrah-signin.html" class="manage-app-link" title="Continue an existing visa application">
+    <i data-lucide="user-check"></i><span>Manage Application</span>
+  </a>
+</header>
+
+<div class="step-header" id="stepHeader"></div>
+
+<div class="shell" id="shell"></div>
+
+<script src="umrah-portal-data.js"></script>
+<script src="umrah-contact.js" defer></script>
+<script>
+lucide.createIcons();
+
+const id = new URLSearchParams(location.search).get('id');
+const pkg = UmrahPortal.findPackage(id);
+const store = UmrahPortal.load();
+const shell = document.getElementById('shell');
+const stepHeader = document.getElementById('stepHeader');
+let method = 'card';
+let installmentPlan = '3';
+
+// IMPORTANT: METHODS must be declared BEFORE we call renderPay(), because
+// `const` declarations are not hoisted (they live in the temporal dead zone
+// until execution reaches them). Earlier this lived after the dispatch block
+// and renderPay() crashed silently with "Cannot access 'METHODS' before
+// initialization" — leaving the entire shell blank.
+const METHODS = [
+  { k: 'card',         icon: 'credit-card',  label: 'Card' },
+  { k: 'bank',         icon: 'landmark',     label: 'Bank Transfer' },
+  { k: 'bank-instant', icon: 'landmark',     label: 'Bank Transfer (Instant Ticketing)' },
+  { k: 'installment',  icon: 'banknote',     label: 'Pay in Installment' },
+  { k: 'wallet',       icon: 'wallet',       label: 'Wallet' },
+  { k: 'direct-debit', icon: 'arrow-down-up',label: 'Direct Debit Bank' }
+];
+
+if (!pkg){
+  shell.innerHTML = '<div class="not-found"><h2>Package not found</h2></div>';
+} else if (!store.cart.passengers || !store.cart.passengers.length){
+  location.href = 'umrah-checkout.html?id=' + encodeURIComponent(id);
+} else {
+  renderStepHeader();
+  renderPay();
+}
+
+function renderStepHeader(){
+  const withVisa = pkg.type === 'with_visa';
+  stepHeader.innerHTML = `
+    <div class="title">Umrah Booking</div>
+    <div class="steps">
+      <div class="step done"><span class="step-num">1</span> Select Package</div>
+      <span class="step-dash">——</span>
+      ${withVisa ? `
+        <div class="step on"><span class="step-num">2</span> PAX & Payment</div>
+        <span class="step-dash">——</span>
+        <div class="step"><span class="step-num">3</span> Pre-Qualification</div>
+        <span class="step-dash">——</span>
+        <div class="step"><span class="step-num">4</span> Visa Application</div>
+      ` : `
+        <div class="step done"><span class="step-num">2</span> Traveller info</div>
+        <span class="step-dash">——</span>
+        <div class="step on"><span class="step-num">3</span> Payment</div>
+        <span class="step-dash">——</span>
+        <div class="step"><span class="step-num">4</span> Confirmation</div>
+      `}
+    </div>
+  `;
+}
+
+function renderPay(){
+  shell.innerHTML = `
+    <main>
+      <a class="back-link" href="umrah-checkout.html?id=${pkg.id}"><i data-lucide="arrow-left"></i> Back to traveller info</a>
+
+      <h1 class="pay-title">Wakanow Group Payment Stack</h1>
+
+      <div class="pp-card">
+        <div class="pp-top">
+          <div class="pp-left"><i data-lucide="lock"></i> This booking is 100% protected</div>
+          <div class="pp-right">
+            <span class="pp-checks"><i data-lucide="check"></i> Secure transmission</span>
+            <span class="pp-checks"><i data-lucide="check"></i> Encrypted storage</span>
+          </div>
+        </div>
+        <div class="pp-bottom">
+          <div class="pp-amount" id="ppAmount">—</div>
+          <button class="btn-currency" type="button" onclick="changeCurrency()">Change Currency</button>
+        </div>
+      </div>
+
+      <div class="methods-panel">
+        <h3>Please choose your preferred payment method.</h3>
+        <div class="method-list" id="methodList">
+          ${METHODS.map(m => methodRow(m)).join('')}
+        </div>
+        <div class="terms-row">
+          <input type="checkbox" id="termsBox">
+          <label for="termsBox">I accept the <a href="#">Terms &amp; Conditions</a> and the <a href="#">Privacy Policy</a> and authorise Wakanow to process this payment.</label>
+        </div>
+        <button class="btn-continue" id="continueBtn" type="button" onclick="confirmPay()">Continue to Payment <i data-lucide="arrow-right"></i></button>
+      </div>
+    </main>
+
+    <aside class="side">
+      <div class="cost-summary">
+        <h3>Cost Summary</h3>
+        <div class="cs-dest">
+          <span class="cs-flag">🇸🇦</span>
+          <div class="cs-dest-info">
+            <strong>Saudi Arabia</strong>
+            <small>${escapeHtml(pkg.dates || '24-72 hours')}</small>
+          </div>
+          <span class="cs-pill">${escapeHtml(pkg.typeLabel || 'Umrah Package')}</span>
+        </div>
+        <div class="cs-rows" id="costRows"></div>
+        <div class="cs-total">
+          <span class="l">Total Fee</span>
+          <span class="amt" id="costTotal">—</span>
+        </div>
+        <button class="btn-pay" id="payBtn" type="button" onclick="confirmPay()">
+          <span id="payBtnLabel">Pay Now</span>
+        </button>
+      </div>
+    </aside>
+
+    <div class="pay-processing" id="payProcessing" aria-hidden="true">
+      <div class="card" role="status" aria-live="polite">
+        <div class="spinner"></div>
+        <h4>Processing your payment…</h4>
+        <p>Please don't close this window. We're securely confirming your transaction.</p>
+      </div>
+    </div>
+  `;
+  ensureMobilePayBar();
+  document.body.classList.add('has-mobile-pay-bar');
+  lucide.createIcons();
+  renderCost();
+
+  // Wire accordion clicks — only one method open at a time
+  document.querySelectorAll('.method-row').forEach(row => {
+    const head = row.querySelector('.method-head');
+    head.addEventListener('click', () => {
+      method = row.dataset.k;
+      document.querySelectorAll('.method-row').forEach(r => {
+        r.classList.toggle('on', r.dataset.k === method);
+      });
+      renderMethodBody(method);
+    });
+  });
+  // Render body for the default selected method
+  renderMethodBody(method);
+}
+
+function methodRow(m){
+  const isOn = m.k === method;
+  return `
+    <div class="method-row ${isOn ? 'on' : ''}" data-k="${m.k}">
+      <div class="method-head">
+        <span class="ico"><i data-lucide="${m.icon}"></i></span>
+        <span class="lbl">${m.label}</span>
+        <span class="chev"><i data-lucide="chevron-down"></i></span>
+      </div>
+      <div class="method-body" id="body-${m.k}"></div>
+    </div>
+  `;
+}
+
+function renderMethodBody(k){
+  const el = document.getElementById('body-' + k);
+  if (!el) return;
+  if (k === 'card'){
+    el.innerHTML = `
+      <div class="pay-secure-row">
+        <span class="secure"><i data-lucide="lock"></i> Encrypted · we never store your card</span>
+        <span class="brands">
+          <span class="pay-brand visa">VISA</span>
+          <span class="pay-brand mc">MC</span>
+          <span class="pay-brand verve">VERVE</span>
+        </span>
+      </div>
+      <div class="form-grid">
+        <div class="field full">
+          <label>Card number <span class="req">*</span></label>
+          <div class="field-with-icon" id="cardNoWrap">
+            <input id="cardNo" placeholder="1234 5678 9012 3456" maxlength="19" autocomplete="cc-number" inputmode="numeric">
+            <span class="card-brand" id="cardBrandTag">CARD</span>
+          </div>
+          <span class="err">Enter a valid 16-digit card number</span>
+        </div>
+        <div class="field full">
+          <label>Name on card <span class="req">*</span></label>
+          <input id="cardName" placeholder="AISHATU BALA" autocomplete="cc-name" style="text-transform:uppercase">
+          <span class="err">Enter the name on your card</span>
+        </div>
+        <div class="field">
+          <label>Expiry (MM/YY) <span class="req">*</span></label>
+          <input id="cardExp" placeholder="08/28" maxlength="5" autocomplete="cc-exp" inputmode="numeric">
+          <span class="err">MM/YY</span>
+        </div>
+        <div class="field">
+          <label>CVV <span class="req">*</span> <span class="cvv-hint" title="3-digit code on the back of your card"><i data-lucide="help-circle"></i></span></label>
+          <input id="cardCvv" placeholder="123" maxlength="4" autocomplete="cc-csc" inputmode="numeric">
+          <span class="err">3–4 digits</span>
+        </div>
+      </div>
+    `;
+    lucide.createIcons();
+    const num = document.getElementById('cardNo');
+    const wrap = document.getElementById('cardNoWrap');
+    const tag = document.getElementById('cardBrandTag');
+    num.addEventListener('input', () => {
+      num.value = num.value.replace(/\D/g,'').replace(/(.{4})/g,'$1 ').trim();
+      const digits = num.value.replace(/\s/g,'');
+      let brand = '', label = 'CARD';
+      if (/^4/.test(digits)) { brand = 'visa'; label = 'VISA'; }
+      else if (/^(5[1-5]|2[2-7])/.test(digits)) { brand = 'mc'; label = 'MC'; }
+      else if (/^(506[0-2]|507[8-9]|6500|6304)/.test(digits)) { brand = 'verve'; label = 'VERVE'; }
+      else if (/^3[47]/.test(digits)) { brand = 'amex'; label = 'AMEX'; }
+      wrap.dataset.brand = brand;
+      tag.textContent = label;
+    });
+    const exp = document.getElementById('cardExp');
+    exp.addEventListener('input', () => {
+      let v = exp.value.replace(/\D/g,'');
+      if (v.length > 2) v = v.slice(0,2) + '/' + v.slice(2,4);
+      exp.value = v;
+    });
+    const cvv = document.getElementById('cardCvv');
+    cvv.addEventListener('input', () => { cvv.value = cvv.value.replace(/\D/g,''); });
+  } else if (k === 'bank'){
+    el.innerHTML = `
+      <div class="bank-info">
+        <h4>Transfer to this Wakanow account</h4>
+        <div class="bank-row"><span>Bank</span><span class="v">GTBank</span></div>
+        <div class="bank-row"><span>Account number</span><span class="v">0123456789 <span class="copy">Copy</span></span></div>
+        <div class="bank-row"><span>Account name</span><span class="v">Wakanow Umrah Collections</span></div>
+        <div class="bank-row"><span>Reference</span><span class="v">WKU-${Date.now().toString(36).toUpperCase().slice(-6)} <span class="copy">Copy</span></span></div>
+      </div>
+      <p style="margin-top:12px;font-size:12px;color:var(--gray-600)">Use the reference above when you transfer. Your booking is held for 24 hours while we confirm your payment.</p>
+    `;
+  } else if (k === 'bank-instant'){
+    el.innerHTML = `
+      <div class="bank-info">
+        <h4>Instant Ticketing — pay & confirm in seconds</h4>
+        <div class="bank-row"><span>Provider</span><span class="v">NIBSS Instant Pay</span></div>
+        <div class="bank-row"><span>Reference</span><span class="v">WKU-IT-${Date.now().toString(36).toUpperCase().slice(-6)} <span class="copy">Copy</span></span></div>
+        <div class="bank-row"><span>Tickets issued</span><span class="v" style="color:var(--green)">Immediately on confirmation</span></div>
+      </div>
+      <p style="margin-top:12px;font-size:12px;color:var(--gray-600)">You'll be redirected to your bank to authorise the transfer. Tickets and visa receipt are issued the moment your payment lands.</p>
+    `;
+  } else if (k === 'installment'){
+    el.innerHTML = `
+      <p style="font-size:12.5px;color:var(--gray-600);margin-bottom:12px">Spread the cost over 3, 6, or 12 months. A small service fee applies on each instalment.</p>
+      <div class="installment-grid" id="installmentGrid">
+        ${[
+          { v: '3',  n: '3 months',  d: '0% interest' },
+          { v: '6',  n: '6 months',  d: '+2.5% / mo' },
+          { v: '12', n: '12 months', d: '+3.5% / mo' }
+        ].map(p => `
+          <div class="installment-opt ${installmentPlan === p.v ? 'on' : ''}" data-v="${p.v}">
+            <div class="n">${p.n}</div>
+            <div class="d">${p.d}</div>
+          </div>
+        `).join('')}
+      </div>
+      <div class="bank-info">
+        <div class="bank-row"><span>Per instalment</span><span class="v" id="instAmt">—</span></div>
+        <div class="bank-row"><span>First charge today</span><span class="v" id="instToday">—</span></div>
+      </div>
+    `;
+    document.querySelectorAll('#installmentGrid .installment-opt').forEach(opt => {
+      opt.addEventListener('click', () => {
+        installmentPlan = opt.dataset.v;
+        document.querySelectorAll('#installmentGrid .installment-opt').forEach(o => o.classList.toggle('on', o.dataset.v === installmentPlan));
+        updateInstallmentAmounts();
+      });
+    });
+    updateInstallmentAmounts();
+  } else if (k === 'wallet'){
+    el.innerHTML = `
+      <div class="wallet-balance">
+        <div>
+          <div class="lbl">Wakanow Wallet balance</div>
+          <div class="val">${UmrahPortal.ngn(750000)}</div>
+        </div>
+        <i data-lucide="wallet" style="width:30px;height:30px;color:rgba(255,255,255,.6)"></i>
+      </div>
+      <p style="font-size:12px;color:var(--gray-600);line-height:1.6">The trip total will be debited from your wallet. Any shortfall will prompt you to top up with a card.</p>
+    `;
+    lucide.createIcons();
+  } else if (k === 'direct-debit'){
+    el.innerHTML = `
+      <div class="dd-info">
+        <i data-lucide="info"></i> Direct debit lets your bank automatically settle this payment from your account once you authorise it.
+      </div>
+      <div class="form-grid" style="margin-top:14px">
+        <div class="field">
+          <label>Bank <span class="req">*</span></label>
+          <select id="ddBank">
+            <option value="">-Select bank-</option>
+            ${['GTBank','Access Bank','Zenith Bank','UBA','First Bank','Stanbic IBTC','Wema Bank','FCMB','Sterling','Polaris'].map(b => `<option>${b}</option>`).join('')}
+          </select>
+          <span class="err">Select a bank</span>
+        </div>
+        <div class="field">
+          <label>Account number <span class="req">*</span></label>
+          <input id="ddAcct" inputmode="numeric" maxlength="10" placeholder="10-digit NUBAN">
+          <span class="err">Enter a 10-digit account number</span>
+        </div>
+      </div>
+    `;
+    lucide.createIcons();
+  }
+}
+
+function updateInstallmentAmounts(){
+  const s = UmrahPortal.load();
+  const total = UmrahPortal.cartTotal(s, pkg);
+  const months = parseInt(installmentPlan, 10);
+  const surcharge = installmentPlan === '3' ? 0 : (installmentPlan === '6' ? 0.025 : 0.035);
+  const grossPerMonth = (total * (1 + surcharge * months)) / months;
+  const instAmt = document.getElementById('instAmt');
+  const instToday = document.getElementById('instToday');
+  if (instAmt) instAmt.textContent = UmrahPortal.ngn(Math.round(grossPerMonth));
+  if (instToday) instToday.textContent = UmrahPortal.ngn(Math.round(grossPerMonth));
+}
+
+function changeCurrency(){
+  alert('Currency switcher coming soon — NGN selected by default.');
+}
+
+function ensureMobilePayBar(){
+  if (document.getElementById('mobilePayBar')) return;
+  const bar = document.createElement('div');
+  bar.className = 'mobile-pay-bar';
+  bar.id = 'mobilePayBar';
+  bar.innerHTML = `
+    <div class="total-mini">
+      <span class="l">Total</span>
+      <span class="a" id="costTotalMobile">—</span>
+    </div>
+    <button class="btn-pay-mobile" id="payBtnMobile" type="button">
+      <i data-lucide="shield-check"></i> Pay Now
+    </button>
+  `;
+  document.body.appendChild(bar);
+  bar.querySelector('#payBtnMobile').addEventListener('click', confirmPay);
+}
+
+function renderCost(){
+  const s = UmrahPortal.load();
+  const q = s.cart.quantity || 1;
+  const rows = [];
+  // Visa-specific rows only show on with_visa flow — package-only doesn't include a visa.
+  if (pkg.type === 'with_visa'){
+    rows.push(`<div class="cs-row"><span class="l">Visa Type</span><span class="v">Umrah</span></div>`);
+    rows.push(`<div class="cs-row"><span class="l">Visa Duration</span><span class="v">1 Month</span></div>`);
+  }
+  rows.push(`<div class="cs-row"><span class="l">${escapeHtml(pkg.name)} <span class="sub">${UmrahPortal.ngn(pkg.price)} × ${q}</span></span><span class="v">${UmrahPortal.ngn(pkg.price * q)}</span></div>`);
+  if (s.cart.upgrade && pkg.upgrade){
+    rows.push(`<div class="cs-row"><span class="l">${escapeHtml(pkg.upgrade.name)} upgrade <span class="sub">${UmrahPortal.ngn(pkg.upgrade.price)} × ${q}</span></span><span class="v">${UmrahPortal.ngn(pkg.upgrade.price * q)}</span></div>`);
+  }
+  if (Array.isArray(s.cart.addOns) && s.cart.addOns.length && Array.isArray(pkg.addOns)){
+    s.cart.addOns.forEach(aId => {
+      const a = pkg.addOns.find(x => x.id === aId);
+      if (a) rows.push(`<div class="cs-row"><span class="l">${escapeHtml(a.label)}</span><span class="v">${UmrahPortal.ngn(a.price * q)}</span></div>`);
+    });
+  }
+  rows.push(`<div class="cs-divider"></div>`);
+  rows.push(`<div class="cs-row muted"><span class="l">Service fee</span><span class="v">Included</span></div>`);
+  rows.push(`<div class="cs-row muted"><span class="l">Taxes &amp; VAT</span><span class="v">Included</span></div>`);
+  document.getElementById('costRows').innerHTML = rows.join('');
+  const total = UmrahPortal.ngn(UmrahPortal.cartTotal(s, pkg));
+  document.getElementById('costTotal').textContent = total;
+  document.getElementById('ppAmount').textContent = total;
+  const mTotal = document.getElementById('costTotalMobile');
+  if (mTotal) mTotal.textContent = total;
+  const lbl = document.getElementById('payBtnLabel');
+  if (lbl) lbl.textContent = `Pay Now`;
+}
+
+function validatePayment(){
+  if (!document.getElementById('termsBox').checked){
+    alert('Please accept the Terms & Conditions before paying.');
+    return false;
+  }
+  if (method === 'card'){
+    let ok = true;
+    const num = document.getElementById('cardNo');
+    const name = document.getElementById('cardName');
+    const exp = document.getElementById('cardExp');
+    const cvv = document.getElementById('cardCvv');
+    if (!num || !name || !exp || !cvv){
+      alert('Please fill out the card details.');
+      return false;
+    }
+    [num, name, exp, cvv].forEach(el => {
+      const digits = el.value.replace(/\s/g, '');
+      let invalid = false;
+      if (el === num && digits.length < 13) invalid = true;
+      if (el === name && !name.value.trim()) invalid = true;
+      if (el === exp && !/^\d{2}\/\d{2}$/.test(el.value)) invalid = true;
+      if (el === cvv && !/^\d{3,4}$/.test(el.value)) invalid = true;
+      el.closest('.field').classList.toggle('invalid', invalid);
+      if (invalid) ok = false;
+    });
+    return ok;
+  }
+  if (method === 'direct-debit'){
+    const bank = document.getElementById('ddBank');
+    const acct = document.getElementById('ddAcct');
+    if (!bank || !acct){
+      alert('Please complete the direct debit details.');
+      return false;
+    }
+    let ok = true;
+    if (!bank.value){ bank.closest('.field').classList.add('invalid'); ok = false; } else { bank.closest('.field').classList.remove('invalid'); }
+    if (!/^\d{10}$/.test((acct.value || '').trim())){ acct.closest('.field').classList.add('invalid'); ok = false; } else { acct.closest('.field').classList.remove('invalid'); }
+    return ok;
+  }
+  return true;
+}
+
+function confirmPay(){
+  if (!validatePayment()) return;
+  const btn = document.getElementById('payBtn');
+  const contBtn = document.getElementById('continueBtn');
+  const mBtn = document.getElementById('payBtnMobile');
+  const overlay = document.getElementById('payProcessing');
+  if (btn) btn.disabled = true;
+  if (contBtn) contBtn.disabled = true;
+  if (mBtn) mBtn.disabled = true;
+  if (overlay){
+    overlay.classList.add('on');
+    overlay.setAttribute('aria-hidden', 'false');
+  }
+  setTimeout(() => {
+    const s = UmrahPortal.load();
+    const cartContact = s.cart && s.cart.contact ? s.cart.contact : null;
+    const cartPassengers = s.cart && s.cart.passengers ? s.cart.passengers : [];
+    const b = UmrahPortal.createBooking(s, pkg);
+    UmrahPortal.updateBooking(b.id, {
+      paymentMethod: method,
+      paidAt: new Date().toISOString(),
+      contact: cartContact,
+      passengers: cartPassengers
+    });
+    UmrahPortal.setSessionAuth(b.id);
+    // Always land on the confirmation page. For with_visa bookings the thanks page
+    // shows a "Continue to Visa Application" CTA; for package-only it shows
+    // post-trip next steps. Sending the user to a confirmation step in both flows
+    // gives them a stable receipt screen before the next action.
+    location.href = 'umrah-thanks.html?bookingId=' + b.id;
+  }, 1800);
+}
+
+function escapeHtml(s){
+  return String(s == null ? '' : s).replace(/[&<>"']/g, ch => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));
+}
+</script>
+</body>
+</html>

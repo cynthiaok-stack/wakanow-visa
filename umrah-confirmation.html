@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Booking Confirmed — Umrah | Wakanow</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Rubik',system-ui,sans-serif;font-size:16px;color:#1E3138;background:#EEF2F4;min-height:100vh;line-height:1.55}
+h1,h2,h3,h4{font-family:'Rubik',system-ui,sans-serif;font-weight:700;line-height:1.25}
+button{cursor:pointer;font-family:inherit;border:none;background:none;color:inherit}
+a{text-decoration:none;color:inherit}
+:root{--primary:#08A5E3;--primary-dark:#0789BF;--primary-light:#E8F6FD;--navy:#0F2A33;--orange:#F58220;--orange-dark:#E07318;--green:#27AE60;--green-light:#E7F8EF;--gray-100:#F2F3F5;--gray-200:#E5E7EB;--gray-300:#D1D5DB;--gray-400:#9CA3AF;--gray-500:#6B7280;--gray-600:#4B5563;--radius:10px;--radius-lg:14px;--shadow-sm:0 1px 3px rgba(0,0,0,.06);--shadow-md:0 4px 20px rgba(0,0,0,.08);--ease:.22s cubic-bezier(.4,0,.2,1)}
+
+.topbar{background:var(--navy);color:#fff;padding:16px 40px;display:flex;align-items:center;gap:24px}
+.topbar h1{font-size:20px;color:#fff}
+.brand{display:flex;align-items:center;gap:10px;margin-right:auto}
+.brand img{height:24px}
+.brand .s{font-size:12px;color:rgba(255,255,255,.65);padding-left:12px;border-left:1px solid rgba(255,255,255,.15)}
+.topbar .manage-app-link{font-size:13px;color:#fff;font-weight:600;display:inline-flex;align-items:center;gap:6px;padding:8px 14px;border-radius:8px;transition:.18s;cursor:pointer;border:1px solid rgba(255,255,255,.18)}
+.topbar .manage-app-link:hover{background:rgba(255,255,255,.1)}
+.topbar .manage-app-link i{width:14px;height:14px}
+@media(max-width:720px){ .topbar .manage-app-link{font-size:12.5px;padding:7px 10px} .topbar .manage-app-link span{display:none} }
+
+.shell{max-width:900px;margin:0 auto;padding:40px 32px 60px}
+
+.hero{background:linear-gradient(135deg,#0F2A33 0%,#164055 100%);color:#fff;border-radius:var(--radius-lg);padding:36px 40px;margin-bottom:18px;text-align:center;position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;inset:-40px;background:radial-gradient(circle at 50% 30%,rgba(39,174,96,.25),transparent 60%);pointer-events:none}
+.hero .check{width:72px;height:72px;border-radius:50%;background:var(--green);color:#fff;display:inline-flex;align-items:center;justify-content:center;margin-bottom:18px;box-shadow:0 6px 24px rgba(39,174,96,.4);position:relative}
+.hero .check i{width:34px;height:34px}
+.hero h2{font-size:26px;color:#fff;margin-bottom:6px;position:relative}
+.hero .sub{font-size:14px;color:rgba(255,255,255,.7);position:relative}
+.ref-pill{display:inline-flex;align-items:center;gap:8px;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2);padding:10px 18px;border-radius:30px;font-size:13px;margin-top:18px;position:relative}
+.ref-pill .label{color:rgba(255,255,255,.65);font-weight:500}
+.ref-pill .val{font-weight:700;color:#fff;font-family:'SF Mono',Menlo,monospace;letter-spacing:.03em}
+.ref-pill i{width:14px;height:14px;color:rgba(255,255,255,.5);cursor:pointer}
+.ref-pill i:hover{color:#fff}
+
+.next{background:#fff;border-radius:var(--radius-lg);padding:24px 28px;box-shadow:var(--shadow-sm);margin-bottom:18px}
+.next h3{font-size:16px;color:var(--navy);margin-bottom:14px;display:flex;align-items:center;gap:8px}
+.next h3 i{width:16px;height:16px;color:var(--primary)}
+.next-list{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+@media(max-width:720px){ .next-list{grid-template-columns:1fr} }
+.next-item{padding:16px;background:var(--gray-100);border-radius:10px;border-left:3px solid var(--primary)}
+.next-item .num{font-size:11px;color:var(--primary);font-weight:700;text-transform:uppercase;letter-spacing:.1em;margin-bottom:4px}
+.next-item .t{font-size:13px;font-weight:700;color:var(--navy);margin-bottom:4px}
+.next-item .d{font-size:12px;color:var(--gray-600);line-height:1.5}
+
+.summary{background:#fff;border-radius:var(--radius-lg);padding:24px 28px;box-shadow:var(--shadow-sm);margin-bottom:18px}
+.summary h3{font-size:16px;color:var(--navy);margin-bottom:14px;display:flex;align-items:center;gap:8px}
+.summary h3 i{width:16px;height:16px;color:var(--primary)}
+.row{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px dashed var(--gray-200);font-size:13px}
+.row:last-child{border-bottom:none}
+.row .l{color:var(--gray-600)}
+.row .r{font-weight:600;color:var(--navy);text-align:right}
+.total-row{display:flex;justify-content:space-between;align-items:center;padding-top:12px;margin-top:6px;border-top:1.5px solid var(--gray-200)}
+.total-row .l{font-size:14px;font-weight:700;color:var(--navy)}
+.total-row .amt{font-size:22px;font-weight:700;color:var(--orange);font-variant-numeric:tabular-nums}
+.paid{display:inline-flex;align-items:center;gap:5px;font-size:11px;color:var(--green);background:var(--green-light);padding:3px 8px;border-radius:4px;font-weight:700;margin-left:8px;text-transform:uppercase;letter-spacing:.05em}
+.paid i{width:11px;height:11px}
+
+.actions{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-top:22px}
+.btn{padding:12px 20px;border-radius:10px;font-size:13px;font-weight:600;display:inline-flex;align-items:center;gap:6px;transition:var(--ease);cursor:pointer}
+.btn i{width:15px;height:15px}
+.btn-primary{background:var(--orange);color:#fff}
+.btn-primary:hover{background:var(--orange-dark);box-shadow:0 6px 16px rgba(245,130,32,.28)}
+.btn-ghost{background:#fff;color:var(--navy);border:1px solid var(--gray-200)}
+.btn-ghost:hover{background:var(--gray-100)}
+
+.email-note{text-align:center;font-size:12px;color:var(--gray-500);margin-top:16px;padding:12px;background:var(--primary-light);border-radius:10px;border:1px solid #C7E9F7}
+.email-note i{width:14px;height:14px;color:var(--primary);vertical-align:middle;margin-right:4px}
+.email-note strong{color:var(--primary-dark)}
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="brand">
+    <h1>Wakanow</h1>
+    <span class="s">Umrah Booking</span>
+  </div>
+  <a href="umrah-signin.html" class="manage-app-link" title="Continue an existing visa application">
+    <i data-lucide="user-check"></i><span>Manage Application</span>
+  </a>
+</header>
+
+<div class="shell">
+  <section class="hero">
+    <div class="check"><i data-lucide="check"></i></div>
+    <h2>Booking Confirmed</h2>
+    <p class="sub">Thank you, <strong id="travName">Aishatu</strong>. Your Umrah booking has been successfully recorded.</p>
+    <div class="ref-pill">
+      <span class="label">Booking ID:</span>
+      <span class="val" id="bookingRef">WKU-XXXX</span>
+      <i data-lucide="copy" onclick="copyRef()" title="Copy"></i>
+    </div>
+  </section>
+
+  <div class="next">
+    <h3><i data-lucide="list-checks"></i> What happens next</h3>
+    <div class="next-list">
+      <div class="next-item">
+        <div class="num">Step 1</div>
+        <div class="t">Confirmation email</div>
+        <div class="d">You'll receive a full itinerary and invoice within the next 5 minutes.</div>
+      </div>
+      <div class="next-item">
+        <div class="num">Step 2</div>
+        <div class="t">Document upload</div>
+        <div class="d">Upload passport copies and photographs from MyTrips within 3 days.</div>
+      </div>
+      <div class="next-item">
+        <div class="num">Step 3</div>
+        <div class="t">Visa issuance</div>
+        <div class="d">Saudi e-Visa is typically issued 7-14 days before departure.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="summary">
+    <h3><i data-lucide="receipt"></i> Your order</h3>
+    <div id="summaryRows"></div>
+    <div class="total-row">
+      <span class="l">Paid <span class="paid"><i data-lucide="check"></i> Success</span></span>
+      <span class="amt" id="totalAmt">₦0</span>
+    </div>
+  </div>
+
+  <div class="email-note">
+    <i data-lucide="mail"></i> A copy of this confirmation has been sent to <strong id="emailTo">aishatu.bala@email.com</strong>
+  </div>
+
+  <div class="actions">
+    <button class="btn btn-ghost" onclick="window.print()"><i data-lucide="printer"></i> Print</button>
+    <button class="btn btn-ghost" onclick="location.href='bookings.html'"><i data-lucide="calendar-check"></i> View in MyTrips</button>
+    <button class="btn btn-primary" onclick="startOver()"><i data-lucide="home"></i> Back to Dashboard</button>
+  </div>
+</div>
+
+<script src="umrah-data.js"></script>
+<script>
+lucide.createIcons();
+const cart = UmrahData.getCart();
+const T = UmrahData.TRAVELLER;
+
+// Safety: if visited directly without a booking, generate a placeholder ref
+if (!cart.bookingRef) {
+  cart.bookingRef = UmrahData.generateBookingRef();
+  cart.paymentStatus = 'success';
+  UmrahData.saveCart(cart);
+}
+
+document.getElementById('travName').textContent = T.firstName;
+document.getElementById('emailTo').textContent = T.email;
+document.getElementById('bookingRef').textContent = cart.bookingRef;
+
+function row(l, r) { return `<div class="row"><span class="l">${l}</span><span class="r">${r}</span></div>`; }
+
+function renderSummary() {
+  const pax = cart.pax || 1;
+  const rows = [];
+  rows.push(row('Traveller', `${T.firstName} ${T.lastName}`));
+  rows.push(row('Booking type', cart.mode === 'predefined' ? 'Predefined package' : 'Build your own'));
+
+  if (cart.mode === 'predefined' && cart.packageId) {
+    const p = UmrahData.findPackage(cart.packageId);
+    rows.push(row('Package', p.title));
+    rows.push(row('Dates', p.dates));
+    rows.push(row('Passengers', `${pax} × Adult`));
+  }
+  if (cart.flightId) {
+    const f = UmrahData.findFlight(cart.flightId);
+    rows.push(row('Flight', `${f.airline} ${f.code} · ${f.from} → ${f.to}`));
+  }
+  const hotels = (cart.hotelIds || []).map(UmrahData.findHotel).filter(Boolean);
+  if (hotels.length) rows.push(row('Hotels', hotels.map(h => h.name).join(' + ')));
+  const grounds = (cart.groundIds || []).map(UmrahData.findGround).filter(Boolean);
+  if (grounds.length) rows.push(row('Ground services', `${grounds.length} included`));
+  const addons = (cart.addonIds || []).map(UmrahData.findAddon).filter(Boolean);
+  if (addons.length) rows.push(row('Add-ons', addons.map(a => a.name).join(', ')));
+
+  document.getElementById('summaryRows').innerHTML = rows.join('');
+  document.getElementById('totalAmt').textContent = UmrahData.ngn(UmrahData.cartTotal(cart));
+}
+
+function copyRef() {
+  navigator.clipboard?.writeText(cart.bookingRef);
+  const pill = document.querySelector('.ref-pill');
+  pill.style.background = 'rgba(39,174,96,.2)';
+  setTimeout(() => pill.style.background = '', 1200);
+}
+
+function startOver() {
+  UmrahData.resetCart();
+  location.href = 'dashboard.html';
+}
+
+renderSummary();
+</script>
+</body>
+</html>
