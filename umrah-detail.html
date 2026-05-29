@@ -1,0 +1,640 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Package Detail — Wakanow Umrah</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Rubik',system-ui,sans-serif;font-size:16px;color:#1E3138;line-height:1.55;background:#F5F7FA;min-height:100vh}
+h1,h2,h3,h4{font-family:'Rubik',system-ui,sans-serif;font-weight:700;line-height:1.2}
+button{cursor:pointer;font-family:inherit;border:none;background:none;color:inherit}
+a{text-decoration:none;color:inherit}
+img{display:block;max-width:100%}
+
+:root{
+  --primary:#08A5E3; --primary-dark:#0789BF; --primary-light:#E8F6FD;
+  --navy:#0F2A33; --navy-deep:#0B3A52;
+  --orange:#F58220; --orange-dark:#E07318;
+  --green:#27AE60;
+  --gray-50:#F9FAFB; --gray-100:#F2F3F5; --gray-200:#E5E7EB; --gray-300:#D1D5DB; --gray-500:#6B7280; --gray-600:#4B5563;
+  --radius:10px; --radius-lg:14px;
+  --shadow-sm:0 1px 3px rgba(0,0,0,.06);
+  --shadow-md:0 4px 20px rgba(0,0,0,.08);
+  --ease:.22s cubic-bezier(.4,0,.2,1);
+}
+
+.site-header{background:#fff;padding:14px 40px;display:flex;align-items:center;gap:20px;box-shadow:0 1px 0 rgba(15,42,51,.06)}
+.site-header .logo{height:32px}
+.nav-links{display:flex;gap:28px;margin-left:40px}
+.nav-links a{font-size:14px;color:var(--navy);font-weight:500}
+.nav-links a:hover{color:var(--primary)}
+.nav-links a.active{color:var(--primary);font-weight:600}
+.header-right{display:flex;align-items:center;gap:18px;margin-left:auto}
+.btn-manage{background:var(--orange);color:#fff;font-weight:600;font-size:13px;padding:10px 20px;border-radius:8px;display:inline-flex;align-items:center;gap:8px}
+.btn-manage:hover{background:var(--orange-dark)}
+.btn-manage i{width:15px;height:15px}
+@media(max-width:720px){ .nav-links{display:none} .site-header{padding:12px 20px} }
+
+.shell{max-width:1200px;margin:0 auto;padding:24px 40px 60px;display:grid;grid-template-columns:1fr 340px;gap:24px;align-items:start}
+@media(max-width:960px){ .shell{grid-template-columns:1fr;padding:20px 20px 40px} }
+
+.crumbs{font-size:12px;color:var(--gray-500);margin-bottom:14px;display:flex;gap:6px;align-items:center}
+.crumbs a{color:var(--navy);font-weight:500}
+.crumbs i{width:12px;height:12px}
+
+.detail{background:#fff;border-radius:var(--radius-lg);overflow:hidden;box-shadow:var(--shadow-sm)}
+.detail-hero{height:300px;background-size:cover;background-position:center;position:relative}
+.detail-tag{position:absolute;top:16px;left:16px;background:#fff;font-size:12px;font-weight:700;padding:7px 14px;border-radius:8px;box-shadow:var(--shadow-sm);text-transform:uppercase;letter-spacing:.5px;display:inline-flex;align-items:center;gap:6px}
+.detail-tag.with_visa{color:var(--green)}
+.detail-tag.without_visa{color:var(--primary)}
+.detail-tag i{width:13px;height:13px}
+
+.detail-body{padding:26px 32px 24px}
+.detail-provider{font-size:11px;color:var(--gray-500);text-transform:uppercase;letter-spacing:.6px;font-weight:600;margin-bottom:4px}
+.detail-title{font-size:26px;color:var(--navy);margin-bottom:6px;font-weight:700}
+.detail-stars{color:#F5B544;font-size:14px;margin-bottom:14px}
+.detail-stars span{color:var(--gray-500);font-size:12px;margin-left:6px;font-weight:500}
+.detail-desc{font-size:13px;color:var(--gray-600);line-height:1.7;margin-bottom:22px}
+
+.section-title{font-size:16px;font-weight:700;color:var(--navy);margin-bottom:12px;display:flex;align-items:center;gap:8px}
+.section-title i{width:17px;height:17px;color:var(--primary)}
+
+/* Dates block (inline, not separate card) */
+.detail-dates{font-size:14px;color:var(--navy);font-weight:700;margin-bottom:14px;display:inline-flex;align-items:center;gap:8px;background:rgba(245,130,32,.08);border:1.5px solid rgba(245,130,32,.25);padding:8px 14px;border-radius:8px}
+.detail-dates i{width:16px;height:16px;color:var(--orange)}
+
+/* Description */
+.detail-desc-long{font-size:14px;color:var(--gray-600);line-height:1.75;margin-bottom:22px}
+
+/* Inclusions pill row (bordered orange) */
+.inclusions-bar{border:1px solid #FDD7B0;background:#FFF8F0;border-radius:10px;padding:12px 18px;margin-bottom:22px}
+.inclusions-bar .lbl{font-size:12px;font-weight:700;color:var(--navy);margin-bottom:8px}
+.inclusions-list{display:flex;gap:28px;flex-wrap:wrap}
+.inc-pill{display:inline-flex;align-items:center;gap:7px;font-size:13px;color:var(--orange);font-weight:600}
+.inc-pill i{width:15px;height:15px}
+
+/* Highlights bullet list */
+.highlights-wrap{margin-bottom:26px}
+.highlights-wrap .lbl{font-size:13px;font-weight:700;color:var(--navy);margin-bottom:8px}
+.highlights-list{display:flex;gap:36px;flex-wrap:wrap;font-size:13px;color:var(--gray-600);padding:0;list-style:none;margin:0}
+.highlights-list li{list-style:disc inside}
+
+/* Travel date picker (small calendar) */
+.calendar{background:var(--gray-50);border-radius:10px;padding:14px 16px;margin-bottom:26px}
+.calendar-row{display:flex;gap:10px;flex-wrap:wrap}
+.cal-date{background:#fff;border:1.5px solid var(--gray-200);border-radius:10px;padding:10px 14px;cursor:pointer;transition:var(--ease);min-width:110px;text-align:center}
+.cal-date:hover{border-color:var(--primary)}
+.cal-date.selected{border-color:var(--primary);background:var(--primary-light)}
+.cal-date .d{font-size:13px;font-weight:700;color:var(--navy)}
+.cal-date .s{font-size:11px;color:var(--gray-500);margin-top:2px}
+.cal-date.selected .s{color:var(--primary-dark);font-weight:600}
+
+/* Package gallery — auto-rotating carousel (mobile-first, swipe-friendly) */
+.gallery-wrap{margin-bottom:26px}
+.gallery-carousel{position:relative;border-radius:14px;overflow:hidden;background:var(--gray-100);user-select:none;-webkit-user-select:none;touch-action:pan-y}
+.gallery-track{display:flex;transition:transform .55s cubic-bezier(.2,.8,.25,1);will-change:transform}
+.gallery-slide{flex:0 0 100%;aspect-ratio:16/10;background-size:cover;background-position:center;position:relative}
+@media(min-width:720px){ .gallery-slide{aspect-ratio:16/8} }
+@media(min-width:1100px){ .gallery-slide{aspect-ratio:16/7} }
+.gallery-arrow{position:absolute;top:50%;transform:translateY(-50%);width:44px;height:44px;border-radius:50%;background:rgba(255,255,255,.95);border:none;color:var(--navy);display:none;align-items:center;justify-content:center;cursor:pointer;box-shadow:var(--shadow-md);transition:var(--ease);z-index:2}
+.gallery-arrow:hover{background:#fff;transform:translateY(-50%) scale(1.05)}
+.gallery-arrow.prev{left:14px}
+.gallery-arrow.next{right:14px}
+.gallery-arrow i{width:20px;height:20px}
+@media(min-width:720px){ .gallery-arrow{display:inline-flex} }
+.gallery-counter{position:absolute;bottom:12px;right:12px;background:rgba(15,42,51,.75);color:#fff;font-size:12px;font-weight:600;padding:5px 10px;border-radius:999px;font-variant-numeric:tabular-nums;z-index:2}
+.gallery-dots{position:absolute;bottom:12px;left:0;right:0;display:flex;justify-content:center;gap:6px;z-index:2}
+.gallery-dot{width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,.55);border:none;cursor:pointer;padding:0;transition:width .3s ease, background .25s ease}
+.gallery-dot.on{background:#fff;width:22px;border-radius:999px}
+
+/* Upgrade Package */
+.upgrade-wrap{margin-bottom:26px}
+.upgrade-card{border:2px solid var(--gray-200);border-radius:14px;padding:18px 20px;display:flex;align-items:flex-start;gap:16px;cursor:pointer;transition:var(--ease);background:#fff;position:relative}
+.upgrade-card:hover{border-color:var(--gray-300)}
+.upgrade-card.on{border-color:var(--primary);background:var(--primary-light);box-shadow:0 6px 20px rgba(8,165,227,.12)}
+.upgrade-ribbon{position:absolute;top:-10px;right:16px;background:var(--orange);color:#fff;font-size:10px;font-weight:700;padding:3px 10px;border-radius:999px;text-transform:uppercase;letter-spacing:.5px}
+.upgrade-check{width:22px;height:22px;border:2px solid var(--gray-300);border-radius:50%;display:inline-flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px;transition:var(--ease);background:#fff}
+.upgrade-card.on .upgrade-check{background:var(--primary);border-color:var(--primary);color:#fff}
+.upgrade-check i{width:12px;height:12px;opacity:0;transition:var(--ease)}
+.upgrade-card.on .upgrade-check i{opacity:1}
+.upgrade-body{flex:1;min-width:0}
+.upgrade-name{font-size:15px;font-weight:700;color:var(--navy);margin-bottom:4px;display:flex;align-items:center;gap:8px}
+.upgrade-name i{width:16px;height:16px;color:var(--orange)}
+.upgrade-summary{font-size:13px;color:var(--gray-600);line-height:1.55;margin-bottom:0}
+.upgrade-price{text-align:right;flex-shrink:0}
+.upgrade-price .p{font-size:11px;color:var(--gray-500);font-weight:500}
+.upgrade-price .a{font-size:16px;font-weight:700;color:var(--orange);font-variant-numeric:tabular-nums}
+.upgrade-price .per{font-size:11px;color:var(--gray-500);margin-left:2px}
+
+/* Policies */
+.policies-wrap{margin-bottom:12px}
+.policies-card{border:1px solid var(--gray-200);border-radius:12px;padding:18px 22px}
+.policy-block{padding:6px 0 14px}
+.policy-block:last-child{padding-bottom:0}
+.policy-block h4{font-size:13px;color:var(--navy);font-weight:700;margin-bottom:4px}
+.policy-block p{font-size:13px;color:var(--gray-600);line-height:1.65;margin:0}
+
+/* Occupancy dropdown */
+.occ-dropdown{position:relative}
+.occ-dropdown label{font-size:13px;font-weight:600;color:var(--navy);display:block;margin-bottom:6px}
+.occ-trigger{display:flex;align-items:center;justify-content:space-between;width:100%;padding:11px 14px;border:1.5px solid var(--gray-200);border-radius:10px;background:#fff;cursor:pointer;transition:var(--ease)}
+.occ-trigger:hover{border-color:var(--orange)}
+.occ-dropdown.open .occ-trigger{border-color:var(--orange);border-radius:10px 10px 0 0}
+.occ-trigger .occ-sel-left{display:flex;align-items:center;gap:10px}
+.occ-trigger .occ-sel-label{font-size:13px;font-weight:600;color:var(--navy)}
+.occ-trigger .occ-sel-desc{font-size:11px;color:var(--gray-500)}
+.occ-trigger .occ-sel-price{font-size:13px;font-weight:700;color:var(--orange);white-space:nowrap;font-variant-numeric:tabular-nums;margin-right:6px}
+.occ-chevron{width:18px;height:18px;color:var(--gray-400);transition:transform .2s ease;flex-shrink:0}
+.occ-dropdown.open .occ-chevron{transform:rotate(180deg)}
+.occ-menu{display:none;background:#fff;border:1.5px solid var(--orange);border-top:1px solid var(--gray-200);border-radius:0 0 10px 10px;overflow:hidden;box-shadow:0 8px 24px rgba(15,42,51,.10);margin-top:-2px}
+.occ-dropdown.open .occ-menu{display:block}
+.occ-item{display:flex;align-items:center;justify-content:space-between;padding:11px 14px;cursor:pointer;transition:var(--ease)}
+.occ-item:hover{background:rgba(245,130,32,.06)}
+.occ-item.selected{background:rgba(245,130,32,.08)}
+.occ-item .occ-left{display:flex;flex-direction:column;gap:1px}
+.occ-item .occ-label{font-size:13px;font-weight:600;color:var(--navy)}
+.occ-item .occ-desc{font-size:11px;color:var(--gray-500)}
+.occ-item .occ-price{font-size:13px;font-weight:700;color:var(--navy);white-space:nowrap;font-variant-numeric:tabular-nums}
+.occ-item.selected .occ-price{color:var(--orange)}
+.occ-item+.occ-item{border-top:1px solid var(--gray-100)}
+
+/* Sidebar */
+.side{display:flex;flex-direction:column;gap:16px;position:sticky;top:20px}
+.cost-card{background:#fff;border-radius:var(--radius-lg);padding:22px 24px;box-shadow:var(--shadow-sm)}
+.cost-card h3{font-size:16px;color:var(--navy);margin-bottom:14px}
+.qty-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;gap:12px}
+.qty-row label{font-size:13px;color:var(--navy);font-weight:600;display:block}
+.qty-hint{font-size:11px;color:var(--gray-500);margin-top:2px}
+.qty{display:inline-flex;align-items:center;border:1px solid var(--gray-200);border-radius:8px;overflow:hidden}
+.qty button{width:32px;height:32px;background:#fff;color:var(--navy);font-size:16px;font-weight:700}
+.qty button:hover{background:var(--gray-50)}
+.qty span{width:38px;text-align:center;font-weight:600;font-size:14px}
+.cost-row{display:flex;justify-content:space-between;padding:8px 0;font-size:13px;color:var(--gray-600)}
+.cost-row .v{color:var(--navy);font-weight:600;font-variant-numeric:tabular-nums}
+.cost-total{display:flex;justify-content:space-between;padding:12px 0 4px;margin-top:8px;border-top:1.5px solid var(--gray-200)}
+.cost-total .l{font-size:13px;font-weight:700;color:var(--navy)}
+.cost-total .amt{font-size:20px;font-weight:700;color:var(--orange);font-variant-numeric:tabular-nums}
+.btn-cta{width:100%;margin-top:14px;padding:14px;background:var(--orange);color:#fff;font-weight:600;font-size:14px;border-radius:10px;display:flex;align-items:center;justify-content:center;gap:8px;transition:var(--ease)}
+.btn-cta:hover:not(:disabled){background:var(--orange-dark);box-shadow:0 6px 16px rgba(245,130,32,.28)}
+.btn-cta:disabled{background:var(--gray-300);color:#fff;cursor:not-allowed}
+.btn-cta i{width:16px;height:16px}
+.cta-note{margin-top:10px;font-size:11px;color:var(--gray-500);display:flex;align-items:center;justify-content:center;gap:6px;text-align:center}
+.cta-note i{width:13px;height:13px;color:var(--green)}
+
+/* Mobile sticky pay bar — Screen 03 */
+.mobile-pay-bar{display:none;position:fixed;left:0;right:0;bottom:0;background:#fff;border-top:1px solid #DEE3EC;box-shadow:0 -10px 28px rgba(15,42,51,.10);padding:12px 16px env(safe-area-inset-bottom);z-index:50;align-items:center;gap:12px}
+.mobile-pay-bar .total-mini{flex:0 0 auto;display:flex;flex-direction:column;line-height:1.1;min-width:90px}
+.mobile-pay-bar .total-mini .l{font-size:11px;color:var(--gray-500);text-transform:uppercase;letter-spacing:.04em;font-weight:600}
+.mobile-pay-bar .total-mini .a{font-size:20px;font-weight:800;color:var(--navy);font-variant-numeric:tabular-nums;letter-spacing:-.01em}
+.mobile-pay-bar .btn-pay-mobile{flex:1;background:var(--orange);color:#fff;font-weight:700;font-size:15px;padding:14px 18px;border-radius:12px;border:none;display:inline-flex;align-items:center;justify-content:center;gap:8px;cursor:pointer;min-height:48px}
+.mobile-pay-bar .btn-pay-mobile:disabled{background:var(--gray-300);cursor:not-allowed}
+.mobile-pay-bar .btn-pay-mobile i{width:14px;height:14px}
+
+@media(max-width:768px){
+  .mobile-pay-bar{display:flex}
+  body.has-mobile-pay-bar{padding-bottom:88px}
+  /* Hide duplicate side-panel Total + CTA — the floating bar is the single source of truth */
+  .cost-card .cost-total,
+  .cost-card .btn-cta,
+  .cost-card .cta-note{display:none}
+}
+
+.trust-card{background:#fff;border-radius:var(--radius-lg);padding:16px 20px;box-shadow:var(--shadow-sm);font-size:12px;color:var(--gray-600)}
+.trust-card .t{display:flex;align-items:center;gap:8px;padding:6px 0;color:var(--navy);font-weight:500;font-size:13px}
+.trust-card .t i{width:16px;height:16px;color:var(--green)}
+
+.not-found{background:#fff;border-radius:var(--radius-lg);padding:60px 20px;text-align:center;color:var(--gray-500)}
+</style>
+<link rel="stylesheet" href="umrah-theme.css">
+</head>
+<body>
+
+<header class="site-header">
+  <a href="saudi-packages.html"><img src="wakanow-logo.svg" alt="Wakanow" class="logo"></a>
+  <nav class="nav-links">
+    <a href="saudi-packages.html">Home</a>
+    <a href="umrah-listing.html" class="active">Packages</a>
+    <a href="#esim">eSIM</a>
+    <a href="#trains">Trains</a>
+  </nav>
+  <div class="header-right">
+    <button class="btn-manage" onclick="location.href='umrah-signin.html'"><i data-lucide="ticket"></i> Manage Application</button>
+  </div>
+</header>
+
+<div class="shell" id="shell"></div>
+
+<script src="umrah-portal-data.js?v=2"></script>
+<script src="umrah-contact.js" defer></script>
+<script>
+lucide.createIcons();
+
+const id = new URLSearchParams(location.search).get('id');
+const pkg = UmrahPortal.findPackage(id);
+const store = UmrahPortal.load();
+if (store.cart.packageId !== id) {
+  store.cart = { packageId: id, travelDate: null, quantity: 1, addOns: [], upgrade: false };
+  UmrahPortal.save(store);
+}
+
+const OCC_LABELS = { shared: 'Shared Room', double: 'Double Room', single: 'Single Room' };
+const OCC_DESCS = { shared: '4 people sharing room', double: '2 people sharing room', single: 'Private room' };
+
+function inclusionIcon(name){
+  const k = name.toLowerCase();
+  if (/visa/.test(k)) return 'stamp';
+  if (/flight/.test(k)) return 'plane';
+  if (/hotel/.test(k)) return 'building-2';
+  if (/meal|breakfast|half/.test(k)) return 'utensils';
+  if (/transfer|drop/.test(k)) return 'car';
+  if (/tour|ziyarat|guide/.test(k)) return 'book-open';
+  return 'check';
+}
+
+function buildInclusionsShort(pkg){
+  const set = new Set();
+  pkg.included.forEach(s => {
+    const k = s.toLowerCase();
+    if (k.includes('visa')) set.add('Visa');
+    if (k.includes('flight')) set.add('Flight');
+    if (k.includes('hotel')) set.add('Hotel');
+    if (k.includes('transfer')) set.add('Transport');
+    if (k.includes('meal') || k.includes('breakfast')) set.add('Meals');
+    if (k.includes('tour') || k.includes('ziyarat') || k.includes('guide')) set.add('Guide');
+  });
+  return [...set];
+}
+
+const shell = document.getElementById('shell');
+
+if (!pkg){
+  shell.innerHTML = `<div class="not-found"><h2>Package not found</h2><p>This package may have been removed. <a href="umrah-listing.html" style="color:var(--primary)">Browse all packages</a>.</p></div>`;
+} else {
+  shell.innerHTML = `
+    <main>
+      <div class="crumbs">
+        <a href="saudi-packages.html">Home</a>
+        <i data-lucide="chevron-right"></i>
+        <a href="umrah-listing.html">Packages</a>
+        <i data-lucide="chevron-right"></i>
+        <span>${pkg.name}</span>
+      </div>
+
+      <article class="detail">
+        <div class="detail-hero" style="background-image:url('${pkg.image}')">
+          <span class="detail-tag ${pkg.type}">
+            <i data-lucide="${pkg.type === 'with_visa' ? 'stamp' : 'plane'}"></i> ${pkg.typeLabel}
+          </span>
+        </div>
+        <div class="detail-body">
+          <div class="detail-provider">${pkg.provider}</div>
+          <h1 class="detail-title">${pkg.name}</h1>
+          <div class="detail-dates"><i data-lucide="calendar"></i> ${pkg.dates}</div>
+          ${pkg.stars ? `<div class="detail-stars">${'★'.repeat(pkg.stars)}<span style="color:var(--gray-300)">${'★'.repeat(5-pkg.stars)}</span> <span>${pkg.stars}-star hotel</span></div>` : ''}
+          <p class="detail-desc-long">${pkg.description} Begin your journey with a direct flight from Lagos to Jeddah, followed by a comfortable transfer to your hotel. This thoughtfully arranged package is vetted end-to-end by Wakanow's Umrah team so you can focus on the pilgrimage.</p>
+
+          <div class="inclusions-bar">
+            <div class="lbl">Inclusions:</div>
+            <div class="inclusions-list">
+              ${buildInclusionsShort(pkg).map(inc => `<span class="inc-pill"><i data-lucide="${inclusionIcon(inc)}"></i> ${inc}</span>`).join('')}
+            </div>
+          </div>
+
+          <div class="highlights-wrap">
+            <div class="lbl">Highlights:</div>
+            <ul class="highlights-list">
+              ${pkg.highlights.map(h => `<li>${h}</li>`).join('')}
+            </ul>
+          </div>
+
+          <div class="gallery-wrap">
+            <h3 class="section-title"><i data-lucide="images"></i> Package gallery</h3>
+            ${(() => {
+              const imgs = (pkg.gallery && pkg.gallery.length ? pkg.gallery : [pkg.image]);
+              const single = imgs.length === 1;
+              return `
+              <div class="gallery-carousel" id="galleryCarousel" data-count="${imgs.length}">
+                <div class="gallery-track" id="galleryTrack">
+                  ${imgs.map((src,i) => `<div class="gallery-slide" data-i="${i}" style="background-image:url('${src||''}')" role="img" aria-label="Package image ${i+1} of ${imgs.length}"></div>`).join('')}
+                </div>
+                ${single ? '' : `
+                  <button type="button" class="gallery-arrow prev" id="galleryPrev" aria-label="Previous image"><i data-lucide="chevron-left"></i></button>
+                  <button type="button" class="gallery-arrow next" id="galleryNext" aria-label="Next image"><i data-lucide="chevron-right"></i></button>
+                  <div class="gallery-counter" id="galleryCounter">1 / ${imgs.length}</div>
+                  <div class="gallery-dots" id="galleryDots">${imgs.map((_,i) => `<button type="button" class="gallery-dot ${i===0?'on':''}" data-i="${i}" aria-label="Go to image ${i+1}"></button>`).join('')}</div>
+                `}
+              </div>`;
+            })()}
+          </div>
+
+          <div class="policies-wrap">
+            <h3 class="section-title"><i data-lucide="file-text"></i> Policies</h3>
+            <div class="policies-card">
+              <div class="policy-block">
+                <h4>Terms and conditions:</h4>
+                <p>A non-refundable deposit is required to confirm your booking, with full payment due before the departure date. Cancellations may incur charges depending on how close they are to the departure date, with limited refunds available.</p>
+              </div>
+              <div class="policy-block">
+                <h4>Cancellation Policy:</h4>
+                <p>A non-refundable deposit is required to confirm your booking, with full payment due before the departure date. Cancellations may incur charges depending on how close they are to the departure date, with limited refunds available.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </article>
+    </main>
+
+    <aside class="side">
+      ${pkg.occupancy ? `
+      <div class="occ-dropdown" id="occDropdown">
+        <label>Occupancy Option</label>
+        <button class="occ-trigger" type="button" onclick="toggleOccDropdown()">
+          <div class="occ-sel-left">
+            <div>
+              <div class="occ-sel-label" id="occSelLabel">Shared Room</div>
+              <div class="occ-sel-desc" id="occSelDesc">4 people sharing room</div>
+            </div>
+          </div>
+          <div style="display:flex;align-items:center;gap:4px">
+            <span class="occ-sel-price" id="occSelPrice">${UmrahPortal.ngn(pkg.occupancy.shared)}/pax</span>
+            <svg class="occ-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+          </div>
+        </button>
+        <div class="occ-menu">
+          <div class="occ-item selected" data-occ="shared" onclick="pickOccupancy('shared')">
+            <div class="occ-left">
+              <div class="occ-label">Shared Room</div>
+              <div class="occ-desc">4 people sharing room</div>
+            </div>
+            <span class="occ-price">${UmrahPortal.ngn(pkg.occupancy.shared)}/pax</span>
+          </div>
+          <div class="occ-item" data-occ="double" onclick="pickOccupancy('double')">
+            <div class="occ-left">
+              <div class="occ-label">Double Room</div>
+              <div class="occ-desc">2 people sharing room</div>
+            </div>
+            <span class="occ-price">${UmrahPortal.ngn(pkg.occupancy.double)}/pax</span>
+          </div>
+          <div class="occ-item" data-occ="single" onclick="pickOccupancy('single')">
+            <div class="occ-left">
+              <div class="occ-label">Single Room</div>
+              <div class="occ-desc">Private room</div>
+            </div>
+            <span class="occ-price">${UmrahPortal.ngn(pkg.occupancy.single)}/pax</span>
+          </div>
+        </div>
+      </div>
+      ` : ''}
+      <div class="cost-card">
+        <h3>Pricing summary</h3>
+        <div class="qty-row">
+          <div>
+            <label>${pkg.type === 'without_visa' ? 'Packages' : 'Travellers'}</label>
+            <div class="qty-hint">${pkg.type === 'without_visa' ? 'Add one per traveller' : ''}</div>
+          </div>
+          <div class="qty">
+            <button onclick="setQty(-1)" type="button" aria-label="Decrease">−</button>
+            <span id="qtyVal">1</span>
+            <button onclick="setQty(1)" type="button" aria-label="Increase">+</button>
+          </div>
+        </div>
+        <div id="costBreakdown"></div>
+        <div class="cost-total">
+          <span class="l">Total</span>
+          <span class="amt" id="costTotal">—</span>
+        </div>
+        <button class="btn-cta" id="ctaBtn" onclick="proceed()">
+          Continue
+          <i data-lucide="arrow-right"></i>
+        </button>
+        ${pkg.type === 'without_visa' ? `<div class="cta-note"><i data-lucide="shield-check"></i> You'll add passport info on the next step</div>` : ''}
+      </div>
+
+      <div class="trust-card">
+        <div class="t"><i data-lucide="shield-check"></i> Saudi-approved visa partner</div>
+        <div class="t"><i data-lucide="lock"></i> Secure payment via Wakanow WPS</div>
+        <div class="t"><i data-lucide="headphones"></i> 24/7 dedicated Umrah support</div>
+      </div>
+    </aside>
+  `;
+  lucide.createIcons();
+  wireInteractions();
+  ensureMobilePayBar();
+  renderCost();
+  initGalleryCarousel();
+}
+
+function ensureMobilePayBar(){
+  if (document.getElementById('mobilePayBar')) return;
+  const ctaLabel = 'Continue';
+  const bar = document.createElement('div');
+  bar.className = 'mobile-pay-bar';
+  bar.id = 'mobilePayBar';
+  bar.innerHTML = `
+    <div class="total-mini">
+      <span class="l">Total</span>
+      <span class="a" id="costTotalMobile">—</span>
+    </div>
+    <button class="btn-pay-mobile" id="payBtnMobile" type="button">
+      <span id="payBtnMobileLabel">${ctaLabel}</span> <i data-lucide="arrow-right"></i>
+    </button>
+  `;
+  document.body.appendChild(bar);
+  document.body.classList.add('has-mobile-pay-bar');
+  bar.querySelector('#payBtnMobile').addEventListener('click', proceed);
+  lucide.createIcons();
+}
+
+function initGalleryCarousel(){
+  const root = document.getElementById('galleryCarousel');
+  if (!root) return;
+  const count = parseInt(root.dataset.count, 10) || 0;
+  if (count <= 1) return;
+  const track = document.getElementById('galleryTrack');
+  const dots = root.querySelectorAll('.gallery-dot');
+  const counter = document.getElementById('galleryCounter');
+  let i = 0, autoTimer = null, paused = false;
+  const AUTO_MS = 5000;
+
+  function go(n){
+    i = (n + count) % count;
+    track.style.transform = `translateX(-${i * 100}%)`;
+    dots.forEach((d, idx) => d.classList.toggle('on', idx === i));
+    if (counter) counter.textContent = `${i+1} / ${count}`;
+  }
+  function next(){ go(i+1); }
+  function prev(){ go(i-1); }
+  function startAuto(){
+    stopAuto();
+    if (paused) return;
+    autoTimer = setInterval(next, AUTO_MS);
+  }
+  function stopAuto(){ if (autoTimer){ clearInterval(autoTimer); autoTimer = null; } }
+  function pauseAndResume(){
+    paused = true; stopAuto();
+    clearTimeout(root._resumeT);
+    root._resumeT = setTimeout(() => { paused = false; startAuto(); }, 8000);
+  }
+
+  // Arrow buttons
+  const prevBtn = document.getElementById('galleryPrev');
+  const nextBtn = document.getElementById('galleryNext');
+  if (prevBtn) prevBtn.addEventListener('click', () => { prev(); pauseAndResume(); });
+  if (nextBtn) nextBtn.addEventListener('click', () => { next(); pauseAndResume(); });
+
+  // Dot navigation
+  dots.forEach(d => d.addEventListener('click', () => {
+    go(parseInt(d.dataset.i, 10));
+    pauseAndResume();
+  }));
+
+  // Swipe (touch + mouse)
+  let startX = null, deltaX = 0, dragging = false;
+  function dragStart(x){ startX = x; deltaX = 0; dragging = true; track.style.transition = 'none'; stopAuto(); }
+  function dragMove(x){
+    if (!dragging || startX === null) return;
+    deltaX = x - startX;
+    track.style.transform = `translateX(calc(-${i * 100}% + ${deltaX}px))`;
+  }
+  function dragEnd(){
+    if (!dragging) return;
+    dragging = false;
+    track.style.transition = '';
+    const threshold = root.clientWidth * 0.18;
+    if (deltaX > threshold) prev();
+    else if (deltaX < -threshold) next();
+    else go(i);
+    startX = null; deltaX = 0;
+    pauseAndResume();
+  }
+  root.addEventListener('touchstart', e => dragStart(e.touches[0].clientX), {passive:true});
+  root.addEventListener('touchmove',  e => dragMove(e.touches[0].clientX), {passive:true});
+  root.addEventListener('touchend',   dragEnd);
+  root.addEventListener('mousedown',  e => { e.preventDefault(); dragStart(e.clientX); });
+  root.addEventListener('mousemove',  e => dragMove(e.clientX));
+  root.addEventListener('mouseup',    dragEnd);
+  root.addEventListener('mouseleave', dragEnd);
+
+  // Pause when hover (desktop), pause when tab hidden
+  root.addEventListener('mouseenter', stopAuto);
+  root.addEventListener('mouseleave', () => { if (!paused) startAuto(); });
+  document.addEventListener('visibilitychange', () => {
+    if (document.hidden) stopAuto(); else startAuto();
+  });
+
+  // Keyboard
+  root.tabIndex = 0;
+  root.addEventListener('keydown', e => {
+    if (e.key === 'ArrowLeft'){ prev(); pauseAndResume(); }
+    if (e.key === 'ArrowRight'){ next(); pauseAndResume(); }
+  });
+
+  go(0);
+  startAuto();
+}
+
+function wireInteractions(){
+  // Restore occupancy dropdown state on load
+  if (pkg.occupancy) {
+    const s0 = UmrahPortal.load();
+    const occ = s0.cart.occupancy || 'shared';
+    document.getElementById('occSelLabel').textContent = OCC_LABELS[occ];
+    document.getElementById('occSelDesc').textContent = OCC_DESCS[occ];
+    document.getElementById('occSelPrice').textContent = UmrahPortal.ngn(pkg.occupancy[occ]) + '/pax';
+    document.querySelectorAll('.occ-item').forEach(el => {
+      el.classList.toggle('selected', el.dataset.occ === occ);
+    });
+    document.addEventListener('click', (e) => {
+      const dd = document.getElementById('occDropdown');
+      if (dd && !dd.contains(e.target)) dd.classList.remove('open');
+    });
+  }
+
+  const upgradeCard = document.getElementById('upgradeCard');
+  if (upgradeCard){
+    const s0 = UmrahPortal.load();
+    upgradeCard.classList.toggle('on', !!s0.cart.upgrade);
+    upgradeCard.addEventListener('click', (e) => {
+      e.preventDefault();
+      const s = UmrahPortal.load();
+      s.cart.upgrade = !s.cart.upgrade;
+      UmrahPortal.save(s);
+      upgradeCard.classList.toggle('on', s.cart.upgrade);
+      renderCost();
+    });
+  }
+  // Auto-set the travel date from the package metadata so the CTA is always active
+  const s = UmrahPortal.load();
+  if (!s.cart.travelDate && pkg.travelDates && pkg.travelDates.length){
+    s.cart.travelDate = pkg.travelDates[0];
+    UmrahPortal.save(s);
+  }
+  renderCost();
+}
+
+function toggleOccDropdown(){
+  document.getElementById('occDropdown').classList.toggle('open');
+}
+
+function pickOccupancy(type){
+  const s = UmrahPortal.load();
+  s.cart.occupancy = type;
+  UmrahPortal.save(s);
+  document.getElementById('occSelLabel').textContent = OCC_LABELS[type];
+  document.getElementById('occSelDesc').textContent = OCC_DESCS[type];
+  document.getElementById('occSelPrice').textContent = UmrahPortal.ngn(pkg.occupancy[type]) + '/pax';
+  document.querySelectorAll('.occ-item').forEach(el => {
+    el.classList.toggle('selected', el.dataset.occ === type);
+  });
+  document.getElementById('occDropdown').classList.remove('open');
+  renderCost();
+}
+
+function setQty(delta){
+  const s = UmrahPortal.load();
+  s.cart.quantity = Math.max(1, Math.min(10, (s.cart.quantity || 1) + delta));
+  UmrahPortal.save(s);
+  document.getElementById('qtyVal').textContent = s.cart.quantity;
+  renderCost();
+}
+
+function renderCost(){
+  const s = UmrahPortal.load();
+  const box = document.getElementById('costBreakdown');
+  const total = document.getElementById('costTotal');
+  const q = s.cart.quantity || 1;
+  const occ = s.cart.occupancy || 'shared';
+  const basePrice = (pkg.occupancy && pkg.occupancy[occ]) ? pkg.occupancy[occ] : pkg.price;
+  document.getElementById('qtyVal').textContent = q;
+  const rows = [`<div class="cost-row"><span>${pkg.name} × ${q}</span><span class="v">${UmrahPortal.ngn(basePrice * q)}</span></div>`];
+  if (s.cart.upgrade && pkg.upgrade){
+    rows.push(`<div class="cost-row"><span>${pkg.upgrade.name} upgrade × ${q}</span><span class="v">${UmrahPortal.ngn(pkg.upgrade.price * q)}</span></div>`);
+  }
+  box.innerHTML = rows.join('');
+  const totalText = UmrahPortal.ngn(UmrahPortal.cartTotal(s, pkg));
+  total.textContent = totalText;
+  const btn = document.getElementById('ctaBtn');
+  btn.disabled = !s.cart.travelDate;
+  // Mirror to mobile sticky pay bar
+  const mTotal = document.getElementById('costTotalMobile');
+  if (mTotal) mTotal.textContent = totalText;
+  const mBtn = document.getElementById('payBtnMobile');
+  if (mBtn) mBtn.disabled = !s.cart.travelDate;
+}
+
+function proceed(){
+  const s = UmrahPortal.load();
+  if (!s.cart.travelDate) return;
+  // New flow: Detail → Checkout (PAX) → Pay → Thanks → Pre-Qualification → Wizard.
+  // Pre-qualification now runs AFTER payment (on the thanks page), so both
+  // package_only and with_visa bookings go to checkout first.
+  location.href = 'umrah-checkout.html?id=' + encodeURIComponent(pkg.id);
+}
+</script>
+</body>
+</html>
